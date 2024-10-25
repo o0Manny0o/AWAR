@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,26 +8,24 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
-        Schema::create('organisations', function (Blueprint $table) {
+        Schema::create('organisation_user', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('organisation_id');
+            $table->foreignId('user_id');
             $table->timestamps();
-            $table->json('data')->nullable();
+
+            $table->unique(['organisation_id', 'user_id']);
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {
-        Schema::dropIfExists('organisations');
+        Schema::dropIfExists('organisation_user');
     }
 };
