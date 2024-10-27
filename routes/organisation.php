@@ -1,6 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OrganisationController;
+use App\Http\Controllers\Organisation\OrganisationController;
 
-Route::resource('organisation', OrganisationController::class)->middleware(['auth', 'verified']);
+Route::resource('organisations', OrganisationController::class)->middleware(['auth', 'verified']);

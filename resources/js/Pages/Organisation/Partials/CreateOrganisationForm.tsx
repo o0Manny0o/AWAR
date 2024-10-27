@@ -40,7 +40,7 @@ export default function CreateOrganisationForm({
     const createOrganisationHandler: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('organisation.store'), {
+        post(route('organisations.store'), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {

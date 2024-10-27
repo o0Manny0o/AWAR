@@ -19,7 +19,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     ->group(base_path('routes/web.php'));
                 Route::middleware('web')
                     ->domain($domain)
-                    ->name("organisation.")
                     ->group(base_path('routes/organisation.php'));
             }
 
