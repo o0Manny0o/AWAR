@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Stancl\JobPipeline\JobPipeline;
+use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Stancl\Tenancy\Events;
 use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
@@ -99,6 +100,7 @@ class TenancyServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        BelongsToTenant::$tenantIdColumn = 'organisation_id';
         $this->bootEvents();
         // $this->mapRoutes();
 

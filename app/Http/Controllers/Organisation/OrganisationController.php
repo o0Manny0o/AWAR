@@ -7,6 +7,7 @@ use App\Http\Requests\Organisation\CreateOrganisationRequest;
 use App\Models\Organisation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class OrganisationController extends Controller
 {
@@ -21,7 +22,7 @@ class OrganisationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(Request $request): Response
     {
         $domain = config("tenancy.central_domains")[0];
         return Inertia::render('Organisation/Create', [
@@ -32,7 +33,7 @@ class OrganisationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateOrganisationRequest $request)
+    public function store(CreateOrganisationRequest $request): void
     {
         $validated = $request->validated();
 
@@ -40,10 +41,10 @@ class OrganisationController extends Controller
             'name' => $validated['name'],
         ]);
 
-        $domain = config("tenancy.central_domains")[0] . '.' . $validated['subdomain'];
+        $domain = $validated['subdomain'] . "." . config("tenancy.central_domains")[0];
 
         $organisation->domains()->create([
-            'subdomain' => $domain,
+            'domain' => $domain,
         ]);
     }
 
