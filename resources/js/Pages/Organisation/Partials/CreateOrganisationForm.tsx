@@ -31,9 +31,17 @@ export default function CreateOrganisationForm({
         subdomain: ''
     });
 
+    const transformSubdomain = (subdomain: string) => {
+        return subdomain.toLowerCase().replace(/[^A-Za-z\d-]+/g, "-").replace(/-{2,}/g, "-")
+    }
+
+    const removeTrailingDash = (subdomain: string) => {
+        setData('subdomain', subdomain.toLowerCase().replace(/-$/, ""))
+    }
+
     useEffect(() => {
         if (!subdomainTouched || !data.subdomain) {
-            setData('subdomain', data.name.toLowerCase().replace(/[\s_]/g, "-").replace(/-{2,}/g, "-"))
+            removeTrailingDash(transformSubdomain(data.name))
         }
     }, [data.name]);
 
@@ -105,11 +113,11 @@ export default function CreateOrganisationForm({
                         maxLength={120}
                         append={`.${domain}`}
                         onChange={(e) => {
-                            setData('subdomain', e.target.value.toLowerCase().replace(/[\s_]/g, "-").replace(/-{2,}/g, "-"))
+                            setData('subdomain', transformSubdomain(e.target.value))
                             setSubdomainTouched(true)
                         }
                         }
-                        onBlur={(e) => setData('subdomain', e.target.value.toLowerCase().replace(/-$/, ""))}
+                        onBlur={(e) => removeTrailingDash(e.target.value)}
                         type="text"
                         className="mt-1 block w-full"
                     />

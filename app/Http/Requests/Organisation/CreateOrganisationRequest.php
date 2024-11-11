@@ -23,7 +23,7 @@ class CreateOrganisationRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'subdomain' => 'required|string|max:120',
+            'subdomain' => ['required', 'string', 'max:120', 'regex:/^[A-Za-z0-9-]+$/'],
         ];
     }
 }
