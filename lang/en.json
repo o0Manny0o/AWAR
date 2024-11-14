@@ -167,7 +167,6 @@
             "attribute-name": {
                 "rule-name": "custom-message"
             }
-        },
-        "attributes": []
+        }
     }
 }
