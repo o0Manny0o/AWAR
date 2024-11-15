@@ -123,7 +123,6 @@ type Validation = {
     url: string;
     ulid: string;
     uuid: string;
-    custom: Custom;
 };
 type BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize = {
     array: string;
@@ -137,12 +136,6 @@ type Password = {
     numbers: string;
     symbols: string;
     uncompromised: string;
-};
-type Custom = {
-    "attribute-name": AttributeName;
-};
-type AttributeName = {
-    "rule-name": string;
 };
 type General = {
     register: string;
