@@ -168,5 +168,15 @@
                 "rule-name": "custom-message"
             }
         }
-    }
+    },
+    "general": {
+        "register": "Register",
+        "dashboard": "Dashboard",
+        "login": "Login",
+        "languages": {
+            "en": "English",
+            "de": "German"
+        }
+    },
+    "test": "test2"
 }

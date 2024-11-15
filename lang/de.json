@@ -1,1 +1,10 @@
-{}
+{
+    "general": {
+        "register": "Registrieren",
+        "login": "Anmelden",
+        "languages": {
+            "en": "Englisch",
+            "de": "Deutsch"
+        }
+    }
+}
