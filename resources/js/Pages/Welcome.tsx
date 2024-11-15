@@ -6,7 +6,7 @@ export default function Welcome({
     auth,
     laravelVersion,
     phpVersion,
-}: PageProps<{ laravelVersion: string; phpVersion: string }>) {
+}: AppPageProps<{ laravelVersion: string; phpVersion: string }>) {
     const __ = useTranslate()
 
     return (

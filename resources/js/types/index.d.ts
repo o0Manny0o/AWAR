@@ -38,4 +38,15 @@ type Locale = {
     name: string
 }
 
+type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
+    T & {
+        auth: {
+            user: User
+        }
+        ziggy: ZiggyConfig
+        locale: LanguageKey
+        locales: Locale[]
+        translations: Partial<Translations>
+    }
+
 type TranslationKey = Paths<Translations>
