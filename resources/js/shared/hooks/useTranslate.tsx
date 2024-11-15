@@ -7,7 +7,7 @@ export default function useTranslate() {
     return (key: TranslationKey, replace: Record<string, string> = {}) => {
         let translation = get(translations, key, key) as string;
         Object.keys(replace).forEach(function (k) {
-            translation = translation.replace(":" + k, replace[key]);
+            translation = translation.replace(":" + k, replace[k]);
         });
         return translation;
     };

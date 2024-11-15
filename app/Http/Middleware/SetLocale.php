@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SetLocale
 {
     /**
-     * Handle an incoming request.
+     * Sets App locale from session.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */

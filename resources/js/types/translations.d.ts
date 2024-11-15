@@ -4,6 +4,7 @@ type Translations = {
     passwords: Passwords;
     validation: Validation;
     general: General;
+    landing_page: Landing_page;
 };
 type Auth = {
     failed: string;
@@ -146,4 +147,7 @@ type General = {
 type Languages = {
     en: string;
     de: string;
+};
+type Landing_page = {
+    welcome_message: string;
 };

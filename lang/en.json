@@ -172,5 +172,8 @@
             "en": "English",
             "de": "German"
         }
+    },
+    "landing_page": {
+        "welcome_message": "Welcome to AWAR, :name"
     }
 }

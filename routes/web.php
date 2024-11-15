@@ -29,7 +29,6 @@ Route::get('/language/{language}', function ($language) {
     if (in_array($language, $availableLocales) && $language !== App::currentLocale()) {
         Session()->put('locale', $language);
     }
-    App::setLocale(Session::get('locale', App::currentLocale()));
 
     return redirect()->back();
 })->name('language')->middleware(['universal', \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class]);
