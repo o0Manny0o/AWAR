@@ -165,12 +165,16 @@
         "uuid": "The {attribute} field must be a valid UUID."
     },
     "general": {
-        "register": "Register",
-        "dashboard": "Dashboard",
-        "login": "Login",
         "languages": {
             "en": "English",
             "de": "German"
+        },
+        "navigation": {
+            "register": "Register",
+            "dashboard": "Dashboard",
+            "login": "Login",
+            "logout": "Logout",
+            "profile": "Your Profile"
         }
     },
     "landing_page": {

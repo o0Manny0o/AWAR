@@ -1,10 +1,14 @@
 {
     "general": {
-        "register": "Registrieren",
-        "login": "Anmelden",
         "languages": {
             "en": "Englisch",
             "de": "Deutsch"
+        },
+        "navigation": {
+            "register": "Registrieren",
+            "login": "Anmelden",
+            "logout": "Abmelden",
+            "profile": "Dein Profil"
         }
     },
     "landing_page": {

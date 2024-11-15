@@ -1,153 +1,158 @@
 type Translations = {
-    auth: Auth
-    pagination: Pagination
-    passwords: Passwords
-    validation: Validation
-    general: General
-    landing_page: Landing_page
-}
+    auth: Auth;
+    pagination: Pagination;
+    passwords: Passwords;
+    validation: Validation;
+    general: General;
+    landing_page: Landing_page;
+};
 type Auth = {
-    failed: string
-    password: string
-    throttle: string
-}
+    failed: string;
+    password: string;
+    throttle: string;
+};
 type Pagination = {
-    previous: string
-    next: string
-}
+    previous: string;
+    next: string;
+};
 type Passwords = {
-    reset: string
-    sent: string
-    throttled: string
-    token: string
-    user: string
-}
+    reset: string;
+    sent: string;
+    throttled: string;
+    token: string;
+    user: string;
+};
 type Validation = {
-    accepted: string
-    accepted_if: string
-    active_url: string
-    after: string
-    after_or_equal: string
-    alpha: string
-    alpha_dash: string
-    alpha_num: string
-    array: string
-    ascii: string
-    before: string
-    before_or_equal: string
-    between: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize
-    boolean: string
-    can: string
-    confirmed: string
-    contains: string
-    current_password: string
-    date: string
-    date_equals: string
-    date_format: string
-    decimal: string
-    declined: string
-    declined_if: string
-    different: string
-    digits: string
-    digits_between: string
-    dimensions: string
-    distinct: string
-    doesnt_end_with: string
-    doesnt_start_with: string
-    email: string
-    ends_with: string
-    enum: string
-    exists: string
-    extensions: string
-    file: string
-    filled: string
-    gt: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize
-    gte: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize
-    hex_color: string
-    image: string
-    in: string
-    in_array: string
-    integer: string
-    ip: string
-    ipv4: string
-    ipv6: string
-    json: string
-    list: string
-    lowercase: string
-    lt: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize
-    lte: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize
-    mac_address: string
-    max: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize
-    max_digits: string
-    mimes: string
-    mimetypes: string
-    min: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize
-    min_digits: string
-    missing: string
-    missing_if: string
-    missing_unless: string
-    missing_with: string
-    missing_with_all: string
-    multiple_of: string
-    not_in: string
-    not_regex: string
-    numeric: string
-    password: Password
-    present: string
-    present_if: string
-    present_unless: string
-    present_with: string
-    present_with_all: string
-    prohibited: string
-    prohibited_if: string
-    prohibited_unless: string
-    prohibits: string
-    regex: string
-    required: string
-    required_array_keys: string
-    required_if: string
-    required_if_accepted: string
-    required_if_declined: string
-    required_unless: string
-    required_with: string
-    required_with_all: string
-    required_without: string
-    required_without_all: string
-    same: string
-    size: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize
-    starts_with: string
-    string: string
-    timezone: string
-    unique: string
-    uploaded: string
-    uppercase: string
-    url: string
-    ulid: string
-    uuid: string
-}
+    accepted: string;
+    accepted_if: string;
+    active_url: string;
+    after: string;
+    after_or_equal: string;
+    alpha: string;
+    alpha_dash: string;
+    alpha_num: string;
+    array: string;
+    ascii: string;
+    before: string;
+    before_or_equal: string;
+    between: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    boolean: string;
+    can: string;
+    confirmed: string;
+    contains: string;
+    current_password: string;
+    date: string;
+    date_equals: string;
+    date_format: string;
+    decimal: string;
+    declined: string;
+    declined_if: string;
+    different: string;
+    digits: string;
+    digits_between: string;
+    dimensions: string;
+    distinct: string;
+    doesnt_end_with: string;
+    doesnt_start_with: string;
+    email: string;
+    ends_with: string;
+    enum: string;
+    exists: string;
+    extensions: string;
+    file: string;
+    filled: string;
+    gt: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    gte: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    hex_color: string;
+    image: string;
+    in: string;
+    in_array: string;
+    integer: string;
+    ip: string;
+    ipv4: string;
+    ipv6: string;
+    json: string;
+    list: string;
+    lowercase: string;
+    lt: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    lte: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    mac_address: string;
+    max: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    max_digits: string;
+    mimes: string;
+    mimetypes: string;
+    min: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    min_digits: string;
+    missing: string;
+    missing_if: string;
+    missing_unless: string;
+    missing_with: string;
+    missing_with_all: string;
+    multiple_of: string;
+    not_in: string;
+    not_regex: string;
+    numeric: string;
+    password: Password;
+    present: string;
+    present_if: string;
+    present_unless: string;
+    present_with: string;
+    present_with_all: string;
+    prohibited: string;
+    prohibited_if: string;
+    prohibited_unless: string;
+    prohibits: string;
+    regex: string;
+    required: string;
+    required_array_keys: string;
+    required_if: string;
+    required_if_accepted: string;
+    required_if_declined: string;
+    required_unless: string;
+    required_with: string;
+    required_with_all: string;
+    required_without: string;
+    required_without_all: string;
+    same: string;
+    size: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    starts_with: string;
+    string: string;
+    timezone: string;
+    unique: string;
+    uploaded: string;
+    uppercase: string;
+    url: string;
+    ulid: string;
+    uuid: string;
+};
 type BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize = {
-    array: string
-    file: string
-    numeric: string
-    string: string
-}
+    array: string;
+    file: string;
+    numeric: string;
+    string: string;
+};
 type Password = {
-    letters: string
-    mixed: string
-    numbers: string
-    symbols: string
-    uncompromised: string
-}
+    letters: string;
+    mixed: string;
+    numbers: string;
+    symbols: string;
+    uncompromised: string;
+};
 type General = {
-    register: string
-    dashboard: string
-    login: string
-    languages: Languages
-}
+    languages: Languages;
+    navigation: Navigation;
+};
 type Languages = {
-    en: string
-    de: string
-}
+    en: string;
+    de: string;
+};
+type Navigation = {
+    register: string;
+    dashboard: string;
+    login: string;
+    logout: string;
+    profile: string;
+};
 type Landing_page = {
-    welcome_message: string
-}
+    welcome_message: string;
+};
