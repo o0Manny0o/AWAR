@@ -1,13 +1,13 @@
-import { Head, Link } from "@inertiajs/react";
-import { LanguageSelector } from "@/Components/LanguageSelector";
-import useTranslate from "@/shared/hooks/useTranslate";
+import { Head, Link } from '@inertiajs/react'
+import { LanguageSelector } from '@/Components/LanguageSelector'
+import useTranslate from '@/shared/hooks/useTranslate'
 
 export default function Welcome({
     auth,
     laravelVersion,
     phpVersion,
 }: PageProps<{ laravelVersion: string; phpVersion: string }>) {
-    const __ = useTranslate();
+    const __ = useTranslate()
 
     return (
         <>
@@ -38,24 +38,24 @@ export default function Welcome({
                             <nav className="-mx-3 flex flex-1 justify-end">
                                 {auth.user ? (
                                     <Link
-                                        href={route("dashboard")}
+                                        href={route('dashboard')}
                                         className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                     >
-                                        {__("general.dashboard")}
+                                        {__('general.dashboard')}
                                     </Link>
                                 ) : (
                                     <>
                                         <Link
-                                            href={route("login")}
+                                            href={route('login')}
                                             className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                         >
-                                            {__("general.login")}
+                                            {__('general.login')}
                                         </Link>
                                         <Link
-                                            href={route("register")}
+                                            href={route('register')}
                                             className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                         >
-                                            {__("general.register")}
+                                            {__('general.register')}
                                         </Link>
                                     </>
                                 )}
@@ -64,8 +64,8 @@ export default function Welcome({
 
                         <main className="mt-6">
                             <p>
-                                {__("landing_page.welcome_message", {
-                                    name: "John Doe",
+                                {__('landing_page.welcome_message', {
+                                    name: 'John Doe',
                                 })}
                             </p>
                             <div className="flex justify-end">
@@ -80,5 +80,5 @@ export default function Welcome({
                 </div>
             </div>
         </>
-    );
+    )
 }

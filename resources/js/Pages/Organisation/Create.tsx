@@ -1,9 +1,9 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {PageProps} from '@/types';
-import {Head} from '@inertiajs/react';
-import CreateOrganisationForm from "@/Pages/Organisation/Partials/CreateOrganisationForm";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import { PageProps } from '@/types'
+import { Head } from '@inertiajs/react'
+import CreateOrganisationForm from '@/Pages/Organisation/Partials/CreateOrganisationForm'
 
-export default function Create({domain}: PageProps<{domain: string}>) {
+export default function Create({ domain }: PageProps<{ domain: string }>) {
     return (
         <AuthenticatedLayout
             header={
@@ -12,17 +12,18 @@ export default function Create({domain}: PageProps<{domain: string}>) {
                 </h2>
             }
         >
-            <Head title="Profile"/>
+            <Head title="Profile" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
                     <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
                         <CreateOrganisationForm
                             domain={domain}
-                            className="max-w-xl"/>
+                            className="max-w-xl"
+                        />
                     </div>
                 </div>
             </div>
         </AuthenticatedLayout>
-    );
+    )
 }
