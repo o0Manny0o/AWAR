@@ -1,0 +1,13 @@
+{
+    "general": {
+        "register": "Registrieren",
+        "login": "Anmelden",
+        "languages": {
+            "en": "Englisch",
+            "de": "Deutsch"
+        }
+    },
+    "landing_page": {
+        "welcome_message": "Wilkommen bei AWAR, :name"
+    }
+}
