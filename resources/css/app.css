@@ -20,7 +20,7 @@
         @apply text-primary-700 focus:text-primary-800 dark:text-primary-300 dark:focus:text-primary-200
     }
 
-    .text-inactive {
+    .text-interactive {
         @apply text-gray-600 hover:text-gray-800 focus:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:text-gray-200
     }
 

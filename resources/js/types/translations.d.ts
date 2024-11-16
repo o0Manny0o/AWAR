@@ -141,6 +141,8 @@ type Password = {
 type General = {
     languages: Languages;
     navigation: Navigation;
+    newsletter: Newsletter;
+    legal: Legal;
 };
 type Languages = {
     en: string;
@@ -152,6 +154,14 @@ type Navigation = {
     login: string;
     logout: string;
     profile: string;
+};
+type Newsletter = {
+    description: string;
+    heading: string;
+    subscribe: string;
+};
+type Legal = {
+    rights_reserved: string;
 };
 type Landing_page = {
     welcome_message: string;

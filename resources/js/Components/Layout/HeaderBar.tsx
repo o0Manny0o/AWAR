@@ -12,6 +12,7 @@ import { DesktopMainNav } from '@/Components/Layout/DesktopMainNav'
 import { Link, usePage } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import DesktopNavLink from '@/Components/Layout/DesktopNavLink'
+import { Logo } from '@/Components/Layout/Logo'
 
 export function HeaderBar() {
     const { auth } = usePage().props
@@ -23,7 +24,7 @@ export function HeaderBar() {
                 <div className="relative flex h-16 justify-between">
                     <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                         {/* Mobile menu button */}
-                        <DisclosureButton className="text-inactive focus:ring-primary-500 group relative inline-flex items-center justify-center rounded-md p-2 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset">
+                        <DisclosureButton className="text-interactive group relative inline-flex items-center justify-center rounded-md p-2 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
                             <span className="absolute -inset-0.5" />
                             <span className="sr-only">Open main menu</span>
                             <Bars3Icon
@@ -38,34 +39,7 @@ export function HeaderBar() {
                     </div>
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                         <Link href="/" className="flex shrink-0 items-center">
-                            <svg
-                                className="h-8 w-auto"
-                                width="78"
-                                height="30"
-                                viewBox="0 0 78 30"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <g clip-path="url(#clip0_16_413)">
-                                    <path
-                                        d="M18.5147 0C15.4686 0 12.5473 1.21005 10.3934 3.36396L3.36396 10.3934C1.21005 12.5473 0 15.4686 0 18.5147C0 24.8579 5.14214 30 11.4853 30C14.5314 30 17.4527 28.7899 19.6066 26.636L24.4689 21.7737C24.4689 21.7736 24.469 21.7738 24.4689 21.7737L38.636 7.6066C39.6647 6.57791 41.0599 6 42.5147 6C44.9503 6 47.0152 7.58741 47.7311 9.78407L52.2022 5.31296C50.1625 2.11834 46.586 0 42.5147 0C39.4686 0 36.5473 1.21005 34.3934 3.36396L15.364 22.3934C14.3353 23.4221 12.9401 24 11.4853 24C8.45584 24 6 21.5442 6 18.5147C6 17.0599 6.57791 15.6647 7.6066 14.636L14.636 7.6066C15.6647 6.57791 17.0599 6 18.5147 6C20.9504 6 23.0152 7.58748 23.7311 9.78421L28.2023 5.31307C26.1626 2.1184 22.5861 0 18.5147 0Z"
-                                        fill="currentColor"
-                                    />
-                                    <path
-                                        d="M39.3639 22.3934C38.3352 23.4221 36.94 24 35.4852 24C33.0499 24 30.9852 22.413 30.2691 20.2167L25.7981 24.6877C27.8379 27.8819 31.4142 30 35.4852 30C38.5313 30 41.4526 28.7899 43.6065 26.636L62.6359 7.6066C63.6646 6.57791 65.0598 6 66.5146 6C69.5441 6 71.9999 8.45584 71.9999 11.4853C71.9999 12.9401 71.422 14.3353 70.3933 15.364L63.3639 22.3934C62.3352 23.4221 60.94 24 59.4852 24C57.0497 24 54.9849 22.4127 54.2689 20.2162L49.7979 24.6873C51.8376 27.8818 55.414 30 59.4852 30C62.5313 30 65.4526 28.7899 67.6065 26.636L74.6359 19.6066C76.7898 17.4527 77.9999 14.5314 77.9999 11.4853C77.9999 5.14214 72.8578 0 66.5146 0C63.4685 0 60.5472 1.21005 58.3933 3.36396L39.3639 22.3934Z"
-                                        fill="currentColor"
-                                    />
-                                </g>
-                                <defs>
-                                    <clipPath id="clip0_16_413">
-                                        <rect
-                                            width="78"
-                                            height="30"
-                                            fill="white"
-                                        />
-                                    </clipPath>
-                                </defs>
-                            </svg>
+                            <Logo className="h-8 w-auto" />
                         </Link>
                         <DesktopMainNav />
                     </div>
@@ -77,7 +51,7 @@ export function HeaderBar() {
                                 </DesktopNavLink>
                                 <Menu as="div" className="relative ml-3">
                                     <div className="flex h-full">
-                                        <MenuButton className="text-inactive dark:focus:bg-gray-70 relative flex items-center border-b-2 border-transparent px-3 pt-1 text-sm font-medium hover:border-gray-300 dark:hover:border-gray-600">
+                                        <MenuButton className="text-interactive dark:focus:bg-gray-70 relative flex items-center border-b-2 border-transparent px-3 pt-1 text-sm font-medium hover:border-gray-300 dark:hover:border-gray-600">
                                             <span className="sr-only">
                                                 Open user menu
                                             </span>
@@ -150,7 +124,7 @@ export function HeaderBar() {
                     <DisclosureButton
                         as="a"
                         href="#"
-                        className="border-primary-500 bg-primary-50 text-primary-700 block border-l-4 py-2 pl-3 pr-4 text-base font-medium"
+                        className="block border-l-4 border-primary-500 bg-primary-50 py-2 pl-3 pr-4 text-base font-medium text-primary-700"
                     >
                         Dashboard
                     </DisclosureButton>

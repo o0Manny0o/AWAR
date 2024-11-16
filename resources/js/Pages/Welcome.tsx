@@ -1,13 +1,9 @@
-import { Head, Link } from '@inertiajs/react'
+import { Head } from '@inertiajs/react'
 import { LanguageSelector } from '@/Components/LanguageSelector'
 import useTranslate from '@/shared/hooks/useTranslate'
 import PublicLayout from '@/Layouts/PublicLayout'
 
-export default function Welcome({
-    auth,
-    laravelVersion,
-    phpVersion,
-}: AppPageProps<{ laravelVersion: string; phpVersion: string }>) {
+export default function Welcome({}: AppPageProps<{}>) {
     const __ = useTranslate()
 
     return (

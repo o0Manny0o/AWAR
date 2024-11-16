@@ -175,6 +175,14 @@
             "login": "Login",
             "logout": "Logout",
             "profile": "Your Profile"
+        },
+        "newsletter": {
+            "description": "Get updates about the development of the platform right in your inbox.",
+            "heading": "Subscribe to our newsletter",
+            "subscribe": "Subscribe"
+        },
+        "legal": {
+            "rights_reserved": "All rights reserved."
         }
     },
     "landing_page": {

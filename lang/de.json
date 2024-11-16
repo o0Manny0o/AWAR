@@ -9,6 +9,14 @@
             "login": "Anmelden",
             "logout": "Abmelden",
             "profile": "Dein Profil"
+        },
+        "newsletter": {
+            "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
+            "heading": "Abonnieren Sie unseren Newsletter",
+            "subscribe": "Abonnieren"
+        },
+        "legal": {
+            "rights_reserved": "Alle Rechte vorbehalten."
         }
     },
     "landing_page": {
