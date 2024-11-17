@@ -1,7 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head } from '@inertiajs/react'
 import CreateOrganisationForm from '@/Pages/Organisation/Partials/CreateOrganisationForm'
-import { AppPageProps } from '@/types/global'
 
 export default function Create({ domain }: AppPageProps<{ domain: string }>) {
     return (
