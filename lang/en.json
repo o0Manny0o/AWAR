@@ -165,12 +165,31 @@
         "uuid": "The {attribute} field must be a valid UUID."
     },
     "general": {
-        "register": "Register",
-        "dashboard": "Dashboard",
-        "login": "Login",
         "languages": {
             "en": "English",
             "de": "German"
+        },
+        "navigation": {
+            "register": "Register",
+            "dashboard": "Dashboard",
+            "login": "Login",
+            "logout": "Logout",
+            "profile": "Your Profile",
+            "about": "About Us",
+            "home": "Home"
+        },
+        "newsletter": {
+            "description": "Get updates about the development of the platform right in your inbox.",
+            "heading": "Subscribe to our newsletter",
+            "subscribe": "Subscribe"
+        },
+        "legal": {
+            "rights_reserved": "All rights reserved."
+        },
+        "layout": {
+            "open_user_menu": "Open user menu",
+            "open_sidebar": "Open sidebar",
+            "close_sidebar": "Close sidebar"
         }
     },
     "landing_page": {

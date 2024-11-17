@@ -1,10 +1,29 @@
 {
     "general": {
-        "register": "Registrieren",
-        "login": "Anmelden",
         "languages": {
             "en": "Englisch",
             "de": "Deutsch"
+        },
+        "navigation": {
+            "register": "Registrieren",
+            "login": "Anmelden",
+            "logout": "Abmelden",
+            "profile": "Dein Profil",
+            "about": "Über Uns",
+            "home": "Startseite"
+        },
+        "newsletter": {
+            "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
+            "heading": "Abonnieren Sie unseren Newsletter",
+            "subscribe": "Abonnieren"
+        },
+        "legal": {
+            "rights_reserved": "Alle Rechte vorbehalten."
+        },
+        "layout": {
+            "open_user_menu": "Benutzermenü öffnen",
+            "open_sidebar": "Seitenleiste öffnen",
+            "close_sidebar": "Seitenleiste schließen"
         }
     },
     "landing_page": {

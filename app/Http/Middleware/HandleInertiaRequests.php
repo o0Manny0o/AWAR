@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -33,19 +34,30 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $file = lang_path(App::currentLocale() . ".json");
+        if (App::currentLocale() !== "en") {
+            $fallbackFile = lang_path("en.json");
+            $fallback = File::exists($fallbackFile) ? File::json($fallbackFile) : [];
+        } else {
+            $fallback = null;
+        }
+
+        $translations = File::exists($file) ? File::json($file) : [];
 
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
             'ziggy' => fn() => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
             'locale' => App::currentLocale(),
             'locales' => config('app.available_locales'),
-            'translations' => File::exists($file) ? File::json($file) : []
+            'translations' => $translations,
+            'fallback' => $fallback,
         ];
     }
 }

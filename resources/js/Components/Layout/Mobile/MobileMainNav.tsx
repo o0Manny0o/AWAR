@@ -1,0 +1,33 @@
+import { Logo } from '@/Components/Layout/Logo'
+import { Link } from '@inertiajs/react'
+import useTranslate from '@/shared/hooks/useTranslate'
+import MobileNavLink from '@/Components/Layout/Mobile/MobileNavLink'
+import PublicNavigation from '@/shared/_constants/PublicNavigation'
+
+export default function MobileMainNav() {
+    const __ = useTranslate()
+
+    return (
+        <div className="bg-ceiling flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
+            <div className="flex h-16 shrink-0 items-center">
+                <Link href={'/'}>
+                    <Logo />
+                </Link>
+            </div>
+            <nav className="flex flex-1 flex-col">
+                <ul role="list" className="flex-1 space-y-4 font-semibold">
+                    {PublicNavigation.map((link) => (
+                        <li key={link.name}>
+                            <MobileNavLink
+                                href={route(link.routeName)}
+                                active={route().current(link.routeName)}
+                            >
+                                {__(link.label)}
+                            </MobileNavLink>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+        </div>
+    )
+}
