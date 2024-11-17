@@ -143,6 +143,7 @@ type General = {
     navigation: Navigation;
     newsletter: Newsletter;
     legal: Legal;
+    layout: Layout;
 };
 type Languages = {
     en: string;
@@ -154,6 +155,8 @@ type Navigation = {
     login: string;
     logout: string;
     profile: string;
+    about: string;
+    home: string;
 };
 type Newsletter = {
     description: string;
@@ -162,6 +165,11 @@ type Newsletter = {
 };
 type Legal = {
     rights_reserved: string;
+};
+type Layout = {
+    open_user_menu: string;
+    open_sidebar: string;
+    close_sidebar: string;
 };
 type Landing_page = {
     welcome_message: string;

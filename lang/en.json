@@ -174,7 +174,9 @@
             "dashboard": "Dashboard",
             "login": "Login",
             "logout": "Logout",
-            "profile": "Your Profile"
+            "profile": "Your Profile",
+            "about": "About Us",
+            "home": "Home"
         },
         "newsletter": {
             "description": "Get updates about the development of the platform right in your inbox.",
@@ -183,6 +185,11 @@
         },
         "legal": {
             "rights_reserved": "All rights reserved."
+        },
+        "layout": {
+            "open_user_menu": "Open user menu",
+            "open_sidebar": "Open sidebar",
+            "close_sidebar": "Close sidebar"
         }
     },
     "landing_page": {

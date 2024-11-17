@@ -8,7 +8,9 @@
             "register": "Registrieren",
             "login": "Anmelden",
             "logout": "Abmelden",
-            "profile": "Dein Profil"
+            "profile": "Dein Profil",
+            "about": "Über Uns",
+            "home": "Startseite"
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
@@ -17,6 +19,11 @@
         },
         "legal": {
             "rights_reserved": "Alle Rechte vorbehalten."
+        },
+        "layout": {
+            "open_user_menu": "Benutzermenü öffnen",
+            "open_sidebar": "Seitenleiste öffnen",
+            "close_sidebar": "Seitenleiste schließen"
         }
     },
     "landing_page": {
