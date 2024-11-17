@@ -47,6 +47,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         locale: LanguageKey
         locales: Locale[]
         translations: Partial<Translations>
+        fallback?: Translations
     }
 
 type TranslationKey = Paths<Translations>
