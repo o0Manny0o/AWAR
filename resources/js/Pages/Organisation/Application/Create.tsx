@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head } from '@inertiajs/react'
-import CreateOrganisationForm from '@/Pages/Organisation/Partials/CreateOrganisationForm'
+import CreateOrganisationForm from './Partials/CreateOrganisationForm'
 
 export default function Create({ domain }: AppPageProps<{ domain: string }>) {
     return (
@@ -11,7 +11,7 @@ export default function Create({ domain }: AppPageProps<{ domain: string }>) {
                 </h2>
             }
         >
-            <Head title="Profile" />
+            <Head title="Create Organisation Application" />
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">

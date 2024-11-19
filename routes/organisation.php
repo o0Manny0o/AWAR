@@ -1,6 +1,15 @@
 <?php
 
+use App\Http\Controllers\Organisation\OrganisationApplicationController;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Organisation\OrganisationController;
 
-Route::resource('organisations', OrganisationController::class)->middleware(['auth', 'verified']);
+
+Route::group(['prefix' => 'organisations', 'as' => 'organisations.'], function () {
+    Route::resource('applications', OrganisationApplicationController::class)
+        ->middleware(['auth', 'verified'])
+        ->missing(function (Request $request) {
+            return Redirect::route('organisations.applications.index');
+        });
+});

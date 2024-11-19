@@ -10,7 +10,10 @@
             "logout": "Abmelden",
             "profile": "Dein Profil",
             "about": "Über Uns",
-            "home": "Startseite"
+            "home": "Startseite",
+            "organisations": {
+                "applications": "Bewerbungen"
+            }
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",

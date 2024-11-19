@@ -1,14 +1,18 @@
 import useTranslate from '@/shared/hooks/useTranslate'
 import DesktopNavLink from '@/Components/Layout/Desktop/DesktopNavLink'
-import PublicNavigation from '@/shared/_constants/PublicNavigation'
 
-export default function DesktopMainNav() {
+export default function DesktopMainNav({
+    navigation,
+}: {
+    navigation: NavigationItem[]
+}) {
     const __ = useTranslate()
 
     return (
         <div className="hidden sm:ml-6 sm:flex sm:space-x-4">
-            {PublicNavigation.map((link) => (
+            {navigation.map((link) => (
                 <DesktopNavLink
+                    key={link.name}
                     href={route(link.routeName)}
                     active={route().current(link.routeName)}
                 >

@@ -157,6 +157,10 @@ type Navigation = {
     profile: string;
     about: string;
     home: string;
+    organisations: Organisations;
+};
+type Organisations = {
+    applications: string;
 };
 type Newsletter = {
     description: string;

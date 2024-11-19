@@ -176,7 +176,10 @@
             "logout": "Logout",
             "profile": "Your Profile",
             "about": "About Us",
-            "home": "Home"
+            "home": "Home",
+            "organisations": {
+                "applications": "Applications"
+            }
         },
         "newsletter": {
             "description": "Get updates about the development of the platform right in your inbox.",

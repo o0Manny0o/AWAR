@@ -4,7 +4,11 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import MobileNavLink from '@/Components/Layout/Mobile/MobileNavLink'
 import PublicNavigation from '@/shared/_constants/PublicNavigation'
 
-export default function MobileMainNav() {
+export default function MobileMainNav({
+    navigation,
+}: {
+    navigation: NavigationItem[]
+}) {
     const __ = useTranslate()
 
     return (
@@ -16,7 +20,7 @@ export default function MobileMainNav() {
             </div>
             <nav className="flex flex-1 flex-col">
                 <ul role="list" className="flex-1 space-y-4 font-semibold">
-                    {PublicNavigation.map((link) => (
+                    {navigation.map((link) => (
                         <li key={link.name}>
                             <MobileNavLink
                                 href={route(link.routeName)}
