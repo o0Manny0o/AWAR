@@ -197,5 +197,42 @@
     },
     "landing_page": {
         "welcome_message": "Welcome to AWAR, :name"
+    },
+    "organisations": {
+        "applications": {
+            "form": {
+                "name": {
+                    "label": "What is the name of your organisation?",
+                    "placeholder": "Name"
+                },
+                "type": {
+                    "label": "What does your organisation do?",
+                    "placeholder": "Type"
+                },
+                "role": {
+                    "label": "What is your role?",
+                    "placeholder": "Role"
+                },
+                "registered": {
+                    "label": "Is your organisation officially registered?"
+                },
+                "street": {
+                    "label": "Street",
+                    "placeholder": "Street"
+                },
+                "post_code": {
+                    "label": "Post Code",
+                    "placeholder": "Post Code"
+                },
+                "city": {
+                    "label": "City",
+                    "placeholder": "City"
+                },
+                "country": {
+                    "label": "Country",
+                    "placeholder": "Country"
+                }
+            }
+        }
     }
 }

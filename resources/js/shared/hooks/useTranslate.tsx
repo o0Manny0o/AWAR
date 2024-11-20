@@ -13,6 +13,6 @@ export default function useTranslate() {
         Object.keys(replace).forEach(function (k) {
             translation = translation!.replace(':' + k, replace[k])
         })
-        return translation
+        return !translation ? key : translation
     }
 }

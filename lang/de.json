@@ -1,4 +1,7 @@
 {
+    "validation": {
+        "required": "Das Feld {attribute} ist erforderlich."
+    },
     "general": {
         "languages": {
             "en": "Englisch",
@@ -31,5 +34,41 @@
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"
+    },
+    "organisations": {
+        "applications": {
+            "form": {
+                "name": {
+                    "label": "Wie heißt Ihre Organisation?"
+                },
+                "type": {
+                    "label": "Was macht Ihre Organisation?",
+                    "placeholder": "Typ"
+                },
+                "role": {
+                    "label": "Was ist Ihre Rolle?",
+                    "placeholder": "Rolle"
+                },
+                "registered": {
+                    "label": "Ist Ihre Organisation offiziell registriert?"
+                },
+                "street": {
+                    "label": "Straße",
+                    "placeholder": "Straße"
+                },
+                "post_code": {
+                    "label": "Postleitzahl",
+                    "placeholder": "Postleitzahl"
+                },
+                "city": {
+                    "label": "Stadt",
+                    "placeholder": "Stadt"
+                },
+                "country": {
+                    "label": "Land",
+                    "placeholder": "Land"
+                }
+            }
+        }
     }
 }

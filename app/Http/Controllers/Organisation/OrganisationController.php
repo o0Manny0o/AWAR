@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Organisation;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Organisation\CreateOrganisationRequest;
+use App\Http\Requests\Organisation\CreateOrganisationApplicationRequest;
 use App\Models\Organisation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -33,7 +33,7 @@ class OrganisationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateOrganisationRequest $request): void
+    public function store(CreateOrganisationApplicationRequest $request): void
     {
         $validated = $request->validated();
 

@@ -1,3 +1,5 @@
+import { NavigationItem } from '@/types/navigation'
+
 const navigation: NavigationItem[] = [
     {
         name: 'about',

@@ -58,6 +58,7 @@ class HandleInertiaRequests extends Middleware
             'locales' => config('app.available_locales'),
             'translations' => $translations,
             'fallback' => $fallback,
+            'centralDomain' => config("tenancy.central_domains")[0]
         ];
     }
 }

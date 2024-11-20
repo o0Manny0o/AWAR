@@ -1,28 +1,15 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Head } from '@inertiajs/react'
 import CreateOrganisationForm from './Partials/CreateOrganisationForm'
+import FlowLayout from '@/Layouts/FlowLayout'
 
-export default function Create({ domain }: AppPageProps<{ domain: string }>) {
+export default function Create({
+    centralDomain,
+}: AppPageProps) {
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Create Organisation
-                </h2>
-            }
-        >
-            <Head title="Create Organisation Application" />
+        <FlowLayout header="Create Organisation">
+            <Head title="Create an Organisation Application" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800">
-                        <CreateOrganisationForm
-                            domain={domain}
-                            className="max-w-xl"
-                        />
-                    </div>
-                </div>
-            </div>
-        </AuthenticatedLayout>
+            <CreateOrganisationForm domain={centralDomain} step={1} />
+        </FlowLayout>
     )
 }

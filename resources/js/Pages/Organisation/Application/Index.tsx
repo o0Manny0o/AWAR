@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react'
-import CreateOrganisationForm from '@/Pages/Organisation/Application/Partials/CreateOrganisationForm'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 export default function Index({
@@ -17,10 +16,13 @@ export default function Index({
 
             <div className="py-12">
                 <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                    <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800"></div>
-                    {applications.map((application) => (
-                        <p>{JSON.stringify(application)}</p>
-                    ))}
+                    <div className="bg-ceiling p-4 shadow sm:rounded-lg sm:p-8">
+                        {applications.map((application) => (
+                            <p key={application.id}>
+                                {JSON.stringify(application)}
+                            </p>
+                        ))}
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>

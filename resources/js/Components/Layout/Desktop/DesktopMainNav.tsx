@@ -1,5 +1,6 @@
 import useTranslate from '@/shared/hooks/useTranslate'
 import DesktopNavLink from '@/Components/Layout/Desktop/DesktopNavLink'
+import { NavigationItem } from '@/types/navigation'
 
 export default function DesktopMainNav({
     navigation,

@@ -2,7 +2,7 @@ import { Logo } from '@/Components/Layout/Logo'
 import { Link } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import MobileNavLink from '@/Components/Layout/Mobile/MobileNavLink'
-import PublicNavigation from '@/shared/_constants/PublicNavigation'
+import { NavigationItem } from '@/types/navigation'
 
 export default function MobileMainNav({
     navigation,
