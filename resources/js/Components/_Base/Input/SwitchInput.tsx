@@ -43,11 +43,7 @@ export default forwardRef(function SwitchInput(
             className={twMerge(className, 'flex items-center justify-between')}
         >
             <span className="flex grow flex-col">
-                <Label
-                    as="span"
-                    passive
-                    className="text-sm/6 font-medium text-gray-900"
-                >
+                <Label as="span" passive className="text-sm/6 font-medium">
                     {label}
                 </Label>
                 <Description as="span" className="text-sm text-gray-500">
@@ -57,7 +53,7 @@ export default forwardRef(function SwitchInput(
             <Switch
                 {...props}
                 ref={localRef}
-                className="group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 data-[checked]:bg-primary-600"
+                className="bg-ceiling group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent ring-1 ring-gray-300 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 data-[checked]:bg-primary-600"
             >
                 <span
                     aria-hidden="true"

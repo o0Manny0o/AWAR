@@ -39,6 +39,7 @@ export default function CreateOrganisationFormStep2({
                 : route('organisations.applications.store'),
             {
                 preserveScroll: true,
+                replace: true,
                 onSuccess: () => reset(),
                 onError: (errors) => {
                     if (errors.street) {

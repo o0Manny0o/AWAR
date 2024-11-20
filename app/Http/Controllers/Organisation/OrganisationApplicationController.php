@@ -117,10 +117,12 @@ class OrganisationApplicationController extends Controller
 
         $updatedApplication = $application->refresh();
 
-        return Inertia::render('Organisation/Application/Edit', [
-            'step' => $validated['step'] + 1,
-            'application' => $updatedApplication
-        ]);
+        if ($validated['step'] < 3) {
+            return redirect()->route('organisations.applications.edit', ['application' => $updatedApplication->id, 'step' => $validated['step'] + 1,]);
+        } else {
+            return redirect()->route('organisations.applications.index');
+        }
+
     }
 
     /**

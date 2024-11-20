@@ -35,7 +35,7 @@ export default function CreateOrganisationFormStep3({
     }, [application.name])
 
     const { data, setData, errors, submit, reset, processing } = useForm({
-        step: 1,
+        step: 3,
         subdomain: application?.subdomain ?? '',
     })
 
@@ -51,6 +51,7 @@ export default function CreateOrganisationFormStep3({
                 : route('organisations.applications.store'),
             {
                 preserveScroll: true,
+                replace: true,
                 onSuccess: () => reset(),
                 onError: (errors) => {
                     if (errors.subdomain) {
@@ -76,11 +77,15 @@ export default function CreateOrganisationFormStep3({
                     setSubdomainTouched(true)
                     setData('subdomain', value)
                 }}
+                leading={'https://'}
                 append={`.${domain}`}
+                className="pl-16"
             />
 
             <div className="flex items-center gap-4">
-                <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <PrimaryButton className="w-full" disabled={processing}>
+                    Continue
+                </PrimaryButton>
             </div>
         </form>
     )

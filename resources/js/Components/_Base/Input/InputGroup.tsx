@@ -4,6 +4,7 @@ import {
     TextInput,
 } from '@/Components/_Base/Input/index'
 import { forwardRef, useImperativeHandle, useRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 interface InputGroupProps {
     type?: 'text'
@@ -15,6 +16,7 @@ interface InputGroupProps {
     error?: string
     append?: string
     leading?: string
+    className?: string
 }
 
 export default forwardRef(function InputGroup(
@@ -28,6 +30,7 @@ export default forwardRef(function InputGroup(
         type = 'text',
         append,
         leading,
+        className = '',
     }: InputGroupProps,
     ref,
 ) {
@@ -51,7 +54,7 @@ export default forwardRef(function InputGroup(
                         onChange={(e) => onChange(e.target.value)}
                         type="text"
                         placeholder={placeholder}
-                        className="mt-1 block w-full"
+                        className={twMerge('block w-full', className)}
                     />
                 )
         }
