@@ -30,7 +30,26 @@
             "open_user_menu": "Benutzermenü öffnen",
             "open_sidebar": "Seitenleiste öffnen",
             "close_sidebar": "Seitenleiste schließen"
-        }
+        },
+        "status": {
+            "submitted": "Abgeschickt",
+            "pending": "In Bearbeitung",
+            "approved": "Genehmigt",
+            "rejected": "Abgelehnt",
+            "created": "Erstellt",
+            "draft": "Entwurf"
+        },
+        "button": {
+            "view": ":model Öffnen",
+            "edit": ":model Bearbeiten",
+            "delete": ":model Löschen",
+            "open": ":model Öffnen",
+            "restore": "Wiederherstellen"
+        },
+        "last_update": "Letzte Aktualisierung",
+        "options": "Optionen",
+        "deleted": "Gelöscht",
+        "your_resource": "Ihre :resource"
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"
@@ -68,7 +87,8 @@
                     "label": "Land",
                     "placeholder": "Land"
                 }
-            }
+            },
+            "application": "Bewerbung"
         }
     }
 }

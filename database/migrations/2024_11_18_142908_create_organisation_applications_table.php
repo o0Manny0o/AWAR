@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string("name");
             $table->string("type");
-            $table->enum("status", ["draft", "pending", "approved", "rejected", "created"])->default('pending');
+            $table->enum("status", ["draft", "submitted", "pending", "approved", "rejected", "created"])->default('draft');
             $table->string("user_role");
             $table->boolean("registered");
             $table->string("street", 60)->nullable();

@@ -193,7 +193,26 @@
             "open_user_menu": "Open user menu",
             "open_sidebar": "Open sidebar",
             "close_sidebar": "Close sidebar"
-        }
+        },
+        "status": {
+            "submitted": "Submitted",
+            "pending": "Pending",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "created": "Created",
+            "draft": "Draft"
+        },
+        "button": {
+            "view": "View :model",
+            "edit": "Edit :model",
+            "delete": "Delete :model",
+            "open": "Open :model",
+            "restore": "Restore"
+        },
+        "last_update": "Last Update",
+        "options": "Options",
+        "deleted": "Deleted",
+        "your_resource": "Your :resource"
     },
     "landing_page": {
         "welcome_message": "Welcome to AWAR, :name"
@@ -232,7 +251,8 @@
                     "label": "Country",
                     "placeholder": "Country"
                 }
-            }
+            },
+            "application": "Application"
         }
     }
 }

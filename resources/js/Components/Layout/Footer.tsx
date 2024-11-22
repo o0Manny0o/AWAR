@@ -124,7 +124,7 @@ export function Footer() {
                             <Button
                                 href={'#'}
                                 color="secondary"
-                                size="lg"
+                                size="md"
                                 className="mt-4"
                             >
                                 {__('general.newsletter.subscribe')}

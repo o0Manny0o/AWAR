@@ -8,7 +8,7 @@ declare module 'ziggy-js' {
             "required": false
         }
     ],
-    "landing_page": [],
+    "landing-page": [],
     "about": [],
     "pricing": [],
     "dashboard": [],
@@ -22,9 +22,7 @@ declare module 'ziggy-js' {
         }
     ],
     "register": [],
-    "register.store": [],
     "login": [],
-    "login.store": [],
     "password.request": [],
     "password.email": [],
     "password.reset": [
@@ -47,7 +45,6 @@ declare module 'ziggy-js' {
     ],
     "verification.send": [],
     "password.confirm": [],
-    "passwordConfirm.store": [],
     "password.update": [],
     "logout": [],
     "organisations.applications.index": [],
@@ -72,6 +69,12 @@ declare module 'ziggy-js' {
         }
     ],
     "organisations.applications.destroy": [
+        {
+            "name": "application",
+            "required": true
+        }
+    ],
+    "organisations.applications.restore": [
         {
             "name": "application",
             "required": true

@@ -145,6 +145,12 @@ type Translations_General = {
     newsletter: General_Newsletter;
     legal: General_Legal;
     layout: General_Layout;
+    status: General_Status;
+    button: General_Button;
+    last_update: string;
+    options: string;
+    deleted: string;
+    your_resource: string;
 };
 type General_Languages = {
     en: string;
@@ -176,6 +182,21 @@ type General_Layout = {
     open_sidebar: string;
     close_sidebar: string;
 };
+type General_Status = {
+    submitted: string;
+    pending: string;
+    approved: string;
+    rejected: string;
+    created: string;
+    draft: string;
+};
+type General_Button = {
+    view: string;
+    edit: string;
+    delete: string;
+    open: string;
+    restore: string;
+};
 type Translations_Landing_page = {
     welcome_message: string;
 };
@@ -184,6 +205,7 @@ type Translations_Organisations = {
 };
 type Organisations_Applications = {
     form: Applications_Form;
+    application: string;
 };
 type Applications_Form = {
     name: Form_Set;

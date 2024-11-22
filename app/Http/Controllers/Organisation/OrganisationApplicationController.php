@@ -23,7 +23,11 @@ class OrganisationApplicationController extends Controller
     public function index(Request $request): Response
     {
         $this->authorize('viewAny', OrganisationApplication::class);
-        $applications = OrganisationApplication::where('user_id', $request->user()->id)->get();
+        $applications = OrganisationApplication::withTrashed()
+            ->where('user_id', $request->user()->id)
+            ->orderBy("deleted_at", "DESC")
+            ->orderBy("updated_at", "DESC")
+            ->get();
         return Inertia::render('Organisation/Application/Index', [
             'applications' => $applications
         ]);
@@ -71,7 +75,7 @@ class OrganisationApplicationController extends Controller
      */
     public function show(string $id)
     {
-        $application = OrganisationApplication::whereId($id)->first();
+        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
         if (!$application) {
             return redirect()->route('organisations.applications.index');
         }
@@ -84,7 +88,7 @@ class OrganisationApplicationController extends Controller
      */
     public function edit(Request $request, string $id): Response|RedirectResponse
     {
-        $application = OrganisationApplication::whereId($id)->first();
+        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
         if (!$application) {
             return redirect()->route('organisations.applications.index');
         }
@@ -104,7 +108,7 @@ class OrganisationApplicationController extends Controller
      */
     public function update(CreateOrganisationApplicationRequest $request, string $id)
     {
-        $application = OrganisationApplication::whereId($id)->first();
+        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
         if (!$application) {
             return redirect()->route('organisations.applications.index');
         }
@@ -112,6 +116,11 @@ class OrganisationApplicationController extends Controller
         $validated = $request->validated();
 
         $filteredData = Arr::except($validated, ['id', 'step']);
+
+        if ($application->trashed()) {
+            $application->restore();
+            $application->update(["status" => "draft"]);
+        }
 
         $application->update($filteredData);
 
@@ -132,9 +141,30 @@ class OrganisationApplicationController extends Controller
     public function destroy(string $id)
     {
         $application = OrganisationApplication::whereId($id)->first();
-        if (!$application) {
+        if (!$application || $application->trashed()) {
             return redirect()->route('organisations.applications.index');
         }
         $this->authorize('delete', $application);
+
+        $application->delete();
+
+        return redirect()->route('organisations.applications.index');
+    }
+
+    /**
+     * Restores the specified resource from storage.
+     * @throws AuthorizationException
+     */
+    public function restore(string $id)
+    {
+        $application = OrganisationApplication::whereId($id)->first();
+        if (!$application || !$application->trashed()) {
+            return redirect()->route('organisations.applications.index');
+        }
+        $this->authorize('restore', $application);
+
+        $application->restore();
+
+        return redirect()->route('organisations.applications.index');
     }
 }

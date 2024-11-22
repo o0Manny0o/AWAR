@@ -37,7 +37,7 @@ class OrganisationApplicationPolicy
      */
     public function update(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id;
+        return $user->id === $organisationApplication->user_id && !in_array($organisationApplication->status, ['approved', 'rejected', 'created']);
     }
 
     /**
@@ -45,7 +45,7 @@ class OrganisationApplicationPolicy
      */
     public function delete(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id;
+        return $user->id === $organisationApplication->user_id && !in_array($organisationApplication->status, ['approved', 'rejected', 'created']);
     }
 
     /**
@@ -53,7 +53,7 @@ class OrganisationApplicationPolicy
      */
     public function restore(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id;
+        return $user->id === $organisationApplication->user_id && !in_array($organisationApplication->status, ['approved', 'rejected', 'created']);
     }
 
     /**
@@ -61,6 +61,6 @@ class OrganisationApplicationPolicy
      */
     public function forceDelete(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id;
+        return $user->id === $organisationApplication->user_id && !in_array($organisationApplication->status, ['approved', 'rejected', 'created']);
     }
 }
