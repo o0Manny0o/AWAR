@@ -196,6 +196,7 @@ type General_Button = {
     delete: string;
     open: string;
     restore: string;
+    new: string;
 };
 type Translations_Landing_page = {
     welcome_message: string;

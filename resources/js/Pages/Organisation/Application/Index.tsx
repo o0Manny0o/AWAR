@@ -1,8 +1,9 @@
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import OrganisationApplicationList from '@/Pages/Organisation/Application/Partials/OrganisationApplicationList'
-import Application = App.Models.OrganisationApplication
 import useTranslate from '@/shared/hooks/useTranslate'
+import PageHeader from '@/Components/Layout/PageHeader'
+import Application = App.Models.OrganisationApplication
 
 export default function Index({
     applications,
@@ -11,12 +12,23 @@ export default function Index({
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    {/* TODO: Pluralize */}
-                    {__('general.your_resource', {
+                <PageHeader
+                    title={__('general.your_resource', {
                         resource: 'organisations.applications.application',
                     })}
-                </h2>
+                    actionButtons={[
+                        {
+                            label: __('general.button.new', {
+                                resource:
+                                    'organisations.applications.application',
+                            }),
+                            variant: 'primary',
+                            href: route('organisations.applications.create'),
+                        },
+                    ]}
+                >
+                    {/* TODO: Pluralize */}
+                </PageHeader>
             }
         >
             <Head title="Organisation Applications" />

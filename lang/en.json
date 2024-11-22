@@ -207,7 +207,8 @@
             "edit": "Edit :resource",
             "delete": "Delete :resource",
             "open": "Open :resource",
-            "restore": "Restore :resource"
+            "restore": "Restore :resource",
+            "new": "New :resource"
         },
         "last_update": "Last Update",
         "options": "Options",
