@@ -40,11 +40,11 @@
             "draft": "Entwurf"
         },
         "button": {
-            "view": ":model Öffnen",
-            "edit": ":model Bearbeiten",
-            "delete": ":model Löschen",
-            "open": ":model Öffnen",
-            "restore": "Wiederherstellen"
+            "view": ":resource Öffnen",
+            "edit": ":resource Bearbeiten",
+            "delete": ":resource Löschen",
+            "open": ":resource Öffnen",
+            "restore": ":resource Wiederherstellen"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",

@@ -157,13 +157,15 @@ class OrganisationApplicationController extends Controller
      */
     public function restore(string $id)
     {
-        $application = OrganisationApplication::whereId($id)->first();
+        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
         if (!$application || !$application->trashed()) {
             return redirect()->route('organisations.applications.index');
         }
         $this->authorize('restore', $application);
 
         $application->restore();
+
+        $application->update(["status" => "draft"]);
 
         return redirect()->route('organisations.applications.index');
     }

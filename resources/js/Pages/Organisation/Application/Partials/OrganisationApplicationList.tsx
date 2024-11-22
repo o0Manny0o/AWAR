@@ -119,94 +119,117 @@ export default function OrganisationApplicationList({
                                 'organisations.applications.show',
                                 application.id,
                             )}
-                            className="hidden sm:block"
+                            className="hidden sm:inline-flex"
                         >
                             {__('general.button.view', {
-                                model: 'organisations.applications.application',
+                                resource:
+                                    'organisations.applications.application',
                             })}
                             <span className="sr-only">
                                 , {application.name}
                             </span>
                         </Button>
-                        {(canEdit(application) ||
-                            canDelete(application) ||
-                            canRestore(application)) && (
-                            <Menu as="div" className="relative flex-none">
-                                <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
-                                    <span className="sr-only">
-                                        {__('general.button.open', {
-                                            model: 'general.options',
+                        <Menu
+                            as="div"
+                            className={
+                                'relative flex-none ' +
+                                (canEdit(application) ||
+                                canDelete(application) ||
+                                canRestore(application)
+                                    ? ''
+                                    : 'sm:hidden')
+                            }
+                        >
+                            <MenuButton className="-m-2.5 block p-2.5 text-gray-500 hover:text-gray-900">
+                                <span className="sr-only">
+                                    {__('general.button.open', {
+                                        resource: 'general.options',
+                                    })}
+                                </span>
+                                <EllipsisVerticalIcon
+                                    aria-hidden="true"
+                                    className="size-5"
+                                />
+                            </MenuButton>
+                            <MenuItems>
+                                <MenuItem>
+                                    <MenuItemLink
+                                        className="sm:hidden"
+                                        href={route(
+                                            'organisations.applications.show',
+                                            application.id,
+                                        )}
+                                    >
+                                        {__('general.button.view', {
+                                            resource: '',
                                         })}
-                                    </span>
-                                    <EllipsisVerticalIcon
-                                        aria-hidden="true"
-                                        className="size-5"
-                                    />
-                                </MenuButton>
-                                <MenuItems>
-                                    {canEdit(application) && (
-                                        <MenuItem>
-                                            <MenuItemLink
-                                                href={route(
-                                                    'organisations.applications.edit',
-                                                    application.id,
-                                                )}
-                                            >
-                                                {__('general.button.edit', {
-                                                    model: '',
-                                                })}
-                                                <span className="sr-only">
-                                                    , {application.name}
-                                                </span>
-                                            </MenuItemLink>
-                                        </MenuItem>
-                                    )}
+                                        <span className="sr-only">
+                                            , {application.name}
+                                        </span>
+                                    </MenuItemLink>
+                                </MenuItem>
+                                {canEdit(application) && (
+                                    <MenuItem>
+                                        <MenuItemLink
+                                            href={route(
+                                                'organisations.applications.edit',
+                                                application.id,
+                                            )}
+                                        >
+                                            {__('general.button.edit', {
+                                                resource: '',
+                                            })}
+                                            <span className="sr-only">
+                                                , {application.name}
+                                            </span>
+                                        </MenuItemLink>
+                                    </MenuItem>
+                                )}
 
-                                    {canDelete(application) && (
-                                        <MenuItem>
-                                            <MenuItemLink
-                                                method={'delete'}
-                                                as={'button'}
-                                                href={route(
-                                                    'organisations.applications.destroy',
-                                                    application.id,
-                                                )}
-                                            >
-                                                {__('general.button.delete', {
-                                                    model: '',
-                                                })}
-                                                <span className="sr-only">
-                                                    , {application.name}
-                                                </span>
-                                            </MenuItemLink>
-                                        </MenuItem>
-                                    )}
+                                {canDelete(application) && (
+                                    <MenuItem>
+                                        <MenuItemLink
+                                            method={'delete'}
+                                            as={'button'}
+                                            href={route(
+                                                'organisations.applications.destroy',
+                                                application.id,
+                                            )}
+                                        >
+                                            {__('general.button.delete', {
+                                                resource: '',
+                                            })}
+                                            <span className="sr-only">
+                                                , {application.name}
+                                            </span>
+                                        </MenuItemLink>
+                                    </MenuItem>
+                                )}
 
-                                    {canRestore(application) && (
-                                        <MenuItem>
-                                            <MenuItemLink
-                                                method={'delete'}
-                                                as={'button'}
-                                                href={route(
-                                                    'organisations.applications.destroy',
-                                                    application.id,
-                                                )}
-                                            >
-                                                {__(
-                                                    'general.button.restore' as TranslationKey,
-                                                    {
-                                                        model: '',
-                                                    },
-                                                )}
-                                                <span className="sr-only">
-                                                    , {application.name}
-                                                </span>
-                                            </MenuItemLink>
-                                        </MenuItem>
-                                    )}
-                                </MenuItems>
-                            </Menu>
-                        )}
+                                {canRestore(application) && (
+                                    <MenuItem>
+                                        <MenuItemLink
+                                            method={'patch'}
+                                            as={'button'}
+                                            href={route(
+                                                'organisations.applications.restore',
+                                                application.id,
+                                            )}
+                                        >
+                                            {__(
+                                                'general.button.restore' as TranslationKey,
+                                                {
+                                                    resource: '',
+                                                },
+                                            )}
+                                            <span className="sr-only">
+                                                , {application.name}
+                                            </span>
+                                        </MenuItemLink>
+                                    </MenuItem>
+                                )}
+                            </MenuItems>
+                        </Menu>
                     </div>
                 </li>
             ))}

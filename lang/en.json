@@ -203,11 +203,11 @@
             "draft": "Draft"
         },
         "button": {
-            "view": "View :model",
-            "edit": "Edit :model",
-            "delete": "Delete :model",
-            "open": "Open :model",
-            "restore": "Restore"
+            "view": "View :resource",
+            "edit": "Edit :resource",
+            "delete": "Delete :resource",
+            "open": "Open :resource",
+            "restore": "Restore :resource"
         },
         "last_update": "Last Update",
         "options": "Options",
