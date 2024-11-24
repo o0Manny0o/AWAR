@@ -1,6 +1,6 @@
 import { Button, ButtonColorVariants } from '@/Components/_Base/Button'
 import { Method } from '@inertiajs/core'
-import { ReactNode } from 'react'
+import { Badge, BadgeColor } from '@/Components/_Base/Badge'
 
 export type PageHeaderButton = {
     label: string
@@ -11,13 +11,16 @@ export type PageHeaderButton = {
 
 interface PageHeaderProps {
     title: string
-    subtitle?: ReactNode
+    badge?: {
+        color: BadgeColor
+        label: string
+    }
     actionButtons?: PageHeaderButton[]
 }
 
 export default function PageHeader({
     title,
-    subtitle,
+    badge,
     actionButtons,
 }: PageHeaderProps) {
     return (
@@ -26,7 +29,7 @@ export default function PageHeader({
                 <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
                     {title}
                 </h2>
-                {subtitle}
+                {badge && <Badge color={badge.color}>{badge.label}</Badge>}
             </div>
             {actionButtons && (
                 <div className="flex gap-2">

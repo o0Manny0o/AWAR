@@ -9,6 +9,7 @@ import { MenuItemLink } from '@/Components/_Base'
 import { Button } from '@/Components/_Base/Button'
 import {
     badgeColor,
+    badgeLabelKey,
     canDelete,
     canEdit,
     canRestore,
@@ -35,12 +36,7 @@ export default function OrganisationApplicationList({
                                 {application.name}
                             </p>
                             <Badge color={badgeColor(application)}>
-                                {application.deleted_at
-                                    ? __('general.deleted')
-                                    : __(
-                                          ('general.status.' +
-                                              application.status) as TranslationKey,
-                                      )}
+                                {__(badgeLabelKey(application))}
                             </Badge>
                         </div>
                         <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">

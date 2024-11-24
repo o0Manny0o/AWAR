@@ -2,8 +2,7 @@ import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
 import PageHeader from '@/Components/Layout/PageHeader'
-import { Badge } from '@/Components/_Base/Badge'
-import { badgeColor } from './Lib/OrganisationApplication.util'
+import { badgeColor, badgeLabelKey } from './Lib/OrganisationApplication.util'
 import actionButtons from './Lib/Show.buttons'
 import Application = App.Models.OrganisationApplication
 
@@ -17,11 +16,10 @@ export default function Show({
             header={
                 <PageHeader
                     title={application.name}
-                    subtitle={
-                        <Badge color={badgeColor(application)}>
-                            {application.status}
-                        </Badge>
-                    }
+                    badge={{
+                        color: badgeColor(application),
+                        label: __(badgeLabelKey(application)),
+                    }}
                     actionButtons={actionButtons(application)}
                 />
             }

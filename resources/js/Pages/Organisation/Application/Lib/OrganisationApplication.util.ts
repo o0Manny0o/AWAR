@@ -23,6 +23,12 @@ export const badgeColor = (application: Application): BadgeColor => {
     }
 }
 
+export const badgeLabelKey = (application: Application): TranslationKey => {
+    return application.deleted_at
+        ? 'general.deleted'
+        : (('general.status.' + application.status) as TranslationKey)
+}
+
 export const canEdit = (application: Application) => {
     return !application.is_locked
 }
