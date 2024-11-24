@@ -49,7 +49,8 @@
             "submit": ":resource Absenden",
             "continue": "Weiter",
             "save": ":resource Speichern",
-            "cancel": "Abbrechen"
+            "cancel": "Abbrechen",
+            "go_back": "Zurück"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",

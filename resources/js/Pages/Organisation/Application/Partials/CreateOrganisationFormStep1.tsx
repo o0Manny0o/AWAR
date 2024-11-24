@@ -1,4 +1,3 @@
-import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -12,17 +11,11 @@ export default function CreateOrganisationFormStep1({
     application,
     submitLabel = ['general.button.continue'],
     routeParams = {},
-    readonly = false,
-    onSuccess,
-    onCancel,
 }: {
     className?: string
     application?: any
     submitLabel?: [TranslationKey, TranslationReplace?]
     routeParams?: Record<string, unknown>
-    readonly?: boolean
-    onSuccess?: () => void
-    onCancel?: () => void
 }) {
     const __ = useTranslate()
 
@@ -31,8 +24,7 @@ export default function CreateOrganisationFormStep1({
     const roleInput = useRef<HTMLInputElement>(null)
     const registeredInput = useRef<HTMLButtonElement>(null)
 
-    const { data, setData, errors, submit, reset, processing } = useForm({
-        step: 1,
+    const { data, setData, errors, post, reset, processing } = useForm({
         name: application?.name ?? '',
         type: application?.type ?? '',
         user_role: application?.user_role ?? '',
@@ -42,18 +34,17 @@ export default function CreateOrganisationFormStep1({
     const stepOneHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        submit(
-            application ? 'patch' : 'post',
-            application
-                ? route('organisations.applications.update', {
+        post(
+            application?.id
+                ? route('organisations.applications.store.step', {
                       application: application.id,
+                      step: 1,
                       ...routeParams,
                   })
                 : route('organisations.applications.store', { ...routeParams }),
             {
                 preserveScroll: true,
                 replace: true,
-                onSuccess: onSuccess,
                 onError: (errors) => {
                     if (errors.name) {
                         nameInput.current?.focus()
@@ -84,7 +75,6 @@ export default function CreateOrganisationFormStep1({
                 label={__('organisations.applications.form.name.label')}
                 error={errors.name}
                 onChange={(value) => setData('name', value)}
-                readOnly={readonly}
             />
             <InputGroup
                 name="type"
@@ -96,7 +86,6 @@ export default function CreateOrganisationFormStep1({
                 label={__('organisations.applications.form.type.label')}
                 error={errors.type}
                 onChange={(value) => setData('type', value)}
-                readOnly={readonly}
             />
             <InputGroup
                 name="role"
@@ -108,7 +97,6 @@ export default function CreateOrganisationFormStep1({
                 label={__('organisations.applications.form.role.label')}
                 error={errors.user_role}
                 onChange={(value) => setData('user_role', value)}
-                readOnly={readonly}
             />
 
             <SwitchInput
@@ -118,28 +106,11 @@ export default function CreateOrganisationFormStep1({
                 label={'Are you officially registered?'}
                 error={errors.registered}
                 onChange={(value) => setData('registered', value)}
-                readOnly={readonly}
             />
 
-            <div
-                className={`flex justify-end gap-4 ${readonly ? 'hidden' : ''}`}
-            >
-                <Button
-                    color="secondary"
-                    type="reset"
-                    onClick={() => {
-                        reset()
-                        onCancel?.()
-                    }}
-                    className=""
-                    disabled={processing}
-                >
-                    {__('general.button.cancel')}
-                </Button>
-                <PrimaryButton className="" disabled={processing}>
-                    {__(...submitLabel)}
-                </PrimaryButton>
-            </div>
+            <Button className="w-full" disabled={processing}>
+                {__(...submitLabel)}
+            </Button>
         </form>
     )
 }

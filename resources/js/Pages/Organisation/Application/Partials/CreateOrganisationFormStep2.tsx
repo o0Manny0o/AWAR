@@ -4,13 +4,14 @@ import { FormEventHandler, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
 import useTranslate from '@/shared/hooks/useTranslate'
+import OrganisationApplication = App.Models.OrganisationApplication
 
 export default function CreateOrganisationFormStep2({
     className = '',
     application,
 }: {
     className?: string
-    application?: any
+    application: Partial<OrganisationApplication>
 }) {
     const __ = useTranslate()
 
@@ -19,8 +20,7 @@ export default function CreateOrganisationFormStep2({
     const cityInput = useRef<HTMLInputElement>(null)
     const countryInput = useRef<HTMLInputElement>(null)
 
-    const { data, setData, errors, submit, reset, processing } = useForm({
-        step: 2,
+    const { data, setData, errors, post, reset, processing } = useForm({
         street: application?.street ?? '',
         post_code: application?.post_code ?? '',
         city: application?.city ?? '',
@@ -30,13 +30,11 @@ export default function CreateOrganisationFormStep2({
     const stepOneHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        submit(
-            application ? 'patch' : 'post',
-            application
-                ? route('organisations.applications.update', {
-                      application: application.id,
-                  })
-                : route('organisations.applications.store'),
+        post(
+            route('organisations.applications.store.step', {
+                application: application.id,
+                step: 2,
+            }),
             {
                 preserveScroll: true,
                 replace: true,

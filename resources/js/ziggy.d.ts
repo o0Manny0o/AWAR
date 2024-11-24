@@ -47,6 +47,38 @@ declare module 'ziggy-js' {
     "password.confirm": [],
     "password.update": [],
     "logout": [],
+    "organisations.applications.create.step": [
+        {
+            "name": "application",
+            "required": true
+        },
+        {
+            "name": "step",
+            "required": true
+        }
+    ],
+    "organisations.applications.update.step": [
+        {
+            "name": "application",
+            "required": true
+        },
+        {
+            "name": "step",
+            "required": true
+        }
+    ],
+    "organisations.applications.restore": [
+        {
+            "name": "application",
+            "required": true
+        }
+    ],
+    "organisations.applications.submit": [
+        {
+            "name": "application",
+            "required": true
+        }
+    ],
     "organisations.applications.index": [],
     "organisations.applications.create": [],
     "organisations.applications.store": [],
@@ -69,18 +101,6 @@ declare module 'ziggy-js' {
         }
     ],
     "organisations.applications.destroy": [
-        {
-            "name": "application",
-            "required": true
-        }
-    ],
-    "organisations.applications.restore": [
-        {
-            "name": "application",
-            "required": true
-        }
-    ],
-    "organisations.applications.submit": [
         {
             "name": "application",
             "required": true

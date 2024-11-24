@@ -37,7 +37,7 @@ class OrganisationApplicationRules
     public static function postCodeRules(): array
     {
         return [
-            'required', 'string', 'max:10'
+            'required', 'numeric', 'min_digits:5', 'max_digits:10'
         ];
     }
     public static function cityRules(): array

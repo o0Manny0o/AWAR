@@ -12,7 +12,8 @@ interface InputGroupProps {
     label: string
     placeholder?: string
     value: string
-    onChange: (value: string) => void
+    onChange?: (value: string) => void
+    onBlur?: (event: React.FocusEvent) => void
     error?: string
     append?: string
     leading?: string
@@ -26,6 +27,7 @@ export default forwardRef(function InputGroup(
         label,
         value,
         onChange,
+        onBlur,
         error,
         placeholder,
         type = 'text',
@@ -53,7 +55,8 @@ export default forwardRef(function InputGroup(
                         maxLength={255}
                         append={append}
                         leading={leading}
-                        onChange={(e) => onChange(e.target.value)}
+                        onChange={(e) => onChange?.(e.target.value)}
+                        onBlur={(e) => onBlur?.(e)}
                         type="text"
                         placeholder={placeholder}
                         className={twMerge('block w-full', className)}

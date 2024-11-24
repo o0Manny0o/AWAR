@@ -1,8 +1,10 @@
 import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
-import { FormEventHandler, useEffect, useRef, useState } from 'react'
+import { FormEventHandler, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
+import useTranslate from '@/shared/hooks/useTranslate'
+import OrganisationApplication = App.Models.OrganisationApplication
 
 export default function CreateOrganisationFormStep3({
     className = '',
@@ -11,11 +13,10 @@ export default function CreateOrganisationFormStep3({
 }: {
     className?: string
     domain: string
-    application?: any
+    application: Partial<OrganisationApplication>
 }) {
+    const __ = useTranslate()
     const subdomainInput = useRef<HTMLInputElement>(null)
-
-    const [subdomainTouched, setSubdomainTouched] = useState(false)
 
     const transformSubdomain = (subdomain: string) => {
         return subdomain
@@ -25,30 +26,23 @@ export default function CreateOrganisationFormStep3({
     }
 
     const removeTrailingDash = (subdomain: string) => {
-        setData('subdomain', subdomain.toLowerCase().replace(/-$/, ''))
+        return subdomain.toLowerCase().replace(/-$/, '')
     }
 
-    useEffect(() => {
-        if (!subdomainTouched || !data.subdomain) {
-            removeTrailingDash(transformSubdomain(application.name))
-        }
-    }, [application.name])
-
-    const { data, setData, errors, submit, reset, processing } = useForm({
-        step: 3,
-        subdomain: application?.subdomain ?? '',
+    const { data, setData, errors, post, reset, processing } = useForm({
+        subdomain:
+            application?.subdomain ??
+            transformSubdomain(application.name ?? ''),
     })
 
     const stepOneHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        submit(
-            application ? 'patch' : 'post',
-            application
-                ? route('organisations.applications.update', {
-                      application: application.id,
-                  })
-                : route('organisations.applications.store'),
+        post(
+            route('organisations.applications.store.step', {
+                application: application.id,
+                step: 3,
+            }),
             {
                 preserveScroll: true,
                 replace: true,
@@ -71,12 +65,17 @@ export default function CreateOrganisationFormStep3({
                 name="subdomain"
                 value={data.subdomain}
                 ref={subdomainInput}
-                label="What is the name of your organisation?"
+                label={__('organisations.applications.form.subdomain.label')}
+                placeholder={__(
+                    'organisations.applications.form.subdomain.placeholder',
+                )}
                 error={errors.subdomain}
-                onChange={(value) => {
-                    setSubdomainTouched(true)
-                    setData('subdomain', value)
-                }}
+                onChange={(value) =>
+                    setData('subdomain', transformSubdomain(value))
+                }
+                onBlur={() =>
+                    setData('subdomain', removeTrailingDash(data.subdomain))
+                }
                 leading={'https://'}
                 append={`.${domain}`}
                 className="pl-16"

@@ -212,7 +212,8 @@
             "submit": "Submit :resource",
             "continue": "Continue",
             "save": "Save :resource",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "go_back": "Go back"
         },
         "last_update": "Last Update",
         "options": "Options",
@@ -256,7 +257,11 @@
                     "label": "Country",
                     "placeholder": "Country"
                 },
-                "general_info": "General Info"
+                "general_info": "General Info",
+                "subdomain": {
+                    "placeholder": "organisations.applications.form.subdomain.placeholder",
+                    "label": "organisations.applications.form.subdomain.label"
+                }
             },
             "application": "Application"
         }

@@ -47,6 +47,25 @@ class OrganisationApplicationController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource at the provided step.
+     * @throws AuthorizationException
+     */
+    public function createByStep(string $id, int $step): Response|RedirectResponse
+    {
+        $this->authorize('create', OrganisationApplication::class);
+
+        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
+        if (!$application || $step < 1 || $step > 3) {
+            return redirect()->route('organisations.applications.create');
+        }
+
+        return Inertia::render('Organisation/Application/Create', [
+            'step' => $step,
+            'application' => $application
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      * @throws ValidationException
      * @throws AuthorizationException
@@ -60,6 +79,32 @@ class OrganisationApplicationController extends Controller
             array_merge($validated, array('id' => Str::orderedUuid())));
 
         return $this->redirect($request, 'organisations.applications.edit', ['application' => $application->id]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @throws AuthorizationException
+     */
+    public function storeByStep(CreateOrganisationApplicationRequest $request, string $id, int $step): RedirectResponse
+    {
+        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
+        if (!$application || $step < 1 || $step > 3) {
+            return redirect()->route('organisations.applications.create');
+        }
+        $this->authorize('update', $application);
+        $validated = $request->validated();
+
+        if ($application->trashed()) {
+            $application->restore();
+            $application->update(["status" => "draft"]);
+        }
+
+        $application->update($validated);
+
+        $updatedApplication = $application->refresh();
+
+        return $this->redirect($request, 'organisations.applications.create.step', ['application' => $updatedApplication, 'step' => $step + 1]);
+
     }
 
     /**

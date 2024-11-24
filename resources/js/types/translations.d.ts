@@ -201,6 +201,7 @@ type General_Button = {
     continue: string;
     save: string;
     cancel: string;
+    go_back: string;
 };
 type Translations_Landing_page = {
     welcome_message: string;
@@ -222,6 +223,7 @@ type Applications_Form = {
     city: Form_Set;
     country: Form_Set;
     general_info: string;
+    subdomain: Form_Set;
 };
 type Form_Set = {
     label: string;
