@@ -16,6 +16,7 @@ export default forwardRef(function SwitchInput(
         description,
         label,
         error,
+        readOnly,
         ...props
     }: SwitchProps & {
         className?: string
@@ -23,6 +24,7 @@ export default forwardRef(function SwitchInput(
         description?: string
         label?: string
         error?: string
+        readOnly?: boolean
     },
     ref,
 ) {
@@ -40,6 +42,7 @@ export default forwardRef(function SwitchInput(
 
     return (
         <Field
+            disabled={readOnly}
             className={twMerge(className, 'flex items-center justify-between')}
         >
             <span className="flex grow flex-col">
@@ -53,7 +56,7 @@ export default forwardRef(function SwitchInput(
             <Switch
                 {...props}
                 ref={localRef}
-                className="bg-ceiling group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent ring-1 ring-gray-300 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 data-[checked]:bg-primary-600"
+                className="bg-ceiling group relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent ring-1 ring-gray-300 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 data-[disabled]:cursor-default data-[checked]:bg-primary-600"
             >
                 <span
                     aria-hidden="true"

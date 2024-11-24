@@ -17,6 +17,7 @@ interface InputGroupProps {
     append?: string
     leading?: string
     className?: string
+    readOnly?: boolean
 }
 
 export default forwardRef(function InputGroup(
@@ -31,6 +32,7 @@ export default forwardRef(function InputGroup(
         append,
         leading,
         className = '',
+        readOnly = false,
     }: InputGroupProps,
     ref,
 ) {
@@ -55,6 +57,7 @@ export default forwardRef(function InputGroup(
                         type="text"
                         placeholder={placeholder}
                         className={twMerge('block w-full', className)}
+                        readOnly={readOnly}
                     />
                 )
         }
