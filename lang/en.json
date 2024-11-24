@@ -209,7 +209,10 @@
             "open": "Open :resource",
             "restore": "Restore :resource",
             "new": "New :resource",
-            "submit": "Submit :resource"
+            "submit": "Submit :resource",
+            "continue": "Continue",
+            "save": "Save :resource",
+            "cancel": "Cancel"
         },
         "last_update": "Last Update",
         "options": "Options",
@@ -252,7 +255,8 @@
                 "country": {
                     "label": "Country",
                     "placeholder": "Country"
-                }
+                },
+                "general_info": "General Info"
             },
             "application": "Application"
         }

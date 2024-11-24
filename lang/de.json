@@ -46,7 +46,10 @@
             "open": ":resource Öffnen",
             "restore": ":resource Wiederherstellen",
             "new": "Neue :resource",
-            "submit": ":resource Absenden"
+            "submit": ":resource Absenden",
+            "continue": "Weiter",
+            "save": ":resource Speichern",
+            "cancel": "Abbrechen"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",
@@ -88,7 +91,8 @@
                 "country": {
                     "label": "Land",
                     "placeholder": "Land"
-                }
+                },
+                "general_info": "Allgemeine Info"
             },
             "application": "Bewerbung"
         }

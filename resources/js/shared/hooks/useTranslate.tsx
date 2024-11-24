@@ -4,10 +4,7 @@ import { get } from 'lodash-es'
 export default function useTranslate() {
     const { translations, fallback } = usePage().props
 
-    return (
-        key: TranslationKey,
-        replace: Record<string, string | TranslationKey> = {},
-    ) => {
+    return (key: TranslationKey, replace: TranslationReplace = {}) => {
         let translation = get(translations, key) as string | undefined
         if (!translation) {
             if (!fallback) return key

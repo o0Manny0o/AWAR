@@ -52,3 +52,4 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
     }
 
 type TranslationKey = Paths<Translations, 10>
+type TranslationReplace = Record<string, string | TranslationKey>
