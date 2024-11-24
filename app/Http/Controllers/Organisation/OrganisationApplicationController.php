@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Organisation;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\CreateOrganisationApplicationRequest;
+use App\Http\Requests\Organisation\UpdateOrganisationApplicationRequest;
 use App\Models\OrganisationApplication;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
@@ -55,16 +56,8 @@ class OrganisationApplicationController extends Controller
         $this->authorize('create', OrganisationApplication::class);
         $validated = $request->validated();
 
-        $application = $request->user()->organisationApplications()->updateOrCreate([
-            'name' => $validated['name'], 'user_id' => $request->user()->id
-        ],
-            [
-                'id' => Str::orderedUuid(),
-                'name' => $validated['name'],
-                'type' => $validated['type'],
-                'user_role' => $validated['user_role'],
-                'registered' => $validated['registered']
-            ]);
+        $application = $request->user()->organisationApplications()->create(
+            array_merge($validated, array('id' => Str::orderedUuid())));
 
         return $this->redirect($request, 'organisations.applications.edit', ['application' => $application->id]);
     }
@@ -110,7 +103,7 @@ class OrganisationApplicationController extends Controller
      * Update the specified resource in storage.
      * @throws AuthorizationException
      */
-    public function update(CreateOrganisationApplicationRequest $request, string $id)
+    public function update(UpdateOrganisationApplicationRequest $request, string $id)
     {
         $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
         if (!$application) {
@@ -119,14 +112,12 @@ class OrganisationApplicationController extends Controller
         $this->authorize('update', $application);
         $validated = $request->validated();
 
-        $filteredData = Arr::except($validated, ['id', 'step']);
-
         if ($application->trashed()) {
             $application->restore();
             $application->update(["status" => "draft"]);
         }
 
-        $application->update($filteredData);
+        $application->update($validated);
 
         $updatedApplication = $application->refresh();
 
