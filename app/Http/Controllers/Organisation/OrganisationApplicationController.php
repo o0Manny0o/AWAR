@@ -50,7 +50,7 @@ class OrganisationApplicationController extends Controller
      * @throws ValidationException
      * @throws AuthorizationException
      */
-    public function store(CreateOrganisationApplicationRequest $request)
+    public function store(CreateOrganisationApplicationRequest $request): RedirectResponse
     {
         $this->authorize('create', OrganisationApplication::class);
         $validated = $request->validated();
@@ -66,7 +66,7 @@ class OrganisationApplicationController extends Controller
                 'registered' => $validated['registered']
             ]);
 
-        return redirect()->route('organisations.applications.edit', ['application' => $application->id]);
+        return $this->redirect($request, 'organisations.applications.edit', ['application' => $application->id]);
     }
 
     /**
@@ -127,9 +127,9 @@ class OrganisationApplicationController extends Controller
         $updatedApplication = $application->refresh();
 
         if ($validated['step'] < 3) {
-            return redirect()->route('organisations.applications.edit', ['application' => $updatedApplication->id, 'step' => $validated['step'] + 1,]);
+            return $this->redirect($request, 'organisations.applications.edit', ['application' => $updatedApplication->id, 'step' => $validated['step'] + 1,]);
         } else {
-            return redirect()->route('organisations.applications.index');
+            return $this->redirect($request, 'organisations.applications.index');
         }
 
     }
@@ -138,7 +138,7 @@ class OrganisationApplicationController extends Controller
      * Remove the specified resource from storage.
      * @throws AuthorizationException
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
         $application = OrganisationApplication::whereId($id)->first();
         if (!$application || $application->trashed()) {
@@ -148,7 +148,7 @@ class OrganisationApplicationController extends Controller
 
         $application->delete();
 
-        return redirect()->route('organisations.applications.index');
+        return $this->redirect($request, 'organisations.applications.index');
     }
 
     /**
