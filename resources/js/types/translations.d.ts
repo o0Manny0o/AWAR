@@ -224,6 +224,7 @@ type Applications_Form = {
     country: Form_Set;
     general_info: string;
     subdomain: Form_Set;
+    address_info: string;
 };
 type Form_Set = {
     label: string;

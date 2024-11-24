@@ -3,12 +3,21 @@ import { Method } from '@inertiajs/core'
 import { Badge, BadgeColor } from '@/Components/_Base/Badge'
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
 
-export type PageHeaderButton = {
+type PageHeaderBaseButton = {
     label: string
     variant: ButtonColorVariants
+}
+
+type PageHeaderLink = PageHeaderBaseButton & {
     href: string
     method?: Method
 }
+
+type PageHeaderSubmit = PageHeaderBaseButton & {
+    form: string
+}
+
+export type PageHeaderButton = PageHeaderLink | PageHeaderSubmit
 
 interface PageHeaderProps {
     title: string
@@ -42,16 +51,26 @@ export default function PageHeader({
             </div>
             {actionButtons && (
                 <div className="flex gap-2">
-                    {actionButtons.map((button) => (
-                        <Button
-                            key={button.label}
-                            href={button.href}
-                            color={button.variant}
-                            method={button.method}
-                        >
-                            {button.label}
-                        </Button>
-                    ))}
+                    {actionButtons.map((button) =>
+                        button.href ? (
+                            <Button
+                                key={button.label}
+                                href={button.href}
+                                color={button.variant}
+                                method={button.method}
+                            >
+                                {button.label}
+                            </Button>
+                        ) : (
+                            <Button
+                                key={button.label}
+                                color={button.variant}
+                                form={button.form}
+                            >
+                                {button.label}
+                            </Button>
+                        ),
+                    )}
                 </div>
             )}
         </div>

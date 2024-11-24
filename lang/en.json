@@ -261,7 +261,8 @@
                 "subdomain": {
                     "placeholder": "organisations.applications.form.subdomain.placeholder",
                     "label": "organisations.applications.form.subdomain.label"
-                }
+                },
+                "address_info": "Address"
             },
             "application": "Application"
         }

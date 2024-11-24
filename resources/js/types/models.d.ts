@@ -19,6 +19,18 @@ declare namespace App.Models {
         deleted_at?: string
     }
 
+    export type OrganisationApplicationDraft = Pick<
+        OrganisationApplication,
+        | 'id'
+        | 'name'
+        | 'type'
+        | 'user_role'
+        | 'created_at'
+        | 'deleted_at'
+        | 'status'
+    > &
+        Partial<OrganisationApplication>
+
     export enum ApplicationStatus {
         DRAFT = 'draft',
         SUBMITTED = 'submitted',

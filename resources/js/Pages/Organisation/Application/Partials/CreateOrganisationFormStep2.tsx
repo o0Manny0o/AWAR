@@ -2,8 +2,8 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
-import InputGroup from '@/Components/_Base/Input/InputGroup'
-import useTranslate from '@/shared/hooks/useTranslate'
+import { AddressInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.inputs'
+import { InputFocusContext } from '@/Pages/Organisation/Application/Lib/OrganisationApplicationInputContext'
 import OrganisationApplication = App.Models.OrganisationApplication
 
 export default function CreateOrganisationFormStep2({
@@ -13,12 +13,10 @@ export default function CreateOrganisationFormStep2({
     className?: string
     application: Partial<OrganisationApplication>
 }) {
-    const __ = useTranslate()
-
-    const streetInput = useRef<HTMLInputElement>(null)
-    const postCodeInput = useRef<HTMLInputElement>(null)
-    const cityInput = useRef<HTMLInputElement>(null)
-    const countryInput = useRef<HTMLInputElement>(null)
+    const streetRef = useRef<HTMLInputElement>(null)
+    const postCodeRef = useRef<HTMLInputElement>(null)
+    const cityRef = useRef<HTMLInputElement>(null)
+    const countryRef = useRef<HTMLInputElement>(null)
 
     const { data, setData, errors, post, reset, processing } = useForm({
         street: application?.street ?? '',
@@ -41,13 +39,13 @@ export default function CreateOrganisationFormStep2({
                 onSuccess: () => reset(),
                 onError: (errors) => {
                     if (errors.street) {
-                        streetInput.current?.focus()
+                        streetRef.current?.focus()
                     } else if (errors.post_code) {
-                        postCodeInput.current?.focus()
+                        postCodeRef.current?.focus()
                     } else if (errors.city) {
-                        cityInput.current?.focus()
+                        cityRef.current?.focus()
                     } else if (errors.country) {
-                        countryInput.current?.focus()
+                        countryRef.current?.focus()
                     }
                 },
             },
@@ -55,60 +53,25 @@ export default function CreateOrganisationFormStep2({
     }
 
     return (
-        <form
-            onSubmit={stepOneHandler}
-            className={twMerge('w-full space-y-6', className)}
+        <InputFocusContext.Provider
+            value={{ streetRef, postCodeRef, cityRef, countryRef }}
         >
-            <InputGroup
-                name="name"
-                placeholder={__(
-                    'organisations.applications.form.street.placeholder',
-                )}
-                value={data.street}
-                ref={streetInput}
-                label={__('organisations.applications.form.street.label')}
-                error={errors.street}
-                onChange={(value) => setData('street', value)}
-            />
-            <InputGroup
-                name="postCode"
-                placeholder={__(
-                    'organisations.applications.form.post_code.placeholder',
-                )}
-                value={data.post_code}
-                ref={postCodeInput}
-                label={__('organisations.applications.form.post_code.label')}
-                error={errors.post_code}
-                onChange={(value) => setData('post_code', value)}
-            />
-            <InputGroup
-                name="city"
-                placeholder={__(
-                    'organisations.applications.form.city.placeholder',
-                )}
-                value={data.city}
-                ref={cityInput}
-                label={__('organisations.applications.form.city.label')}
-                error={errors.city}
-                onChange={(value) => setData('city', value)}
-            />
-            <InputGroup
-                name="country"
-                placeholder={__(
-                    'organisations.applications.form.country.placeholder',
-                )}
-                value={data.country}
-                ref={countryInput}
-                label={__('organisations.applications.form.country.label')}
-                error={errors.country}
-                onChange={(value) => setData('country', value)}
-            />
+            <form
+                onSubmit={stepOneHandler}
+                className={twMerge('w-full space-y-6', className)}
+            >
+                <AddressInfoGroup
+                    data={data}
+                    errors={errors}
+                    setData={setData}
+                />
 
-            <div className="">
-                <PrimaryButton className="w-full" disabled={processing}>
-                    Continue
-                </PrimaryButton>
-            </div>
-        </form>
+                <div className="">
+                    <PrimaryButton className="w-full" disabled={processing}>
+                        Continue
+                    </PrimaryButton>
+                </div>
+            </form>
+        </InputFocusContext.Provider>
     )
 }

@@ -2,7 +2,7 @@ import { PageHeaderButton } from '@/Components/Layout/PageHeader'
 import useTranslate from '@/shared/hooks/useTranslate'
 import OrganisationApplication = App.Models.OrganisationApplication
 
-export default function ShowActionButtons(
+export function ShowActionButtons(
     application: OrganisationApplication,
 ): PageHeaderButton[] {
     const __ = useTranslate()
@@ -52,7 +52,6 @@ export default function ShowActionButtons(
             resource: '',
         }),
         variant: primary ? 'primary' : 'secondary',
-        method: 'patch',
         href: route('organisations.applications.edit', {
             application: application.id,
         }),
@@ -69,4 +68,31 @@ export default function ShowActionButtons(
     } else {
         return [editButton(true), DELETE_BUTTON]
     }
+}
+
+export function EditActionButtons(
+    application: Pick<OrganisationApplication, 'id'>,
+    formId: string,
+): PageHeaderButton[] {
+    const __ = useTranslate()
+
+    const SAVE_BUTTON: PageHeaderButton = {
+        label: __('general.button.save', {
+            resource: '',
+        }),
+        variant: 'primary',
+        form: formId,
+    }
+
+    const CANCEL_BUTTON: PageHeaderButton = {
+        label: __('general.button.cancel', {
+            resource: '',
+        }),
+        variant: 'secondary',
+        href: route('organisations.applications.show', {
+            application: application.id,
+        }),
+    }
+
+    return [SAVE_BUTTON, CANCEL_BUTTON]
 }

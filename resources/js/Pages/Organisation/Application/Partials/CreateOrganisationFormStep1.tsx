@@ -1,10 +1,10 @@
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
-import InputGroup from '@/Components/_Base/Input/InputGroup'
 import useTranslate from '@/shared/hooks/useTranslate'
-import { SwitchInput } from '@/Components/_Base/Input'
 import { Button } from '@/Components/_Base/Button'
+import { GeneralInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.inputs'
+import { InputFocusContext } from '@/Pages/Organisation/Application/Lib/OrganisationApplicationInputContext'
 
 export default function CreateOrganisationFormStep1({
     className = '',
@@ -19,10 +19,10 @@ export default function CreateOrganisationFormStep1({
 }) {
     const __ = useTranslate()
 
-    const nameInput = useRef<HTMLInputElement>(null)
-    const typeInput = useRef<HTMLInputElement>(null)
-    const roleInput = useRef<HTMLInputElement>(null)
-    const registeredInput = useRef<HTMLButtonElement>(null)
+    const nameRef = useRef<HTMLInputElement>(null)
+    const typeRef = useRef<HTMLInputElement>(null)
+    const roleRef = useRef<HTMLInputElement>(null)
+    const registeredRef = useRef<HTMLButtonElement>(null)
 
     const { data, setData, errors, post, reset, processing } = useForm({
         name: application?.name ?? '',
@@ -45,15 +45,16 @@ export default function CreateOrganisationFormStep1({
             {
                 preserveScroll: true,
                 replace: true,
+                onSuccess: () => reset(),
                 onError: (errors) => {
                     if (errors.name) {
-                        nameInput.current?.focus()
+                        nameRef.current?.focus()
                     } else if (errors.type) {
-                        typeInput.current?.focus()
+                        typeRef.current?.focus()
                     } else if (errors.role) {
-                        roleInput.current?.focus()
+                        roleRef.current?.focus()
                     } else if (errors.registered) {
-                        registeredInput.current?.focus()
+                        registeredRef.current?.focus()
                     }
                 },
             },
@@ -61,56 +62,23 @@ export default function CreateOrganisationFormStep1({
     }
 
     return (
-        <form
-            onSubmit={stepOneHandler}
-            className={twMerge('w-full space-y-6', className)}
+        <InputFocusContext.Provider
+            value={{ nameRef, typeRef, roleRef, registeredRef }}
         >
-            <InputGroup
-                name="name"
-                placeholder={__(
-                    'organisations.applications.form.name.placeholder',
-                )}
-                value={data.name}
-                ref={nameInput}
-                label={__('organisations.applications.form.name.label')}
-                error={errors.name}
-                onChange={(value) => setData('name', value)}
-            />
-            <InputGroup
-                name="type"
-                placeholder={__(
-                    'organisations.applications.form.type.placeholder',
-                )}
-                value={data.type}
-                ref={typeInput}
-                label={__('organisations.applications.form.type.label')}
-                error={errors.type}
-                onChange={(value) => setData('type', value)}
-            />
-            <InputGroup
-                name="role"
-                placeholder={__(
-                    'organisations.applications.form.role.placeholder',
-                )}
-                value={data.user_role}
-                ref={roleInput}
-                label={__('organisations.applications.form.role.label')}
-                error={errors.user_role}
-                onChange={(value) => setData('user_role', value)}
-            />
+            <form
+                onSubmit={stepOneHandler}
+                className={twMerge('w-full space-y-6', className)}
+            >
+                <GeneralInfoGroup
+                    data={data}
+                    errors={errors}
+                    setData={setData}
+                />
 
-            <SwitchInput
-                name={'registered'}
-                checked={data.registered}
-                ref={registeredInput}
-                label={'Are you officially registered?'}
-                error={errors.registered}
-                onChange={(value) => setData('registered', value)}
-            />
-
-            <Button className="w-full" disabled={processing}>
-                {__(...submitLabel)}
-            </Button>
-        </form>
+                <Button className="w-full" disabled={processing}>
+                    {__(...submitLabel)}
+                </Button>
+            </form>
+        </InputFocusContext.Provider>
     )
 }

@@ -1,32 +1,32 @@
-import { Head, Link } from '@inertiajs/react'
-import CreateOrganisationForm from './Partials/CreateOrganisationForm'
-import FlowLayout from '@/Layouts/FlowLayout'
+import { Head } from '@inertiajs/react'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
+import PageHeader from '@/Components/Layout/PageHeader'
+import { EditActionButtons } from '@/Pages/Organisation/Application/Lib/OragnisationApplication.buttons'
+import EditOrganisationForm from '@/Pages/Organisation/Application/Partials/EditOrganisationForm'
+import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function Edit({
     centralDomain,
-    step,
     application,
-}: AppPageProps<{ step: number; application: { id: string } }>) {
+}: AppPageProps<{ step: number; application: OrganisationApplicationDraft }>) {
+    const FORM_ID = 'edit-organisation-form'
+
     return (
-        <FlowLayout header="Organisation Details">
-            <Head title="Create an Organisation Application" />
+        <AuthenticatedLayout
+            header={
+                <PageHeader
+                    title={application.name!}
+                    actionButtons={EditActionButtons(application, FORM_ID)}
+                />
+            }
+        >
+            <Head title="Organisation Applications" />
 
-            <CreateOrganisationForm
-                domain={centralDomain}
-                step={step}
+            <EditOrganisationForm
+                formId={FORM_ID}
                 application={application}
+                domain={centralDomain}
             />
-
-            {step > 1 && (
-                <Link
-                    href={route('organisations.applications.edit', {
-                        application: application.id,
-                        step: step - 1,
-                    })}
-                >
-                    Go back
-                </Link>
-            )}
-        </FlowLayout>
+        </AuthenticatedLayout>
     )
 }

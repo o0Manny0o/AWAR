@@ -93,7 +93,8 @@
                     "label": "Land",
                     "placeholder": "Land"
                 },
-                "general_info": "Allgemeine Info"
+                "general_info": "Allgemeine Info",
+                "address_info": "Adresse"
             },
             "application": "Bewerbung"
         }

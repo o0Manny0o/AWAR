@@ -2,8 +2,12 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
-import InputGroup from '@/Components/_Base/Input/InputGroup'
-import useTranslate from '@/shared/hooks/useTranslate'
+import {
+    removeTrailingDash,
+    transformSubdomain,
+} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
+import { SubdomainInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.inputs'
+import { InputFocusContext } from '@/Pages/Organisation/Application/Lib/OrganisationApplicationInputContext'
 import OrganisationApplication = App.Models.OrganisationApplication
 
 export default function CreateOrganisationFormStep3({
@@ -15,25 +19,18 @@ export default function CreateOrganisationFormStep3({
     domain: string
     application: Partial<OrganisationApplication>
 }) {
-    const __ = useTranslate()
-    const subdomainInput = useRef<HTMLInputElement>(null)
+    const subdomainRef = useRef<HTMLInputElement>(null)
 
-    const transformSubdomain = (subdomain: string) => {
-        return subdomain
-            .toLowerCase()
-            .replace(/[^A-Za-z\d-]+/g, '-')
-            .replace(/-{2,}/g, '-')
-    }
+    const { data, setData, errors, post, reset, processing, transform } =
+        useForm({
+            subdomain:
+                application?.subdomain ??
+                transformSubdomain(application.name ?? ''),
+        })
 
-    const removeTrailingDash = (subdomain: string) => {
-        return subdomain.toLowerCase().replace(/-$/, '')
-    }
-
-    const { data, setData, errors, post, reset, processing } = useForm({
-        subdomain:
-            application?.subdomain ??
-            transformSubdomain(application.name ?? ''),
-    })
+    transform((data) => ({
+        subdomain: removeTrailingDash(transformSubdomain(data.subdomain)),
+    }))
 
     const stepOneHandler: FormEventHandler = (e) => {
         e.preventDefault()
@@ -49,7 +46,7 @@ export default function CreateOrganisationFormStep3({
                 onSuccess: () => reset(),
                 onError: (errors) => {
                     if (errors.subdomain) {
-                        subdomainInput.current?.focus()
+                        subdomainRef.current?.focus()
                     }
                 },
             },
@@ -57,35 +54,24 @@ export default function CreateOrganisationFormStep3({
     }
 
     return (
-        <form
-            onSubmit={stepOneHandler}
-            className={twMerge('w-full space-y-6', className)}
-        >
-            <InputGroup
-                name="subdomain"
-                value={data.subdomain}
-                ref={subdomainInput}
-                label={__('organisations.applications.form.subdomain.label')}
-                placeholder={__(
-                    'organisations.applications.form.subdomain.placeholder',
-                )}
-                error={errors.subdomain}
-                onChange={(value) =>
-                    setData('subdomain', transformSubdomain(value))
-                }
-                onBlur={() =>
-                    setData('subdomain', removeTrailingDash(data.subdomain))
-                }
-                leading={'https://'}
-                append={`.${domain}`}
-                className="pl-16"
-            />
+        <InputFocusContext.Provider value={{ subdomainRef }}>
+            <form
+                onSubmit={stepOneHandler}
+                className={twMerge('w-full space-y-6', className)}
+            >
+                <SubdomainInfoGroup
+                    domain={domain}
+                    data={data}
+                    errors={errors}
+                    setData={setData}
+                />
 
-            <div className="flex items-center gap-4">
-                <PrimaryButton className="w-full" disabled={processing}>
-                    Continue
-                </PrimaryButton>
-            </div>
-        </form>
+                <div className="flex items-center gap-4">
+                    <PrimaryButton className="w-full" disabled={processing}>
+                        Continue
+                    </PrimaryButton>
+                </div>
+            </form>
+        </InputFocusContext.Provider>
     )
 }

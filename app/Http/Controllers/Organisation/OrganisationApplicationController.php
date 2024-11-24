@@ -166,11 +166,7 @@ class OrganisationApplicationController extends Controller
 
         $updatedApplication = $application->refresh();
 
-        if ($validated['step'] < 3) {
-            return $this->redirect($request, 'organisations.applications.edit', ['application' => $updatedApplication->id, 'step' => $validated['step'] + 1,]);
-        } else {
-            return $this->redirect($request, 'organisations.applications.index');
-        }
+        return $this->redirect($request, 'organisations.applications.show', ['application' => $updatedApplication->id]);
 
     }
 
