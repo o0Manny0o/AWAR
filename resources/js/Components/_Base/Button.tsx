@@ -46,6 +46,7 @@ export function Button(
         <Link
             method={props.method}
             href={props.href}
+            {...(props.method !== 'get' ? { as: 'button' } : {})}
             className={twMerge(
                 button({ color: props.color, size: props.size }),
                 props.className,

@@ -12,7 +12,7 @@ import {
     canDelete,
     canEdit,
     canRestore,
-} from '@/Pages/Organisation/Application/util'
+} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
 
 export default function OrganisationApplicationList({
     applications,
