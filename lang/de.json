@@ -45,7 +45,8 @@
             "delete": ":resource Löschen",
             "open": ":resource Öffnen",
             "restore": ":resource Wiederherstellen",
-            "new": "Neue :resource"
+            "new": "Neue :resource",
+            "submit": ":resource Absenden"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",

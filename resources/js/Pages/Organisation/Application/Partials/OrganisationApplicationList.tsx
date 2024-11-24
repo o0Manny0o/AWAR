@@ -1,22 +1,18 @@
 import Application = App.Models.OrganisationApplication
-import ApplicationStatus = App.Models.ApplicationStatus
 import { Menu, MenuButton, MenuItem } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid'
 import useTranslate from '@/shared/hooks/useTranslate'
-import { Badge, BadgeColor } from '@/Components/_Base/Badge'
+import { Badge } from '@/Components/_Base/Badge'
 import { usePage } from '@inertiajs/react'
 import { MenuItems } from '@/Components/_Base/MenuItems'
 import { MenuItemLink } from '@/Components/_Base'
 import { Button } from '@/Components/_Base/Button'
-
-const statuses: { [key in ApplicationStatus]: string } = {
-    draft: 'text-green-700 bg-green-50 ring-green-600/20',
-    submitted: 'text-gray-600 bg-gray-50 ring-gray-500/10',
-    pending: 'text-yellow-800 bg-yellow-50 ring-yellow-600/20',
-    rejected: 'text-yellow-800 bg-yellow-50 ring-yellow-600/20',
-    approved: 'text-yellow-800 bg-yellow-50 ring-yellow-600/20',
-    created: 'text-yellow-800 bg-yellow-50 ring-yellow-600/20',
-}
+import {
+    badgeColor,
+    canDelete,
+    canEdit,
+    canRestore,
+} from '@/Pages/Organisation/Application/util'
 
 export default function OrganisationApplicationList({
     applications,
@@ -25,48 +21,6 @@ export default function OrganisationApplicationList({
 }) {
     const __ = useTranslate()
     const { locale } = usePage().props
-
-    const badgeColor = (application: Application): BadgeColor => {
-        if (application.deleted_at) {
-            return BadgeColor.DANGER
-        }
-        switch (application.status) {
-            case 'draft':
-                return BadgeColor.WARN
-            case 'submitted':
-                return BadgeColor.SECONDARY
-            case 'pending':
-                return BadgeColor.OTHER
-            case 'rejected':
-                return BadgeColor.DANGER
-            case 'approved':
-                return BadgeColor.SUCCESS
-            case 'created':
-                return BadgeColor.SUCCESS
-            default:
-                return BadgeColor.SECONDARY
-        }
-    }
-
-    const canEdit = (applications: Application) => {
-        return !['approved', 'rejected', 'created'].includes(
-            applications.status,
-        )
-    }
-
-    const canDelete = (applications: Application) => {
-        return (
-            !applications.deleted_at &&
-            !['approved', 'rejected', 'created'].includes(applications.status)
-        )
-    }
-
-    const canRestore = (applications: Application) => {
-        return (
-            applications.deleted_at &&
-            !['approved', 'rejected', 'created'].includes(applications.status)
-        )
-    }
 
     return (
         <ul role="list" className="divide-y divide-gray-100">

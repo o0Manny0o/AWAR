@@ -80,6 +80,12 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
+    "organisations.applications.submit": [
+        {
+            "name": "application",
+            "required": true
+        }
+    ],
     "tenant.dashboard": [],
     "storage.local": [
         {

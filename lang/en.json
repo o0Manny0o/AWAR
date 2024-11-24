@@ -208,7 +208,8 @@
             "delete": "Delete :resource",
             "open": "Open :resource",
             "restore": "Restore :resource",
-            "new": "New :resource"
+            "new": "New :resource",
+            "submit": "Submit :resource"
         },
         "last_update": "Last Update",
         "options": "Options",

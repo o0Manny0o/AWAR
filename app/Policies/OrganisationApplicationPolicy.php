@@ -37,7 +37,7 @@ class OrganisationApplicationPolicy
      */
     public function update(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id && !in_array($organisationApplication->status, ['approved', 'rejected', 'created']);
+        return $user->id === $organisationApplication->user_id && !$organisationApplication->isLocked();
     }
 
     /**
@@ -45,7 +45,7 @@ class OrganisationApplicationPolicy
      */
     public function delete(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id && !in_array($organisationApplication->status, ['approved', 'rejected', 'created']);
+        return $user->id === $organisationApplication->user_id && !$organisationApplication->isLocked();
     }
 
     /**
@@ -53,7 +53,7 @@ class OrganisationApplicationPolicy
      */
     public function restore(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id && !in_array($organisationApplication->status, ['approved', 'rejected', 'created']);
+        return $user->id === $organisationApplication->user_id && !$organisationApplication->isLocked();
     }
 
     /**
@@ -61,6 +61,14 @@ class OrganisationApplicationPolicy
      */
     public function forceDelete(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id && !in_array($organisationApplication->status, ['approved', 'rejected', 'created']);
+        return $user->id === $organisationApplication->user_id && !$organisationApplication->isLocked();
+    }
+
+    /**
+     * Determine whether the user can submit the model.
+     */
+    public function submit(User $user, OrganisationApplication $organisationApplication): bool
+    {
+        return $user->id === $organisationApplication->user_id && $organisationApplication->isComplete() && !$organisationApplication->isLocked();
     }
 }

@@ -80,6 +80,10 @@ class OrganisationApplicationController extends Controller
             return redirect()->route('organisations.applications.index');
         }
         $this->authorize('view', $application);
+
+        return Inertia::render('Organisation/Application/Show', [
+            'application' => $application
+        ]);
     }
 
     /**
@@ -155,7 +159,7 @@ class OrganisationApplicationController extends Controller
      * Restores the specified resource from storage.
      * @throws AuthorizationException
      */
-    public function restore(string $id)
+    public function restore(Request $request, string $id)
     {
         $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
         if (!$application || !$application->trashed()) {
@@ -167,6 +171,23 @@ class OrganisationApplicationController extends Controller
 
         $application->update(["status" => "draft"]);
 
-        return redirect()->route('organisations.applications.index');
+        return $this->redirect($request, 'organisations.applications.index');
+    }
+
+    /**
+     * Restores the specified resource from storage.
+     * @throws AuthorizationException
+     */
+    public function submit(Request $request, string $id)
+    {
+        $application = OrganisationApplication::whereId($id)->first();
+        if (!$application) {
+            return redirect()->route('organisations.applications.index');
+        }
+        $this->authorize('submit', $application);
+
+        $application->update(["status" => "submitted"]);
+
+        return $this->redirect($request, 'organisations.applications.show', ['application' => $application->id]);
     }
 }

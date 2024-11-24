@@ -12,6 +12,8 @@ declare namespace App.Models {
         subdomain: string
         user_id: string
         status: ApplicationStatus
+        is_complete: boolean
+        is_locked: boolean
         created_at: string
         updated_at: string
         deleted_at?: string

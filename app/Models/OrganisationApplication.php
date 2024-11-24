@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- *
+ * 
  *
  * @property string $id
  * @property string $name
@@ -42,6 +42,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUserRole($value)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withoutTrashed()
+ * @property-read bool $is_complete
+ * @property-read bool $is_locked
  * @mixin \Eloquent
  */
 class OrganisationApplication extends Model
@@ -50,11 +57,69 @@ class OrganisationApplication extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['is_complete', 'is_locked'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    public function getIsCompleteAttribute(): bool
+    {
+        return $this->isComplete();
+    }
+
+
+    public function getIsLockedAttribute(): bool
+    {
+        return $this->isLocked();
+    }
+
+    /**
+     * Determine if the application is complete.
+     *
+     * The application is considered complete when all the fields are filled in
+     *
+     * @return bool
+     */
+    public function isComplete(): bool
+    {
+        return isset($this->name) &&
+            isset($this->type) &&
+            isset($this->user_role) &&
+            isset($this->registered) &&
+            isset($this->street) &&
+            isset($this->city) &&
+            isset($this->post_code) &&
+            isset($this->country) &&
+            isset($this->subdomain);
+    }
+
+    /**
+     * Determine if the application is locked.
+     *
+     * An application is considered locked when it has been submitted and is waiting for approval.
+     * The application is considered locked when its status is one of the following:
+     * - pending
+     * - approved
+     * - rejected
+     * - created
+     *
+     * @return bool
+     */
+    public function isLocked()
+    {
+        return in_array($this->status, ['submitted', 'pending', 'approved', 'rejected', 'created']);
+    }
+
+    /**
+     * Get the current step of the application.
+     *
+     * If any attribute is missing, the current step is the step that
+     * corresponds to the missing attribute.
+     *
+     * @return int
+     */
     public function currentStep()
     {
         if (!isset($this->name) || !isset($this->type) || !isset($this->user_role) || !isset($this->registered)) {
