@@ -1,0 +1,135 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * 
+ *
+ * @property string $id
+ * @property string $name
+ * @property string $type
+ * @property string $status
+ * @property string $user_role
+ * @property bool $registered
+ * @property string|null $street
+ * @property string|null $post_code
+ * @property string|null $city
+ * @property string|null $country
+ * @property string|null $subdomain
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication wherePostCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereRegistered($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereStreet($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereSubdomain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUserRole($value)
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withoutTrashed()
+ * @property-read bool $is_complete
+ * @property-read bool $is_locked
+ * @mixin \Eloquent
+ */
+class OrganisationApplication extends Model
+{
+    use HasUuids, SoftDeletes;
+
+    protected $guarded = [];
+
+    protected $appends = ['is_complete', 'is_locked'];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getIsCompleteAttribute(): bool
+    {
+        return $this->isComplete();
+    }
+
+
+    public function getIsLockedAttribute(): bool
+    {
+        return $this->isLocked();
+    }
+
+    /**
+     * Determine if the application is complete.
+     *
+     * The application is considered complete when all the fields are filled in
+     *
+     * @return bool
+     */
+    public function isComplete(): bool
+    {
+        return isset($this->name) &&
+            isset($this->type) &&
+            isset($this->user_role) &&
+            isset($this->registered) &&
+            isset($this->street) &&
+            isset($this->city) &&
+            isset($this->post_code) &&
+            isset($this->country) &&
+            isset($this->subdomain);
+    }
+
+    /**
+     * Determine if the application is locked.
+     *
+     * An application is considered locked when it has been submitted and is waiting for approval.
+     * The application is considered locked when its status is one of the following:
+     * - pending
+     * - approved
+     * - rejected
+     * - created
+     *
+     * @return bool
+     */
+    public function isLocked()
+    {
+        return in_array($this->status, ['submitted', 'pending', 'approved', 'rejected', 'created']);
+    }
+
+    /**
+     * Get the current step of the application.
+     *
+     * If any attribute is missing, the current step is the step that
+     * corresponds to the missing attribute.
+     *
+     * @return int
+     */
+    public function currentStep()
+    {
+        if (!isset($this->name) || !isset($this->type) || !isset($this->user_role) || !isset($this->registered)) {
+            return 1;
+        } elseif (!isset($this->street) || !isset($this->city) || !isset($this->post_code) || !isset($this->country)) {
+            return 2;
+        } elseif (!isset($this->subdomain)) {
+            return 3;
+        } else {
+            return 1;
+        }
+    }
+}

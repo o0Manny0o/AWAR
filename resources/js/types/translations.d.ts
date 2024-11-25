@@ -1,28 +1,29 @@
 type Translations = {
-    auth: Auth;
-    pagination: Pagination;
-    passwords: Passwords;
-    validation: Validation;
-    general: General;
-    landing_page: Landing_page;
+    auth: Translations_Auth;
+    pagination: Translations_Pagination;
+    passwords: Translations_Passwords;
+    validation: Translations_Validation;
+    general: Translations_General;
+    landing_page: Translations_Landing_page;
+    organisations: Translations_Organisations;
 };
-type Auth = {
+type Translations_Auth = {
     failed: string;
     password: string;
     throttle: string;
 };
-type Pagination = {
+type Translations_Pagination = {
     previous: string;
     next: string;
 };
-type Passwords = {
+type Translations_Passwords = {
     reset: string;
     sent: string;
     throttled: string;
     token: string;
     user: string;
 };
-type Validation = {
+type Translations_Validation = {
     accepted: string;
     accepted_if: string;
     active_url: string;
@@ -35,7 +36,7 @@ type Validation = {
     ascii: string;
     before: string;
     before_or_equal: string;
-    between: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    between: Validation_Set;
     boolean: string;
     can: string;
     confirmed: string;
@@ -61,8 +62,8 @@ type Validation = {
     extensions: string;
     file: string;
     filled: string;
-    gt: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
-    gte: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    gt: Validation_Set;
+    gte: Validation_Set;
     hex_color: string;
     image: string;
     in: string;
@@ -74,14 +75,14 @@ type Validation = {
     json: string;
     list: string;
     lowercase: string;
-    lt: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
-    lte: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    lt: Validation_Set;
+    lte: Validation_Set;
     mac_address: string;
-    max: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    max: Validation_Set;
     max_digits: string;
     mimes: string;
     mimetypes: string;
-    min: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    min: Validation_Set;
     min_digits: string;
     missing: string;
     missing_if: string;
@@ -92,7 +93,7 @@ type Validation = {
     not_in: string;
     not_regex: string;
     numeric: string;
-    password: Password;
+    password: Validation_Password;
     present: string;
     present_if: string;
     present_unless: string;
@@ -114,7 +115,7 @@ type Validation = {
     required_without: string;
     required_without_all: string;
     same: string;
-    size: BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize;
+    size: Validation_Set;
     starts_with: string;
     string: string;
     timezone: string;
@@ -125,31 +126,38 @@ type Validation = {
     ulid: string;
     uuid: string;
 };
-type BetweenOrGtOrGteOrLtOrLteOrMaxOrMinOrSize = {
+type Validation_Set = {
     array: string;
     file: string;
     numeric: string;
     string: string;
 };
-type Password = {
+type Validation_Password = {
     letters: string;
     mixed: string;
     numbers: string;
     symbols: string;
     uncompromised: string;
 };
-type General = {
-    languages: Languages;
-    navigation: Navigation;
-    newsletter: Newsletter;
-    legal: Legal;
-    layout: Layout;
+type Translations_General = {
+    languages: General_Languages;
+    navigation: General_Navigation;
+    newsletter: General_Newsletter;
+    legal: General_Legal;
+    layout: General_Layout;
+    status: General_Status;
+    button: General_Button;
+    last_update: string;
+    options: string;
+    deleted: string;
+    your_resource: string;
+    continue_later: string;
 };
-type Languages = {
+type General_Languages = {
     en: string;
     de: string;
 };
-type Navigation = {
+type General_Navigation = {
     register: string;
     dashboard: string;
     login: string;
@@ -157,20 +165,76 @@ type Navigation = {
     profile: string;
     about: string;
     home: string;
+    organisations: Navigation_Organisations;
+    overview: string;
 };
-type Newsletter = {
+type Navigation_Organisations = {
+    applications: string;
+};
+type General_Newsletter = {
     description: string;
     heading: string;
     subscribe: string;
 };
-type Legal = {
+type General_Legal = {
     rights_reserved: string;
 };
-type Layout = {
+type General_Layout = {
     open_user_menu: string;
     open_sidebar: string;
     close_sidebar: string;
 };
-type Landing_page = {
+type General_Status = {
+    submitted: string;
+    pending: string;
+    approved: string;
+    rejected: string;
+    created: string;
+    draft: string;
+};
+type General_Button = {
+    view: string;
+    edit: string;
+    delete: string;
+    open: string;
+    restore: string;
+    new: string;
+    submit: string;
+    continue: string;
+    save: string;
+    cancel: string;
+    go_back: string;
+    go_back_to: string;
+};
+type Translations_Landing_page = {
     welcome_message: string;
+};
+type Translations_Organisations = {
+    applications: Organisations_Applications;
+};
+type Organisations_Applications = {
+    form: Applications_Form;
+    application: string;
+};
+type Applications_Form = {
+    name: Form_Set;
+    type: Form_Set;
+    role: Form_Set;
+    registered: Form_Registered;
+    street: Form_Set;
+    post_code: Form_Set;
+    city: Form_Set;
+    country: Form_Set;
+    general_info: string;
+    subdomain: Form_Set;
+    address_info: string;
+    subdomain_info: string;
+    cancel_create: string;
+};
+type Form_Set = {
+    label: string;
+    placeholder: string;
+};
+type Form_Registered = {
+    label: string;
 };

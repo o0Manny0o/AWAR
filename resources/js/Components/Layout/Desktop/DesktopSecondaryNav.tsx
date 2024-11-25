@@ -3,8 +3,9 @@ import DesktopNavLink from '@/Components/Layout/Desktop/DesktopNavLink'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { usePage } from '@inertiajs/react'
 import { MenuItemLink } from '@/Components/_Base'
+import { PropsWithChildren } from 'react'
 
-export default function DesktopMainNav() {
+export default function DesktopMainNav({ children }: PropsWithChildren) {
     const __ = useTranslate()
     const { auth } = usePage().props
 
@@ -12,12 +13,7 @@ export default function DesktopMainNav() {
         <div className="absolute inset-y-0 right-0 flex pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             {auth.user ? (
                 <>
-                    <DesktopNavLink
-                        href={route('dashboard')}
-                        active={route().current('dashboard')}
-                    >
-                        {__('general.navigation.dashboard')}
-                    </DesktopNavLink>
+                    {children}
                     <Menu as="div" className="relative ml-3">
                         <div className="flex h-full">
                             <MenuButton className="text-interactive border-interactive bg-interactive relative flex items-center border-b-2 px-3 pt-1 text-sm font-medium">

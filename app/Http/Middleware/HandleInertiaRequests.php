@@ -58,6 +58,14 @@ class HandleInertiaRequests extends Middleware
             'locales' => config('app.available_locales'),
             'translations' => $translations,
             'fallback' => $fallback,
+            'centralDomain' => config("tenancy.central_domains")[0],
+            'previousUrl' => function () {
+                if (url()->previous() !== route('login') && url()->previous() !== '' && url()->previous() !== url()->current()) {
+                    return url()->previous();
+                } else {
+                    return null;
+                }
+            },
         ];
     }
 }

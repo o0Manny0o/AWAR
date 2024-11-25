@@ -13,10 +13,20 @@ import {
     DesktopSecondaryNav,
 } from '@/Components/Layout/Desktop'
 import { Logo } from '@/Components/Layout/Logo'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { MobileMainNav } from '@/Components/Layout/Mobile'
+import PublicNavigation from '@/shared/_constants/PublicNavigation'
+import DesktopNavLink from './Desktop/DesktopNavLink'
 
-export function HeaderBar() {
+export function HeaderBar({
+    mainNavigation,
+    secondaryNavigation,
+    mobileNavigation,
+}: {
+    mainNavigation?: ReactNode
+    secondaryNavigation?: ReactNode
+    mobileNavigation?: ReactNode
+}) {
     const __ = useTranslate()
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -52,9 +62,20 @@ export function HeaderBar() {
                             >
                                 <Logo className="h-8 w-auto" />
                             </Link>
-                            <DesktopMainNav />
+                            {mainNavigation ?? (
+                                <DesktopMainNav navigation={PublicNavigation} />
+                            )}
                         </div>
-                        <DesktopSecondaryNav />
+                        {secondaryNavigation ?? (
+                            <DesktopSecondaryNav>
+                                <DesktopNavLink
+                                    href={route('dashboard')}
+                                    active={route().current('dashboard')}
+                                >
+                                    {__('general.navigation.dashboard')}
+                                </DesktopNavLink>
+                            </DesktopSecondaryNav>
+                        )}
                     </div>
                 </div>
             </Disclosure>
@@ -90,7 +111,9 @@ export function HeaderBar() {
                                 </button>
                             </div>
                         </TransitionChild>
-                        <MobileMainNav />
+                        {mobileNavigation ?? (
+                            <MobileMainNav navigation={PublicNavigation} />
+                        )}
                     </DialogPanel>
                 </div>
             </Dialog>

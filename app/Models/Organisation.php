@@ -9,6 +9,30 @@ use Stancl\Tenancy\Database\Concerns\HasDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
 use Stancl\Tenancy\Database\Models\Tenant;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property array|null $data
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Domain> $domains
+ * @property-read int|null $domains_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Stancl\Tenancy\Database\TenantCollection<int, static> all($columns = ['*'])
+ * @method static \Stancl\Tenancy\Database\TenantCollection<int, static> get($columns = ['*'])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Organisation extends Tenant implements TenantWithDatabase
 {
 

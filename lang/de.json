@@ -1,4 +1,7 @@
 {
+    "validation": {
+        "required": "Das Feld {attribute} ist erforderlich."
+    },
     "general": {
         "languages": {
             "en": "Englisch",
@@ -10,7 +13,11 @@
             "logout": "Abmelden",
             "profile": "Dein Profil",
             "about": "Über Uns",
-            "home": "Startseite"
+            "home": "Startseite",
+            "organisations": {
+                "applications": "Bewerbungen"
+            },
+            "overview": "Übersicht"
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
@@ -24,9 +31,80 @@
             "open_user_menu": "Benutzermenü öffnen",
             "open_sidebar": "Seitenleiste öffnen",
             "close_sidebar": "Seitenleiste schließen"
-        }
+        },
+        "status": {
+            "submitted": "Abgeschickt",
+            "pending": "In Bearbeitung",
+            "approved": "Genehmigt",
+            "rejected": "Abgelehnt",
+            "created": "Erstellt",
+            "draft": "Entwurf"
+        },
+        "button": {
+            "view": ":resource Öffnen",
+            "edit": ":resource Bearbeiten",
+            "delete": ":resource Löschen",
+            "open": ":resource Öffnen",
+            "restore": ":resource Wiederherstellen",
+            "new": "Neue :resource",
+            "submit": ":resource Absenden",
+            "continue": "Weiter",
+            "save": ":resource Speichern",
+            "cancel": "Abbrechen",
+            "go_back": "Zurück",
+            "go_back_to": "Zurück zur :page"
+        },
+        "last_update": "Letzte Aktualisierung",
+        "options": "Optionen",
+        "deleted": "Gelöscht",
+        "your_resource": "Ihre :resource",
+        "continue_later": "Möchten Sie später weiter machen?"
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"
+    },
+    "organisations": {
+        "applications": {
+            "form": {
+                "name": {
+                    "label": "Wie heißt Ihre Organisation?"
+                },
+                "type": {
+                    "label": "Was macht Ihre Organisation?",
+                    "placeholder": "Typ"
+                },
+                "role": {
+                    "label": "Was ist Ihre Rolle?",
+                    "placeholder": "Rolle"
+                },
+                "registered": {
+                    "label": "Ist Ihre Organisation offiziell registriert?"
+                },
+                "street": {
+                    "label": "Straße",
+                    "placeholder": "Straße"
+                },
+                "post_code": {
+                    "label": "Postleitzahl",
+                    "placeholder": "Postleitzahl"
+                },
+                "city": {
+                    "label": "Stadt",
+                    "placeholder": "Stadt"
+                },
+                "country": {
+                    "label": "Land",
+                    "placeholder": "Land"
+                },
+                "general_info": "Allgemeine Info",
+                "subdomain": {
+                    "label": "Welche Subdomain hätten Sie gerne?"
+                },
+                "address_info": "Adresse",
+                "subdomain_info": "Subdomain ",
+                "cancel_create": "Möchten Sie sich nicht für einen Organisations Platz bewerben?"
+            },
+            "application": "Bewerbung"
+        }
     }
 }
