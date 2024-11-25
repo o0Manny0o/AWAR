@@ -1,13 +1,13 @@
 import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
-import { FormEventHandler, useRef } from 'react'
+import { FormEventHandler, useContext } from 'react'
 import { twMerge } from 'tailwind-merge'
 import {
     removeTrailingDash,
     transformSubdomain,
 } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
 import { SubdomainInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
-import { InputFocusContext } from '@/Pages/Organisation/Application/Lib/OrganisationApplicationInputContext'
+import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
 import OrganisationApplication = App.Models.OrganisationApplication
 
 export default function CreateOrganisationFormStep3({
@@ -19,7 +19,7 @@ export default function CreateOrganisationFormStep3({
     domain: string
     application: Partial<OrganisationApplication>
 }) {
-    const subdomainRef = useRef<HTMLInputElement>(null)
+    const { focusError } = useContext(FormInputRefs.Context)
 
     const { data, setData, errors, post, reset, processing, transform } =
         useForm({
@@ -44,34 +44,28 @@ export default function CreateOrganisationFormStep3({
                 preserveScroll: true,
                 replace: true,
                 onSuccess: () => reset(),
-                onError: (errors) => {
-                    if (errors.subdomain) {
-                        subdomainRef.current?.focus()
-                    }
-                },
+                onError: (errors) => focusError(errors as any),
             },
         )
     }
 
     return (
-        <InputFocusContext.Provider value={{ subdomainRef }}>
-            <form
-                onSubmit={stepOneHandler}
-                className={twMerge('w-full space-y-6', className)}
-            >
-                <SubdomainInfoGroup
-                    domain={domain}
-                    data={data}
-                    errors={errors}
-                    setData={setData}
-                />
+        <form
+            onSubmit={stepOneHandler}
+            className={twMerge('w-full space-y-6', className)}
+        >
+            <SubdomainInfoGroup
+                domain={domain}
+                data={data}
+                errors={errors}
+                setData={setData}
+            />
 
-                <div className="flex items-center gap-4">
-                    <PrimaryButton className="w-full" disabled={processing}>
-                        Continue
-                    </PrimaryButton>
-                </div>
-            </form>
-        </InputFocusContext.Provider>
+            <div className="flex items-center gap-4">
+                <PrimaryButton className="w-full" disabled={processing}>
+                    Continue
+                </PrimaryButton>
+            </div>
+        </form>
     )
 }

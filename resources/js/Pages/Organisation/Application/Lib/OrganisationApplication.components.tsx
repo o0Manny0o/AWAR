@@ -6,10 +6,10 @@ import {
     removeTrailingDash,
     transformSubdomain,
 } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
-import { InputFocusContext } from '@/Pages/Organisation/Application/Lib/OrganisationApplicationInputContext'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
-import OrganisationApplication = App.Models.OrganisationApplication
 import { usePage } from '@inertiajs/react'
+import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import OrganisationApplication = App.Models.OrganisationApplication
 
 interface GroupProps {
     setData: (key: string, value: any) => void
@@ -37,8 +37,9 @@ export function GeneralInfoGroup({
 }: GeneralInfoGroupProps) {
     const __ = useTranslate()
 
-    const { nameRef, typeRef, roleRef, registeredRef } =
-        useContext(InputFocusContext)
+    const {
+        refs: { name, type, role, registered },
+    } = useContext(FormInputRefs.Context)
 
     return (
         <>
@@ -48,7 +49,7 @@ export function GeneralInfoGroup({
                     'organisations.applications.form.name.placeholder',
                 )}
                 value={data.name}
-                ref={nameRef}
+                ref={name}
                 label={__('organisations.applications.form.name.label')}
                 error={errors.name}
                 onChange={(value) => setData('name', value)}
@@ -60,7 +61,7 @@ export function GeneralInfoGroup({
                     'organisations.applications.form.type.placeholder',
                 )}
                 value={data.type}
-                ref={typeRef}
+                ref={type}
                 label={__('organisations.applications.form.type.label')}
                 error={errors.type}
                 onChange={(value) => setData('type', value)}
@@ -72,7 +73,7 @@ export function GeneralInfoGroup({
                     'organisations.applications.form.role.placeholder',
                 )}
                 value={data.user_role}
-                ref={roleRef}
+                ref={role}
                 label={__('organisations.applications.form.role.label')}
                 error={errors.user_role}
                 onChange={(value) => setData('user_role', value)}
@@ -81,7 +82,7 @@ export function GeneralInfoGroup({
             <SwitchInput
                 name={'registered'}
                 checked={data.registered}
-                ref={registeredRef}
+                ref={registered}
                 label={'Are you officially registered?'}
                 error={errors.registered}
                 onChange={(value) => setData('registered', value)}
@@ -112,8 +113,9 @@ export function AddressInfoGroup({
 }: AddressInfoGroupProps) {
     const __ = useTranslate()
 
-    const { streetRef, postCodeRef, cityRef, countryRef } =
-        useContext(InputFocusContext)
+    const {
+        refs: { street, postCode, city, country },
+    } = useContext(FormInputRefs.Context)
 
     return (
         <>
@@ -123,7 +125,7 @@ export function AddressInfoGroup({
                     'organisations.applications.form.street.placeholder',
                 )}
                 value={data.street}
-                ref={streetRef}
+                ref={street}
                 label={__('organisations.applications.form.street.label')}
                 error={errors.street}
                 onChange={(value) => setData('street', value)}
@@ -135,7 +137,7 @@ export function AddressInfoGroup({
                     'organisations.applications.form.post_code.placeholder',
                 )}
                 value={data.post_code}
-                ref={postCodeRef}
+                ref={postCode}
                 label={__('organisations.applications.form.post_code.label')}
                 error={errors.post_code}
                 onChange={(value) => setData('post_code', value)}
@@ -147,7 +149,7 @@ export function AddressInfoGroup({
                     'organisations.applications.form.city.placeholder',
                 )}
                 value={data.city}
-                ref={cityRef}
+                ref={city}
                 label={__('organisations.applications.form.city.label')}
                 error={errors.city}
                 onChange={(value) => setData('city', value)}
@@ -159,7 +161,7 @@ export function AddressInfoGroup({
                     'organisations.applications.form.country.placeholder',
                 )}
                 value={data.country}
-                ref={countryRef}
+                ref={country}
                 label={__('organisations.applications.form.country.label')}
                 error={errors.country}
                 onChange={(value) => setData('country', value)}
@@ -186,14 +188,16 @@ export function SubdomainInfoGroup({
     const __ = useTranslate()
 
     const { centralDomain } = usePage().props
-    const { subdomainRef } = useContext(InputFocusContext)
+    const {
+        refs: { subdomain },
+    } = useContext(FormInputRefs.Context)
 
     return (
         <>
             <InputGroup
                 name="subdomain"
                 value={data.subdomain}
-                ref={subdomainRef}
+                ref={subdomain}
                 label={__('organisations.applications.form.subdomain.label')}
                 placeholder={__(
                     'organisations.applications.form.subdomain.placeholder',

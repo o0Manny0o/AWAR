@@ -3,7 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import PageHeader from '@/Components/Layout/PageHeader'
 import { EditActionButtons } from '@/Pages/Organisation/Application/Lib/OragnisationApplication.buttons'
 import EditOrganisationForm from '@/Pages/Organisation/Application/Partials/EditOrganisationForm'
+import { ElementRefProvider } from '@/shared/contexts/ElementRef.context'
 import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
+import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
 
 export default function Edit({
     centralDomain,
@@ -22,11 +24,13 @@ export default function Edit({
         >
             <Head title="Organisation Applications" />
 
-            <EditOrganisationForm
-                formId={FORM_ID}
-                application={application}
-                domain={centralDomain}
-            />
+            <ElementRefProvider context={FormInputRefs}>
+                <EditOrganisationForm
+                    formId={FORM_ID}
+                    application={application}
+                    domain={centralDomain}
+                />
+            </ElementRefProvider>
         </AuthenticatedLayout>
     )
 }
