@@ -136,10 +136,7 @@ class OrganisationApplicationController extends Controller
         }
         $this->authorize('update', $application);
 
-        $step = $request->input('step', $application->currentStep());
-
         return Inertia::render('Organisation/Application/Edit', [
-            'step' => $step,
             'application' => $application
         ]);
     }
@@ -164,9 +161,7 @@ class OrganisationApplicationController extends Controller
 
         $application->update($validated);
 
-        $updatedApplication = $application->refresh();
-
-        return $this->redirect($request, 'organisations.applications.show', ['application' => $updatedApplication->id]);
+        return $this->redirect($request, 'organisations.applications.show', ['application' => $application]);
 
     }
 

@@ -24,7 +24,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\User $user
+ * @property-read bool $is_complete
+ * @property-read bool $is_locked
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication query()
@@ -42,13 +45,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUserRole($value)
- * @property \Illuminate\Support\Carbon|null $deleted_at
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withoutTrashed()
- * @property-read bool $is_complete
- * @property-read bool $is_locked
  * @mixin \Eloquent
  */
 class OrganisationApplication extends Model
@@ -110,26 +110,5 @@ class OrganisationApplication extends Model
     public function isLocked()
     {
         return in_array($this->status, ['submitted', 'pending', 'approved', 'rejected', 'created']);
-    }
-
-    /**
-     * Get the current step of the application.
-     *
-     * If any attribute is missing, the current step is the step that
-     * corresponds to the missing attribute.
-     *
-     * @return int
-     */
-    public function currentStep()
-    {
-        if (!isset($this->name) || !isset($this->type) || !isset($this->user_role) || !isset($this->registered)) {
-            return 1;
-        } elseif (!isset($this->street) || !isset($this->city) || !isset($this->post_code) || !isset($this->country)) {
-            return 2;
-        } elseif (!isset($this->subdomain)) {
-            return 3;
-        } else {
-            return 1;
-        }
     }
 }
