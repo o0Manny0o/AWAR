@@ -151,6 +151,7 @@ type Translations_General = {
     options: string;
     deleted: string;
     your_resource: string;
+    continue_later: string;
 };
 type General_Languages = {
     en: string;
@@ -165,6 +166,7 @@ type General_Navigation = {
     about: string;
     home: string;
     organisations: Navigation_Organisations;
+    overview: string;
 };
 type Navigation_Organisations = {
     applications: string;
@@ -202,6 +204,7 @@ type General_Button = {
     save: string;
     cancel: string;
     go_back: string;
+    go_back_to: string;
 };
 type Translations_Landing_page = {
     welcome_message: string;
@@ -225,6 +228,8 @@ type Applications_Form = {
     general_info: string;
     subdomain: Form_Set;
     address_info: string;
+    subdomain_info: string;
+    cancel_create: string;
 };
 type Form_Set = {
     label: string;

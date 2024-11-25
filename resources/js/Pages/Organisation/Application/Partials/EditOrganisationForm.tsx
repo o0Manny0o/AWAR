@@ -9,8 +9,9 @@ import {
     AddressInfoGroup,
     GeneralInfoGroup,
     SubdomainInfoGroup,
-} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.inputs'
+} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
 import { InputFocusContext } from '../Lib/OrganisationApplicationInputContext'
+import { Card } from '@/Components/Layout/Card'
 import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function EditOrganisationForm({
@@ -112,54 +113,42 @@ export default function EditOrganisationForm({
         >
             <form id={formId} onSubmit={submitHandler}>
                 <div className="space-y-6 py-6">
-                    <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                        <div className="bg-ceiling space-y-4 rounded-lg p-4 shadow sm:p-6">
-                            <h3>
-                                {__(
-                                    'organisations.applications.form.general_info',
-                                )}
-                            </h3>
+                    <Card
+                        header={__(
+                            'organisations.applications.form.general_info',
+                        )}
+                    >
+                        <GeneralInfoGroup
+                            data={data}
+                            errors={errors}
+                            setData={setData}
+                        />
+                    </Card>
 
-                            <GeneralInfoGroup
-                                data={data}
-                                errors={errors}
-                                setData={setData}
-                            />
-                        </div>
-                    </div>
+                    <Card
+                        header={__(
+                            'organisations.applications.form.address_info',
+                        )}
+                    >
+                        <AddressInfoGroup
+                            data={data}
+                            errors={errors}
+                            setData={setData}
+                        />
+                    </Card>
 
-                    <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                        <div className="bg-ceiling space-y-6 rounded-lg p-4 shadow sm:p-6">
-                            <h3>
-                                {__(
-                                    'organisations.applications.form.address_info',
-                                )}
-                            </h3>
-
-                            <AddressInfoGroup
-                                data={data}
-                                errors={errors}
-                                setData={setData}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                        <div className="bg-ceiling space-y-6 rounded-lg p-4 shadow sm:p-6">
-                            <h3>
-                                {__(
-                                    'organisations.applications.form.address_info',
-                                )}
-                            </h3>
-
-                            <SubdomainInfoGroup
-                                data={data}
-                                errors={errors}
-                                setData={setData}
-                                domain={domain}
-                            />
-                        </div>
-                    </div>
+                    <Card
+                        header={__(
+                            'organisations.applications.form.subdomain_info',
+                        )}
+                    >
+                        <SubdomainInfoGroup
+                            data={data}
+                            errors={errors}
+                            setData={setData}
+                            domain={domain}
+                        />
+                    </Card>
                 </div>
             </form>
         </InputFocusContext.Provider>

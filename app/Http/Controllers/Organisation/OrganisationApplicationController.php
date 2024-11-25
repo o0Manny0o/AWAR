@@ -78,7 +78,7 @@ class OrganisationApplicationController extends Controller
         $application = $request->user()->organisationApplications()->create(
             array_merge($validated, array('id' => Str::orderedUuid())));
 
-        return $this->redirect($request, 'organisations.applications.edit', ['application' => $application->id]);
+        return $this->redirect($request, 'organisations.applications.create.step', ['application' => $application, 'step' => 2]);
     }
 
     /**

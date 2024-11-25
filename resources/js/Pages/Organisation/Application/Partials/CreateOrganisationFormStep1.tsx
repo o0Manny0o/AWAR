@@ -3,7 +3,7 @@ import { FormEventHandler, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Button } from '@/Components/_Base/Button'
-import { GeneralInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.inputs'
+import { GeneralInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
 import { InputFocusContext } from '@/Pages/Organisation/Application/Lib/OrganisationApplicationInputContext'
 
 export default function CreateOrganisationFormStep1({

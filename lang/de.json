@@ -16,7 +16,8 @@
             "home": "Startseite",
             "organisations": {
                 "applications": "Bewerbungen"
-            }
+            },
+            "overview": "Übersicht"
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
@@ -50,12 +51,14 @@
             "continue": "Weiter",
             "save": ":resource Speichern",
             "cancel": "Abbrechen",
-            "go_back": "Zurück"
+            "go_back": "Zurück",
+            "go_back_to": "Zurück zur :page"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",
         "deleted": "Gelöscht",
-        "your_resource": "Ihre :resource"
+        "your_resource": "Ihre :resource",
+        "continue_later": "Möchten Sie später weiter machen?"
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"
@@ -94,7 +97,12 @@
                     "placeholder": "Land"
                 },
                 "general_info": "Allgemeine Info",
-                "address_info": "Adresse"
+                "subdomain": {
+                    "label": "Welche Subdomain hätten Sie gerne?"
+                },
+                "address_info": "Adresse",
+                "subdomain_info": "Subdomain ",
+                "cancel_create": "Möchten Sie sich nicht für einen Organisations Platz bewerben?"
             },
             "application": "Bewerbung"
         }

@@ -179,7 +179,8 @@
             "home": "Home",
             "organisations": {
                 "applications": "Applications"
-            }
+            },
+            "overview": "Overview"
         },
         "newsletter": {
             "description": "Get updates about the development of the platform right in your inbox.",
@@ -213,12 +214,14 @@
             "continue": "Continue",
             "save": "Save :resource",
             "cancel": "Cancel",
-            "go_back": "Go back"
+            "go_back": "Go back",
+            "go_back_to": "Back to :page"
         },
         "last_update": "Last Update",
         "options": "Options",
         "deleted": "Deleted",
-        "your_resource": "Your :resource"
+        "your_resource": "Your :resource",
+        "continue_later": "Would you like to continue later?"
     },
     "landing_page": {
         "welcome_message": "Welcome to AWAR, :name"
@@ -260,9 +263,11 @@
                 "general_info": "General Info",
                 "subdomain": {
                     "placeholder": "organisations.applications.form.subdomain.placeholder",
-                    "label": "organisations.applications.form.subdomain.label"
+                    "label": "Which subdomain would you like?"
                 },
-                "address_info": "Address"
+                "address_info": "Address",
+                "subdomain_info": "Subdomain",
+                "cancel_create": "Don't want to apply for an organisation space?"
             },
             "application": "Application"
         }

@@ -6,7 +6,7 @@ import {
     removeTrailingDash,
     transformSubdomain,
 } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
-import { SubdomainInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.inputs'
+import { SubdomainInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
 import { InputFocusContext } from '@/Pages/Organisation/Application/Lib/OrganisationApplicationInputContext'
 import OrganisationApplication = App.Models.OrganisationApplication
 

@@ -2,7 +2,7 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { AddressInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.inputs'
+import { AddressInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
 import { InputFocusContext } from '@/Pages/Organisation/Application/Lib/OrganisationApplicationInputContext'
 import OrganisationApplication = App.Models.OrganisationApplication
 

@@ -7,6 +7,9 @@ import {
     transformSubdomain,
 } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
 import { InputFocusContext } from '@/Pages/Organisation/Application/Lib/OrganisationApplicationInputContext'
+import ShowGroup from '@/Components/_Base/Input/ShowGroup'
+import OrganisationApplication = App.Models.OrganisationApplication
+import { usePage } from '@inertiajs/react'
 
 interface GroupProps {
     setData: (key: string, value: any) => void
@@ -176,13 +179,13 @@ interface SubdomainInfoGroupProps extends GroupProps {
 }
 
 export function SubdomainInfoGroup({
-    domain,
     data,
     errors,
     setData,
 }: SubdomainInfoGroupProps) {
     const __ = useTranslate()
 
+    const { centralDomain } = usePage().props
     const { subdomainRef } = useContext(InputFocusContext)
 
     return (
@@ -203,8 +206,92 @@ export function SubdomainInfoGroup({
                     setData('subdomain', removeTrailingDash(data.subdomain))
                 }
                 leading={'https://'}
-                append={`.${domain}`}
+                append={`.${centralDomain}`}
                 className="pl-16"
+            />
+        </>
+    )
+}
+
+export function GeneralInfoShowGroup({
+    application,
+}: {
+    application: OrganisationApplication
+}) {
+    const __ = useTranslate()
+    return (
+        <>
+            <ShowGroup
+                name="name"
+                label={__('organisations.applications.form.name.label')}
+                value={application.name}
+            />
+            <ShowGroup
+                name="type"
+                label={__('organisations.applications.form.type.label')}
+                value={application.type}
+            />
+            <ShowGroup
+                name="role"
+                label={__('organisations.applications.form.role.label')}
+                value={application.user_role}
+            />
+            <ShowGroup
+                name="registered"
+                label={__('organisations.applications.form.registered.label')}
+                value={String(application.registered)}
+            />
+        </>
+    )
+}
+
+export function AddressInfoShowGroup({
+    application,
+}: {
+    application: OrganisationApplication
+}) {
+    const __ = useTranslate()
+    return (
+        <>
+            <ShowGroup
+                name="street"
+                label={__('organisations.applications.form.street.label')}
+                value={application.street}
+            />
+            <ShowGroup
+                name="post_code"
+                label={__('organisations.applications.form.post_code.label')}
+                value={application.post_code}
+            />
+            <ShowGroup
+                name="city"
+                label={__('organisations.applications.form.city.label')}
+                value={application.city}
+            />
+            <ShowGroup
+                name="country"
+                label={__('organisations.applications.form.country.label')}
+                value={application.country}
+            />
+        </>
+    )
+}
+
+export function SubdomainInfoShowGroup({
+    application,
+}: {
+    application: OrganisationApplication
+}) {
+    const __ = useTranslate()
+    const { centralDomain } = usePage().props
+    return (
+        <>
+            <ShowGroup
+                leading={'https://'}
+                append={`.${centralDomain}`}
+                name="subdomain"
+                label={__('organisations.applications.form.subdomain.label')}
+                value={application.subdomain}
             />
         </>
     )
