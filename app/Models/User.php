@@ -3,11 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Stancl\Tenancy\Contracts\SyncMaster;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
+use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
+use Stancl\Tenancy\Database\Models\TenantPivot;
 
 /**
  * 
@@ -36,12 +41,15 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @property-read TenantPivot|null $pivot
+ * @property-read \Stancl\Tenancy\Database\TenantCollection<int, \App\Models\Organisation> $tenants
+ * @property-read int|null $tenants_count
  * @mixin \Eloquent
  */
-class User extends Authenticatable
+class User extends Authenticatable implements SyncMaster
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, CentralConnection;
+    use HasFactory, Notifiable, CentralConnection, ResourceSyncing, HasUuids;
 
     /**
      * The attributes that are mass assignable.
@@ -80,5 +88,39 @@ class User extends Authenticatable
     public function organisationApplications(): HasMany
     {
         return $this->hasMany(OrganisationApplication::class);
+    }
+
+    public function tenants(): BelongsToMany
+    {
+        return $this->belongsToMany(Organisation::class, 'organisation_users', 'user_id', 'organisation_id', )
+            ->using(TenantPivot::class)
+            ->withTimestamps();
+    }
+
+    public function getTenantModelName(): string
+    {
+        return User::class;
+    }
+
+    public function getGlobalIdentifierKeyName(): string
+    {
+        return "id";
+    }
+
+    public function getGlobalIdentifierKey()
+    {
+        return $this->getAttribute($this->getGlobalIdentifierKeyName());
+    }
+
+    public function getCentralModelName(): string
+    {
+        return static::class;
+    }
+
+    public function getSyncedAttributeNames(): array
+    {
+        return [
+            'name',
+        ];
     }
 }
