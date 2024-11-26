@@ -57,7 +57,7 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
-    "organisations.applications.update.step": [
+    "organisations.applications.store.step": [
         {
             "name": "application",
             "required": true
