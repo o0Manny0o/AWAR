@@ -17,7 +17,7 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
 /**
  * 
  *
- * @property int $id
+ * @property string $id
  * @property string $name
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
@@ -29,6 +29,9 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrganisationApplication> $organisationApplications
  * @property-read int|null $organisation_applications_count
+ * @property-read TenantPivot|null $pivot
+ * @property-read \Stancl\Tenancy\Database\TenantCollection<int, \App\Models\Organisation> $tenants
+ * @property-read int|null $tenants_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -41,9 +44,6 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
- * @property-read TenantPivot|null $pivot
- * @property-read \Stancl\Tenancy\Database\TenantCollection<int, \App\Models\Organisation> $tenants
- * @property-read int|null $tenants_count
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements SyncMaster
