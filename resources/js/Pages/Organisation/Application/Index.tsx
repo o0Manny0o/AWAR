@@ -13,8 +13,6 @@ export default function Index({
 
     const canCreate = permissions?.organisationApplications?.create
 
-    console.log(canCreate)
-
     return (
         <AuthenticatedLayout
             header={
