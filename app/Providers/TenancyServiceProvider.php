@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Listeners\UpdateSyncedResource;
 use App\Models\Staff;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -96,7 +97,7 @@ class TenancyServiceProvider extends ServiceProvider
 
             // Resource syncing
             Events\SyncedResourceSaved::class => [
-                Listeners\UpdateSyncedResource::class,
+                UpdateSyncedResource::class,
             ],
 
             // Fired only when a synced resource is changed in a different DB than the origin DB (to avoid infinite loops)

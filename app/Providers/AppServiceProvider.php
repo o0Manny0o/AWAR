@@ -23,9 +23,5 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
-
-        Gate::before(function ($user) {
-            return $user->hasRole(CentralUserRole::SUPER_ADMIN) ? true : null;
-        });
     }
 }

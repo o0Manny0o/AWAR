@@ -43,6 +43,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         auth: {
             user: User
         }
+        permissions?: Record<string, Record<string, boolean>>
         ziggy: ZiggyConfig
         locale: LanguageKey
         locales: Locale[]

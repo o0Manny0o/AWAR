@@ -108,7 +108,7 @@ class User extends Authenticatable implements SyncMaster
 
     public function getTenantModelName(): string
     {
-        return User::class;
+        return Staff::class;
     }
 
     public function getGlobalIdentifierKeyName(): string
@@ -129,6 +129,15 @@ class User extends Authenticatable implements SyncMaster
     public function getSyncedAttributeNames(): array
     {
         return [
+            'id',
+            'name',
+        ];
+    }
+
+    public function getSyncedCreationAttributes(): array
+    {
+        return [
+            'id',
             'name',
         ];
     }

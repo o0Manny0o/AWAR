@@ -12,65 +12,6 @@ declare module 'ziggy-js' {
     "about": [],
     "pricing": [],
     "dashboard": [],
-    "organisations.applications.create.step": [
-        {
-            "name": "application",
-            "required": true
-        },
-        {
-            "name": "step",
-            "required": true
-        }
-    ],
-    "organisations.applications.store.step": [
-        {
-            "name": "application",
-            "required": true
-        },
-        {
-            "name": "step",
-            "required": true
-        }
-    ],
-    "organisations.applications.restore": [
-        {
-            "name": "application",
-            "required": true
-        }
-    ],
-    "organisations.applications.submit": [
-        {
-            "name": "application",
-            "required": true
-        }
-    ],
-    "organisations.applications.index": [],
-    "organisations.applications.create": [],
-    "organisations.applications.store": [],
-    "organisations.applications.show": [
-        {
-            "name": "application",
-            "required": true
-        }
-    ],
-    "organisations.applications.edit": [
-        {
-            "name": "application",
-            "required": true
-        }
-    ],
-    "organisations.applications.update": [
-        {
-            "name": "application",
-            "required": true
-        }
-    ],
-    "organisations.applications.destroy": [
-        {
-            "name": "application",
-            "required": true
-        }
-    ],
     "tenant.landing-page": [],
     "tenant.dashboard": [],
     "profile.edit": [],
@@ -82,6 +23,32 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
+    "register": [],
+    "login": [],
+    "password.request": [],
+    "password.email": [],
+    "password.reset": [
+        {
+            "name": "token",
+            "required": true
+        }
+    ],
+    "password.store": [],
+    "verification.notice": [],
+    "verification.verify": [
+        {
+            "name": "id",
+            "required": true
+        },
+        {
+            "name": "hash",
+            "required": true
+        }
+    ],
+    "verification.send": [],
+    "password.confirm": [],
+    "password.update": [],
+    "logout": [],
     "storage.local": [
         {
             "name": "path",

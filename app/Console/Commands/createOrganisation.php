@@ -3,9 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Models\Organisation;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;
+use Stancl\Tenancy\Contracts\Syncable;
 
 class createOrganisation extends Command implements PromptsForMissingInput
 {
@@ -14,7 +17,7 @@ class createOrganisation extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $signature = 'app:create-org {name : The name of the organisation} {subdomain : The subdomain of the organisation}';
+    protected $signature = 'app:create-org {name : The name of the organisation} {subdomain : The subdomain of the organisation} {user? : The user to assign to the organisation}';
 
     /**
      * The console command description.
@@ -30,6 +33,7 @@ class createOrganisation extends Command implements PromptsForMissingInput
     {
         $name = $this->argument('name');
         $subdomain = $this->argument('subdomain');
+        $user = $this->argument('user');
         $centralApp = config("tenancy.central_domains")[0];
 
         $organisation = Organisation::create([
@@ -40,5 +44,10 @@ class createOrganisation extends Command implements PromptsForMissingInput
             'subdomain' => $subdomain,
             'domain' => $subdomain . "." . $centralApp
         ]);
+
+        if ($user) {
+            $user = User::find($user);
+            $user->tenants()->attach($organisation);
+        }
     }
 }

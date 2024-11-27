@@ -50,6 +50,14 @@ class Staff extends Model implements Syncable
     public function getSyncedAttributeNames(): array
     {
         return [
+            'id',
+            'name',
+        ];
+    }
+    public function getSyncedCreationAttributes(): array
+    {
+        return [
+            'id',
             'name',
         ];
     }

@@ -30,7 +30,12 @@ class OrganisationApplicationController extends Controller
             ->orderBy("updated_at", "DESC")
             ->get();
         return Inertia::render('Organisation/Application/Index', [
-            'applications' => $applications
+            'applications' => $applications,
+            'permissions' => [
+                'organisationApplications' => [
+                    'create' => $request->user()->can('create', OrganisationApplication::class),
+                ]
+            ]
         ]);
     }
 
