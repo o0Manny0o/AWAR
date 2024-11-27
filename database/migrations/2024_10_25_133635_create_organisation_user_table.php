@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('organisation_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('organisation_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('organisation_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->unique(['organisation_id', 'user_id']);

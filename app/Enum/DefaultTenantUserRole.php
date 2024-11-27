@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Enum;
+
+enum DefaultTenantUserRole: string
+{
+    case ADMIN = 'admin';
+    case ADOPTION_LEAD = 'adoption-lead';
+    case ADOPTION_HANDLER = 'adoption-handler';
+
+    function permissions(): array
+    {
+        return match ($this) {
+            self::ADMIN => array_column(TenantPermission::cases(), 'value'),
+            self::ADOPTION_LEAD => [
+                TenantPermission::EDIT_ANIMALS->value,
+                TenantPermission::DELETE_ANIMALS->value,
+                TenantPermission::DELETE_ANIMALS->value,
+                TenantPermission::DELETE_ANIMALS->value,
+            ],
+            self::ADOPTION_HANDLER => [
+                TenantPermission::EDIT_OWN_ANIMALS->value,
+                TenantPermission::DELETE_OWN_ANIMALS->value
+            ],
+            default => [],
+        };
+    }
+}

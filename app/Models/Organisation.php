@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
@@ -38,7 +39,7 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
 class Organisation extends Tenant implements TenantWithDatabase
 {
 
-    use HasDatabase, HasDomains;
+    use HasDatabase, HasDomains, HasUuids;
 
     protected $table = 'organisations';
 
