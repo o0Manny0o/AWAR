@@ -19,7 +19,7 @@ class DevResetDatabase extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Delete all organisations and their databases. Reset the central database and seed.';
 
     /**
      * Execute the console command.
