@@ -33,38 +33,33 @@ class TenantRolesAndPermissionsSeeder extends Seeder
             return $result;
         }, array());
 
+        $adoptionLeadId = $this->createRole(DefaultTenantUserRole::ADOPTION_LEAD);
+        $adminId = $this->createRole(DefaultTenantUserRole::ADMIN);
 
-        $adoptionLeadId = DB::table('roles')->insertGetId([
-            'name' => DefaultTenantUserRole::ADOPTION_LEAD,
+        $this->addPermissionToRole($adminId, $permissionIds, DefaultTenantUserRole::ADMIN->permissions());
+        $this->addPermissionToRole($adoptionLeadId, $permissionIds, DefaultTenantUserRole::ADOPTION_LEAD->permissions());
+
+
+    }
+
+    private function createRole($roleName): int
+    {
+        return DB::table('roles')->insertGetId([
+            'name' => $roleName,
             'guard_name' => 'web',
-            "created_at" => $now,
-            "updated_at" => $now
+            "created_at" => now(),
+            "updated_at" => now()
         ]);
+    }
 
-        $adminId = DB::table('roles')->insertGetId([
-            'name' => DefaultTenantUserRole::ADMIN,
-            'guard_name' => 'web',
-            "created_at" => $now,
-            "updated_at" => $now
-        ]);
-
-        $adminPermissionIds = array_intersect_key($permissionIds, array_flip(DefaultTenantUserRole::ADMIN->permissions()));
-        $adoptionLeadPermissionIds = array_intersect_key($permissionIds, array_flip(DefaultTenantUserRole::ADOPTION_LEAD->permissions()));
-
-        DB::table('role_has_permissions')->insert(array_map(function ($id) use ($adminId) {
+    private function addPermissionToRole($roleId, $permissionIds, $permissionNames): void
+    {
+        $filteredPermissionIds = array_intersect_key($permissionIds, array_flip($permissionNames));
+        DB::table('role_has_permissions')->insert(array_map(function ($id) use ($roleId) {
             return [
                 'permission_id' => $id,
-                'role_id' => $adminId,
+                'role_id' => $roleId,
             ];
-        }, $adminPermissionIds));
-
-        DB::table('role_has_permissions')->insert(array_map(function ($id) use ($adoptionLeadId) {
-            return [
-                'permission_id' => $id,
-                'role_id' => $adoptionLeadId,
-            ];
-        }, $adoptionLeadPermissionIds));
-
-
+        }, $filteredPermissionIds));
     }
 }
