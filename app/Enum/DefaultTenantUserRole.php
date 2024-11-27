@@ -7,6 +7,9 @@ enum DefaultTenantUserRole: string
     case ADMIN = 'admin';
     case ADOPTION_LEAD = 'adoption-lead';
     case ADOPTION_HANDLER = 'adoption-handler';
+    case FOSTER_HOME_LEAD = 'foster-home-lead';
+    case FOSTER_HOME_HANDLER = 'foster-home-handler';
+    case FOSTER_HOME = 'foster-home';
 
     function permissions(): array
     {
