@@ -32,7 +32,7 @@ Route::middleware([
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
         ]);
-    });
+    })->name('tenant.landing-page');
 
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');

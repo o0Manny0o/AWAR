@@ -33,6 +33,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        if (tenant()) {
+            return redirect()->intended(route('tenant.dashboard', absolute: false));
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
@@ -46,6 +50,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        if (tenant()) {
+            return redirect(route('tenant.landing-page', absolute: false));
+        }
 
         return redirect('/');
     }

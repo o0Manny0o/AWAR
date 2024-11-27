@@ -18,13 +18,14 @@ return Application::configure(basePath: dirname(__DIR__))
             foreach ($centralDomains as $domain) {
                 Route::middleware('web')
                     ->domain($domain)
-                    ->group(base_path('routes/web.php'));
+                    ->group(base_path('routes/central.php'));
                 Route::middleware('web')
                     ->domain($domain)
                     ->group(base_path('routes/organisation.php'));
             }
 
             Route::middleware('web')->group(base_path('routes/tenant.php'));
+            Route::middleware('web')->group(base_path('routes/web.php'));
         },
         commands: __DIR__ . '/../routes/console.php',
         health: '/up'

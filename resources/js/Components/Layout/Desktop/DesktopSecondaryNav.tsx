@@ -48,7 +48,7 @@ export default function DesktopMainNav({ children }: PropsWithChildren) {
                             </MenuItem>
                             <MenuItem>
                                 <MenuItemLink
-                                    href={route('logout')}
+                                    href={route('logout', {}, false)}
                                     method="post"
                                     as="button"
                                 >
@@ -61,13 +61,13 @@ export default function DesktopMainNav({ children }: PropsWithChildren) {
             ) : (
                 <>
                     <DesktopNavLink
-                        href={route('login')}
+                        href={route('login', {}, false)}
                         active={route().current('login')}
                     >
                         {__('general.navigation.login')}
                     </DesktopNavLink>
                     <DesktopNavLink
-                        href={route('register')}
+                        href={route('register', {}, false)}
                         active={route().current('register')}
                     >
                         {__('general.navigation.register')}
