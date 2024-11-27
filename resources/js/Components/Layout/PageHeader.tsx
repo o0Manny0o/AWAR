@@ -19,6 +19,10 @@ type PageHeaderSubmit = PageHeaderBaseButton & {
 
 export type PageHeaderButton = PageHeaderLink | PageHeaderSubmit
 
+function isPageHeaderLink(item: PageHeaderButton): item is PageHeaderLink {
+    return !!(item as PageHeaderLink).href
+}
+
 interface PageHeaderProps {
     title: string
     badge?: {
@@ -52,7 +56,7 @@ export default function PageHeader({
             {actionButtons && (
                 <div className="flex gap-2">
                     {actionButtons.map((button) =>
-                        button.href ? (
+                        isPageHeaderLink(button) ? (
                             <Button
                                 key={button.label}
                                 href={button.href}

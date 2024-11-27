@@ -3,7 +3,7 @@ import CreateOrganisationFormStep2 from './CreateOrganisationFormStep2'
 import CreateOrganisationFormStep3 from './CreateOrganisationFormStep3'
 import { ElementRefProvider } from '@/shared/contexts/ElementRef.context'
 import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
-import OrganisationApplication = App.Models.OrganisationApplication
+import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function CreateOrganisationForm({
     domain,
@@ -11,7 +11,7 @@ export default function CreateOrganisationForm({
     application,
 }: {
     step: OrganisationApplicationSteps
-    application?: Partial<OrganisationApplication>
+    application?: OrganisationApplicationDraft
     domain: string
 }) {
     const renderStep = () => {

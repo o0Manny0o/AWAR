@@ -8,7 +8,7 @@ import {
 } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
 import { SubdomainInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
 import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
-import OrganisationApplication = App.Models.OrganisationApplication
+import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function CreateOrganisationFormStep3({
     className = '',
@@ -17,7 +17,7 @@ export default function CreateOrganisationFormStep3({
 }: {
     className?: string
     domain: string
-    application: Partial<OrganisationApplication>
+    application: OrganisationApplicationDraft
 }) {
     const { focusError } = useContext(FormInputRefs.Context)
 

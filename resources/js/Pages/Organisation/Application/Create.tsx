@@ -3,7 +3,7 @@ import CreateOrganisationForm from './Partials/CreateOrganisationForm'
 import FlowLayout from '@/Layouts/FlowLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Button } from '@/Components/_Base/Button'
-import OrganisationApplication = App.Models.OrganisationApplication
+import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function Create({
     centralDomain,
@@ -11,7 +11,7 @@ export default function Create({
     application,
 }: AppPageProps<{
     step: OrganisationApplicationSteps
-    application: Partial<OrganisationApplication>
+    application?: OrganisationApplicationDraft
 }>) {
     const __ = useTranslate()
 
@@ -22,7 +22,7 @@ export default function Create({
                 label: __('general.button.go_back_to', {
                     page: __('general.navigation.overview'),
                 }),
-                href: application.id
+                href: application?.id
                     ? route('organisations.applications.show', {
                           application: application.id,
                       })
@@ -47,7 +47,7 @@ export default function Create({
                 application={application}
             />
 
-            {step > 1 && application.id && (
+            {step > 1 && application?.id && (
                 <Button
                     color="secondary"
                     className="w-full"
