@@ -7,6 +7,11 @@ use Stancl\Tenancy\Contracts\SyncMaster;
 use Stancl\Tenancy\Events\SyncedResourceChangedInForeignDatabase;
 use Stancl\Tenancy\Listeners\UpdateSyncedResource as BaseUpdateSyncedResource;
 
+/**
+ * Overrides the base class to create models with only selected attributes
+ * Taken from planned feature for 4.X: https://github.com/archtechx/tenancy/pull/915
+ * TODO: Remove when 4.X is released
+ */
 class UpdateSyncedResource extends BaseUpdateSyncedResource
 {
     protected function updateResourceInTenantDatabases($tenants, $event, $syncedAttributes)
