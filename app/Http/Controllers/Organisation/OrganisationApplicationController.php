@@ -9,7 +9,6 @@ use App\Models\OrganisationApplication;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -30,7 +29,12 @@ class OrganisationApplicationController extends Controller
             ->orderBy("updated_at", "DESC")
             ->get();
         return Inertia::render('Organisation/Application/Index', [
-            'applications' => $applications
+            'applications' => $applications,
+            'permissions' => [
+                'organisationApplications' => [
+                    'create' => $request->user()->can('create', OrganisationApplication::class),
+                ]
+            ]
         ]);
     }
 

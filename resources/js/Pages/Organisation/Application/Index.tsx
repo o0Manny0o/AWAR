@@ -1,4 +1,4 @@
-import { Head } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import OrganisationApplicationList from '@/Pages/Organisation/Application/Partials/OrganisationApplicationList'
 import useTranslate from '@/shared/hooks/useTranslate'
@@ -9,6 +9,12 @@ export default function Index({
     applications,
 }: AppPageProps<{ applications: Application[] }>) {
     const __ = useTranslate()
+    const { permissions } = usePage().props
+
+    const canCreate = permissions?.organisationApplications?.create
+
+    console.log(canCreate)
+
     return (
         <AuthenticatedLayout
             header={
@@ -16,16 +22,22 @@ export default function Index({
                     title={__('general.your_resource', {
                         resource: 'organisations.applications.application',
                     })}
-                    actionButtons={[
-                        {
-                            label: __('general.button.new', {
-                                resource:
-                                    'organisations.applications.application',
-                            }),
-                            variant: 'primary',
-                            href: route('organisations.applications.create'),
-                        },
-                    ]}
+                    actionButtons={
+                        canCreate
+                            ? [
+                                  {
+                                      label: __('general.button.new', {
+                                          resource:
+                                              'organisations.applications.application',
+                                      }),
+                                      variant: 'primary',
+                                      href: route(
+                                          'organisations.applications.create',
+                                      ),
+                                  },
+                              ]
+                            : []
+                    }
                 >
                     {/* TODO: Pluralize */}
                 </PageHeader>

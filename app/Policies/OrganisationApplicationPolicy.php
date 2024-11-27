@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\Models\OrganisationApplication;
 use App\Models\User;
 
-class OrganisationApplicationPolicy
+class OrganisationApplicationPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.

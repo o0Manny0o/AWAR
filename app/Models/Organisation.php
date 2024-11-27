@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
 use Stancl\Tenancy\Database\Models\Tenant;
+use Stancl\Tenancy\Database\Models\TenantPivot;
 
 /**
  * 
@@ -31,12 +33,13 @@ use Stancl\Tenancy\Database\Models\Tenant;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereUpdatedAt($value)
+ * @property-read TenantPivot|null $pivot
  * @mixin \Eloquent
  */
 class Organisation extends Tenant implements TenantWithDatabase
 {
 
-    use HasDatabase, HasDomains;
+    use HasDatabase, HasDomains, HasUuids;
 
     protected $table = 'organisations';
 
@@ -65,7 +68,8 @@ class Organisation extends Tenant implements TenantWithDatabase
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'organisation_user', 'organisation_id', 'user_id')
+        return $this->belongsToMany(User::class, 'organisation_users', 'organisation_id', 'user_id')
+            ->using(TenantPivot::class)
             ->withTimestamps();
     }
 }

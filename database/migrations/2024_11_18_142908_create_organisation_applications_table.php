@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string("city", 60)->nullable();
             $table->string("country", 60)->nullable();
             $table->string("subdomain", 60)->nullable();
-            $table->foreignId("user_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid("user_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
 
             $table->softDeletes();

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('subdomain', 60)->unique();
 
             $table->timestamps();
-            $table->foreignId('organisation_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('organisation_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

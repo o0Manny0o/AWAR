@@ -2,23 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name("landing-page");
-
-Route::get('/about', function () {
-    return Inertia::render('Welcome');
-})->name('about');
-
-Route::get('/pricing', function () {
-    return Inertia::render('Welcome');
-})->name('pricing');
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -33,6 +17,6 @@ Route::get('/language/{language}', function ($language) {
     }
 
     return redirect()->back();
-})->name('language')->middleware(['universal', \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class]);
+})->middleware(['universal', \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class])->name('language');
 
 require __DIR__ . '/auth.php';

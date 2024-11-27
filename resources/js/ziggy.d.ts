@@ -12,41 +12,6 @@ declare module 'ziggy-js' {
     "about": [],
     "pricing": [],
     "dashboard": [],
-    "profile.edit": [],
-    "profile.update": [],
-    "profile.destroy": [],
-    "language": [
-        {
-            "name": "language",
-            "required": true
-        }
-    ],
-    "register": [],
-    "login": [],
-    "password.request": [],
-    "password.email": [],
-    "password.reset": [
-        {
-            "name": "token",
-            "required": true
-        }
-    ],
-    "password.store": [],
-    "verification.notice": [],
-    "verification.verify": [
-        {
-            "name": "id",
-            "required": true
-        },
-        {
-            "name": "hash",
-            "required": true
-        }
-    ],
-    "verification.send": [],
-    "password.confirm": [],
-    "password.update": [],
-    "logout": [],
     "organisations.applications.create.step": [
         {
             "name": "application",
@@ -57,7 +22,7 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
-    "organisations.applications.update.step": [
+    "organisations.applications.store.step": [
         {
             "name": "application",
             "required": true
@@ -106,7 +71,43 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
+    "tenant.landing-page": [],
     "tenant.dashboard": [],
+    "profile.edit": [],
+    "profile.update": [],
+    "profile.destroy": [],
+    "language": [
+        {
+            "name": "language",
+            "required": true
+        }
+    ],
+    "register": [],
+    "login": [],
+    "password.request": [],
+    "password.email": [],
+    "password.reset": [
+        {
+            "name": "token",
+            "required": true
+        }
+    ],
+    "password.store": [],
+    "verification.notice": [],
+    "verification.verify": [
+        {
+            "name": "id",
+            "required": true
+        },
+        {
+            "name": "hash",
+            "required": true
+        }
+    ],
+    "verification.send": [],
+    "password.confirm": [],
+    "password.update": [],
+    "logout": [],
     "storage.local": [
         {
             "name": "path",
