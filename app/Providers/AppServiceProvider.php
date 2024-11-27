@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Enum\CentralUserRole;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 

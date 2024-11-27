@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\tenant;
 
-use App\Enum\TenantPermission;
 use App\Enum\DefaultTenantUserRole;
+use App\Enum\TenantPermission;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

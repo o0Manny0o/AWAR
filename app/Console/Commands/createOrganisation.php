@@ -6,9 +6,6 @@ use App\Models\Organisation;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Artisan;
-use Stancl\Tenancy\Contracts\Syncable;
 
 class createOrganisation extends Command implements PromptsForMissingInput
 {
