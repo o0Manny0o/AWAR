@@ -37,4 +37,10 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->middleware(['auth', 'verified'])->name('tenant.dashboard');
+
+    Route::name('organisations.invitations.')->prefix('invitations')->group(function () {
+        Route::get('/{code}', function () {
+            return Inertia::render('Welcome');
+        })->name("accept");
+    });
 });

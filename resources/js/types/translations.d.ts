@@ -211,6 +211,7 @@ type Translations_Landing_page = {
 };
 type Translations_Organisations = {
     applications: Organisations_Applications;
+    invitation: Organisations_Invitation;
 };
 type Organisations_Applications = {
     form: Applications_Form;
@@ -237,4 +238,13 @@ type Form_Set = {
 };
 type Form_Registered = {
     label: string;
+};
+type Organisations_Invitation = {
+    mail: Invitation_Mail;
+};
+type Invitation_Mail = {
+    header: string;
+    body: string;
+    get_started: string;
+    regards: string;
 };

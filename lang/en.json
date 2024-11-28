@@ -270,6 +270,14 @@
                 "cancel_create": "Don't want to apply for an organisation space?"
             },
             "application": "Application"
+        },
+        "invitation": {
+            "mail": {
+                "header": "You were invited to an organisation",
+                "body": "We thrilled to let you know that :inviter invited you to join <strong>:name</strong> on <a href=\"https://awar.app\">AWAR.app</a>. ",
+                "get_started": "To get started, simply click the invitation link provided below to create or log into your <a href=\"https://awar.app\">AWAR.app</a> account. We’re looking forward to having you onboard and can’t wait to see the impact you’ll make. If you have any questions or need assistance, feel free to reach out to us directly.",
+                "regards": "Warm regards, <br /> Your AWAR Team"
+            }
         }
     }
 }

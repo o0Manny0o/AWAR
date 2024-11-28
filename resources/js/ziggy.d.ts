@@ -73,6 +73,12 @@ declare module 'ziggy-js' {
     ],
     "tenant.landing-page": [],
     "tenant.dashboard": [],
+    "organisations.invitations.accept": [
+        {
+            "name": "code",
+            "required": true
+        }
+    ],
     "profile.edit": [],
     "profile.update": [],
     "profile.destroy": [],

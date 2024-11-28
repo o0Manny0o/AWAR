@@ -4,21 +4,20 @@ namespace App\Mail;
 
 use App\Models\Organisation;
 use App\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class OrganisationInvitation extends Mailable
+class OrganisationInvitation extends BaseMail
 {
-    use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(public User $invitee, public User $inviter, public Organisation $organisation)
+    public function __construct(
+        public User $invitee,
+        public User $inviter,
+        public Organisation $organisation,
+        public string $url)
     {
     }
 
@@ -28,7 +27,7 @@ class OrganisationInvitation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->inviter->name . ' invited you to ' . $this->organisation->name,
+            subject: $this->inviter->name . ' invited you to join ' . $this->organisation->name,
         );
     }
 
@@ -37,8 +36,9 @@ class OrganisationInvitation extends Mailable
      */
     public function content(): Content
     {
-        return new Content(
-            view: 'view.name',
+        return $this->localizedContent(
+            view: 'mail.organisation_invite',
+            title: $this->inviter->name . ' invited you to join ' . $this->organisation->name
         );
     }
 

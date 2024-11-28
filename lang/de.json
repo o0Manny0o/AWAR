@@ -105,6 +105,14 @@
                 "cancel_create": "Möchten Sie sich nicht für einen Organisations Platz bewerben?"
             },
             "application": "Bewerbung"
+        },
+        "invitation": {
+            "mail": {
+                "header": "Sie wurden zu einer Organisation eingeladen",
+                "body": "Wir freuen uns, Ihnen mitteilen zu können, dass :inviter Sie eingeladen hat, <strong>:name</strong> auf <a href=\"https://awar.app\">AWAR.app</a> beizutreten.",
+                "get_started": " Um loszulegen, klicken Sie einfach auf den unten angegebenen Einladungslink, um ein <a href=\"https://awar.app\">AWAR.app</a> Konto zu erstellen oder sich anzumelden. Wir freuen uns darauf, Sie an Bord zu haben, und sind gespannt auf die positiven Beiträge, die Sie leisten werden. Wenn Sie Fragen haben oder Unterstützung benötigen, können Sie sich gerne direkt an uns wenden.",
+                "regards": "Herzliche Grüße, <br /> Ihr AWAR-Team"
+            }
         }
     }
 }
