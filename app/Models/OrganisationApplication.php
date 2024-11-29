@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -49,31 +50,31 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withoutTrashed()
+ * @property-read bool $can_be_deleted
+ * @property-read bool $can_be_restored
+ * @property-read bool $can_be_submitted
+ * @property-read bool $can_be_updated
+ * @property-read bool $can_be_viewed
  * @mixin \Eloquent
  */
 class OrganisationApplication extends Model
 {
-    use HasUuids, SoftDeletes;
+    use HasUuids, SoftDeletes, HasResourcePermissions;
 
     protected $guarded = [];
 
-    protected $appends = ['is_complete', 'is_locked'];
+    protected $appends = [
+        'can_be_deleted',
+        'can_be_restored',
+        'can_be_viewed',
+        'can_be_updated',
+        'can_be_submitted',];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function getIsCompleteAttribute(): bool
-    {
-        return $this->isComplete();
-    }
-
-
-    public function getIsLockedAttribute(): bool
-    {
-        return $this->isLocked();
-    }
 
     /**
      * Determine if the application is complete.

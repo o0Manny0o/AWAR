@@ -133,6 +133,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
         return [
             'id',
             'name',
+            'email',
         ];
     }
 
@@ -141,10 +142,11 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
         return [
             'id',
             'name',
+            'email',
         ];
     }
 
-    public function asMember(?string $organisationId)
+    public function asMember(string $organisationId = null): Member|null
     {
         if ($organisationId) {
             $organisation = Organisation::find($organisationId);
@@ -157,8 +159,9 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
             // Currently not in organisation context
             return null;
         }
-
-        return Member::find($this->id);
+        /** @var Member|null $member */
+        $member = Member::find($this->id);
+        return $member;
     }
 
 }

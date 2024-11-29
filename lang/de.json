@@ -55,7 +55,8 @@
             "save": ":resource Speichern",
             "cancel": "Abbrechen",
             "go_back": "Zurück",
-            "go_back_to": "Zurück zur :page"
+            "go_back_to": "Zurück zur :page",
+            "send": ":resource Senden"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",
@@ -88,10 +89,6 @@
                     "label": "Was macht Ihre Organisation?",
                     "placeholder": "Typ"
                 },
-                "role": {
-                    "label": "Was ist Ihre Rolle?",
-                    "placeholder": "Rolle"
-                },
                 "registered": {
                     "label": "Ist Ihre Organisation offiziell registriert?"
                 },
@@ -117,15 +114,29 @@
                 },
                 "address_info": "Adresse",
                 "subdomain_info": "Subdomain ",
-                "cancel_create": "Möchten Sie sich nicht für einen Organisations Platz bewerben?"
+                "cancel_create": "Möchten Sie sich nicht für einen Organisations Platz bewerben?",
+                "user_role": {
+                    "label": "Was ist Ihre Rolle?",
+                    "placeholder": "Rolle"
+                }
             }
         },
-        "invitation": {
+        "invitations": {
             "mail": {
                 "header": "Sie wurden zu einer Organisation eingeladen",
                 "body": "Wir freuen uns, Ihnen mitteilen zu können, dass :inviter Sie eingeladen hat, <strong>:name</strong> auf <a href=\"https://awar.app\">AWAR.app</a> beizutreten.",
                 "get_started": " Um loszulegen, klicken Sie einfach auf den unten angegebenen Einladungslink, um ein <a href=\"https://awar.app\">AWAR.app</a> Konto zu erstellen oder sich anzumelden. Wir freuen uns darauf, Sie an Bord zu haben, und sind gespannt auf die positiven Beiträge, die Sie leisten werden. Wenn Sie Fragen haben oder Unterstützung benötigen, können Sie sich gerne direkt an uns wenden.",
                 "regards": "Herzliche Grüße, <br /> Ihr AWAR-Team"
+            },
+            "form": {
+                "email": {
+                    "label": "E-Mail",
+                    "placeholder": "E-Mail"
+                },
+                "role": {
+                    "label": "Rolle",
+                    "placeholder": "Rolle"
+                }
             }
         }
     }

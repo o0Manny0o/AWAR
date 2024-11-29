@@ -1,11 +1,16 @@
-import { Head, usePage } from '@inertiajs/react'
+import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import OrganisationApplicationList from '@/Pages/Organisation/Application/Partials/OrganisationApplicationList'
 import useTranslate from '@/shared/hooks/useTranslate'
 import PageHeader from '@/Components/Layout/PageHeader'
 import { Card } from '@/Components/Layout/Card'
-import Application = App.Models.OrganisationApplication
 import usePermission from '@/shared/hooks/usePermission'
+import { Badge } from '@/Components/_Base/Badge'
+import {
+    badgeColor,
+    badgeLabelKey,
+} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
+import List from '@/Components/Resource/List'
+import Application = App.Models.OrganisationApplication
 
 export default function Index({
     applications,
@@ -45,7 +50,20 @@ export default function Index({
 
             <div className="py-12">
                 <Card>
-                    <OrganisationApplicationList applications={applications} />
+                    <List
+                        entities={applications}
+                        title={(a) => a.name}
+                        subtitle={(a) => a.type}
+                        badge={(a) => (
+                            <Badge color={badgeColor(a)}>
+                                {__(badgeLabelKey(a))}
+                            </Badge>
+                        )}
+                        resourceUrl={'organisations.applications'}
+                        resourceLabel={
+                            'general.resources.organisation.application'
+                        }
+                    />
                 </Card>
             </div>
         </AuthenticatedLayout>

@@ -43,6 +43,11 @@ class OrganisationApplicationController extends Controller
             ->orderBy("deleted_at", "DESC")
             ->orderBy("updated_at", "DESC")
             ->get();
+
+        foreach ($applications as $application) {
+            $application->setPermissions($request->user());
+        }
+
         return Inertia::render('Organisation/Application/Index', [
             'applications' => $applications,
             'permissions' => $this->permissions($request)

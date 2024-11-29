@@ -51,16 +51,13 @@ Route::middleware([
                 return new App\Mail\OrganisationInvitation($users->first(), $users->last(), $organisation, route("invitations.accept", "123"));
             });
 
-            Route::name('invitations.')->prefix('invitations')->group(function () {
-                Route::get('/{code}', function () {
-                    return Inertia::render('Welcome');
-                })->name("accept");
-            });
-
-
-            Route::prefix('organisation')
-                ->name('organisation.')
+            Route::name('organisation.')
                 ->group(function () {
+
+                    Route::name('invitations.')->prefix('invitations')->group(function () {
+                        Route::get('/accept/{token}', [OrganisationInvitationController::class, 'accept'])->name("accept");
+                    });
+
                     Route::resource('invitations', OrganisationInvitationController::class)
                         ->except(['edit', 'update']);
                 });

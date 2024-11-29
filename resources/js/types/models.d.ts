@@ -17,6 +17,12 @@ declare namespace App.Models {
         created_at: string
         updated_at: string
         deleted_at?: string
+
+        can_be_deleted: boolean
+        can_be_restored: boolean
+        can_be_viewed: boolean
+        can_be_updated: boolean
+        can_be_submitted: boolean
     }
 
     export type OrganisationApplicationDraft = Pick<
@@ -51,6 +57,10 @@ declare namespace App.Models {
         accepted_at: string
         created_at: string
         updated_at: string
+
+        can_be_deleted: boolean
+        can_be_viewed: boolean
+        can_be_updated: boolean
     }
 
     export enum InvitationStatus {

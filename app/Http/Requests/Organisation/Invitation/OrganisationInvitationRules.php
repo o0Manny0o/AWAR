@@ -10,7 +10,6 @@ class OrganisationInvitationRules
             'required',
             'email',
             'max:255',
-            'exists:App\Models\User,email',
             'unique:App\Models\Tenant\OrganisationInvitation,email',
             'unique:App\Models\Tenant\Member,email'
         ];

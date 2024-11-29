@@ -7,6 +7,11 @@ use App\Models\User;
 
 class OrganisationApplicationPolicy extends BasePolicy
 {
+    function isOwner(User $user, $entity): bool
+    {
+        return $user->id === $entity->user_id;
+    }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -20,7 +25,7 @@ class OrganisationApplicationPolicy extends BasePolicy
      */
     public function view(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id;
+        return $this->isAdminOrOwner($user, $organisationApplication);
     }
 
     /**
@@ -37,7 +42,7 @@ class OrganisationApplicationPolicy extends BasePolicy
      */
     public function update(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id && !$organisationApplication->isLocked();
+        return $this->isAdminOrOwner($user, $organisationApplication) && !$organisationApplication->isLocked();
     }
 
     /**
@@ -45,7 +50,7 @@ class OrganisationApplicationPolicy extends BasePolicy
      */
     public function delete(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id && !$organisationApplication->isLocked();
+        return $this->isAdminOrOwner($user, $organisationApplication)  && !$organisationApplication->isLocked() && $organisationApplication->deleted_at == null;
     }
 
     /**
@@ -53,7 +58,7 @@ class OrganisationApplicationPolicy extends BasePolicy
      */
     public function restore(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id && !$organisationApplication->isLocked();
+        return $this->isAdminOrOwner($user, $organisationApplication)  && !$organisationApplication->isLocked() && $organisationApplication->deleted_at !== null;
     }
 
     /**
@@ -61,7 +66,7 @@ class OrganisationApplicationPolicy extends BasePolicy
      */
     public function forceDelete(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id && !$organisationApplication->isLocked();
+        return $this->isAdminOrOwner($user, $organisationApplication)  && !$organisationApplication->isLocked();
     }
 
     /**
@@ -69,6 +74,8 @@ class OrganisationApplicationPolicy extends BasePolicy
      */
     public function submit(User $user, OrganisationApplication $organisationApplication): bool
     {
-        return $user->id === $organisationApplication->user_id && $organisationApplication->isComplete() && !$organisationApplication->isLocked();
+        return $this->isAdminOrOwner($user, $organisationApplication)  && $organisationApplication->isComplete() && !$organisationApplication->isLocked();
     }
+
+
 }

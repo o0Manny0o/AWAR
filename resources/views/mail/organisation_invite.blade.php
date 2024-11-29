@@ -8,7 +8,7 @@
                 <td>
                     <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
 
-                        <h1 style="line-height: 140%;">{{ __('organisations.invitation.mail.header') }}</h1>
+                        <h1 style="line-height: 140%;">{{ __('organisations.invitations.mail.header') }}</h1>
                     </div>
                 </td>
             </tr>
@@ -16,7 +16,7 @@
                 <td style="padding: 10px 0">
                     <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                         <p style="line-height: 140%;">
-                            {!! __('organisations.invitation.mail.body', ['name' => $organisation->name, 'inviter' => $inviter->name]) !!}
+                            {!! __('organisations.invitations.mail.body', ['name' => $organisation->name, 'inviter' => $inviter->name]) !!}
                         </p>
                     </div>
                 </td>
@@ -25,7 +25,7 @@
                 <td style="padding: 10px 0">
                     <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                         <p style="line-height: 140%;">
-                            {!! __('organisations.invitation.mail.get_started') !!}
+                            {!! __('organisations.invitations.mail.get_started') !!}
                         </p>
                     </div>
                 </td>
@@ -43,7 +43,7 @@
 
                     <div style="font-size: 14px; line-height: 140%; text-align: left; word-wrap: break-word;">
                         <p style="line-height: 140%;">
-                            {!! __('organisations.invitation.mail.regards') !!}
+                            {!! __('organisations.invitations.mail.regards') !!}
                         </p>
                     </div>
                 </td>

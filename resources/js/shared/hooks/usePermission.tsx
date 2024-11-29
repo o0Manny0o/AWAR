@@ -7,7 +7,18 @@ export default function usePermission(base?: ResourcePermissions) {
     const can = (ability: ResourcePermissions) =>
         get(permissions, [...(base ? [base] : []), ability].join('.'), false)
 
+    const canDelete = (e: any): boolean => e.can_be_deleted ?? false
+    const canRestore = (e: any): boolean => e.can_be_restored ?? false
+    const canUpdate = (e: any): boolean => e.can_be_updated ?? false
+    const canView = (e: any): boolean => e.can_be_viewed ?? false
+    const canSubmit = (e: any): boolean => e.can_be_submitted ?? false
+
     return {
         can,
+        canDelete,
+        canRestore,
+        canUpdate,
+        canView,
+        canSubmit,
     }
 }

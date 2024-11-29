@@ -46,7 +46,7 @@ export default function Index({
                 </PageHeader>
             }
         >
-            <Head title="Organisation Applications" />
+            <Head title="Organisation Invitations" />
 
             <div className="py-12">
                 <Card>
@@ -65,7 +65,9 @@ export default function Index({
                             </Badge>
                         )}
                         resourceUrl={'organisation.invitations'}
-                        permissions={{ path: 'organisations.invitations' }}
+                        resourceLabel={
+                            'general.resources.organisation.invitation'
+                        }
                     />
                 </Card>
             </div>

@@ -17,7 +17,6 @@ export default function List<
     subtitle,
     resourceLabel = '',
     resourceUrl,
-    permissions,
 }: {
     entities: T[]
     title: (e: T) => string
@@ -25,16 +24,10 @@ export default function List<
     badge: (e: T) => ReactNode
     resourceLabel?: TranslationKey | string
     resourceUrl: string
-    permissions: {
-        path: ResourcePermissions
-        canUpdate?: (e: T) => boolean
-        canDelete?: (e: T) => boolean
-        canRestore?: (e: T) => boolean
-    }
 }) {
     const __ = useTranslate()
     const { locale } = usePage().props
-    const { can } = usePermission(permissions.path)
+    const { canDelete, canRestore, canUpdate, canView } = usePermission()
 
     return (
         <ul role="list" className="divide-y divide-gray-100">
@@ -74,23 +67,26 @@ export default function List<
                         </div>
                     </div>
                     <div className="flex flex-none items-center gap-x-4">
-                        <Button
-                            color={'secondary'}
-                            href={route(resourceUrl + '.show', entity.id)}
-                            className="hidden sm:inline-flex"
-                        >
-                            {__('general.button.view', {
-                                resource: resourceLabel,
-                            })}
-                            <span className="sr-only">, {entity.name}</span>
-                        </Button>
+                        {canView(entity) && (
+                            <Button
+                                color={'secondary'}
+                                href={route(resourceUrl + '.show', entity.id)}
+                                className="hidden sm:inline-flex"
+                            >
+                                {__('general.button.view', {
+                                    resource: resourceLabel,
+                                })}
+                                <span className="sr-only">, {entity.name}</span>
+                            </Button>
+                        )}
                         <Menu
                             as="div"
                             className={
                                 'relative flex-none ' +
-                                (permissions.canUpdate?.(entity) ||
-                                permissions.canDelete?.(entity) ||
-                                permissions.canRestore?.(entity)
+                                (canView(entity) ||
+                                canUpdate(entity) ||
+                                canDelete(entity) ||
+                                canRestore(entity)
                                     ? ''
                                     : 'sm:hidden')
                             }
@@ -107,23 +103,25 @@ export default function List<
                                 />
                             </MenuButton>
                             <MenuItems>
-                                <MenuItem>
-                                    <MenuItemLink
-                                        className="sm:hidden"
-                                        href={route(
-                                            resourceUrl + '.show',
-                                            entity.id,
-                                        )}
-                                    >
-                                        {__('general.button.view', {
-                                            resource: '',
-                                        })}
-                                        <span className="sr-only">
-                                            , {entity.name}
-                                        </span>
-                                    </MenuItemLink>
-                                </MenuItem>
-                                {permissions.canUpdate?.(entity) && (
+                                {canView(entity) && (
+                                    <MenuItem>
+                                        <MenuItemLink
+                                            className="sm:hidden"
+                                            href={route(
+                                                resourceUrl + '.show',
+                                                entity.id,
+                                            )}
+                                        >
+                                            {__('general.button.view', {
+                                                resource: '',
+                                            })}
+                                            <span className="sr-only">
+                                                , {entity.name}
+                                            </span>
+                                        </MenuItemLink>
+                                    </MenuItem>
+                                )}
+                                {canUpdate(entity) && (
                                     <MenuItem>
                                         <MenuItemLink
                                             href={route(
@@ -141,7 +139,7 @@ export default function List<
                                     </MenuItem>
                                 )}
 
-                                {permissions.canDelete?.(entity) && (
+                                {canDelete(entity) && (
                                     <MenuItem>
                                         <MenuItemLink
                                             method={'delete'}
@@ -161,7 +159,7 @@ export default function List<
                                     </MenuItem>
                                 )}
 
-                                {permissions.canRestore?.(entity) && (
+                                {canRestore(entity) && (
                                     <MenuItem>
                                         <MenuItemLink
                                             method={'patch'}

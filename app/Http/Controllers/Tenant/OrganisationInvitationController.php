@@ -16,14 +16,14 @@ use Inertia\Response;
 class OrganisationInvitationController extends Controller
 {
 
-    protected string $baseRouteName = "organisations.invitations.show";
+    protected string $baseRouteName = "organisations.invitations";
     protected string $baseViewPath = "Tenant/Organisation/Invitation";
 
     private function permissions(Request $request, OrganisationInvitation $invitation = null): array
     {
         return [
             'organisations' => [
-                'applications' => [
+                'invitations' => [
                     'create' => $request->user()->can('create', OrganisationInvitation::class),
                     'view' => $request->user()->can('view', $invitation),
                     'delete' => $request->user()->can('delete', $invitation),
@@ -41,6 +41,10 @@ class OrganisationInvitationController extends Controller
         $this->authorize('viewAny', OrganisationInvitation::class);
 
         $invitations = OrganisationInvitation::all();
+
+        foreach ($invitations as $invitation) {
+            $invitation->setPermissions($request->user());
+        }
 
         return Inertia::render($this->getIndexView(), [
             'invitations' => $invitations,

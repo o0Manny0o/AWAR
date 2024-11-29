@@ -8,12 +8,10 @@ use Illuminate\Auth\Access\Response;
 
 class OrganisationInvitationPolicy extends BasePolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+
+    function isOwner(User $user, $entity): bool
     {
-        return false;
+      return $user->asMember()?->id === $entity->member_id;
     }
 
     /**
@@ -21,7 +19,7 @@ class OrganisationInvitationPolicy extends BasePolicy
      */
     public function view(User $user, OrganisationInvitation $organisationInvitation): bool
     {
-        return false;
+        return $this->isAdminOrOwner($user, $organisationInvitation);
     }
 
     /**
@@ -29,7 +27,7 @@ class OrganisationInvitationPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $this->isAdmin($user);
     }
 
     /**
@@ -45,22 +43,7 @@ class OrganisationInvitationPolicy extends BasePolicy
      */
     public function delete(User $user, OrganisationInvitation $organisationInvitation): bool
     {
-        return false;
+        return $this->isAdminOrOwner($user, $organisationInvitation);
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, OrganisationInvitation $organisationInvitation): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, OrganisationInvitation $organisationInvitation): bool
-    {
-        return false;
-    }
 }

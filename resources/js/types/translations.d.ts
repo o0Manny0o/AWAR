@@ -210,6 +210,7 @@ type General_Button = {
     cancel: string;
     go_back: string;
     go_back_to: string;
+    send: string;
 };
 type General_Resources = {
     organisation: Resources_Organisation;
@@ -230,7 +231,7 @@ type Translations_Landing_page = {
 };
 type Translations_Organisations = {
     applications: Organisations_Applications;
-    invitation: Organisations_Invitation;
+    invitations: Organisations_Invitations;
 };
 type Organisations_Applications = {
     form: Applications_Form;
@@ -238,8 +239,7 @@ type Organisations_Applications = {
 type Applications_Form = {
     name: Form_Set;
     type: Form_Set;
-    role: Form_Set;
-    registered: Form_Registered;
+    registered: RegisteredOrToken;
     street: Form_Set;
     post_code: Form_Set;
     city: Form_Set;
@@ -249,20 +249,27 @@ type Applications_Form = {
     address_info: string;
     subdomain_info: string;
     cancel_create: string;
+    user_role: Form_Set;
 };
 type Form_Set = {
     label: string;
     placeholder: string;
 };
-type Form_Registered = {
+type RegisteredOrToken = {
     label: string;
 };
-type Organisations_Invitation = {
-    mail: Invitation_Mail;
+type Organisations_Invitations = {
+    mail: Invitations_Mail;
+    form: Invitations_Form;
 };
-type Invitation_Mail = {
+type Invitations_Mail = {
     header: string;
     body: string;
     get_started: string;
     regards: string;
+};
+type Invitations_Form = {
+    email: Form_Set;
+    role: Form_Set;
+    token: RegisteredOrToken;
 };
