@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Enum\CentralUserRole;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\PermissionRegistrar;
 
 class DevelopmentSeeder extends Seeder
 {
@@ -31,6 +33,11 @@ class DevelopmentSeeder extends Seeder
         Artisan::call('app:create-org', [
             'name' => 'foo', 'subdomain' => 'foo', 'user' => $user->id
         ]);
+
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+        $user->assignRole(CentralUserRole::SUPER_ADMIN);
 
     }
 }
