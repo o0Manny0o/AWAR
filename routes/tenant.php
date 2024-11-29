@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\Tenant\MemberController;
 use App\Http\Controllers\Tenant\OrganisationInvitationController;
 use App\Models\Organisation;
 use App\Models\User;
@@ -25,7 +24,6 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 */
 
 Route::middleware([
-    'web',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
@@ -38,24 +36,35 @@ Route::middleware([
         ]);
     })->name('tenant.landing-page');
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('tenant.dashboard');
 
-    Route::get('/mailable', function () {
-        $users = User::take(2)->get();
-        /** @var Organisation $organisation */
-        $organisation = Organisation::first();
+    Route::middleware(['auth', 'verified'])
+        ->group(function () {
+            Route::get('/dashboard', function () {
+                return Inertia::render('Dashboard');
+            })->name('tenant.dashboard');
 
-        return new App\Mail\OrganisationInvitation($users->first(), $users->last(), $organisation, route("invitations.accept", "123"));
-    });
+            Route::get('/mailable', function () {
+                $users = User::take(2)->get();
+                /** @var Organisation $organisation */
+                $organisation = Organisation::first();
 
-    Route::name('invitations.')->prefix('invitations')->group(function () {
-        Route::get('/{code}', function () {
-            return Inertia::render('Welcome');
-        })->name("accept");
-    });
+                return new App\Mail\OrganisationInvitation($users->first(), $users->last(), $organisation, route("invitations.accept", "123"));
+            });
 
-    Route::resource('organisation.invitations', OrganisationInvitationController::class)
-        ->except(['edit', 'update']);
+            Route::name('invitations.')->prefix('invitations')->group(function () {
+                Route::get('/{code}', function () {
+                    return Inertia::render('Welcome');
+                })->name("accept");
+            });
+
+
+            Route::prefix('organisation')
+                ->name('organisation.')
+                ->group(function () {
+                    Route::resource('invitations', OrganisationInvitationController::class)
+                        ->except(['edit', 'update']);
+                });
+
+
+        });
 });

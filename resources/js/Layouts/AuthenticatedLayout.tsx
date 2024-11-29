@@ -4,20 +4,24 @@ import {
     DesktopMainNav,
     DesktopSecondaryNav,
 } from '@/Components/Layout/Desktop'
-import AuthenticatedNavigation from '@/shared/_constants/AuthenticatedNavigation'
+import {
+    CentralNavigation,
+    TenantNavigation,
+} from '@/shared/_constants/AuthenticatedNavigation'
 import { BellIcon } from '@heroicons/react/24/solid'
 import { MobileMainNav } from '@/Components/Layout/Mobile'
+import { usePage } from '@inertiajs/react'
 
 export default function Authenticated({
     header,
     children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
+    const { isTenant } = usePage().props
+    const navigation = isTenant ? TenantNavigation : CentralNavigation
     return (
         <div className="bg-floor min-h-screen">
             <HeaderBar
-                mainNavigation={
-                    <DesktopMainNav navigation={AuthenticatedNavigation} />
-                }
+                mainNavigation={<DesktopMainNav navigation={navigation} />}
                 secondaryNavigation={
                     <DesktopSecondaryNav>
                         <button
@@ -29,9 +33,7 @@ export default function Authenticated({
                         </button>
                     </DesktopSecondaryNav>
                 }
-                mobileNavigation={
-                    <MobileMainNav navigation={AuthenticatedNavigation} />
-                }
+                mobileNavigation={<MobileMainNav navigation={navigation} />}
             />
 
             {header && (

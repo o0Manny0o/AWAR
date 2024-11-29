@@ -11,7 +11,7 @@ use Stancl\Tenancy\Contracts\Syncable;
 use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
 
 /**
- *
+ * 
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newQuery()
@@ -24,6 +24,8 @@ use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member role($roles, $guard = null, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member withoutRole($roles, $guard = null)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tenant\OrganisationInvitation> $invitations
+ * @property-read int|null $invitations_count
  * @mixin \Eloquent
  */
 class Member extends Model implements Syncable

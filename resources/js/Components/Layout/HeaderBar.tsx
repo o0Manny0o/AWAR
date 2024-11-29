@@ -69,7 +69,7 @@ export function HeaderBar({
                         {secondaryNavigation ?? (
                             <DesktopSecondaryNav>
                                 <DesktopNavLink
-                                    href={route('dashboard')}
+                                    href={route('dashboard', undefined, false)}
                                     active={route().current('dashboard')}
                                 >
                                     {__('general.navigation.dashboard')}

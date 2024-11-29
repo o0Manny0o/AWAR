@@ -117,16 +117,6 @@ class TenancyServiceProvider extends ServiceProvider
 
         $this->makeTenancyMiddlewareHighestPriority();
 
-        Gate::before(function ($user, $ability) {
-            if (tenant()) {
-                $member = Member::where('id', $user->id)->first();
-                if (!$member) {
-                    return null;
-                }
-                return $member->hasPermissionTo($ability);
-            }
-            return null;
-        });
     }
 
     protected function bootEvents()
