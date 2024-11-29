@@ -15,7 +15,8 @@
             "about": "Über Uns",
             "home": "Startseite",
             "organisations": {
-                "applications": "Bewerbungen"
+                "applications": "Bewerbungen",
+                "invitations": "Einladungen"
             },
             "overview": "Übersicht"
         },
@@ -38,7 +39,9 @@
             "approved": "Genehmigt",
             "rejected": "Abgelehnt",
             "created": "Erstellt",
-            "draft": "Entwurf"
+            "draft": "Entwurf",
+            "sent": "Gesendet",
+            "accepted": "Akzeptiert"
         },
         "button": {
             "view": ":resource Öffnen",
@@ -58,7 +61,19 @@
         "options": "Optionen",
         "deleted": "Gelöscht",
         "your_resource": "Ihre :resource",
-        "continue_later": "Möchten Sie später weiter machen?"
+        "continue_later": "Möchten Sie später weiter machen?",
+        "resources": {
+            "organisation": {
+                "invitation": "Einladung",
+                "application": "Bewerbung"
+            }
+        },
+        "roles": {
+            "tenant": {
+                "admin": "Admin",
+                "member": "Mitglied"
+            }
+        }
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"
@@ -103,8 +118,7 @@
                 "address_info": "Adresse",
                 "subdomain_info": "Subdomain ",
                 "cancel_create": "Möchten Sie sich nicht für einen Organisations Platz bewerben?"
-            },
-            "application": "Bewerbung"
+            }
         },
         "invitation": {
             "mail": {

@@ -152,6 +152,8 @@ type Translations_General = {
     deleted: string;
     your_resource: string;
     continue_later: string;
+    resources: General_Resources;
+    roles: General_Roles;
 };
 type General_Languages = {
     en: string;
@@ -170,6 +172,7 @@ type General_Navigation = {
 };
 type Navigation_Organisations = {
     applications: string;
+    invitations: string;
 };
 type General_Newsletter = {
     description: string;
@@ -191,6 +194,8 @@ type General_Status = {
     rejected: string;
     created: string;
     draft: string;
+    sent: string;
+    accepted: string;
 };
 type General_Button = {
     view: string;
@@ -206,6 +211,20 @@ type General_Button = {
     go_back: string;
     go_back_to: string;
 };
+type General_Resources = {
+    organisation: Resources_Organisation;
+};
+type Resources_Organisation = {
+    invitation: string;
+    application: string;
+};
+type General_Roles = {
+    tenant: Roles_Tenant;
+};
+type Roles_Tenant = {
+    admin: string;
+    member: string;
+};
 type Translations_Landing_page = {
     welcome_message: string;
 };
@@ -215,7 +234,6 @@ type Translations_Organisations = {
 };
 type Organisations_Applications = {
     form: Applications_Form;
-    application: string;
 };
 type Applications_Form = {
     name: Form_Set;

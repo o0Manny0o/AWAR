@@ -39,4 +39,23 @@ declare namespace App.Models {
         REJECTED = 'rejected',
         CREATED = 'created',
     }
+
+    export interface OrganisationInvitation {
+        id: string
+        name: string
+        email: string
+        status: InvitationStatus
+        token: string
+        role?: string
+        sent_at: string
+        accepted_at: string
+        created_at: string
+        updated_at: string
+    }
+
+    export enum InvitationStatus {
+        PENDING = 'pending',
+        SENT = 'sent',
+        ACCEPTED = 'accepted',
+    }
 }

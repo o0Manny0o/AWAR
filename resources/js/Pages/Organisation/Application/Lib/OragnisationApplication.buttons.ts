@@ -1,11 +1,13 @@
 import { PageHeaderButton } from '@/Components/Layout/PageHeader'
 import useTranslate from '@/shared/hooks/useTranslate'
+import usePermission from '@/shared/hooks/usePermission'
 import OrganisationApplication = App.Models.OrganisationApplication
 
 export function ShowActionButtons(
     application: OrganisationApplication,
 ): PageHeaderButton[] {
     const __ = useTranslate()
+    const { can } = usePermission()
 
     const RESTORE_BUTTON: PageHeaderButton = {
         label: __('general.button.restore', {
@@ -61,12 +63,32 @@ export function ShowActionButtons(
         return []
     }
     if (application.deleted_at) {
-        return [RESTORE_BUTTON]
+        if (can('organisations.applications.restore')) {
+            return [RESTORE_BUTTON]
+        }
+        return []
     }
     if (application.is_complete) {
-        return [SUBMIT_BUTTON, editButton(false), DELETE_BUTTON]
+        return [
+            ...(can('organisations.applications.submit')
+                ? [SUBMIT_BUTTON]
+                : []),
+            ...(can('organisations.applications.update')
+                ? [editButton(false)]
+                : []),
+            ...(can('organisations.applications.delete')
+                ? [DELETE_BUTTON]
+                : []),
+        ]
     } else {
-        return [editButton(true), DELETE_BUTTON]
+        return [
+            ...(can('organisations.applications.update')
+                ? [editButton(true)]
+                : []),
+            ...(can('organisations.applications.delete')
+                ? [DELETE_BUTTON]
+                : []),
+        ]
     }
 }
 

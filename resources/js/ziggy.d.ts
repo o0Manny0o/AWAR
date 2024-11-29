@@ -72,10 +72,24 @@ declare module 'ziggy-js' {
         }
     ],
     "tenant.landing-page": [],
-    "tenant.dashboard": [],
-    "organisations.invitations.accept": [
+    "invitations.accept": [
         {
             "name": "code",
+            "required": true
+        }
+    ],
+    "organisation.invitations.index": [],
+    "organisation.invitations.create": [],
+    "organisation.invitations.store": [],
+    "organisation.invitations.show": [
+        {
+            "name": "invitation",
+            "required": true
+        }
+    ],
+    "organisation.invitations.destroy": [
+        {
+            "name": "invitation",
             "required": true
         }
     ],

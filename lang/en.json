@@ -178,7 +178,8 @@
             "about": "About Us",
             "home": "Home",
             "organisations": {
-                "applications": "Applications"
+                "applications": "Applications",
+                "invitations": "Invitations"
             },
             "overview": "Overview"
         },
@@ -201,7 +202,9 @@
             "approved": "Approved",
             "rejected": "Rejected",
             "created": "Created",
-            "draft": "Draft"
+            "draft": "Draft",
+            "sent": "Sent",
+            "accepted": "Accepted"
         },
         "button": {
             "view": "View :resource",
@@ -221,7 +224,19 @@
         "options": "Options",
         "deleted": "Deleted",
         "your_resource": "Your :resource",
-        "continue_later": "Would you like to continue later?"
+        "continue_later": "Would you like to continue later?",
+        "resources": {
+            "organisation": {
+                "invitation": "Invitation",
+                "application": "Application"
+            }
+        },
+        "roles": {
+            "tenant": {
+                "admin": "Admin",
+                "member": "Member"
+            }
+        }
     },
     "landing_page": {
         "welcome_message": "Welcome to AWAR, :name"
@@ -268,8 +283,7 @@
                 "address_info": "Address",
                 "subdomain_info": "Subdomain",
                 "cancel_create": "Don't want to apply for an organisation space?"
-            },
-            "application": "Application"
+            }
         },
         "invitation": {
             "mail": {

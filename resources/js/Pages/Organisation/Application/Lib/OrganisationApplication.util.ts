@@ -42,7 +42,7 @@ export const canDelete = (application: Application) => {
 }
 
 export const canRestore = (application: Application) => {
-    return application.deleted_at && !application.is_locked
+    return !!application.deleted_at && !application.is_locked
 }
 
 export const transformSubdomain = (subdomain: string) => {
