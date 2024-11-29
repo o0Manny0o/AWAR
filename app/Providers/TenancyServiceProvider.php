@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Listeners\UpdateSyncedResource;
-use App\Models\Staff;
+use App\Models\Tenant\Member;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -119,11 +119,11 @@ class TenancyServiceProvider extends ServiceProvider
 
         Gate::before(function ($user, $ability) {
             if (tenant()) {
-                $staff = Staff::where('id', $user->id)->first();
-                if (!$staff) {
+                $member = Member::where('id', $user->id)->first();
+                if (!$member) {
                     return null;
                 }
-                return $staff->hasPermissionTo($ability);
+                return $member->hasPermissionTo($ability);
             }
             return null;
         });

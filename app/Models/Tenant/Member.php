@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenant;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;
@@ -9,22 +10,22 @@ use Stancl\Tenancy\Contracts\Syncable;
 use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
 
 /**
- * 
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Staff newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Staff newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Staff query()
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member query()
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Staff permission($permissions, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Staff role($roles, $guard = null, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Staff withoutPermission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Staff withoutRole($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member permission($permissions, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member role($roles, $guard = null, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Member withoutRole($roles, $guard = null)
  * @mixin \Eloquent
  */
-class Staff extends Model implements Syncable
+class Member extends Model implements Syncable
 {
     use ResourceSyncing, HasUuids, HasRoles;
 
@@ -54,6 +55,7 @@ class Staff extends Model implements Syncable
             'name',
         ];
     }
+
     public function getSyncedCreationAttributes(): array
     {
         return [

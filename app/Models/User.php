@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Tenant\Member;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -108,7 +109,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
 
     public function getTenantModelName(): string
     {
-        return Staff::class;
+        return Member::class;
     }
 
     public function getGlobalIdentifierKeyName(): string

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('token')->unique();
             $table->string('role')->nullable();
 
-            $table->foreignUuid("staff_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid("member_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });

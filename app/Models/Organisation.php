@@ -34,6 +34,8 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Organisation whereUpdatedAt($value)
  * @property-read TenantPivot|null $pivot
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $members
+ * @property-read int|null $members_count
  * @mixin \Eloquent
  */
 class Organisation extends Tenant implements TenantWithDatabase
@@ -66,7 +68,7 @@ class Organisation extends Tenant implements TenantWithDatabase
     }
 
 
-    public function users(): BelongsToMany
+    public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'organisation_users', 'organisation_id', 'user_id')
             ->using(TenantPivot::class)

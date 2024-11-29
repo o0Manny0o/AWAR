@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation query()
+ * @property-read \App\Models\Tenant\Member|null $inviter
  * @mixin \Eloquent
  */
 class OrganisationInvitation extends Model
@@ -22,11 +23,11 @@ class OrganisationInvitation extends Model
         'email',
         'role',
         'token',
-        'staff_id',
+        'member_id',
     ];
 
     public function inviter(): BelongsTo
     {
-        return $this->belongsTo(Staff::class);
+        return $this->belongsTo(Member::class);
     }
 }
