@@ -7,6 +7,7 @@ use App\Http\Requests\Organisation\Invitation\CreateOrganisationInvitationReques
 use App\Models\Tenant\OrganisationInvitation;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -18,11 +19,24 @@ class OrganisationInvitationController extends Controller
     protected string $baseRouteName = "organisations.invitations.show";
     protected string $baseViewPath = "Tenant/Organisation/Invitation";
 
+    private function permissions(Request $request, OrganisationInvitation $invitation = null): array
+    {
+        return [
+            'organisations' => [
+                'applications' => [
+                    'create' => $request->user()->can('create', OrganisationInvitation::class),
+                    'view' => $request->user()->can('view', $invitation),
+                    'delete' => $request->user()->can('delete', $invitation),
+                ]
+            ]
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      * @throws AuthorizationException
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $this->authorize('viewAny', OrganisationInvitation::class);
 
@@ -30,11 +44,7 @@ class OrganisationInvitationController extends Controller
 
         return Inertia::render($this->getIndexView(), [
             'invitations' => $invitations,
-            'permissions' => [
-                'organisationInvitations' => [
-                    'create' => $this->authorize('create', OrganisationInvitation::class),
-                ]
-            ]
+            'permissions' => $this->permissions($request)
         ]);
     }
 
@@ -68,8 +78,9 @@ class OrganisationInvitationController extends Controller
      * Display the specified resource.
      * @throws AuthorizationException
      */
-    public function show(string $id): Response|RedirectResponse
+    public function show(Request $request, string $id): Response|RedirectResponse
     {
+        /** @var OrganisationInvitation $invitation */
         $invitation = OrganisationInvitation::find( $id);
         if (!$invitation) {
             return redirect()->route($this->getIndexRouteName());
@@ -77,7 +88,8 @@ class OrganisationInvitationController extends Controller
         $this->authorize('view', $invitation);
 
         return Inertia::render($this->getShowView(), [
-            'invitation' => $invitation
+            'invitation' => $invitation,
+            'permissions' => $this->permissions($request, $invitation)
         ]);
     }
 

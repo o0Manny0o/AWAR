@@ -9,13 +9,28 @@ use App\Models\OrganisationApplication;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class OrganisationApplicationController extends Controller
 {
+    private function permissions(Request $request, OrganisationApplication $application = null): array
+    {
+        return [
+            'organisations' => [
+                'applications' => [
+                    'create' => $request->user()->can('create', OrganisationApplication::class),
+                    'view' => $request->user()->can('view', $application),
+                    'update' => $request->user()->can('update', $application),
+                    'delete' => $request->user()->can('delete', $application),
+                    'restore' => $request->user()->can('restore', $application),
+                    'submit' => $request->user()->can('submit', $application),
+                ]
+            ]
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      * @throws AuthorizationException
@@ -30,11 +45,7 @@ class OrganisationApplicationController extends Controller
             ->get();
         return Inertia::render('Organisation/Application/Index', [
             'applications' => $applications,
-            'permissions' => [
-                'organisationApplications' => [
-                    'create' => $request->user()->can('create', OrganisationApplication::class),
-                ]
-            ]
+            'permissions' => $this->permissions($request)
         ]);
     }
 
@@ -114,7 +125,7 @@ class OrganisationApplicationController extends Controller
      * Display the specified resource.
      * @throws AuthorizationException
      */
-    public function show(string $id)
+    public function show(Request $request, string $id): Response|RedirectResponse
     {
         $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application) {
@@ -123,7 +134,8 @@ class OrganisationApplicationController extends Controller
         $this->authorize('view', $application);
 
         return Inertia::render('Organisation/Application/Show', [
-            'application' => $application
+            'application' => $application,
+            'permissions' => $this->permissions($request, $application)
         ]);
     }
 
@@ -140,7 +152,8 @@ class OrganisationApplicationController extends Controller
         $this->authorize('update', $application);
 
         return Inertia::render('Organisation/Application/Edit', [
-            'application' => $application
+            'application' => $application,
+            'permissions' => $this->permissions($request, $application)
         ]);
     }
 
