@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Tenant\Member;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -102,7 +103,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
 
     public function tenants(): BelongsToMany
     {
-        return $this->belongsToMany(Organisation::class, 'organisation_users', 'user_id', 'organisation_id', )
+        return $this->belongsToMany(Organisation::class, 'organisation_users', 'user_id', 'organisation_id')
             ->using(TenantPivot::class)
             ->withTimestamps();
     }
@@ -142,4 +143,22 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
             'name',
         ];
     }
+
+    public function asMember(?string $organisationId)
+    {
+        if ($organisationId) {
+            $organisation = Organisation::find($organisationId);
+            if ($organisation) {
+                tenancy()->initialize($organisation);
+            }
+        }
+
+        if (!tenancy()) {
+            // Currently not in organisation context
+            return null;
+        }
+
+        return Member::find($this->id);
+    }
+
 }

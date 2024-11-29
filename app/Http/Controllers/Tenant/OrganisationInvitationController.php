@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Http\Controllers\Tenant;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Organisation\Invitation\CreateOrganisationInvitationRequest;
+use App\Models\Tenant\OrganisationInvitation;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class OrganisationInvitationController extends Controller
+{
+
+    protected string $baseRouteName = "organisations.invitations.show";
+    protected string $baseViewPath = "Tenant/Organisation/Invitation";
+
+    /**
+     * Display a listing of the resource.
+     * @throws AuthorizationException
+     */
+    public function index(): Response
+    {
+        $this->authorize('viewAny', OrganisationInvitation::class);
+
+        $invitations = OrganisationInvitation::all();
+
+        return Inertia::render($this->getIndexView(), [
+            'invitations' => $invitations,
+            'permissions' => [
+                'organisationInvitations' => [
+                    'create' => $this->authorize('create', OrganisationInvitation::class),
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     * @throws AuthorizationException
+     */
+    public function create(): Response
+    {
+        $this->authorize('create', OrganisationInvitation::class);
+        return Inertia::render($this->getCreateView());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @throws ValidationException
+     * @throws AuthorizationException
+     */
+    public function store(CreateOrganisationInvitationRequest $request): RedirectResponse
+    {
+        $this->authorize('create', OrganisationInvitation::class);
+        $validated = $request->validated();
+
+        $invitation = $request->user()->asMember()->invitations()
+            ->create(array_merge($validated, array('token' => Str::orderedUuid())));
+
+        return $this->redirect($request, $this->getShowRouteName(), ['invitation' => $invitation]);
+    }
+
+    /**
+     * Display the specified resource.
+     * @throws AuthorizationException
+     */
+    public function show(string $id): Response|RedirectResponse
+    {
+        $invitation = OrganisationInvitation::find( $id);
+        if (!$invitation) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+        $this->authorize('view', $invitation);
+
+        return Inertia::render($this->getShowView(), [
+            'invitation' => $invitation
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @throws AuthorizationException
+     */
+    public function destroy(string $id): RedirectResponse
+    {
+        $invitation = OrganisationInvitation::find($id);
+        if (!$invitation) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+        $this->authorize('delete', $invitation);
+
+        $invitation->delete();
+
+        return redirect()->route($this->getIndexRouteName());
+    }
+}

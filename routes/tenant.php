@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenant\MemberController;
+use App\Http\Controllers\Tenant\OrganisationInvitationController;
+use App\Models\Organisation;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,9 +42,20 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->middleware(['auth', 'verified'])->name('tenant.dashboard');
 
-    Route::name('organisations.invitations.')->prefix('invitations')->group(function () {
+    Route::get('/mailable', function () {
+        $users = User::take(2)->get();
+        /** @var Organisation $organisation */
+        $organisation = Organisation::first();
+
+        return new App\Mail\OrganisationInvitation($users->first(), $users->last(), $organisation, route("invitations.accept", "123"));
+    });
+
+    Route::name('invitations.')->prefix('invitations')->group(function () {
         Route::get('/{code}', function () {
             return Inertia::render('Welcome');
         })->name("accept");
     });
+
+    Route::resource('organisation.invitations', OrganisationInvitationController::class)
+        ->except(['edit', 'update']);
 });

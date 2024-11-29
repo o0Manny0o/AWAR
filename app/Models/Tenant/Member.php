@@ -5,6 +5,7 @@ namespace App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
 use Stancl\Tenancy\Contracts\Syncable;
 use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
@@ -62,5 +63,13 @@ class Member extends Model implements Syncable
             'id',
             'name',
         ];
+    }
+
+    /**
+     * Get the invitation for the member.
+     */
+    public function invitations(): HasMany
+    {
+        return $this->hasMany(OrganisationInvitation::class);
     }
 }

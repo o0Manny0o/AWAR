@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Organisation;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Organisation\CreateOrganisationApplicationRequest;
-use App\Http\Requests\Organisation\UpdateOrganisationApplicationRequest;
+use App\Http\Requests\Organisation\Application\CreateOrganisationApplicationRequest;
+use App\Http\Requests\Organisation\Application\UpdateOrganisationApplicationRequest;
 use App\Models\OrganisationApplication;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
@@ -58,7 +58,7 @@ class OrganisationApplicationController extends Controller
     {
         $this->authorize('create', OrganisationApplication::class);
 
-        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
+        $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application || $step < 1 || $step > 3) {
             return redirect()->route('organisations.applications.create');
         }
@@ -79,8 +79,7 @@ class OrganisationApplicationController extends Controller
         $this->authorize('create', OrganisationApplication::class);
         $validated = $request->validated();
 
-        $application = $request->user()->organisationApplications()->create(
-            array_merge($validated, array('id' => Str::orderedUuid())));
+        $application = $request->user()->organisationApplications()->create($validated);
 
         return $this->redirect($request, 'organisations.applications.create.step', ['application' => $application, 'step' => 2]);
     }
@@ -91,7 +90,7 @@ class OrganisationApplicationController extends Controller
      */
     public function storeByStep(CreateOrganisationApplicationRequest $request, string $id, int $step): RedirectResponse
     {
-        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
+        $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application || $step < 1 || $step > 3) {
             return redirect()->route('organisations.applications.create');
         }
@@ -117,7 +116,7 @@ class OrganisationApplicationController extends Controller
      */
     public function show(string $id)
     {
-        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
+        $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application) {
             return redirect()->route('organisations.applications.index');
         }
@@ -134,7 +133,7 @@ class OrganisationApplicationController extends Controller
      */
     public function edit(Request $request, string $id): Response|RedirectResponse
     {
-        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
+        $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application) {
             return redirect()->route('organisations.applications.index');
         }
@@ -151,7 +150,7 @@ class OrganisationApplicationController extends Controller
      */
     public function update(UpdateOrganisationApplicationRequest $request, string $id)
     {
-        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
+        $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application) {
             return redirect()->route('organisations.applications.index');
         }
@@ -175,7 +174,7 @@ class OrganisationApplicationController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $application = OrganisationApplication::whereId($id)->first();
+        $application = OrganisationApplication::find($id);
         if (!$application || $application->trashed()) {
             return redirect()->route('organisations.applications.index');
         }
@@ -192,7 +191,7 @@ class OrganisationApplicationController extends Controller
      */
     public function restore(Request $request, string $id)
     {
-        $application = OrganisationApplication::withTrashed()->where("id", $id)->first();
+        $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application || !$application->trashed()) {
             return redirect()->route('organisations.applications.index');
         }
@@ -211,7 +210,7 @@ class OrganisationApplicationController extends Controller
      */
     public function submit(Request $request, string $id)
     {
-        $application = OrganisationApplication::whereId($id)->first();
+        $application = OrganisationApplication::find($id);
         if (!$application) {
             return redirect()->route('organisations.applications.index');
         }
