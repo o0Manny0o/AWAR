@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\DefaultTenantUserRole;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('email')->unique();
             $table->uuid('token')->unique();
-            $table->string('role')->nullable();
+            $table->string('role')->default(DefaultTenantUserRole::MEMBER);
             $table->enum("status", ["pending", "sent", "accepted"])->default('pending');
             $table->timestamp("sent_at")->nullable();
             $table->timestamp("accepted_at")->nullable();
