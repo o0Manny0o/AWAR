@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('global_id');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamps();

@@ -55,6 +55,8 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User role($roles, $guard = null, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
+ * @property string $global_id
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereGlobalId($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements SyncMaster, MustVerifyEmail
@@ -103,7 +105,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
 
     public function tenants(): BelongsToMany
     {
-        return $this->belongsToMany(Organisation::class, 'organisation_users', 'user_id', 'organisation_id')
+        return $this->belongsToMany(Organisation::class, 'organisation_users', 'global_user_id', 'tenant_id', 'global_id')
             ->using(TenantPivot::class)
             ->withTimestamps();
     }
@@ -115,7 +117,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
 
     public function getGlobalIdentifierKeyName(): string
     {
-        return "id";
+        return "global_id";
     }
 
     public function getGlobalIdentifierKey()
@@ -131,7 +133,6 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
     public function getSyncedAttributeNames(): array
     {
         return [
-            'id',
             'name',
             'email',
         ];
@@ -140,7 +141,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
     public function getSyncedCreationAttributes(): array
     {
         return [
-            'id',
+            'global_id',
             'name',
             'email',
         ];
@@ -160,7 +161,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
             return null;
         }
         /** @var Member|null $member */
-        $member = Member::find($this->id);
+        $member = Member::firstWhere("global_id", ($this->global_id));
         return $member;
     }
 

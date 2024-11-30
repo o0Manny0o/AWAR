@@ -70,7 +70,7 @@ class Organisation extends Tenant implements TenantWithDatabase
 
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'organisation_users', 'organisation_id', 'user_id')
+        return $this->belongsToMany(User::class, 'organisation_users', 'tenant_id', 'global_user_id', 'id', 'global_id')
             ->using(TenantPivot::class)
             ->withTimestamps();
     }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum("status", ["pending", "sent", "accepted"])->default('pending');
             $table->timestamp("sent_at")->nullable();
             $table->timestamp("accepted_at")->nullable();
+            $table->timestamp("valid_until")->nullable();
 
             $table->foreignUuid("member_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- *
+ * 
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newQuery()
@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read bool $can_be_submitted
  * @property-read bool $can_be_updated
  * @property-read bool $can_be_viewed
+ * @property-read bool $can_be_resended
  * @mixin \Eloquent
  */
 class OrganisationInvitation extends Model
@@ -32,7 +33,8 @@ class OrganisationInvitation extends Model
         'member_id',
         'status',
         'sent_at',
-        'accepted_at'
+        'accepted_at',
+        'valid_until',
     ];
 
     protected $appends = [
@@ -42,11 +44,22 @@ class OrganisationInvitation extends Model
 
     protected $casts = [
         'sent_at' => 'datetime',
-        'accepted_at' => 'datetime'
+        'accepted_at' => 'datetime',
+        'valid_until' => 'datetime'
     ];
 
     public function inviter(): BelongsTo
     {
         return $this->belongsTo(Member::class);
+    }
+
+    public function isExpired(): bool
+    {
+        return $this->valid_until->lessThan(now());
+    }
+
+    public function isValid(): bool
+    {
+        return !$this->isExpired();
     }
 }

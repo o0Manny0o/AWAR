@@ -36,6 +36,7 @@ Route::middleware([
         ]);
     })->name('tenant.landing-page');
 
+    Route::get('invitations/accept/{token}', [OrganisationInvitationController::class, 'accept'])->name("organisation.invitations.accept");
 
     Route::middleware(['auth', 'verified'])
         ->group(function () {
@@ -45,10 +46,6 @@ Route::middleware([
 
             Route::name('organisation.')
                 ->group(function () {
-
-                    Route::name('invitations.')->prefix('invitations')->group(function () {
-                        Route::get('/accept/{token}', [OrganisationInvitationController::class, 'accept'])->name("accept");
-                    });
                     Route::name('invitations.')->prefix('invitations')->group(function () {
                         Route::post('/resend/{id}', [OrganisationInvitationController::class, 'resend'])->name("resend");
                     });

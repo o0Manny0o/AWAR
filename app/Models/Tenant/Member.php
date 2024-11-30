@@ -38,7 +38,7 @@ class Member extends Model implements Syncable
 
     public function getGlobalIdentifierKeyName(): string
     {
-        return 'id';
+        return 'global_id';
     }
 
     public function getGlobalIdentifierKey(): string
@@ -54,16 +54,17 @@ class Member extends Model implements Syncable
     public function getSyncedAttributeNames(): array
     {
         return [
-            'id',
             'name',
+            'email',
         ];
     }
 
     public function getSyncedCreationAttributes(): array
     {
         return [
-            'id',
+            'global_id',
             'name',
+            'email',
         ];
     }
 

@@ -50,7 +50,7 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
         }
 
         tenancy()->find($organisation->id)->run(function () use ($user) {
-            $member = Member::firstWhere("id", $user->id);
+            $member = Member::firstWhere("global_id", $user->global_id);
             $member->assignRole(DefaultTenantUserRole::ADMIN);
         });
     }

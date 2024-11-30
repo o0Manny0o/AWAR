@@ -55,6 +55,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read bool $can_be_submitted
  * @property-read bool $can_be_updated
  * @property-read bool $can_be_viewed
+ * @property-read bool $can_be_resended
  * @mixin \Eloquent
  */
 class OrganisationApplication extends Model

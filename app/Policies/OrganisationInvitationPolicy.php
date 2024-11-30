@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationInvitation;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class OrganisationInvitationPolicy extends BasePolicy
 {
@@ -51,7 +51,7 @@ class OrganisationInvitationPolicy extends BasePolicy
      */
     public function resend(User $user, OrganisationInvitation $organisationInvitation): bool
     {
-        return $this->isAdmin($user) && $organisationInvitation->sent_at->diffInHours(now()) > 3;
+        return $this->isAdmin($user) && Member::firstWhere('email', $organisationInvitation->email) == null && $organisationInvitation->sent_at->diffInHours(now()) > 3;
     }
 
 }

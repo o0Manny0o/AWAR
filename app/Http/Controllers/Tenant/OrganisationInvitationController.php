@@ -6,6 +6,7 @@ use App\Events\InvitationCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\Invitation\CreateOrganisationInvitationRequest;
 use App\Models\Tenant\OrganisationInvitation;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -124,5 +125,29 @@ class OrganisationInvitationController extends Controller
         InvitationCreated::dispatch($invitation);
 
         return $this->redirect($request, $this->getIndexRouteName());
+    }
+
+    /**
+     * Resend the specified resource.
+     * @throws AuthorizationException
+     */
+    public function accept(Request $request, string $token): Response|RedirectResponse
+    {
+        /** @var OrganisationInvitation $invitation */
+        $invitation = OrganisationInvitation::firstWhere('token', $token);
+        if (!$invitation || $invitation->isExpired()) {
+            // TODO: Expired/Invalid Page
+            return redirect()->route("tenant.landing-page", ["e" => "Notfound-expired"]);
+        }
+
+        if ($request->user() && $request->user()->email !== $invitation->email) {
+            // TODO: Expired/Invalid Page
+            return redirect()->route("tenant.landing-page", ["e" => "wrong-email"]);
+        }
+
+        $user = User::firstWhere("email", $invitation->email);
+
+        return redirect()->route($user ? "login" :"register", ["token" => $invitation->token, "organisation" => tenancy()->tenant->id]);
+
     }
 }
