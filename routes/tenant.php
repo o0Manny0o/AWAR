@@ -48,7 +48,7 @@ Route::middleware([
                 /** @var Organisation $organisation */
                 $organisation = Organisation::first();
 
-                return new App\Mail\OrganisationInvitation($users->first(), $users->last(), $organisation, route("invitations.accept", "123"));
+                return new App\Mail\OrganisationInvitationMail($users->first(), $users->last(), $organisation, route("invitations.accept", "123"));
             });
 
             Route::name('organisation.')

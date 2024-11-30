@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tenant;
 
+use App\Events\InvitationCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\Invitation\CreateOrganisationInvitationRequest;
 use App\Models\Tenant\OrganisationInvitation;
@@ -16,7 +17,7 @@ use Inertia\Response;
 class OrganisationInvitationController extends Controller
 {
 
-    protected string $baseRouteName = "organisations.invitations";
+    protected string $baseRouteName = "organisation.invitations";
     protected string $baseViewPath = "Tenant/Organisation/Invitation";
 
     private function permissions(Request $request, OrganisationInvitation $invitation = null): array
@@ -74,6 +75,8 @@ class OrganisationInvitationController extends Controller
 
         $invitation = $request->user()->asMember()->invitations()
             ->create(array_merge($validated, array('token' => Str::orderedUuid())));
+
+        InvitationCreated::dispatch($invitation);
 
         return $this->redirect($request, $this->getShowRouteName(), ['invitation' => $invitation]);
     }

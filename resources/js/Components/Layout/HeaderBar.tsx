@@ -6,7 +6,7 @@ import {
     TransitionChild,
 } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import {
     DesktopMainNav,
@@ -28,6 +28,7 @@ export function HeaderBar({
     mobileNavigation?: ReactNode
 }) {
     const __ = useTranslate()
+    const { isTenant } = usePage().props
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -69,7 +70,11 @@ export function HeaderBar({
                         {secondaryNavigation ?? (
                             <DesktopSecondaryNav>
                                 <DesktopNavLink
-                                    href={route('dashboard', undefined, false)}
+                                    href={
+                                        isTenant
+                                            ? route('tenant.dashboard')
+                                            : route('dashboard')
+                                    }
                                     active={route().current('dashboard')}
                                 >
                                     {__('general.navigation.dashboard')}

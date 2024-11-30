@@ -3,19 +3,21 @@
 namespace App\Mail;
 
 use App\Models\Organisation;
-use App\Models\User;
+use App\Models\Tenant\Member;
+use App\Models\Tenant\OrganisationInvitation;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
-class OrganisationInvitation extends BaseMail
+class OrganisationInvitationMail extends BaseMail
 {
 
     /**
      * Create a new message instance.
      */
     public function __construct(
-        public User $invitee,
-        public User $inviter,
+        public OrganisationInvitation $invitation,
+        public string $invitee,
+        public Member $inviter,
         public Organisation $organisation,
         public string $url)
     {

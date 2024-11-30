@@ -22,4 +22,13 @@ class BaseMail extends Mailable
         );
     }
 
+    public function send($mailer): void
+    {
+        $this->withSymfonyMessage(function ($message) {
+            $message->mailable = $this::class;
+        });
+
+        parent::send($mailer);
+    }
+
 }
