@@ -59,7 +59,7 @@ Route::middleware([
                     });
 
                     Route::resource('invitations', OrganisationInvitationController::class)
-                        ->except(['edit', 'update']);
+                        ->except(['edit', 'update', 'destroy']);
                 });
 
 

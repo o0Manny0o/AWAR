@@ -43,7 +43,7 @@ class OrganisationInvitationPolicy extends BasePolicy
      */
     public function delete(User $user, OrganisationInvitation $organisationInvitation): bool
     {
-        return $this->isAdminOrOwner($user, $organisationInvitation);
+        return false;
     }
 
 }

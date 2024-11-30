@@ -99,21 +99,4 @@ class OrganisationInvitationController extends Controller
             'permissions' => $this->permissions($request, $invitation)
         ]);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     * @throws AuthorizationException
-     */
-    public function destroy(string $id): RedirectResponse
-    {
-        $invitation = OrganisationInvitation::find($id);
-        if (!$invitation) {
-            return redirect()->route($this->getIndexRouteName());
-        }
-        $this->authorize('delete', $invitation);
-
-        $invitation->delete();
-
-        return redirect()->route($this->getIndexRouteName());
-    }
 }

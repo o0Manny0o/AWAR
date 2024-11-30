@@ -83,8 +83,7 @@ export default function List<
                             as="div"
                             className={
                                 'relative flex-none ' +
-                                (canView(entity) ||
-                                canUpdate(entity) ||
+                                (canUpdate(entity) ||
                                 canDelete(entity) ||
                                 canRestore(entity)
                                     ? ''
