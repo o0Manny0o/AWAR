@@ -19,7 +19,7 @@ class OrganisationInvitationPolicy extends BasePolicy
      */
     public function view(User $user, OrganisationInvitation $organisationInvitation): bool
     {
-        return $this->isAdminOrOwner($user, $organisationInvitation);
+        return $this->isAdmin($user);
     }
 
     /**
@@ -44,6 +44,14 @@ class OrganisationInvitationPolicy extends BasePolicy
     public function delete(User $user, OrganisationInvitation $organisationInvitation): bool
     {
         return false;
+    }
+
+    /**
+     * Determine whether the user can resend the model.
+     */
+    public function resend(User $user, OrganisationInvitation $organisationInvitation): bool
+    {
+        return $this->isAdmin($user) && $organisationInvitation->sent_at->diffInHours(now()) > 3;
     }
 
 }

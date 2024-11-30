@@ -11,6 +11,7 @@ trait HasResourcePermissions
     private bool $updatable = false;
     private bool $viewable = false;
     private bool $submittable = false;
+    private bool $resendable = false;
 
     public function setPermissions($user): void
     {
@@ -19,7 +20,7 @@ trait HasResourcePermissions
         $this->viewable = $user->can('view', $this);
         $this->updatable = $user->can('update', $this);
         $this->submittable = $user->can('submit', $this);
-
+        $this->resendable = $user->can('resend', $this);
     }
 
     public function isDeletable(): bool
@@ -70,5 +71,15 @@ trait HasResourcePermissions
     public function getCanBeSubmittedAttribute(): bool
     {
         return $this->isSubmittable();
+    }
+
+    public function isResendable(): bool
+    {
+        return $this->resendable;
+    }
+
+    public function getCanBeResendedAttribute(): bool
+    {
+        return $this->isResendable();
     }
 }

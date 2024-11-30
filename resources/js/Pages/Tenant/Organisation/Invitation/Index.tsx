@@ -5,12 +5,12 @@ import PageHeader from '@/Components/Layout/PageHeader'
 import { Card } from '@/Components/Layout/Card'
 import usePermission from '@/shared/hooks/usePermission'
 import List from '@/Components/Resource/List'
-import OrganisationInvitation = App.Models.OrganisationInvitation
 import {
     badgeColor,
     badgeLabelKey,
 } from '@/Pages/Tenant/Organisation/Invitation/Lib/OrganisationInvitation.util'
 import { Badge } from '@/Components/_Base/Badge'
+import OrganisationInvitation = App.Models.OrganisationInvitation
 
 export default function Index({
     invitations,

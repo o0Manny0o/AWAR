@@ -79,16 +79,16 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
+    "organisation.invitations.resend": [
+        {
+            "name": "id",
+            "required": true
+        }
+    ],
     "organisation.invitations.index": [],
     "organisation.invitations.create": [],
     "organisation.invitations.store": [],
     "organisation.invitations.show": [
-        {
-            "name": "invitation",
-            "required": true
-        }
-    ],
-    "organisation.invitations.destroy": [
         {
             "name": "invitation",
             "required": true

@@ -37,6 +37,12 @@ class OrganisationInvitation extends Model
 
     protected $appends = [
         'can_be_viewed',
+        'can_be_resended',
+    ];
+
+    protected $casts = [
+        'sent_at' => 'datetime',
+        'accepted_at' => 'datetime'
     ];
 
     public function inviter(): BelongsTo

@@ -17,6 +17,7 @@ export default function List<
     subtitle,
     resourceLabel = '',
     resourceUrl,
+    menuItems,
 }: {
     entities: T[]
     title: (e: T) => string
@@ -24,10 +25,12 @@ export default function List<
     badge: (e: T) => ReactNode
     resourceLabel?: TranslationKey | string
     resourceUrl: string
+    menuItems?: ((e: T) => ReactNode)[]
 }) {
     const __ = useTranslate()
     const { locale } = usePage().props
-    const { canDelete, canRestore, canUpdate, canView } = usePermission()
+    const { canDelete, canRestore, canUpdate, canView, canResend } =
+        usePermission()
 
     return (
         <ul role="list" className="divide-y divide-gray-100">
@@ -83,9 +86,11 @@ export default function List<
                             as="div"
                             className={
                                 'relative flex-none ' +
-                                (canUpdate(entity) ||
+                                (menuItems?.length ||
+                                canUpdate(entity) ||
                                 canDelete(entity) ||
-                                canRestore(entity)
+                                canRestore(entity) ||
+                                canResend(entity)
                                     ? ''
                                     : 'sm:hidden')
                             }
@@ -180,6 +185,32 @@ export default function List<
                                         </MenuItemLink>
                                     </MenuItem>
                                 )}
+
+                                {canResend(entity) && (
+                                    <MenuItem>
+                                        <MenuItemLink
+                                            method={'post'}
+                                            as={'button'}
+                                            href={route(
+                                                resourceUrl + '.resend',
+                                                entity.id,
+                                            )}
+                                        >
+                                            {__(
+                                                'general.button.resend' as TranslationKey,
+                                                {
+                                                    resource: '',
+                                                },
+                                            )}
+                                            <span className="sr-only">
+                                                , {entity.name}
+                                            </span>
+                                        </MenuItemLink>
+                                    </MenuItem>
+                                )}
+
+                                {menuItems?.length &&
+                                    menuItems.map((item) => item(entity))}
                             </MenuItems>
                         </Menu>
                     </div>

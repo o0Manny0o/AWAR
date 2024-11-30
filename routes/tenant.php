@@ -43,19 +43,14 @@ Route::middleware([
                 return Inertia::render('Dashboard');
             })->name('tenant.dashboard');
 
-            Route::get('/mailable', function () {
-                $users = User::take(2)->get();
-                /** @var Organisation $organisation */
-                $organisation = Organisation::first();
-
-                return new App\Mail\OrganisationInvitationMail($users->first(), $users->last(), $organisation, route("invitations.accept", "123"));
-            });
-
             Route::name('organisation.')
                 ->group(function () {
 
                     Route::name('invitations.')->prefix('invitations')->group(function () {
                         Route::get('/accept/{token}', [OrganisationInvitationController::class, 'accept'])->name("accept");
+                    });
+                    Route::name('invitations.')->prefix('invitations')->group(function () {
+                        Route::post('/resend/{id}', [OrganisationInvitationController::class, 'resend'])->name("resend");
                     });
 
                     Route::resource('invitations', OrganisationInvitationController::class)

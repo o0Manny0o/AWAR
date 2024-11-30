@@ -99,4 +99,28 @@ class OrganisationInvitationController extends Controller
             'permissions' => $this->permissions($request, $invitation)
         ]);
     }
+
+    /**
+     * Resend the specified resource.
+     * @throws AuthorizationException
+     */
+    public function resend(Request $request, string $id): Response|RedirectResponse
+    {
+        /** @var OrganisationInvitation $invitation */
+        $invitation = OrganisationInvitation::find( $id);
+        if (!$invitation) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('resend', $invitation);
+
+        $invitation->update([
+            'sent_at' => null,
+            'status' => 'pending'
+        ]);
+
+        InvitationCreated::dispatch($invitation);
+
+        return $this->redirect($request, $this->getIndexRouteName());
+    }
 }
