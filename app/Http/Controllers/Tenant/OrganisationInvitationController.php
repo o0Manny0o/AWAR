@@ -22,6 +22,8 @@ class OrganisationInvitationController extends Controller
 
     private function permissions(Request $request, OrganisationInvitation $invitation = null): array
     {
+        $invitation?->setPermissions($request->user());
+
         return [
             'organisations' => [
                 'invitations' => [

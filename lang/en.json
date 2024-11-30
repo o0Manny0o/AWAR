@@ -219,7 +219,8 @@
             "cancel": "Cancel",
             "go_back": "Go back",
             "go_back_to": "Back to :page",
-            "send": "Send :resource"
+            "send": "Send :resource",
+            "resend": "Resend :resource"
         },
         "last_update": "Last Update",
         "options": "Options",

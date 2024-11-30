@@ -56,7 +56,8 @@
             "cancel": "Abbrechen",
             "go_back": "Zurück",
             "go_back_to": "Zurück zur :page",
-            "send": ":resource Senden"
+            "send": ":resource Senden",
+            "resend": ":resource Erneut Senden"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",

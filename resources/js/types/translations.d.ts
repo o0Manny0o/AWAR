@@ -211,6 +211,7 @@ type General_Button = {
     go_back: string;
     go_back_to: string;
     send: string;
+    resend: string;
 };
 type General_Resources = {
     organisation: Resources_Organisation;

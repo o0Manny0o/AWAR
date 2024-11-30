@@ -6,7 +6,7 @@ import { Card } from '@/Components/Layout/Card'
 import { badgeColor, badgeLabelKey } from './Lib/OrganisationInvitation.util'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
 import OrganisationInvitation = App.Models.OrganisationInvitation
-import { ShowActionButtons } from './Lib/OragnisationInvitation.buttons'
+import { ShowActionButtons } from './Lib/OrganisationInvitation.buttons'
 
 export default function Show({
     invitation,
