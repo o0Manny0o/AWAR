@@ -67,28 +67,27 @@ class RegisteredUserController extends Controller
             'organisation' => 'sometimes|uuid',
         ]);
 
-        tenancy()->central(function () use ($request) {
-            /** @var User $user */
-            $user = User::create([
-                'global_id' => Str::orderedUuid(),
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+        /** @var User $user */
+        $user = User::create([
+            'global_id' => Str::orderedUuid(),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-            event(new Registered($user));
+        event(new Registered($user));
 
-            if ($request->token && $request->organisation) {
-                /** @var Organisation|null $organisation */
-                $organisation = Organisation::find($request->organisation);
-                if ($organisation) {
-                    $user->tenants()->attach($organisation);
-                }
-                event(new InvitationAccepted($request->token, $request->organisation, $user));
+        if ($request->token && $request->organisation) {
+            // Add user to the organisation they were invited to
+            /** @var Organisation|null $organisation */
+            $organisation = Organisation::find($request->organisation);
+            if ($organisation) {
+                $user->tenants()->attach($organisation);
             }
+            event(new InvitationAccepted($request->token, $request->organisation, $user));
+        }
 
-            Auth::login($user);
-        });
+        Auth::login($user);
 
 
         return redirect(route('dashboard', absolute: false));

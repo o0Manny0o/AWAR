@@ -5,15 +5,35 @@ namespace App\Listeners;
 use Illuminate\Database\Eloquent\Model;
 use Stancl\Tenancy\Contracts\SyncMaster;
 use Stancl\Tenancy\Events\SyncedResourceChangedInForeignDatabase;
+use Stancl\Tenancy\Events\SyncedResourceSaved;
 use Stancl\Tenancy\Listeners\UpdateSyncedResource as BaseUpdateSyncedResource;
 
 /**
  * Overrides the base class to create models with only selected attributes
  * Taken from planned feature for 4.X: https://github.com/archtechx/tenancy/pull/915
  * TODO: Remove when 4.X is released
+ *
+ * Also changes the change detection to check for the type of model that was changed instead of the
+ * origin of the event
  */
 class UpdateSyncedResource extends BaseUpdateSyncedResource
 {
+    public function handle(SyncedResourceSaved $event)
+    {
+        $syncedAttributes = $event->model->only($event->model->getSyncedAttributeNames());
+
+        // We update the central record only if the event comes from tenant context.
+        // As a tenant can change the central model (for example, by creating a new user during registration),
+        // we check the type of model here instead of the origin of the event
+        if (! $event->model instanceof SyncMaster) {
+            $tenants = $this->updateResourceInCentralDatabaseAndGetTenants($event, $syncedAttributes);
+        } else {
+            $tenants = $this->getTenantsForCentralModel($event->model);
+        }
+
+        $this->updateResourceInTenantDatabases($tenants, $event, $syncedAttributes);
+    }
+
     protected function updateResourceInTenantDatabases($tenants, $event, $syncedAttributes)
     {
         tenancy()->runForMultiple($tenants, function ($tenant) use ($event, $syncedAttributes) {
