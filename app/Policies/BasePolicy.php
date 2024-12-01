@@ -22,7 +22,7 @@ abstract class BasePolicy
     {
         if (tenancy()->initialized) {
             /** @var Member $member */
-            $member = Member::find($user->id);
+            $member = Member::firstWhere('global_id', $user->global_id);
             return $member?->hasRole(DefaultTenantUserRole::ADMIN) ?? false;
         } else {
             return $user->hasRole(CentralUserRole::ADMIN);

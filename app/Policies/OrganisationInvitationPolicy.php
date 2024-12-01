@@ -51,7 +51,9 @@ class OrganisationInvitationPolicy extends BasePolicy
      */
     public function resend(User $user, OrganisationInvitation $organisationInvitation): bool
     {
-        return $this->isAdmin($user) && Member::firstWhere('email', $organisationInvitation->email) == null && $organisationInvitation->sent_at->diffInHours(now()) > 3;
+        return $this->isAdmin($user) &&
+            Member::firstWhere('email', $organisationInvitation->email) == null &&
+            ($organisationInvitation->sent_at === null || $organisationInvitation->sent_at->diffInHours(now()) > 3);
     }
 
 }
