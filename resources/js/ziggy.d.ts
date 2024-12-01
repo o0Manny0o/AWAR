@@ -94,6 +94,7 @@ declare module 'ziggy-js' {
                 required: true
             },
         ]
+        'organisation.members.index': []
         'profile.edit': []
         'profile.update': []
         'profile.destroy': []

@@ -15,6 +15,7 @@ export default function List<
     title,
     badge,
     subtitle,
+    secondarySubtitle,
     resourceLabel = '',
     resourceUrl,
     menuItems,
@@ -22,7 +23,8 @@ export default function List<
     entities: T[]
     title: (e: T) => string
     subtitle: (e: T) => string
-    badge: (e: T) => ReactNode
+    secondarySubtitle?: (e: T) => string
+    badge?: (e: T) => ReactNode
     resourceLabel?: TranslationKey | string
     resourceUrl: string
     menuItems?: ((e: T) => ReactNode)[]
@@ -44,7 +46,7 @@ export default function List<
                             <p className="text-md/6 font-semibold text-gray-900 dark:text-gray-100">
                                 {title(entity)}
                             </p>
-                            {badge(entity)}
+                            {badge && badge(entity)}
                         </div>
                         <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                             <p className="whitespace-nowrap">
@@ -56,17 +58,23 @@ export default function List<
                             >
                                 <circle r={1} cx={1} cy={1} />
                             </svg>
-                            {__('general.last_update')}
-                            <time
-                                dateTime={new Date(
-                                    entity.updated_at,
-                                ).toLocaleString(locale)}
-                            >
-                                {/* TODO: replace with relative date */}
-                                {new Date(entity.updated_at).toLocaleString(
-                                    locale,
-                                )}
-                            </time>
+                            {secondarySubtitle ? (
+                                secondarySubtitle(entity)
+                            ) : (
+                                <>
+                                    {__('general.last_update')}
+                                    <time
+                                        dateTime={new Date(
+                                            entity.updated_at,
+                                        ).toLocaleString(locale)}
+                                    >
+                                        {/* TODO: replace with relative date */}
+                                        {new Date(
+                                            entity.updated_at,
+                                        ).toLocaleString(locale)}
+                                    </time>
+                                </>
+                            )}
                         </div>
                     </div>
                     <div className="flex flex-none items-center gap-x-4">

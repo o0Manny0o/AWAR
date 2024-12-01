@@ -3,6 +3,7 @@
 namespace App\Models\Tenant;
 
 use App\Models\User;
+use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,7 +31,7 @@ use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
  */
 class Member extends Model implements Syncable
 {
-    use ResourceSyncing, HasUuids, HasRoles;
+    use ResourceSyncing, HasUuids, HasRoles, HasResourcePermissions;
 
     protected $guarded = [];
 

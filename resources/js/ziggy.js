@@ -121,6 +121,10 @@ const Ziggy = {
             methods: ['GET', 'HEAD'],
             parameters: ['invitation'],
         },
+        'organisation.members.index': {
+            uri: 'members',
+            methods: ['GET', 'HEAD'],
+        },
         'profile.edit': { uri: 'profile', methods: ['GET', 'HEAD'] },
         'profile.update': { uri: 'profile', methods: ['PATCH'] },
         'profile.destroy': { uri: 'profile', methods: ['DELETE'] },

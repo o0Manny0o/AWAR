@@ -24,4 +24,9 @@ export const TenantNavigation: NavigationItem[] = [
         routeName: 'organisation.invitations.index',
         label: 'general.navigation.organisations.invitations',
     },
+    {
+        name: 'organisation.members.index',
+        routeName: 'organisation.members.index',
+        label: 'general.navigation.organisations.members',
+    },
 ]
