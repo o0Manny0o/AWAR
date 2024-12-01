@@ -1,4 +1,11 @@
 declare namespace App.Models {
+    export interface Role {
+        id: string
+        name: string
+        created_at: string
+        updated_at: string
+    }
+
     export interface OrganisationApplication {
         id: string
         name: string
@@ -52,7 +59,7 @@ declare namespace App.Models {
         email: string
         status: InvitationStatus
         token: string
-        role?: string
+        role: Role
         sent_at: string
         accepted_at: string
         created_at: string

@@ -40,7 +40,7 @@ export default function Show({
                     label={__('organisations.invitations.form.role.label')}
                     value={__(
                         toTranslationKey(
-                            'general.roles.tenant.' + invitation.role,
+                            'general.roles.tenant.' + invitation.role.name,
                         ),
                     )}
                 />

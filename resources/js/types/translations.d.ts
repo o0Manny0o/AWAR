@@ -275,6 +275,7 @@ type Invitations_Mail = {
     body: string;
     get_started: string;
     regards: string;
+    subject: string;
 };
 type Invitations_Form = {
     email: Form_Set;

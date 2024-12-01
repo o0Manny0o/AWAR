@@ -17,6 +17,8 @@ class OrganisationApplicationController extends Controller
 {
     private function permissions(Request $request, OrganisationApplication $application = null): array
     {
+        $application?->setPermissions($request->user());
+
         return [
             'organisations' => [
                 'applications' => [

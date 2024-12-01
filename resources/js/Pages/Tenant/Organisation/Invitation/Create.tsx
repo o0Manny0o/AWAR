@@ -7,8 +7,10 @@ import CreateInvitationForm from '@/Pages/Tenant/Organisation/Invitation/Partial
 
 export default function Create({
     roleOptions,
-}: AppPageProps<{ roleOptions: string[] }>) {
+}: AppPageProps<{ roleOptions: { [id: number]: string } }>) {
     const __ = useTranslate()
+
+    console.log(roleOptions)
 
     return (
         <FlowLayout
@@ -22,7 +24,11 @@ export default function Create({
             <Head title={__('organisations.invitations.titles.create')} />
 
             <ElementRefProvider context={FormInputRefs}>
-                <CreateInvitationForm roleOptions={roleOptions} />
+                <CreateInvitationForm
+                    roleOptions={Object.entries(roleOptions).map(
+                        ([id, name]) => ({ id, name }),
+                    )}
+                />
             </ElementRefProvider>
         </FlowLayout>
     )

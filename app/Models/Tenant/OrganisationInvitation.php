@@ -6,9 +6,10 @@ use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Permission\Models\Role;
 
 /**
- * 
+ *
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newQuery()
@@ -28,7 +29,7 @@ class OrganisationInvitation extends Model
 
     protected $fillable = [
         'email',
-        'role',
+        'role_id',
         'token',
         'member_id',
         'status',
@@ -47,6 +48,11 @@ class OrganisationInvitation extends Model
         'accepted_at' => 'datetime',
         'valid_until' => 'datetime'
     ];
+
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
 
     public function inviter(): BelongsTo
     {

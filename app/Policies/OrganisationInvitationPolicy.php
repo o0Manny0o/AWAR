@@ -11,7 +11,7 @@ class OrganisationInvitationPolicy extends BasePolicy
 
     function isOwner(User $user, $entity): bool
     {
-      return $user->asMember()?->id === $entity->member_id;
+        return $user->asMember()?->id === $entity->member_id;
     }
 
     /**
@@ -53,7 +53,8 @@ class OrganisationInvitationPolicy extends BasePolicy
     {
         return $this->isAdmin($user) &&
             Member::firstWhere('email', $organisationInvitation->email) == null &&
-            ($organisationInvitation->sent_at === null || $organisationInvitation->sent_at->diffInHours(now()) > 3);
+            ($organisationInvitation->sent_at === null ||
+                $organisationInvitation->sent_at->diffInHours(now()) > config("tenancy.invitations_resend_timeout"));
     }
 
 }

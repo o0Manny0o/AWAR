@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
 
 class OrganisationInvitationController extends Controller
 {
@@ -45,7 +46,7 @@ class OrganisationInvitationController extends Controller
     {
         $this->authorize('viewAny', OrganisationInvitation::class);
 
-        $invitations = OrganisationInvitation::all();
+        $invitations = OrganisationInvitation::with("role")->get();
 
         foreach ($invitations as $invitation) {
             $invitation->setPermissions($request->user());
@@ -64,7 +65,8 @@ class OrganisationInvitationController extends Controller
     public function create(): Response
     {
         $this->authorize('create', OrganisationInvitation::class);
-        return Inertia::render($this->getCreateView(), ['roleOptions' => DefaultTenantUserRole::values()]);
+        $roles = Role::all()->pluck('name', 'id')->toArray();
+        return Inertia::render($this->getCreateView(), ['roleOptions' => $roles]);
     }
 
     /**
@@ -92,7 +94,7 @@ class OrganisationInvitationController extends Controller
     public function show(Request $request, string $id): Response|RedirectResponse
     {
         /** @var OrganisationInvitation $invitation */
-        $invitation = OrganisationInvitation::find( $id);
+        $invitation = OrganisationInvitation::with("role")->find($id) ;
         if (!$invitation) {
             return redirect()->route($this->getIndexRouteName());
         }

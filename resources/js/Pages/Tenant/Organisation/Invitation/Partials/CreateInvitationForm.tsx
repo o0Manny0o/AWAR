@@ -6,16 +6,16 @@ import { Button } from '@/Components/_Base/Button'
 import useTranslate from '@/shared/hooks/useTranslate'
 
 export default function CreateInvitationForm({
-    roleOptions = ['member'],
+    roleOptions,
 }: {
-    readonly roleOptions: string[]
+    readonly roleOptions: { id: string; name: string }[]
 }) {
     const __ = useTranslate()
     const { focusError } = useContext(FormInputRefs.Context)
 
     const { data, setData, errors, post, reset, processing } = useForm({
         email: '',
-        role: roleOptions[0],
+        role_id: roleOptions[0].id,
     })
 
     const submitHandler: FormEventHandler = (e) => {

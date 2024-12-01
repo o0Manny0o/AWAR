@@ -11,13 +11,13 @@ interface GroupProps {
 interface CreateGroupProps extends GroupProps {
     data: {
         email: string
-        role: string
+        role_id: string
     }
     errors: {
         email?: string
-        role?: string
+        role_id?: string
     }
-    readonly roleOptions: string[]
+    readonly roleOptions: { id: string; name: string }[]
 }
 
 export function CreateGroup({
@@ -50,15 +50,15 @@ export function CreateGroup({
             />
 
             <SelectGroup
-                name="role"
-                value={data.role}
+                name="role_id"
+                value={data.role_id}
                 ref={role}
                 label={__('organisations.invitations.form.role.label')}
-                error={errors.role}
-                onChange={(event) => setData('role', event.target.value)}
+                error={errors.role_id}
+                onChange={(event) => setData('role_id', event.target.value)}
                 options={roleOptions.map((role) => ({
-                    value: role,
-                    label: __(toTranslationKey(`${roleBase}.${role}`)),
+                    value: role.id,
+                    label: __(toTranslationKey(`${roleBase}.${role.name}`)),
                 }))}
             />
         </>

@@ -29,7 +29,7 @@ class OrganisationInvitationMail extends BaseMail
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->inviter->name . ' invited you to join ' . $this->organisation->name,
+            subject: __('organisations.invitations.mail.subject', ['inviter' => $this->inviter->name, 'organisation' => $this->organisation->name]),
         );
     }
 
@@ -40,7 +40,7 @@ class OrganisationInvitationMail extends BaseMail
     {
         return $this->localizedContent(
             view: 'mail.organisation_invite',
-            title: $this->inviter->name . ' invited you to join ' . $this->organisation->name
+            title: __('organisations.invitations.mail.subject', ['inviter' => $this->inviter->name, 'organisation' => $this->organisation->name])
         );
     }
 

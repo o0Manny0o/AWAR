@@ -27,7 +27,7 @@ class InvitationUpdatedSubscriber
             /** @var OrganisationInvitation|null $invitation */
             $invitation = OrganisationInvitation::find($event->data["invitation"]->id);
             if ($invitation && $invitation->status !== 'accepted') {
-                $invitation->update(["sent_at" => now(), "status" => 'sent', "valid_until" => now()->addDays(7)]);
+                $invitation->update(["sent_at" => now(), "status" => 'sent', "valid_until" => now()->addDays(config("tenancy.invitations_validity"))]);
             }
         }
     }

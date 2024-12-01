@@ -52,7 +52,7 @@ export default function Index({
                         subtitle={(e) =>
                             __(
                                 toTranslationKey(
-                                    'general.roles.tenant.' + e.role,
+                                    'general.roles.tenant.' + e.role.name,
                                 ),
                             )
                         }

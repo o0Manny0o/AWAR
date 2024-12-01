@@ -16,13 +16,13 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('email')->unique();
             $table->uuid('token')->unique();
-            $table->string('role')->default(DefaultTenantUserRole::MEMBER);
             $table->enum("status", ["pending", "sent", "accepted"])->default('pending');
             $table->timestamp("sent_at")->nullable();
             $table->timestamp("accepted_at")->nullable();
             $table->timestamp("valid_until")->nullable();
 
             $table->foreignUuid("member_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId("role_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });

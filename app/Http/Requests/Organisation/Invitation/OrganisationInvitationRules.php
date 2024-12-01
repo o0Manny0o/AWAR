@@ -18,9 +18,9 @@ class OrganisationInvitationRules
     public static function roleRules(): array
     {
         return [
-            'nullable',
+            'required',
             'string',
-            'exists:Spatie\Permission\Models\Role,name'
+            'exists:Spatie\Permission\Models\Role,id'
         ];
     }
 }
