@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Models\Role;
 
 /**
- * 
+ *
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newQuery()

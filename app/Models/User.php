@@ -17,7 +17,7 @@ use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
 use Stancl\Tenancy\Database\Models\TenantPivot;
 
 /**
- * 
+ *
  *
  * @property string $id
  * @property string $name

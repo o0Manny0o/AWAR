@@ -5,7 +5,7 @@ namespace App\Models;
 use Stancl\Tenancy\Database\Models\Domain as BaseDomain;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $domain

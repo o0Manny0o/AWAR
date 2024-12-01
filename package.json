@@ -4,7 +4,9 @@
     "scripts": {
         "build": "tsc && vite build && vite build --ssr",
         "dev": "vite",
-        "prepare": "husky"
+        "prepare": "husky",
+        "format": "prettier --write {./app/**/*.php,./resources/**/*.{tsx,css}}",
+        "check-format": "prettier --check {./app/**/*.php,./resources/**/*.{tsx,css}}"
     },
     "devDependencies": {
         "@headlessui/react": "^2.0.0",

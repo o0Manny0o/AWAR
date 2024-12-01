@@ -12,7 +12,7 @@ use Stancl\Tenancy\Database\Models\Tenant;
 use Stancl\Tenancy\Database\Models\TenantPivot;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
