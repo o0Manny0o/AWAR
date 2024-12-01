@@ -15,7 +15,8 @@
             "about": "Über Uns",
             "home": "Startseite",
             "organisations": {
-                "applications": "Bewerbungen"
+                "applications": "Bewerbungen",
+                "invitations": "Einladungen"
             },
             "overview": "Übersicht"
         },
@@ -38,7 +39,9 @@
             "approved": "Genehmigt",
             "rejected": "Abgelehnt",
             "created": "Erstellt",
-            "draft": "Entwurf"
+            "draft": "Entwurf",
+            "sent": "Gesendet",
+            "accepted": "Akzeptiert"
         },
         "button": {
             "view": ":resource Öffnen",
@@ -52,13 +55,32 @@
             "save": ":resource Speichern",
             "cancel": "Abbrechen",
             "go_back": "Zurück",
-            "go_back_to": "Zurück zur :page"
+            "go_back_to": "Zurück zur :page",
+            "send": ":resource Senden",
+            "resend": ":resource Erneut Senden"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",
         "deleted": "Gelöscht",
         "your_resource": "Ihre :resource",
-        "continue_later": "Möchten Sie später weiter machen?"
+        "continue_later": "Möchten Sie später weiter machen?",
+        "resources": {
+            "organisation": {
+                "invitation": "Einladung",
+                "application": "Bewerbung"
+            }
+        },
+        "roles": {
+            "tenant": {
+                "admin": "Admin",
+                "member": "Mitglied",
+                "adoption_lead": "Leitung der Adoption",
+                "adoption_handler": "Adoptions Bearbeiter",
+                "foster_home_lead": "Leitung der Pflegestellen",
+                "foster_home_handler": "Pflegestellen Betreuer",
+                "foster_home": "Pflegestelle"
+            }
+        }
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"
@@ -72,10 +94,6 @@
                 "type": {
                     "label": "Was macht Ihre Organisation?",
                     "placeholder": "Typ"
-                },
-                "role": {
-                    "label": "Was ist Ihre Rolle?",
-                    "placeholder": "Rolle"
                 },
                 "registered": {
                     "label": "Ist Ihre Organisation offiziell registriert?"
@@ -102,9 +120,40 @@
                 },
                 "address_info": "Adresse",
                 "subdomain_info": "Subdomain ",
-                "cancel_create": "Möchten Sie sich nicht für einen Organisations Platz bewerben?"
+                "cancel_create": "Möchten Sie sich nicht für einen Organisations Platz bewerben?",
+                "user_role": {
+                    "label": "Was ist Ihre Rolle?",
+                    "placeholder": "Rolle"
+                }
+            }
+        },
+        "invitations": {
+            "mail": {
+                "header": "Sie wurden zu einer Organisation eingeladen",
+                "body": "Wir freuen uns, Ihnen mitteilen zu können, dass :inviter Sie eingeladen hat, <strong>:name</strong> auf <a href=\"https://awar.app\">AWAR.app</a> beizutreten.",
+                "get_started": " Um loszulegen, klicken Sie einfach auf den unten angegebenen Einladungslink, um ein <a href=\"https://awar.app\">AWAR.app</a> Konto zu erstellen oder sich anzumelden. Wir freuen uns darauf, Sie an Bord zu haben, und sind gespannt auf die positiven Beiträge, die Sie leisten werden. Wenn Sie Fragen haben oder Unterstützung benötigen, können Sie sich gerne direkt an uns wenden.",
+                "regards": "Herzliche Grüße, <br /> Ihr AWAR-Team",
+                "subject": "Sie wurden von :inviter eingeladen, :organisation beizutreten"
             },
-            "application": "Bewerbung"
+            "form": {
+                "email": {
+                    "label": "E-Mail",
+                    "placeholder": "E-Mail"
+                },
+                "role": {
+                    "label": "Rolle",
+                    "placeholder": "Rolle"
+                },
+                "cancel_create": "Möchten Sie momentan niemanden einladen?"
+            },
+            "titles": {
+                "create": "Einladung senden",
+                "index": "Ihre Einladungen"
+            },
+            "headers": {
+                "index": "Ihre Einladungen",
+                "create": "Laden Sie jemanden in Ihre Organisation ein"
+            }
         }
     }
 }

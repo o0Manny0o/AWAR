@@ -11,7 +11,7 @@ export default function InputLabel({
         <label
             {...props}
             className={twMerge(
-                'text-basic block text-sm font-medium',
+                'text-basic block text-sm/6 font-medium',
                 className,
             )}
         >

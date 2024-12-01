@@ -72,7 +72,28 @@ declare module 'ziggy-js' {
         }
     ],
     "tenant.landing-page": [],
+    "organisation.invitations.accept": [
+        {
+            "name": "token",
+            "required": true
+        }
+    ],
     "tenant.dashboard": [],
+    "organisation.invitations.resend": [
+        {
+            "name": "id",
+            "required": true
+        }
+    ],
+    "organisation.invitations.index": [],
+    "organisation.invitations.create": [],
+    "organisation.invitations.store": [],
+    "organisation.invitations.show": [
+        {
+            "name": "invitation",
+            "required": true
+        }
+    ],
     "profile.edit": [],
     "profile.update": [],
     "profile.destroy": [],
@@ -82,32 +103,6 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
-    "register": [],
-    "login": [],
-    "password.request": [],
-    "password.email": [],
-    "password.reset": [
-        {
-            "name": "token",
-            "required": true
-        }
-    ],
-    "password.store": [],
-    "verification.notice": [],
-    "verification.verify": [
-        {
-            "name": "id",
-            "required": true
-        },
-        {
-            "name": "hash",
-            "required": true
-        }
-    ],
-    "verification.send": [],
-    "password.confirm": [],
-    "password.update": [],
-    "logout": [],
     "storage.local": [
         {
             "name": "path",

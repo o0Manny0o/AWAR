@@ -38,12 +38,14 @@ type Locale = {
     name: string
 }
 
+type NestedRecord<K, T> = Record<K, T | NestedRecord<K, T>>
+
 type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
     T & {
         auth: {
             user: User
         }
-        permissions?: Record<string, Record<string, boolean>>
+        permissions?: NestedRecord<string, boolean>
         ziggy: ZiggyConfig
         locale: LanguageKey
         locales: Locale[]
@@ -51,6 +53,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         fallback?: Translations
         centralDomain: string
         previousUrl?: string
+        isTenant: boolean
     }
 
 type TranslationKey = Paths<Translations, 10>

@@ -1,32 +1,37 @@
-import { Head, usePage } from '@inertiajs/react'
+import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import OrganisationApplicationList from '@/Pages/Organisation/Application/Partials/OrganisationApplicationList'
 import useTranslate from '@/shared/hooks/useTranslate'
 import PageHeader from '@/Components/Layout/PageHeader'
+import { Card } from '@/Components/Layout/Card'
+import usePermission from '@/shared/hooks/usePermission'
+import { Badge } from '@/Components/_Base/Badge'
+import {
+    badgeColor,
+    badgeLabelKey,
+} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
+import List from '@/Components/Resource/List'
 import Application = App.Models.OrganisationApplication
 
 export default function Index({
     applications,
 }: AppPageProps<{ applications: Application[] }>) {
     const __ = useTranslate()
-    const { permissions } = usePage().props
-
-    const canCreate = permissions?.organisationApplications?.create
+    const { can } = usePermission()
 
     return (
         <AuthenticatedLayout
             header={
                 <PageHeader
                     title={__('general.your_resource', {
-                        resource: 'organisations.applications.application',
+                        resource: 'general.resources.organisation.application',
                     })}
                     actionButtons={
-                        canCreate
+                        can('organisations.applications.create')
                             ? [
                                   {
                                       label: __('general.button.new', {
                                           resource:
-                                              'organisations.applications.application',
+                                              'general.resources.organisation.application',
                                       }),
                                       variant: 'primary',
                                       href: route(
@@ -37,20 +42,29 @@ export default function Index({
                             : []
                     }
                 >
-                    {/* TODO: Pluralize */}
+                    {/* TODO: Pluralize title */}
                 </PageHeader>
             }
         >
             <Head title="Organisation Applications" />
 
             <div className="py-12">
-                <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
-                    <div className="bg-ceiling p-4 shadow sm:rounded-lg sm:p-8">
-                        <OrganisationApplicationList
-                            applications={applications}
-                        />
-                    </div>
-                </div>
+                <Card>
+                    <List
+                        entities={applications}
+                        title={(a) => a.name}
+                        subtitle={(a) => a.type}
+                        badge={(a) => (
+                            <Badge color={badgeColor(a)}>
+                                {__(badgeLabelKey(a))}
+                            </Badge>
+                        )}
+                        resourceUrl={'organisations.applications'}
+                        resourceLabel={
+                            'general.resources.organisation.application'
+                        }
+                    />
+                </Card>
             </div>
         </AuthenticatedLayout>
     )

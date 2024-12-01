@@ -178,7 +178,8 @@
             "about": "About Us",
             "home": "Home",
             "organisations": {
-                "applications": "Applications"
+                "applications": "Applications",
+                "invitations": "Invitations"
             },
             "overview": "Overview"
         },
@@ -201,7 +202,9 @@
             "approved": "Approved",
             "rejected": "Rejected",
             "created": "Created",
-            "draft": "Draft"
+            "draft": "Draft",
+            "sent": "Sent",
+            "accepted": "Accepted"
         },
         "button": {
             "view": "View :resource",
@@ -215,13 +218,32 @@
             "save": "Save :resource",
             "cancel": "Cancel",
             "go_back": "Go back",
-            "go_back_to": "Back to :page"
+            "go_back_to": "Back to :page",
+            "send": "Send :resource",
+            "resend": "Resend :resource"
         },
         "last_update": "Last Update",
         "options": "Options",
         "deleted": "Deleted",
         "your_resource": "Your :resource",
-        "continue_later": "Would you like to continue later?"
+        "continue_later": "Would you like to continue later?",
+        "resources": {
+            "organisation": {
+                "invitation": "Invitation",
+                "application": "Application"
+            }
+        },
+        "roles": {
+            "tenant": {
+                "admin": "Admin",
+                "member": "Member",
+                "adoption_lead": "Adoption Lead",
+                "adoption_handler": "Adoption Handler",
+                "foster_home_lead": "Foster Home Lead",
+                "foster_home_handler": "Foster Home Handler",
+                "foster_home": "Foster Home"
+            }
+        }
     },
     "landing_page": {
         "welcome_message": "Welcome to AWAR, :name"
@@ -236,10 +258,6 @@
                 "type": {
                     "label": "What does your organisation do?",
                     "placeholder": "Type"
-                },
-                "role": {
-                    "label": "What is your role?",
-                    "placeholder": "Role"
                 },
                 "registered": {
                     "label": "Is your organisation officially registered?"
@@ -267,9 +285,43 @@
                 },
                 "address_info": "Address",
                 "subdomain_info": "Subdomain",
-                "cancel_create": "Don't want to apply for an organisation space?"
+                "cancel_create": "Don't want to apply for an organisation space?",
+                "user_role": {
+                    "label": "What is your role?",
+                    "placeholder": "Role"
+                }
+            }
+        },
+        "invitations": {
+            "mail": {
+                "header": "You were invited to an organisation",
+                "body": "We thrilled to let you know that :inviter invited you to join <strong>:name</strong> on <a href=\"https://awar.app\">AWAR.app</a>. ",
+                "get_started": "To get started, simply click the invitation link provided below to create or log into your <a href=\"https://awar.app\">AWAR.app</a> account. We’re looking forward to having you onboard and can’t wait to see the impact you’ll make. If you have any questions or need assistance, feel free to reach out to us directly.",
+                "regards": "Warm regards, <br /> Your AWAR Team",
+                "subject": ":inviter invited you to join :organisation"
             },
-            "application": "Application"
+            "form": {
+                "email": {
+                    "label": "Email",
+                    "placeholder": "Email"
+                },
+                "role": {
+                    "label": "Role",
+                    "placeholder": "Role"
+                },
+                "token": {
+                    "label": "Token"
+                },
+                "cancel_create": "Don't want to invite anyone right now?"
+            },
+            "titles": {
+                "create": "Send an invitation",
+                "index": "Your Invitations"
+            },
+            "headers": {
+                "index": "Your Invitations",
+                "create": "Invite someone to your organisation"
+            }
         }
     }
 }

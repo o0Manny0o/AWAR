@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Enum\DefaultTenantUserRole;
 use App\Models\Organisation;
+use App\Models\Tenant\Member;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 
-class createOrganisation extends Command implements PromptsForMissingInput
+class CreateOrganisation extends Command implements PromptsForMissingInput
 {
     /**
      * The name and signature of the console command.
@@ -46,5 +48,10 @@ class createOrganisation extends Command implements PromptsForMissingInput
             $user = User::find($user);
             $user->tenants()->attach($organisation);
         }
+
+        tenancy()->find($organisation->id)->run(function () use ($user) {
+            $member = Member::firstWhere("global_id", $user->global_id);
+            $member->assignRole(DefaultTenantUserRole::ADMIN);
+        });
     }
 }

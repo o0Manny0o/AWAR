@@ -70,11 +70,11 @@ export function GeneralInfoGroup({
             <InputGroup
                 name="role"
                 placeholder={__(
-                    'organisations.applications.form.role.placeholder',
+                    'organisations.applications.form.user_role.placeholder',
                 )}
                 value={data.user_role}
                 ref={role}
-                label={__('organisations.applications.form.role.label')}
+                label={__('organisations.applications.form.user_role.label')}
                 error={errors.user_role}
                 onChange={(value) => setData('user_role', value)}
             />
@@ -237,7 +237,7 @@ export function GeneralInfoShowGroup({
             />
             <ShowGroup
                 name="role"
-                label={__('organisations.applications.form.role.label')}
+                label={__('organisations.applications.form.user_role.label')}
                 value={application.user_role}
             />
             <ShowGroup

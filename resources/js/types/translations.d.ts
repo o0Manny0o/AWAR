@@ -152,6 +152,8 @@ type Translations_General = {
     deleted: string;
     your_resource: string;
     continue_later: string;
+    resources: General_Resources;
+    roles: General_Roles;
 };
 type General_Languages = {
     en: string;
@@ -170,6 +172,7 @@ type General_Navigation = {
 };
 type Navigation_Organisations = {
     applications: string;
+    invitations: string;
 };
 type General_Newsletter = {
     description: string;
@@ -191,6 +194,8 @@ type General_Status = {
     rejected: string;
     created: string;
     draft: string;
+    sent: string;
+    accepted: string;
 };
 type General_Button = {
     view: string;
@@ -205,22 +210,42 @@ type General_Button = {
     cancel: string;
     go_back: string;
     go_back_to: string;
+    send: string;
+    resend: string;
+};
+type General_Resources = {
+    organisation: Resources_Organisation;
+};
+type Resources_Organisation = {
+    invitation: string;
+    application: string;
+};
+type General_Roles = {
+    tenant: Roles_Tenant;
+};
+type Roles_Tenant = {
+    admin: string;
+    member: string;
+    adoption_lead: string;
+    adoption_handler: string;
+    foster_home_lead: string;
+    foster_home_handler: string;
+    foster_home: string;
 };
 type Translations_Landing_page = {
     welcome_message: string;
 };
 type Translations_Organisations = {
     applications: Organisations_Applications;
+    invitations: Organisations_Invitations;
 };
 type Organisations_Applications = {
     form: Applications_Form;
-    application: string;
 };
 type Applications_Form = {
     name: Form_Set;
     type: Form_Set;
-    role: Form_Set;
-    registered: Form_Registered;
+    registered: RegisteredOrToken;
     street: Form_Set;
     post_code: Form_Set;
     city: Form_Set;
@@ -230,11 +255,35 @@ type Applications_Form = {
     address_info: string;
     subdomain_info: string;
     cancel_create: string;
+    user_role: Form_Set;
 };
 type Form_Set = {
     label: string;
     placeholder: string;
 };
-type Form_Registered = {
+type RegisteredOrToken = {
     label: string;
+};
+type Organisations_Invitations = {
+    mail: Invitations_Mail;
+    form: Invitations_Form;
+    titles: TitlesOrHeaders;
+    headers: TitlesOrHeaders;
+};
+type Invitations_Mail = {
+    header: string;
+    body: string;
+    get_started: string;
+    regards: string;
+    subject: string;
+};
+type Invitations_Form = {
+    email: Form_Set;
+    role: Form_Set;
+    token: RegisteredOrToken;
+    cancel_create: string;
+};
+type TitlesOrHeaders = {
+    create: string;
+    index: string;
 };

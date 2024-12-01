@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Organisation;
+namespace App\Http\Requests\Organisation\Application;
 
 class OrganisationApplicationRules
 {

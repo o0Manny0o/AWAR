@@ -1,6 +1,6 @@
 import { NavigationItem } from '@/types/navigation'
 
-const navigation: NavigationItem[] = [
+export const CentralNavigation: NavigationItem[] = [
     {
         name: 'dashboard',
         routeName: 'dashboard',
@@ -11,11 +11,17 @@ const navigation: NavigationItem[] = [
         routeName: 'organisations.applications.index',
         label: 'general.navigation.organisations.applications',
     },
-    {
-        name: 'organisations.applications.create',
-        routeName: 'organisations.applications.create',
-        label: 'general.navigation.organisations.applications',
-    },
 ]
 
-export default navigation
+export const TenantNavigation: NavigationItem[] = [
+    {
+        name: 'tenant.dashboard',
+        routeName: 'tenant.dashboard',
+        label: 'general.navigation.dashboard',
+    },
+    {
+        name: 'organisation.invitations.index',
+        routeName: 'organisation.invitations.index',
+        label: 'general.navigation.organisations.invitations',
+    },
+]

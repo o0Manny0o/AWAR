@@ -33,11 +33,17 @@ class TenantRolesAndPermissionsSeeder extends Seeder
             return $result;
         }, array());
 
-        $adoptionLeadId = $this->createRole(DefaultTenantUserRole::ADOPTION_LEAD);
+        $this->createRole(DefaultTenantUserRole::MEMBER);
         $adminId = $this->createRole(DefaultTenantUserRole::ADMIN);
+        $adoptionLeadId = $this->createRole(DefaultTenantUserRole::ADOPTION_LEAD);
+        $adoptionHandlerId = $this->createRole(DefaultTenantUserRole::ADOPTION_HANDLER);
+        $fosterHomeLeadId = $this->createRole(DefaultTenantUserRole::FOSTER_HOME_LEAD);
+        $fosterHomeHandlerId = $this->createRole(DefaultTenantUserRole::FOSTER_HOME_HANDLER);
+        $fosterHomeId = $this->createRole(DefaultTenantUserRole::FOSTER_HOME);
 
         $this->addPermissionToRole($adminId, $permissionIds, DefaultTenantUserRole::ADMIN->permissions());
         $this->addPermissionToRole($adoptionLeadId, $permissionIds, DefaultTenantUserRole::ADOPTION_LEAD->permissions());
+        $this->addPermissionToRole($adoptionHandlerId, $permissionIds, DefaultTenantUserRole::ADOPTION_HANDLER->permissions());
 
 
     }

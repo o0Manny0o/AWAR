@@ -1,47 +1,54 @@
-import Application = App.Models.OrganisationApplication
 import { Menu, MenuButton, MenuItem } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid'
 import useTranslate from '@/shared/hooks/useTranslate'
-import { Badge } from '@/Components/_Base/Badge'
 import { usePage } from '@inertiajs/react'
 import { MenuItems } from '@/Components/_Base/MenuItems'
 import { MenuItemLink } from '@/Components/_Base'
 import { Button } from '@/Components/_Base/Button'
-import {
-    badgeColor,
-    badgeLabelKey,
-    canDelete,
-    canEdit,
-    canRestore,
-} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
+import { ReactNode } from 'react'
+import usePermission from '@/shared/hooks/usePermission'
 
-export default function OrganisationApplicationList({
-    applications,
+export default function List<
+    T extends { id: number | string; updated_at: string; [key: string]: any },
+>({
+    entities,
+    title,
+    badge,
+    subtitle,
+    resourceLabel = '',
+    resourceUrl,
+    menuItems,
 }: {
-    applications: Application[]
+    entities: T[]
+    title: (e: T) => string
+    subtitle: (e: T) => string
+    badge: (e: T) => ReactNode
+    resourceLabel?: TranslationKey | string
+    resourceUrl: string
+    menuItems?: ((e: T) => ReactNode)[]
 }) {
     const __ = useTranslate()
     const { locale } = usePage().props
+    const { canDelete, canRestore, canUpdate, canView, canResend } =
+        usePermission()
 
     return (
         <ul role="list" className="divide-y divide-gray-100">
-            {applications.map((application) => (
+            {entities.map((entity) => (
                 <li
-                    key={application.id}
+                    key={entity.id}
                     className="flex items-center justify-between gap-x-6 py-5"
                 >
                     <div className="min-w-0">
                         <div className="flex items-start gap-x-3">
                             <p className="text-md/6 font-semibold text-gray-900 dark:text-gray-100">
-                                {application.name}
+                                {title(entity)}
                             </p>
-                            <Badge color={badgeColor(application)}>
-                                {__(badgeLabelKey(application))}
-                            </Badge>
+                            {badge(entity)}
                         </div>
                         <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
                             <p className="whitespace-nowrap">
-                                {application.type}
+                                {subtitle(entity)}
                             </p>
                             <svg
                                 viewBox="0 0 2 2"
@@ -52,40 +59,38 @@ export default function OrganisationApplicationList({
                             {__('general.last_update')}
                             <time
                                 dateTime={new Date(
-                                    application.updated_at,
+                                    entity.updated_at,
                                 ).toLocaleString(locale)}
                             >
                                 {/* TODO: replace with relative date */}
-                                {new Date(
-                                    application.updated_at,
-                                ).toLocaleString(locale)}
+                                {new Date(entity.updated_at).toLocaleString(
+                                    locale,
+                                )}
                             </time>
                         </div>
                     </div>
                     <div className="flex flex-none items-center gap-x-4">
-                        <Button
-                            color={'secondary'}
-                            href={route(
-                                'organisations.applications.show',
-                                application.id,
-                            )}
-                            className="hidden sm:inline-flex"
-                        >
-                            {__('general.button.view', {
-                                resource:
-                                    'organisations.applications.application',
-                            })}
-                            <span className="sr-only">
-                                , {application.name}
-                            </span>
-                        </Button>
+                        {canView(entity) && (
+                            <Button
+                                color={'secondary'}
+                                href={route(resourceUrl + '.show', entity.id)}
+                                className="hidden sm:inline-flex"
+                            >
+                                {__('general.button.view', {
+                                    resource: resourceLabel,
+                                })}
+                                <span className="sr-only">, {entity.name}</span>
+                            </Button>
+                        )}
                         <Menu
                             as="div"
                             className={
                                 'relative flex-none ' +
-                                (canEdit(application) ||
-                                canDelete(application) ||
-                                canRestore(application)
+                                (menuItems?.length ||
+                                canUpdate(entity) ||
+                                canDelete(entity) ||
+                                canRestore(entity) ||
+                                canResend(entity)
                                     ? ''
                                     : 'sm:hidden')
                             }
@@ -102,82 +107,104 @@ export default function OrganisationApplicationList({
                                 />
                             </MenuButton>
                             <MenuItems>
-                                <MenuItem>
-                                    <MenuItemLink
-                                        className="sm:hidden"
-                                        href={route(
-                                            'organisations.applications.show',
-                                            application.id,
-                                        )}
-                                    >
-                                        {__('general.button.view', {
-                                            resource: '',
-                                        })}
-                                        <span className="sr-only">
-                                            , {application.name}
-                                        </span>
-                                    </MenuItemLink>
-                                </MenuItem>
-                                {canEdit(application) && (
+                                {canView(entity) && (
+                                    <MenuItem>
+                                        <MenuItemLink
+                                            className="sm:hidden"
+                                            href={route(
+                                                resourceUrl + '.show',
+                                                entity.id,
+                                            )}
+                                        >
+                                            {__('general.button.view', {
+                                                resource: '',
+                                            })}
+                                            <span className="sr-only">
+                                                , {entity.name}
+                                            </span>
+                                        </MenuItemLink>
+                                    </MenuItem>
+                                )}
+                                {canUpdate(entity) && (
                                     <MenuItem>
                                         <MenuItemLink
                                             href={route(
-                                                'organisations.applications.edit',
-                                                application.id,
+                                                resourceUrl + '.edit',
+                                                entity.id,
                                             )}
                                         >
                                             {__('general.button.edit', {
                                                 resource: '',
                                             })}
                                             <span className="sr-only">
-                                                , {application.name}
+                                                , {entity.name}
                                             </span>
                                         </MenuItemLink>
                                     </MenuItem>
                                 )}
 
-                                {canDelete(application) && (
+                                {canDelete(entity) && (
                                     <MenuItem>
                                         <MenuItemLink
                                             method={'delete'}
                                             as={'button'}
                                             href={route(
-                                                'organisations.applications.destroy',
-                                                application.id,
+                                                resourceUrl + '.destroy',
+                                                entity.id,
                                             )}
                                         >
                                             {__('general.button.delete', {
                                                 resource: '',
                                             })}
                                             <span className="sr-only">
-                                                , {application.name}
+                                                , {entity.name}
                                             </span>
                                         </MenuItemLink>
                                     </MenuItem>
                                 )}
 
-                                {canRestore(application) && (
+                                {canRestore(entity) && (
                                     <MenuItem>
                                         <MenuItemLink
                                             method={'patch'}
                                             as={'button'}
                                             href={route(
-                                                'organisations.applications.restore',
-                                                application.id,
+                                                resourceUrl + '.restore',
+                                                entity.id,
                                             )}
                                         >
-                                            {__(
-                                                'general.button.restore' as TranslationKey,
-                                                {
-                                                    resource: '',
-                                                },
-                                            )}
+                                            {__('general.button.restore', {
+                                                resource: '',
+                                            })}
                                             <span className="sr-only">
-                                                , {application.name}
+                                                , {entity.name}
                                             </span>
                                         </MenuItemLink>
                                     </MenuItem>
                                 )}
+
+                                {canResend(entity) && (
+                                    <MenuItem>
+                                        <MenuItemLink
+                                            method={'post'}
+                                            as={'button'}
+                                            href={route(
+                                                resourceUrl + '.resend',
+                                                entity.id,
+                                            )}
+                                        >
+                                            {__('general.button.resend', {
+                                                resource: '',
+                                            })}
+                                            <span className="sr-only">
+                                                , {entity.name}
+                                            </span>
+                                        </MenuItemLink>
+                                    </MenuItem>
+                                )}
+
+                                {menuItems?.length &&
+                                    menuItems.map((item) => item(entity))}
                             </MenuItems>
                         </Menu>
                     </div>

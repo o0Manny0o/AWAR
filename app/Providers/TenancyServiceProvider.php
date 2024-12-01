@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Listeners\UpdateSyncedResource;
-use App\Models\Staff;
+use App\Models\Tenant\Member;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -117,16 +117,6 @@ class TenancyServiceProvider extends ServiceProvider
 
         $this->makeTenancyMiddlewareHighestPriority();
 
-        Gate::before(function ($user, $ability) {
-            if (tenant()) {
-                $staff = Staff::where('id', $user->id)->first();
-                if (!$staff) {
-                    return null;
-                }
-                return $staff->hasPermissionTo($ability);
-            }
-            return null;
-        });
     }
 
     protected function bootEvents()

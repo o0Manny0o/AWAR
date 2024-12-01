@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Tenant\OrganisationInvitationController;
+use App\Models\Organisation;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,7 +24,6 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 */
 
 Route::middleware([
-    'web',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
@@ -34,7 +36,24 @@ Route::middleware([
         ]);
     })->name('tenant.landing-page');
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('tenant.dashboard');
+    Route::get('invitations/accept/{token}', [OrganisationInvitationController::class, 'accept'])->name("organisation.invitations.accept");
+
+    Route::middleware(['auth', 'verified'])
+        ->group(function () {
+            Route::get('/dashboard', function () {
+                return Inertia::render('Dashboard');
+            })->name('tenant.dashboard');
+
+            Route::name('organisation.')
+                ->group(function () {
+                    Route::name('invitations.')->prefix('invitations')->group(function () {
+                        Route::post('/resend/{id}', [OrganisationInvitationController::class, 'resend'])->name("resend");
+                    });
+
+                    Route::resource('invitations', OrganisationInvitationController::class)
+                        ->except(['edit', 'update', 'destroy']);
+                });
+
+
+        });
 });

@@ -4,6 +4,7 @@ namespace App\Enum;
 
 enum DefaultTenantUserRole: string
 {
+    case MEMBER = 'member';
     case ADMIN = 'admin';
     case ADOPTION_LEAD = 'adoption-lead';
     case ADOPTION_HANDLER = 'adoption-handler';

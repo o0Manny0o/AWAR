@@ -12,10 +12,14 @@ return new class extends Migration {
     {
         Schema::create('organisation_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('organisation_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->unique(['organisation_id', 'user_id']);
+            $table->uuid('tenant_id');
+            $table->uuid('global_user_id');
+
+            $table->foreign('tenant_id')->references("id")->on("organisations")->onDelete("cascade")->onUpdate('cascade');
+            $table->foreign('global_user_id')->references('global_id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->unique(['tenant_id', 'global_user_id']);
 
             $table->timestamps();
         });

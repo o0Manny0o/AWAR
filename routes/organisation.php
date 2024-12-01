@@ -2,18 +2,21 @@
 
 use App\Http\Controllers\Organisation\OrganisationApplicationController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 
 Route::middleware(['auth', 'verified'])
     ->prefix('organisations')
     ->name('organisations.')
     ->group(function () {
-        Route::get('/applications/create/{application}/{step}', [OrganisationApplicationController::class, 'createByStep'])->name("applications.create.step");
-        Route::post('/applications/{application}/{step}', [OrganisationApplicationController::class, 'storeByStep'])->name("applications.store.step");
 
-        Route::patch('/applications/{application}/restore', [OrganisationApplicationController::class, 'restore'])->name("applications.restore");
-        Route::patch('/applications/{application}/submit', [OrganisationApplicationController::class, 'submit'])->name("applications.submit");
+        Route::name('applications.')->prefix('applications')->group(function () {
+            Route::get('/create/{application}/{step}', [OrganisationApplicationController::class, 'createByStep'])->name("create.step");
+            Route::post('/{application}/{step}', [OrganisationApplicationController::class, 'storeByStep'])->name("store.step");
+
+            Route::patch('/{application}/restore', [OrganisationApplicationController::class, 'restore'])->name("restore");
+            Route::patch('/{application}/submit', [OrganisationApplicationController::class, 'submit'])->name("submit");
+        });
 
         Route::resource('applications', OrganisationApplicationController::class);
-
     });

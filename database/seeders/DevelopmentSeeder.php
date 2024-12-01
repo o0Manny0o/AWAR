@@ -2,10 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Enum\CentralUserRole;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Spatie\Permission\PermissionRegistrar;
 
 class DevelopmentSeeder extends Seeder
 {
@@ -23,6 +26,7 @@ class DevelopmentSeeder extends Seeder
             ->create();
 
         $user = User::factory()->create([
+            'global_id' => Str::orderedUuid(),
             'name' => "Moritz Wach",
             'email' => 'moritz.wach@gmail.com',
             'password' => Hash::make('ZGN7wth1rgw3nuv.rpd')
@@ -31,6 +35,11 @@ class DevelopmentSeeder extends Seeder
         Artisan::call('app:create-org', [
             'name' => 'foo', 'subdomain' => 'foo', 'user' => $user->id
         ]);
+
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+        $user->assignRole(CentralUserRole::ADMIN);
 
     }
 }
