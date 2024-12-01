@@ -11,10 +11,13 @@ abstract class Controller
     use AuthorizesRequests;
 
     protected string $baseRouteName = '';
-    protected string $baseViewPath = "";
+    protected string $baseViewPath = '';
 
-    protected function redirect(Request $request, string $route, mixed $parameters = []): RedirectResponse
-    {
+    protected function redirect(
+        Request $request,
+        string $route,
+        mixed $parameters = [],
+    ): RedirectResponse {
         $redirect = $request->input('redirect');
 
         if ($redirect) {

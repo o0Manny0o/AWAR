@@ -15,7 +15,9 @@ class CentralRolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[
+            \Spatie\Permission\PermissionRegistrar::class
+        ]->forgetCachedPermissions();
 
         // Permission::create(['name' => 'edit articles']);
 

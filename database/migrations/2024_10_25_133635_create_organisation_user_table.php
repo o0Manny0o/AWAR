@@ -16,8 +16,18 @@ return new class extends Migration {
             $table->uuid('tenant_id');
             $table->uuid('global_user_id');
 
-            $table->foreign('tenant_id')->references("id")->on("organisations")->onDelete("cascade")->onUpdate('cascade');
-            $table->foreign('global_user_id')->references('global_id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table
+                ->foreign('tenant_id')
+                ->references('id')
+                ->on('organisations')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table
+                ->foreign('global_user_id')
+                ->references('global_id')
+                ->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
 
             $table->unique(['tenant_id', 'global_user_id']);
 

@@ -24,7 +24,13 @@ class SendInvitationEmail
     {
         /** @var Member $inviter */
         $inviter = Member::find($event->invitation->member_id);
-        $mail = new OrganisationInvitationMail($event->invitation, $event->invitation->email, $inviter, tenancy()->tenant, route("organisation.invitations.accept", $event->invitation->token));
+        $mail = new OrganisationInvitationMail(
+            $event->invitation,
+            $event->invitation->email,
+            $inviter,
+            tenancy()->tenant,
+            route('organisation.invitations.accept', $event->invitation->token),
+        );
         Mail::to($event->invitation->email)->send($mail);
     }
 }

@@ -4,26 +4,40 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('organisation_applications', function (Blueprint $table) {
+        Schema::create('organisation_applications', function (
+            Blueprint $table,
+        ) {
             $table->uuid('id')->primary();
-            $table->string("name");
-            $table->string("type");
-            $table->enum("status", ["draft", "submitted", "pending", "approved", "rejected", "created"])->default('draft');
-            $table->string("user_role");
-            $table->boolean("registered");
-            $table->string("street", 60)->nullable();
-            $table->string("post_code", 10)->nullable();
-            $table->string("city", 60)->nullable();
-            $table->string("country", 60)->nullable();
-            $table->string("subdomain", 60)->nullable();
-            $table->foreignUuid("user_id")->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('name');
+            $table->string('type');
+            $table
+                ->enum('status', [
+                    'draft',
+                    'submitted',
+                    'pending',
+                    'approved',
+                    'rejected',
+                    'created',
+                ])
+                ->default('draft');
+            $table->string('user_role');
+            $table->boolean('registered');
+            $table->string('street', 60)->nullable();
+            $table->string('post_code', 10)->nullable();
+            $table->string('city', 60)->nullable();
+            $table->string('country', 60)->nullable();
+            $table->string('subdomain', 60)->nullable();
+            $table
+                ->foreignUuid('user_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->timestamps();
 
             $table->softDeletes();

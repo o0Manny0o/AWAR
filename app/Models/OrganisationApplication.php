@@ -69,13 +69,13 @@ class OrganisationApplication extends Model
         'can_be_restored',
         'can_be_viewed',
         'can_be_updated',
-        'can_be_submitted',];
+        'can_be_submitted',
+    ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
 
     /**
      * Determine if the application is complete.
@@ -111,6 +111,12 @@ class OrganisationApplication extends Model
      */
     public function isLocked()
     {
-        return in_array($this->status, ['submitted', 'pending', 'approved', 'rejected', 'created']);
+        return in_array($this->status, [
+            'submitted',
+            'pending',
+            'approved',
+            'rejected',
+            'created',
+        ]);
     }
 }

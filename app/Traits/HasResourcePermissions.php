@@ -2,8 +2,6 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Gate;
-
 trait HasResourcePermissions
 {
     private bool $deletable = false;

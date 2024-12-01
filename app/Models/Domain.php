@@ -29,6 +29,9 @@ class Domain extends BaseDomain
 {
     public function tenant()
     {
-        return $this->belongsTo(config('tenancy.tenant_model'), 'organisation_id');
+        return $this->belongsTo(
+            config('tenancy.tenant_model'),
+            'organisation_id',
+        );
     }
 }

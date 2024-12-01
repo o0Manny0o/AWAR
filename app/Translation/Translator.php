@@ -15,8 +15,12 @@ class Translator extends BaseTranslator
      *
      * @return array|string|null
      */
-    public function get($key, array $replace = [], $locale = null, $fallback = true)
-    {
+    public function get(
+        $key,
+        array $replace = [],
+        $locale = null,
+        $fallback = true,
+    ) {
         $results = parent::get($key, $replace, $locale, $fallback);
 
         // If the key does not contain nested translation
@@ -35,9 +39,17 @@ class Translator extends BaseTranslator
         $line = Arr::get($this->loaded['*']['*'][$locale], $key);
 
         // Handle fallback to default language
-        if (!isset($line) && $fallback && !empty($this->getFallback()) && $locale !== $this->getFallback()) {
+        if (
+            !isset($line) &&
+            $fallback &&
+            !empty($this->getFallback()) &&
+            $locale !== $this->getFallback()
+        ) {
             $this->load('*', '*', $this->getFallback());
-            $line = Arr::get($this->loaded['*']['*'][$this->getFallback()], $key);
+            $line = Arr::get(
+                $this->loaded['*']['*'][$this->getFallback()],
+                $key,
+            );
         }
 
         return $this->makeReplacements($line ?: $key, $replace);

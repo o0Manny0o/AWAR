@@ -40,21 +40,15 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  */
 class Organisation extends Tenant implements TenantWithDatabase
 {
-
     use HasDatabase, HasDomains, HasUuids;
 
     protected $table = 'organisations';
 
-    protected $fillable = [
-        'name',
-    ];
+    protected $fillable = ['name'];
 
     public static function getCustomColumns(): array
     {
-        return [
-            'id',
-            'name'
-        ];
+        return ['id', 'name'];
     }
 
     public function getIncrementing(): bool
@@ -64,13 +58,22 @@ class Organisation extends Tenant implements TenantWithDatabase
 
     public function domains(): HasMany
     {
-        return $this->hasMany(config('tenancy.domain_model'), 'organisation_id');
+        return $this->hasMany(
+            config('tenancy.domain_model'),
+            'organisation_id',
+        );
     }
-
 
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'organisation_users', 'tenant_id', 'global_user_id', 'id', 'global_id')
+        return $this->belongsToMany(
+            User::class,
+            'organisation_users',
+            'tenant_id',
+            'global_user_id',
+            'id',
+            'global_id',
+        )
             ->using(TenantPivot::class)
             ->withTimestamps();
     }

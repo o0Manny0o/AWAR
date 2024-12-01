@@ -53,19 +53,12 @@ class Member extends Model implements Syncable
 
     public function getSyncedAttributeNames(): array
     {
-        return [
-            'name',
-            'email',
-        ];
+        return ['name', 'email'];
     }
 
     public function getSyncedCreationAttributes(): array
     {
-        return [
-            'global_id',
-            'name',
-            'email',
-        ];
+        return ['global_id', 'name', 'email'];
     }
 
     /**

@@ -24,7 +24,10 @@ class AppServiceProvider extends ServiceProvider
         Vite::prefetch(concurrency: 3);
 
         $this->app->extend('translator', function ($service, $app) {
-            $translator = new Translator($service->getLoader(), $service->getLocale());
+            $translator = new Translator(
+                $service->getLoader(),
+                $service->getLocale(),
+            );
             $translator->setFallback($service->getFallback());
 
             return $translator;

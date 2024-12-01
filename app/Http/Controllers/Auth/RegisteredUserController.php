@@ -30,19 +30,22 @@ class RegisteredUserController extends Controller
         if ($token && $organisation) {
             try {
                 tenancy()->initialize($organisation);
-                $invitation = OrganisationInvitation::firstWhere('token', $token);
+                $invitation = OrganisationInvitation::firstWhere(
+                    'token',
+                    $token,
+                );
                 if (!$invitation || $invitation->isExpired()) {
                     return Inertia::render('Auth/Register');
                 }
 
-                if (User::firstWhere("email", $invitation->email)) {
-                    return redirect()->route("login");
+                if (User::firstWhere('email', $invitation->email)) {
+                    return redirect()->route('login');
                 }
 
                 return Inertia::render('Auth/Register', [
                     'email' => $invitation->email,
                     'token' => $token,
-                    'organisation' => $organisation
+                    'organisation' => $organisation,
                 ]);
             } catch (\Exception $e) {
                 return Inertia::render('Auth/Register');
@@ -61,7 +64,8 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+            'email' =>
+                'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'token' => 'sometimes|uuid',
             'organisation' => 'sometimes|uuid',
@@ -84,11 +88,16 @@ class RegisteredUserController extends Controller
             if ($organisation) {
                 $user->tenants()->attach($organisation);
             }
-            event(new InvitationAccepted($request->token, $request->organisation, $user));
+            event(
+                new InvitationAccepted(
+                    $request->token,
+                    $request->organisation,
+                    $user,
+                ),
+            );
         }
 
         Auth::login($user);
-
 
         return redirect(route('dashboard', absolute: false));
     }

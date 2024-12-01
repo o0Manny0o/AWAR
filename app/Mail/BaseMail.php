@@ -17,8 +17,8 @@ class BaseMail extends Mailable
             view: $view,
             with: [
                 'lang' => app()->getLocale(),
-                'title' => $title
-            ]
+                'title' => $title,
+            ],
         );
     }
 
@@ -30,5 +30,4 @@ class BaseMail extends Mailable
 
         parent::send($mailer);
     }
-
 }

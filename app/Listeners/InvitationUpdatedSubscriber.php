@@ -23,33 +23,48 @@ class InvitationUpdatedSubscriber
      */
     public function handleMessageSent(MessageSent $event): void
     {
-        if (isset($event->message->mailable) && $event->message->mailable == 'App\\Mail\\OrganisationInvitationMail') {
+        if (
+            isset($event->message->mailable) &&
+            $event->message->mailable == 'App\\Mail\\OrganisationInvitationMail'
+        ) {
             /** @var OrganisationInvitation|null $invitation */
-            $invitation = OrganisationInvitation::find($event->data["invitation"]->id);
+            $invitation = OrganisationInvitation::find(
+                $event->data['invitation']->id,
+            );
             if ($invitation && $invitation->status !== 'accepted') {
-                $invitation->update(["sent_at" => now(), "status" => 'sent', "valid_until" => now()->addDays(config("tenancy.invitations_validity"))]);
+                $invitation->update([
+                    'sent_at' => now(),
+                    'status' => 'sent',
+                    'valid_until' => now()->addDays(
+                        config('tenancy.invitations_validity'),
+                    ),
+                ]);
             }
         }
     }
-
 
     /**
      * Handle the InvitationAccepted event.
      */
     public function handleInvitationAccepted(InvitationAccepted $event): void
     {
-        tenancy()->find($event->organisation)->run(function ($tenant) use ($event) {
-            try {
-                $invitation = OrganisationInvitation::firstWhere('token', $event->token);
+        tenancy()
+            ->find($event->organisation)
+            ->run(function ($tenant) use ($event) {
+                try {
+                    $invitation = OrganisationInvitation::firstWhere(
+                        'token',
+                        $event->token,
+                    );
 
-                $invitation?->update([
-                    'accepted_at' => now(),
-                    'status' => 'accepted'
-                ]);
-            } catch (\Exception $e) {
-                Log::error($e->getMessage());
-            }
-        });
+                    $invitation?->update([
+                        'accepted_at' => now(),
+                        'status' => 'accepted',
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                }
+            });
     }
 
     /**
@@ -57,14 +72,14 @@ class InvitationUpdatedSubscriber
      */
     public function subscribe(Dispatcher $events): void
     {
-        $events->listen(
-            MessageSent::class,
-            [InvitationUpdatedSubscriber::class, 'handleMessageSent']
-        );
+        $events->listen(MessageSent::class, [
+            InvitationUpdatedSubscriber::class,
+            'handleMessageSent',
+        ]);
 
-        $events->listen(
-            InvitationAccepted::class,
-            [InvitationUpdatedSubscriber::class, 'handleInvitationAccepted']
-        );
+        $events->listen(InvitationAccepted::class, [
+            InvitationUpdatedSubscriber::class,
+            'handleInvitationAccepted',
+        ]);
     }
 }

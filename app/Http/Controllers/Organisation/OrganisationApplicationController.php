@@ -15,21 +15,25 @@ use Inertia\Response;
 
 class OrganisationApplicationController extends Controller
 {
-    private function permissions(Request $request, OrganisationApplication $application = null): array
-    {
+    private function permissions(
+        Request $request,
+        OrganisationApplication $application = null,
+    ): array {
         $application?->setPermissions($request->user());
 
         return [
             'organisations' => [
                 'applications' => [
-                    'create' => $request->user()->can('create', OrganisationApplication::class),
+                    'create' => $request
+                        ->user()
+                        ->can('create', OrganisationApplication::class),
                     'view' => $request->user()->can('view', $application),
                     'update' => $request->user()->can('update', $application),
                     'delete' => $request->user()->can('delete', $application),
                     'restore' => $request->user()->can('restore', $application),
                     'submit' => $request->user()->can('submit', $application),
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -42,8 +46,8 @@ class OrganisationApplicationController extends Controller
         $this->authorize('viewAny', OrganisationApplication::class);
         $applications = OrganisationApplication::withTrashed()
             ->where('user_id', $request->user()->id)
-            ->orderBy("deleted_at", "DESC")
-            ->orderBy("updated_at", "DESC")
+            ->orderBy('deleted_at', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->get();
 
         foreach ($applications as $application) {
@@ -52,7 +56,7 @@ class OrganisationApplicationController extends Controller
 
         return Inertia::render('Organisation/Application/Index', [
             'applications' => $applications,
-            'permissions' => $this->permissions($request)
+            'permissions' => $this->permissions($request),
         ]);
     }
 
@@ -64,7 +68,7 @@ class OrganisationApplicationController extends Controller
     {
         $this->authorize('create', OrganisationApplication::class);
         return Inertia::render('Organisation/Application/Create', [
-            'step' => 1
+            'step' => 1,
         ]);
     }
 
@@ -72,8 +76,10 @@ class OrganisationApplicationController extends Controller
      * Show the form for creating a new resource at the provided step.
      * @throws AuthorizationException
      */
-    public function createByStep(string $id, int $step): Response|RedirectResponse
-    {
+    public function createByStep(
+        string $id,
+        int $step,
+    ): Response|RedirectResponse {
         $this->authorize('create', OrganisationApplication::class);
 
         $application = OrganisationApplication::withTrashed()->find($id);
@@ -83,7 +89,7 @@ class OrganisationApplicationController extends Controller
 
         return Inertia::render('Organisation/Application/Create', [
             'step' => $step,
-            'application' => $application
+            'application' => $application,
         ]);
     }
 
@@ -92,22 +98,33 @@ class OrganisationApplicationController extends Controller
      * @throws ValidationException
      * @throws AuthorizationException
      */
-    public function store(CreateOrganisationApplicationRequest $request): RedirectResponse
-    {
+    public function store(
+        CreateOrganisationApplicationRequest $request,
+    ): RedirectResponse {
         $this->authorize('create', OrganisationApplication::class);
         $validated = $request->validated();
 
-        $application = $request->user()->organisationApplications()->create($validated);
+        $application = $request
+            ->user()
+            ->organisationApplications()
+            ->create($validated);
 
-        return $this->redirect($request, 'organisations.applications.create.step', ['application' => $application, 'step' => 2]);
+        return $this->redirect(
+            $request,
+            'organisations.applications.create.step',
+            ['application' => $application, 'step' => 2],
+        );
     }
 
     /**
      * Update the specified resource in storage.
      * @throws AuthorizationException
      */
-    public function storeByStep(CreateOrganisationApplicationRequest $request, string $id, int $step): RedirectResponse
-    {
+    public function storeByStep(
+        CreateOrganisationApplicationRequest $request,
+        string $id,
+        int $step,
+    ): RedirectResponse {
         $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application || $step < 1 || $step > 3) {
             return redirect()->route('organisations.applications.create');
@@ -117,23 +134,28 @@ class OrganisationApplicationController extends Controller
 
         if ($application->trashed()) {
             $application->restore();
-            $application->update(["status" => "draft"]);
+            $application->update(['status' => 'draft']);
         }
 
         $application->update($validated);
 
         $updatedApplication = $application->refresh();
 
-        return $this->redirect($request, 'organisations.applications.create.step', ['application' => $updatedApplication, 'step' => $step + 1]);
-
+        return $this->redirect(
+            $request,
+            'organisations.applications.create.step',
+            ['application' => $updatedApplication, 'step' => $step + 1],
+        );
     }
 
     /**
      * Display the specified resource.
      * @throws AuthorizationException
      */
-    public function show(Request $request, string $id): Response|RedirectResponse
-    {
+    public function show(
+        Request $request,
+        string $id,
+    ): Response|RedirectResponse {
         $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application) {
             return redirect()->route('organisations.applications.index');
@@ -142,7 +164,7 @@ class OrganisationApplicationController extends Controller
 
         return Inertia::render('Organisation/Application/Show', [
             'application' => $application,
-            'permissions' => $this->permissions($request, $application)
+            'permissions' => $this->permissions($request, $application),
         ]);
     }
 
@@ -150,8 +172,10 @@ class OrganisationApplicationController extends Controller
      * Show the form for editing the specified resource.
      * @throws AuthorizationException
      */
-    public function edit(Request $request, string $id): Response|RedirectResponse
-    {
+    public function edit(
+        Request $request,
+        string $id,
+    ): Response|RedirectResponse {
         $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application) {
             return redirect()->route('organisations.applications.index');
@@ -160,7 +184,7 @@ class OrganisationApplicationController extends Controller
 
         return Inertia::render('Organisation/Application/Edit', [
             'application' => $application,
-            'permissions' => $this->permissions($request, $application)
+            'permissions' => $this->permissions($request, $application),
         ]);
     }
 
@@ -168,8 +192,10 @@ class OrganisationApplicationController extends Controller
      * Update the specified resource in storage.
      * @throws AuthorizationException
      */
-    public function update(UpdateOrganisationApplicationRequest $request, string $id)
-    {
+    public function update(
+        UpdateOrganisationApplicationRequest $request,
+        string $id,
+    ) {
         $application = OrganisationApplication::withTrashed()->find($id);
         if (!$application) {
             return redirect()->route('organisations.applications.index');
@@ -179,13 +205,14 @@ class OrganisationApplicationController extends Controller
 
         if ($application->trashed()) {
             $application->restore();
-            $application->update(["status" => "draft"]);
+            $application->update(['status' => 'draft']);
         }
 
         $application->update($validated);
 
-        return $this->redirect($request, 'organisations.applications.show', ['application' => $application]);
-
+        return $this->redirect($request, 'organisations.applications.show', [
+            'application' => $application,
+        ]);
     }
 
     /**
@@ -219,7 +246,7 @@ class OrganisationApplicationController extends Controller
 
         $application->restore();
 
-        $application->update(["status" => "draft"]);
+        $application->update(['status' => 'draft']);
 
         return $this->redirect($request, 'organisations.applications.index');
     }
@@ -236,8 +263,10 @@ class OrganisationApplicationController extends Controller
         }
         $this->authorize('submit', $application);
 
-        $application->update(["status" => "submitted"]);
+        $application->update(['status' => 'submitted']);
 
-        return $this->redirect($request, 'organisations.applications.show', ['application' => $application->id]);
+        return $this->redirect($request, 'organisations.applications.show', [
+            'application' => $application->id,
+        ]);
     }
 }

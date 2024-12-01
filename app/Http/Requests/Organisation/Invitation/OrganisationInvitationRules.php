@@ -11,7 +11,7 @@ class OrganisationInvitationRules
             'email',
             'max:255',
             'unique:App\Models\Tenant\OrganisationInvitation,email',
-            'unique:App\Models\Tenant\Member,email'
+            'unique:App\Models\Tenant\Member,email',
         ];
     }
 
@@ -20,7 +20,7 @@ class OrganisationInvitationRules
         return [
             'required',
             'string',
-            'exists:Spatie\Permission\Models\Role,id'
+            'exists:Spatie\Permission\Models\Role,id',
         ];
     }
 }

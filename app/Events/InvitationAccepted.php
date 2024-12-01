@@ -14,9 +14,11 @@ class InvitationAccepted
     /**
      * Create a new event instance.
      */
-    public function __construct(public string $token, public string $organisation, public Authenticatable $user)
-    {
+    public function __construct(
+        public string $token,
+        public string $organisation,
+        public Authenticatable $user,
+    ) {
         //
     }
-
 }

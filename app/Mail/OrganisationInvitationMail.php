@@ -10,7 +10,6 @@ use Illuminate\Mail\Mailables\Envelope;
 
 class OrganisationInvitationMail extends BaseMail
 {
-
     /**
      * Create a new message instance.
      */
@@ -19,8 +18,8 @@ class OrganisationInvitationMail extends BaseMail
         public string $invitee,
         public Member $inviter,
         public Organisation $organisation,
-        public string $url)
-    {
+        public string $url,
+    ) {
     }
 
     /**
@@ -29,7 +28,10 @@ class OrganisationInvitationMail extends BaseMail
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: __('organisations.invitations.mail.subject', ['inviter' => $this->inviter->name, 'organisation' => $this->organisation->name]),
+            subject: __('organisations.invitations.mail.subject', [
+                'inviter' => $this->inviter->name,
+                'organisation' => $this->organisation->name,
+            ]),
         );
     }
 
@@ -40,7 +42,10 @@ class OrganisationInvitationMail extends BaseMail
     {
         return $this->localizedContent(
             view: 'mail.organisation_invite',
-            title: __('organisations.invitations.mail.subject', ['inviter' => $this->inviter->name, 'organisation' => $this->organisation->name])
+            title: __('organisations.invitations.mail.subject', [
+                'inviter' => $this->inviter->name,
+                'organisation' => $this->organisation->name,
+            ]),
         );
     }
 

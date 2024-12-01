@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Permission\Models\Role;
 
 /**
- *
+ * 
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newQuery()
@@ -21,6 +21,7 @@ use Spatie\Permission\Models\Role;
  * @property-read bool $can_be_updated
  * @property-read bool $can_be_viewed
  * @property-read bool $can_be_resended
+ * @property-read Role|null $role
  * @mixin \Eloquent
  */
 class OrganisationInvitation extends Model
@@ -38,15 +39,12 @@ class OrganisationInvitation extends Model
         'valid_until',
     ];
 
-    protected $appends = [
-        'can_be_viewed',
-        'can_be_resended',
-    ];
+    protected $appends = ['can_be_viewed', 'can_be_resended'];
 
     protected $casts = [
         'sent_at' => 'datetime',
         'accepted_at' => 'datetime',
-        'valid_until' => 'datetime'
+        'valid_until' => 'datetime',
     ];
 
     public function role(): BelongsTo
