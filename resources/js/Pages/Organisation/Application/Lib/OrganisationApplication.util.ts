@@ -1,5 +1,6 @@
 import Application = App.Models.OrganisationApplication
 import { BadgeColor } from '@/Components/_Base/Badge'
+import { toTranslationKey } from '@/shared/hooks/useTranslate'
 
 export const badgeColor = (
     application: Pick<Application, 'status' | 'deleted_at'>,
@@ -30,19 +31,7 @@ export const badgeLabelKey = (
 ): TranslationKey => {
     return application.deleted_at
         ? 'general.deleted'
-        : (('general.status.' + application.status) as TranslationKey)
-}
-
-export const canEdit = (application: Application) => {
-    return !application.is_locked
-}
-
-export const canDelete = (application: Application) => {
-    return !application.deleted_at && !application.is_locked
-}
-
-export const canRestore = (application: Application) => {
-    return !!application.deleted_at && !application.is_locked
+        : toTranslationKey('general.status.' + application.status)
 }
 
 export const transformSubdomain = (subdomain: string) => {

@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import useTranslate from '@/shared/hooks/useTranslate'
+import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
 import PageHeader from '@/Components/Layout/PageHeader'
 import { Card } from '@/Components/Layout/Card'
 import { badgeColor, badgeLabelKey } from './Lib/OrganisationInvitation.util'
@@ -39,8 +39,9 @@ export default function Show({
                     name="role"
                     label={__('organisations.invitations.form.role.label')}
                     value={__(
-                        ('general.roles.tenant.' +
-                            invitation.role) as TranslationKey,
+                        toTranslationKey(
+                            'general.roles.tenant.' + invitation.role,
+                        ),
                     )}
                 />
             </Card>

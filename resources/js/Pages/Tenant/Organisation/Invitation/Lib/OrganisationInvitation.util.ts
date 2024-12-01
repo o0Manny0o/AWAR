@@ -1,5 +1,6 @@
 import OrganisationInvitation = App.Models.OrganisationInvitation
 import { BadgeColor } from '@/Components/_Base/Badge'
+import { toTranslationKey } from '@/shared/hooks/useTranslate'
 
 export const badgeColor = (
     invitation: Pick<OrganisationInvitation, 'status'>,
@@ -18,16 +19,4 @@ export const badgeColor = (
 
 export const badgeLabelKey = (
     invitation: Pick<OrganisationInvitation, 'status'>,
-): TranslationKey => ('general.status.' + invitation.status) as TranslationKey
-
-export const canEdit = (invitation: OrganisationInvitation) => {
-    return false
-}
-
-export const canDelete = (invitation: OrganisationInvitation) => {
-    return true
-}
-
-export const canRestore = (invitation: OrganisationInvitation) => {
-    return false
-}
+): TranslationKey => toTranslationKey('general.status.' + invitation.status)

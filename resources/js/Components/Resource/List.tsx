@@ -173,12 +173,9 @@ export default function List<
                                                 entity.id,
                                             )}
                                         >
-                                            {__(
-                                                'general.button.restore' as TranslationKey,
-                                                {
-                                                    resource: '',
-                                                },
-                                            )}
+                                            {__('general.button.restore', {
+                                                resource: '',
+                                            })}
                                             <span className="sr-only">
                                                 , {entity.name}
                                             </span>
@@ -196,12 +193,9 @@ export default function List<
                                                 entity.id,
                                             )}
                                         >
-                                            {__(
-                                                'general.button.resend' as TranslationKey,
-                                                {
-                                                    resource: '',
-                                                },
-                                            )}
+                                            {__('general.button.resend', {
+                                                resource: '',
+                                            })}
                                             <span className="sr-only">
                                                 , {entity.name}
                                             </span>

@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import useTranslate from '@/shared/hooks/useTranslate'
+import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
 import PageHeader from '@/Components/Layout/PageHeader'
 import { Card } from '@/Components/Layout/Card'
 import usePermission from '@/shared/hooks/usePermission'
@@ -51,8 +51,9 @@ export default function Index({
                         title={(i) => i.email}
                         subtitle={(e) =>
                             __(
-                                ('general.roles.tenant.' +
-                                    e.role) as TranslationKey,
+                                toTranslationKey(
+                                    'general.roles.tenant.' + e.role,
+                                ),
                             )
                         }
                         badge={(i) => (
