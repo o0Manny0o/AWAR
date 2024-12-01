@@ -179,7 +179,8 @@
             "home": "Home",
             "organisations": {
                 "applications": "Applications",
-                "invitations": "Invitations"
+                "invitations": "Invitations",
+                "members": "Members"
             },
             "overview": "Overview"
         },
@@ -322,6 +323,14 @@
                 "index": "Your Invitations",
                 "create": "Invite someone to your organisation"
             }
+        },
+        "members": {
+            "headers": {
+                "index": "All Members"
+            }
+        },
+        "dashboard": {
+            "welcome": "Welcome to :organisation, :name"
         }
     }
 }

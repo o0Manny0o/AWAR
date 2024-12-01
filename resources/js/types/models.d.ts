@@ -75,4 +75,13 @@ declare namespace App.Models {
         SENT = 'sent',
         ACCEPTED = 'accepted',
     }
+
+    export interface Member {
+        id: string
+        name: string
+        email: string
+        roles: Role[]
+        created_at: string
+        updated_at: string
+    }
 }

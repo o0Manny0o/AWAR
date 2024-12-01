@@ -28,7 +28,7 @@ export function HeaderBar({
     mobileNavigation?: ReactNode
 }) {
     const __ = useTranslate()
-    const { isTenant } = usePage().props
+    const { tenant } = usePage().props
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -73,7 +73,7 @@ export function HeaderBar({
                             <DesktopSecondaryNav>
                                 <DesktopNavLink
                                     href={
-                                        isTenant
+                                        tenant
                                             ? route('tenant.dashboard')
                                             : route('dashboard')
                                     }

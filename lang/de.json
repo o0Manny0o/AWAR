@@ -16,7 +16,8 @@
             "home": "Startseite",
             "organisations": {
                 "applications": "Bewerbungen",
-                "invitations": "Einladungen"
+                "invitations": "Einladungen",
+                "members": "Mitglieder"
             },
             "overview": "Übersicht"
         },
@@ -154,6 +155,14 @@
                 "index": "Ihre Einladungen",
                 "create": "Laden Sie jemanden in Ihre Organisation ein"
             }
+        },
+        "members": {
+            "headers": {
+                "index": "Alle Mitglieder"
+            }
+        },
+        "dashboard": {
+            "welcome": "Wilkommen bei :organisation, :name"
         }
     }
 }
