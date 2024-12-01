@@ -13,7 +13,7 @@ export default function DesktopNavLink({
                 active
                     ? 'border-active text-active bg-active-interactive'
                     : 'text-interactive bg-interactive border-interactive'
-            } ${className}`}
+                } ${className}`}
         >
             {children}
         </Link>
