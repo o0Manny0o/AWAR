@@ -226,6 +226,11 @@ type General_Roles = {
 type Roles_Tenant = {
     admin: string;
     member: string;
+    adoption_lead: string;
+    adoption_handler: string;
+    foster_home_lead: string;
+    foster_home_handler: string;
+    foster_home: string;
 };
 type Translations_Landing_page = {
     welcome_message: string;
@@ -262,6 +267,8 @@ type RegisteredOrToken = {
 type Organisations_Invitations = {
     mail: Invitations_Mail;
     form: Invitations_Form;
+    titles: TitlesOrHeaders;
+    headers: TitlesOrHeaders;
 };
 type Invitations_Mail = {
     header: string;
@@ -273,4 +280,9 @@ type Invitations_Form = {
     email: Form_Set;
     role: Form_Set;
     token: RegisteredOrToken;
+    cancel_create: string;
+};
+type TitlesOrHeaders = {
+    create: string;
+    index: string;
 };

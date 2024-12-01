@@ -236,7 +236,12 @@
         "roles": {
             "tenant": {
                 "admin": "Admin",
-                "member": "Member"
+                "member": "Member",
+                "adoption_lead": "Adoption Lead",
+                "adoption_handler": "Adoption Handler",
+                "foster_home_lead": "Foster Home Lead",
+                "foster_home_handler": "Foster Home Handler",
+                "foster_home": "Foster Home"
             }
         }
     },
@@ -305,7 +310,16 @@
                 },
                 "token": {
                     "label": "Token"
-                }
+                },
+                "cancel_create": "Don't want to invite anyone right now?"
+            },
+            "titles": {
+                "create": "Send an invitation",
+                "index": "Your Invitations"
+            },
+            "headers": {
+                "index": "Your Invitations",
+                "create": "Invite someone to your organisation"
             }
         }
     }

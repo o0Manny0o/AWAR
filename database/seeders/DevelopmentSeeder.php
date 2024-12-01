@@ -39,7 +39,7 @@ class DevelopmentSeeder extends Seeder
 
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $user->assignRole(CentralUserRole::SUPER_ADMIN);
+        $user->assignRole(CentralUserRole::ADMIN);
 
     }
 }

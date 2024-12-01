@@ -1,8 +1,8 @@
 import InputGroup from '@/Components/_Base/Input/InputGroup'
-import useTranslate from '@/shared/hooks/useTranslate'
-import { SwitchInput } from '@/Components/_Base/Input'
+import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
 import { useContext } from 'react'
 import { FormInputRefs } from '@/Pages/Tenant/Organisation/Invitation/Lib/OrganisationInvitation.context'
+import SelectGroup from '@/Components/_Base/Input/SelectGroup'
 
 interface GroupProps {
     setData: (key: string, value: any) => void
@@ -17,14 +17,22 @@ interface CreateGroupProps extends GroupProps {
         email?: string
         role?: string
     }
+    readonly roleOptions: string[]
 }
 
-export function CreateGroup({ data, errors, setData }: CreateGroupProps) {
+export function CreateGroup({
+    data,
+    errors,
+    setData,
+    roleOptions,
+}: CreateGroupProps) {
     const __ = useTranslate()
 
     const {
         refs: { email, role },
     } = useContext(FormInputRefs.Context)
+
+    const roleBase: TranslationKey = 'general.roles.tenant'
 
     return (
         <>
@@ -41,17 +49,17 @@ export function CreateGroup({ data, errors, setData }: CreateGroupProps) {
                 onChange={(value) => setData('email', value)}
             />
 
-            <InputGroup
+            <SelectGroup
                 name="role"
-                type="text"
-                placeholder={__(
-                    'organisations.invitations.form.role.placeholder',
-                )}
                 value={data.role}
                 ref={role}
                 label={__('organisations.invitations.form.role.label')}
                 error={errors.role}
-                onChange={(value) => setData('role', value)}
+                onChange={(event) => setData('role', event.target.value)}
+                options={roleOptions.map((role) => ({
+                    value: role,
+                    label: __(toTranslationKey(`${roleBase}.${role}`)),
+                }))}
             />
         </>
     )

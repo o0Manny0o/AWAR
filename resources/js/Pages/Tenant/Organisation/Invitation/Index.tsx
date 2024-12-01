@@ -22,9 +22,7 @@ export default function Index({
         <AuthenticatedLayout
             header={
                 <PageHeader
-                    title={__('general.your_resource', {
-                        resource: 'general.resources.organisation.invitation',
-                    })}
+                    title={__('organisations.invitations.headers.index')}
                     actionButtons={
                         can('organisations.invitations.create')
                             ? [
@@ -41,12 +39,10 @@ export default function Index({
                               ]
                             : []
                     }
-                >
-                    {/* TODO: Pluralize title */}
-                </PageHeader>
+                />
             }
         >
-            <Head title="Organisation Invitations" />
+            <Head title={__('organisations.invitations.titles.index')} />
 
             <div className="py-12">
                 <Card>

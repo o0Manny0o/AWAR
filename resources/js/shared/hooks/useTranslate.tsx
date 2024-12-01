@@ -1,6 +1,10 @@
 import { usePage } from '@inertiajs/react'
 import { get } from 'lodash-es'
 
+export function toTranslationKey(key: string): TranslationKey {
+    return key.replace(/-/g, '_') as TranslationKey
+}
+
 export default function useTranslate() {
     const { translations, fallback } = usePage().props
 

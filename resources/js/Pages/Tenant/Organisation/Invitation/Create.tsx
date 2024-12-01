@@ -5,15 +5,24 @@ import { ElementRefProvider } from '@/shared/contexts/ElementRef.context'
 import { FormInputRefs } from '@/Pages/Tenant/Organisation/Invitation/Lib/OrganisationInvitation.context'
 import CreateInvitationForm from '@/Pages/Tenant/Organisation/Invitation/Partials/CreateInvitationForm'
 
-export default function Create(props: AppPageProps) {
+export default function Create({
+    roleOptions,
+}: AppPageProps<{ roleOptions: string[] }>) {
     const __ = useTranslate()
 
     return (
-        <FlowLayout header="Create Organisation">
-            <Head title="Create an Organisation Application" />
+        <FlowLayout
+            header={__('organisations.invitations.headers.create')}
+            footer={{
+                text: __('organisations.invitations.form.cancel_create'),
+                label: __('general.button.go_back'),
+                href: route('organisation.invitations.index'),
+            }}
+        >
+            <Head title={__('organisations.invitations.titles.create')} />
 
             <ElementRefProvider context={FormInputRefs}>
-                <CreateInvitationForm />
+                <CreateInvitationForm roleOptions={roleOptions} />
             </ElementRefProvider>
         </FlowLayout>
     )

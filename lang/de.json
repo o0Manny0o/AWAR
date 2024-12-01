@@ -73,7 +73,12 @@
         "roles": {
             "tenant": {
                 "admin": "Admin",
-                "member": "Mitglied"
+                "member": "Mitglied",
+                "adoption_lead": "Leitung der Adoption",
+                "adoption_handler": "Adoptions Bearbeiter",
+                "foster_home_lead": "Leitung der Pflegestellen",
+                "foster_home_handler": "Pflegestellen Betreuer",
+                "foster_home": "Pflegestelle"
             }
         }
     },
@@ -137,7 +142,16 @@
                 "role": {
                     "label": "Rolle",
                     "placeholder": "Rolle"
-                }
+                },
+                "cancel_create": "Möchten Sie momentan niemanden einladen?"
+            },
+            "titles": {
+                "create": "Einladung senden",
+                "index": "Ihre Einladungen"
+            },
+            "headers": {
+                "index": "Ihre Einladungen",
+                "create": "Laden Sie jemanden in Ihre Organisation ein"
             }
         }
     }

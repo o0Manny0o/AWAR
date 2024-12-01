@@ -5,16 +5,18 @@ import { CreateGroup } from '@/Pages/Tenant/Organisation/Invitation/Lib/Organisa
 import { Button } from '@/Components/_Base/Button'
 import useTranslate from '@/shared/hooks/useTranslate'
 
-export default function CreateInvitationForm() {
+export default function CreateInvitationForm({
+    roleOptions = ['member'],
+}: {
+    readonly roleOptions: string[]
+}) {
     const __ = useTranslate()
     const { focusError } = useContext(FormInputRefs.Context)
 
-    // TODO: Disable buttons while processing
-    const { data, setData, errors, post, reset, processing, transform } =
-        useForm({
-            email: '',
-            role: 'Member',
-        })
+    const { data, setData, errors, post, reset, processing } = useForm({
+        email: '',
+        role: roleOptions[0],
+    })
 
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()
@@ -28,7 +30,12 @@ export default function CreateInvitationForm() {
     }
     return (
         <form onSubmit={submitHandler} className="w-full space-y-6">
-            <CreateGroup data={data} errors={errors} setData={setData} />
+            <CreateGroup
+                data={data}
+                errors={errors}
+                setData={setData}
+                roleOptions={roleOptions}
+            />
             <Button className="w-full" disabled={processing}>
                 {__('general.button.send', {
                     resource: '',

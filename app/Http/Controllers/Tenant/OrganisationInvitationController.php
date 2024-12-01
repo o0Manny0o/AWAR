@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Tenant;
 
+use App\Enum\DefaultTenantUserRole;
 use App\Events\InvitationCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\Invitation\CreateOrganisationInvitationRequest;
@@ -63,7 +64,7 @@ class OrganisationInvitationController extends Controller
     public function create(): Response
     {
         $this->authorize('create', OrganisationInvitation::class);
-        return Inertia::render($this->getCreateView());
+        return Inertia::render($this->getCreateView(), ['roleOptions' => DefaultTenantUserRole::values()]);
     }
 
     /**
