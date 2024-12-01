@@ -12,6 +12,11 @@ enum DefaultTenantUserRole: string
     case FOSTER_HOME_HANDLER = 'foster-home-handler';
     case FOSTER_HOME = 'foster-home';
 
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
+
     function permissions(): array
     {
         return match ($this) {
@@ -24,14 +29,9 @@ enum DefaultTenantUserRole: string
             ],
             self::ADOPTION_HANDLER => [
                 TenantPermission::EDIT_OWN_ANIMALS->value,
-                TenantPermission::DELETE_OWN_ANIMALS->value
+                TenantPermission::DELETE_OWN_ANIMALS->value,
             ],
             default => [],
         };
-    }
-
-    public static function values(): array
-    {
-        return array_column(self::cases(), 'value');
     }
 }

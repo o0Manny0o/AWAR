@@ -23,8 +23,10 @@ class OrganisationApplicationPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, OrganisationApplication $organisationApplication): bool
-    {
+    public function view(
+        User $user,
+        OrganisationApplication $organisationApplication,
+    ): bool {
         return $this->isAdminOrOwner($user, $organisationApplication);
     }
 
@@ -40,42 +42,58 @@ class OrganisationApplicationPolicy extends BasePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, OrganisationApplication $organisationApplication): bool
-    {
-        return $this->isAdminOrOwner($user, $organisationApplication) && !$organisationApplication->isLocked();
+    public function update(
+        User $user,
+        OrganisationApplication $organisationApplication,
+    ): bool {
+        return $this->isAdminOrOwner($user, $organisationApplication) &&
+            !$organisationApplication->isLocked();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, OrganisationApplication $organisationApplication): bool
-    {
-        return $this->isAdminOrOwner($user, $organisationApplication)  && !$organisationApplication->isLocked() && $organisationApplication->deleted_at == null;
+    public function delete(
+        User $user,
+        OrganisationApplication $organisationApplication,
+    ): bool {
+        return $this->isAdminOrOwner($user, $organisationApplication) &&
+            !$organisationApplication->isLocked() &&
+            $organisationApplication->deleted_at == null;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, OrganisationApplication $organisationApplication): bool
-    {
-        return $this->isAdminOrOwner($user, $organisationApplication)  && !$organisationApplication->isLocked() && $organisationApplication->deleted_at !== null;
+    public function restore(
+        User $user,
+        OrganisationApplication $organisationApplication,
+    ): bool {
+        return $this->isAdminOrOwner($user, $organisationApplication) &&
+            !$organisationApplication->isLocked() &&
+            $organisationApplication->deleted_at !== null;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, OrganisationApplication $organisationApplication): bool
-    {
-        return $this->isAdminOrOwner($user, $organisationApplication)  && !$organisationApplication->isLocked();
+    public function forceDelete(
+        User $user,
+        OrganisationApplication $organisationApplication,
+    ): bool {
+        return $this->isAdminOrOwner($user, $organisationApplication) &&
+            !$organisationApplication->isLocked();
     }
 
     /**
      * Determine whether the user can submit the model.
      */
-    public function submit(User $user, OrganisationApplication $organisationApplication): bool
-    {
-        return $this->isAdminOrOwner($user, $organisationApplication)  && $organisationApplication->isComplete() && !$organisationApplication->isLocked();
+    public function submit(
+        User $user,
+        OrganisationApplication $organisationApplication,
+    ): bool {
+        return $this->isAdminOrOwner($user, $organisationApplication) &&
+            $organisationApplication->isComplete() &&
+            !$organisationApplication->isLocked();
     }
-
-
 }

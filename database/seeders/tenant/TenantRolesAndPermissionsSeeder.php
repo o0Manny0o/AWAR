@@ -18,34 +18,55 @@ class TenantRolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-
         $now = now();
         $permissions = TenantPermission::values();
 
-        $permissionIds = array_reduce($permissions, function ($result, $item) use ($now) {
-            $id = DB::table('permissions')->insertGetId([
-                'name' => $item,
-                'guard_name' => 'web',
-                "created_at" => $now,
-                "updated_at" => $now,
-            ]);
-            $result[$item] = $id;
-            return $result;
-        }, array());
+        $permissionIds = array_reduce(
+            $permissions,
+            function ($result, $item) use ($now) {
+                $id = DB::table('permissions')->insertGetId([
+                    'name' => $item,
+                    'guard_name' => 'web',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]);
+                $result[$item] = $id;
+                return $result;
+            },
+            [],
+        );
 
         $this->createRole(DefaultTenantUserRole::MEMBER);
         $adminId = $this->createRole(DefaultTenantUserRole::ADMIN);
-        $adoptionLeadId = $this->createRole(DefaultTenantUserRole::ADOPTION_LEAD);
-        $adoptionHandlerId = $this->createRole(DefaultTenantUserRole::ADOPTION_HANDLER);
-        $fosterHomeLeadId = $this->createRole(DefaultTenantUserRole::FOSTER_HOME_LEAD);
-        $fosterHomeHandlerId = $this->createRole(DefaultTenantUserRole::FOSTER_HOME_HANDLER);
+        $adoptionLeadId = $this->createRole(
+            DefaultTenantUserRole::ADOPTION_LEAD,
+        );
+        $adoptionHandlerId = $this->createRole(
+            DefaultTenantUserRole::ADOPTION_HANDLER,
+        );
+        $fosterHomeLeadId = $this->createRole(
+            DefaultTenantUserRole::FOSTER_HOME_LEAD,
+        );
+        $fosterHomeHandlerId = $this->createRole(
+            DefaultTenantUserRole::FOSTER_HOME_HANDLER,
+        );
         $fosterHomeId = $this->createRole(DefaultTenantUserRole::FOSTER_HOME);
 
-        $this->addPermissionToRole($adminId, $permissionIds, DefaultTenantUserRole::ADMIN->permissions());
-        $this->addPermissionToRole($adoptionLeadId, $permissionIds, DefaultTenantUserRole::ADOPTION_LEAD->permissions());
-        $this->addPermissionToRole($adoptionHandlerId, $permissionIds, DefaultTenantUserRole::ADOPTION_HANDLER->permissions());
-
-
+        $this->addPermissionToRole(
+            $adminId,
+            $permissionIds,
+            DefaultTenantUserRole::ADMIN->permissions(),
+        );
+        $this->addPermissionToRole(
+            $adoptionLeadId,
+            $permissionIds,
+            DefaultTenantUserRole::ADOPTION_LEAD->permissions(),
+        );
+        $this->addPermissionToRole(
+            $adoptionHandlerId,
+            $permissionIds,
+            DefaultTenantUserRole::ADOPTION_HANDLER->permissions(),
+        );
     }
 
     private function createRole($roleName): int
@@ -53,19 +74,27 @@ class TenantRolesAndPermissionsSeeder extends Seeder
         return DB::table('roles')->insertGetId([
             'name' => $roleName,
             'guard_name' => 'web',
-            "created_at" => now(),
-            "updated_at" => now()
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 
-    private function addPermissionToRole($roleId, $permissionIds, $permissionNames): void
-    {
-        $filteredPermissionIds = array_intersect_key($permissionIds, array_flip($permissionNames));
-        DB::table('role_has_permissions')->insert(array_map(function ($id) use ($roleId) {
-            return [
-                'permission_id' => $id,
-                'role_id' => $roleId,
-            ];
-        }, $filteredPermissionIds));
+    private function addPermissionToRole(
+        $roleId,
+        $permissionIds,
+        $permissionNames,
+    ): void {
+        $filteredPermissionIds = array_intersect_key(
+            $permissionIds,
+            array_flip($permissionNames),
+        );
+        DB::table('role_has_permissions')->insert(
+            array_map(function ($id) use ($roleId) {
+                return [
+                    'permission_id' => $id,
+                    'role_id' => $roleId,
+                ];
+            }, $filteredPermissionIds),
+        );
     }
 }

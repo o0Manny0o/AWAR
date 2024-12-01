@@ -38,6 +38,9 @@ class DevResetDatabase extends Command
             }
         });
 
-        $this->call('migrate:fresh', ['--seed' => true, '--seeder' => 'DevelopmentSeeder']);
+        $this->call('migrate:fresh', [
+            '--seed' => true,
+            '--seeder' => 'DevelopmentSeeder',
+        ]);
     }
 }

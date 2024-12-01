@@ -11,7 +11,8 @@ export default forwardRef(function MenuItemLink(
             ref={ref}
             {...props}
             className={twMerge(
-                'text-interactive block w-full px-4 py-2 text-left text-sm data-[focus]:bg-gray-100 data-[focus]:outline-none dark:data-[focus]:bg-gray-700',
+                `text-interactive block w-full px-4 py-2 text-left text-sm
+                data-[focus]:bg-gray-100 data-[focus]:outline-none dark:data-[focus]:bg-gray-700`,
                 props.className,
             )}
         >

@@ -1,5 +1,10 @@
 {
-    "plugins": ["prettier-plugin-tailwindcss"],
+    "plugins": [
+        "prettier-plugin-tailwindcss",
+        "@prettier/plugin-php",
+        "prettier-plugin-classnames"
+    ],
     "singleQuote": true,
-    "semi": false
+    "semi": false,
+    "phpVersion": "8.2"
 }

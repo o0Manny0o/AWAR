@@ -33,7 +33,7 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
         $name = $this->argument('name');
         $subdomain = $this->argument('subdomain');
         $user = $this->argument('user');
-        $centralApp = config("tenancy.central_domains")[0];
+        $centralApp = config('tenancy.central_domains')[0];
 
         $organisation = Organisation::create([
             'name' => $name,
@@ -41,7 +41,7 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
 
         $organisation->domains()->create([
             'subdomain' => $subdomain,
-            'domain' => $subdomain . "." . $centralApp
+            'domain' => $subdomain . '.' . $centralApp,
         ]);
 
         if ($user) {
@@ -49,9 +49,11 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
             $user->tenants()->attach($organisation);
         }
 
-        tenancy()->find($organisation->id)->run(function () use ($user) {
-            $member = Member::firstWhere("global_id", $user->global_id);
-            $member->assignRole(DefaultTenantUserRole::ADMIN);
-        });
+        tenancy()
+            ->find($organisation->id)
+            ->run(function () use ($user) {
+                $member = Member::firstWhere('global_id', $user->global_id);
+                $member->assignRole(DefaultTenantUserRole::ADMIN);
+            });
     }
 }

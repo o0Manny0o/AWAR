@@ -16,7 +16,10 @@ export default function DesktopMainNav({ children }: PropsWithChildren) {
                     {children}
                     <Menu as="div" className="relative ml-3">
                         <div className="flex h-full">
-                            <MenuButton className="text-interactive border-interactive bg-interactive relative flex items-center border-b-2 px-3 pt-1 text-sm font-medium">
+                            <MenuButton
+                                className="text-interactive border-interactive bg-interactive relative flex items-center
+                                    border-b-2 px-3 pt-1 text-sm font-medium"
+                            >
                                 <span className="sr-only">
                                     {__('general.layout.open_user_menu')}
                                 </span>
@@ -39,7 +42,10 @@ export default function DesktopMainNav({ children }: PropsWithChildren) {
                         </div>
                         <MenuItems
                             transition
-                            className="bg-ceiling absolute right-0 z-10 w-48 origin-top-right rounded-md py-1 shadow-lg ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                            className="bg-ceiling absolute right-0 z-10 w-48 origin-top-right rounded-md py-1 shadow-lg
+                                ring-1 ring-black/5 transition focus:outline-none data-[closed]:scale-95
+                                data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-200
+                                data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                         >
                             <MenuItem>
                                 <MenuItemLink href={route('profile.edit')}>

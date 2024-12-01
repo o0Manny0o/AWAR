@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateOrganisationApplicationRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,8 +22,7 @@ class UpdateOrganisationApplicationRequest extends FormRequest
             'post_code' => OrganisationApplicationRules::postCodeRules(),
             'city' => OrganisationApplicationRules::cityRules(),
             'country' => OrganisationApplicationRules::countryRules(),
-            'subdomain' => OrganisationApplicationRules::subdomainRules()
+            'subdomain' => OrganisationApplicationRules::subdomainRules(),
         ];
-
     }
 }

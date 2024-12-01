@@ -15,7 +15,7 @@ class CreateOrganisationInvitationRequest extends FormRequest
     {
         return [
             'email' => OrganisationInvitationRules::emailRules(),
-            'role_id' => OrganisationInvitationRules::roleRules()
+            'role_id' => OrganisationInvitationRules::roleRules(),
         ];
     }
 }

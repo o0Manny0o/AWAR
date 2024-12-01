@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Tenant\Member;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,7 +17,7 @@ use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
 use Stancl\Tenancy\Database\Models\TenantPivot;
 
 /**
- * 
+ *
  *
  * @property string $id
  * @property string $name
@@ -62,28 +61,26 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
 class User extends Authenticatable implements SyncMaster, MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, CentralConnection, ResourceSyncing, HasUuids, HasRoles;
+    use HasFactory,
+        Notifiable,
+        CentralConnection,
+        ResourceSyncing,
+        HasUuids,
+        HasRoles;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['name', 'email', 'password'];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * Get the attributes that should be cast.
@@ -105,7 +102,13 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
 
     public function tenants(): BelongsToMany
     {
-        return $this->belongsToMany(Organisation::class, 'organisation_users', 'global_user_id', 'tenant_id', 'global_id')
+        return $this->belongsToMany(
+            Organisation::class,
+            'organisation_users',
+            'global_user_id',
+            'tenant_id',
+            'global_id',
+        )
             ->using(TenantPivot::class)
             ->withTimestamps();
     }
@@ -117,7 +120,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
 
     public function getGlobalIdentifierKeyName(): string
     {
-        return "global_id";
+        return 'global_id';
     }
 
     public function getGlobalIdentifierKey()
@@ -132,19 +135,12 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
 
     public function getSyncedAttributeNames(): array
     {
-        return [
-            'name',
-            'email',
-        ];
+        return ['name', 'email'];
     }
 
     public function getSyncedCreationAttributes(): array
     {
-        return [
-            'global_id',
-            'name',
-            'email',
-        ];
+        return ['global_id', 'name', 'email'];
     }
 
     public function asMember(string $organisationId = null): Member|null
@@ -161,8 +157,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
             return null;
         }
         /** @var Member|null $member */
-        $member = Member::firstWhere("global_id", ($this->global_id));
+        $member = Member::firstWhere('global_id', $this->global_id);
         return $member;
     }
-
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Tenant;
 
-use App\Enum\DefaultTenantUserRole;
 use App\Events\InvitationCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\Invitation\CreateOrganisationInvitationRequest;
@@ -19,22 +18,25 @@ use Spatie\Permission\Models\Role;
 
 class OrganisationInvitationController extends Controller
 {
+    protected string $baseRouteName = 'organisation.invitations';
+    protected string $baseViewPath = 'Tenant/Organisation/Invitation';
 
-    protected string $baseRouteName = "organisation.invitations";
-    protected string $baseViewPath = "Tenant/Organisation/Invitation";
-
-    private function permissions(Request $request, OrganisationInvitation $invitation = null): array
-    {
+    private function permissions(
+        Request $request,
+        OrganisationInvitation $invitation = null,
+    ): array {
         $invitation?->setPermissions($request->user());
 
         return [
             'organisations' => [
                 'invitations' => [
-                    'create' => $request->user()->can('create', OrganisationInvitation::class),
+                    'create' => $request
+                        ->user()
+                        ->can('create', OrganisationInvitation::class),
                     'view' => $request->user()->can('view', $invitation),
                     'delete' => $request->user()->can('delete', $invitation),
-                ]
-            ]
+                ],
+            ],
         ];
     }
 
@@ -46,7 +48,7 @@ class OrganisationInvitationController extends Controller
     {
         $this->authorize('viewAny', OrganisationInvitation::class);
 
-        $invitations = OrganisationInvitation::with("role")->get();
+        $invitations = OrganisationInvitation::with('role')->get();
 
         foreach ($invitations as $invitation) {
             $invitation->setPermissions($request->user());
@@ -54,7 +56,7 @@ class OrganisationInvitationController extends Controller
 
         return Inertia::render($this->getIndexView(), [
             'invitations' => $invitations,
-            'permissions' => $this->permissions($request)
+            'permissions' => $this->permissions($request),
         ]);
     }
 
@@ -66,7 +68,9 @@ class OrganisationInvitationController extends Controller
     {
         $this->authorize('create', OrganisationInvitation::class);
         $roles = Role::all()->pluck('name', 'id')->toArray();
-        return Inertia::render($this->getCreateView(), ['roleOptions' => $roles]);
+        return Inertia::render($this->getCreateView(), [
+            'roleOptions' => $roles,
+        ]);
     }
 
     /**
@@ -74,27 +78,35 @@ class OrganisationInvitationController extends Controller
      * @throws ValidationException
      * @throws AuthorizationException
      */
-    public function store(CreateOrganisationInvitationRequest $request): RedirectResponse
-    {
+    public function store(
+        CreateOrganisationInvitationRequest $request,
+    ): RedirectResponse {
         $this->authorize('create', OrganisationInvitation::class);
         $validated = $request->validated();
 
-        $invitation = $request->user()->asMember()->invitations()
-            ->create(array_merge($validated, array('token' => Str::orderedUuid())));
+        $invitation = $request
+            ->user()
+            ->asMember()
+            ->invitations()
+            ->create(array_merge($validated, ['token' => Str::orderedUuid()]));
 
         InvitationCreated::dispatch($invitation);
 
-        return $this->redirect($request, $this->getShowRouteName(), ['invitation' => $invitation]);
+        return $this->redirect($request, $this->getShowRouteName(), [
+            'invitation' => $invitation,
+        ]);
     }
 
     /**
      * Display the specified resource.
      * @throws AuthorizationException
      */
-    public function show(Request $request, string $id): Response|RedirectResponse
-    {
+    public function show(
+        Request $request,
+        string $id,
+    ): Response|RedirectResponse {
         /** @var OrganisationInvitation $invitation */
-        $invitation = OrganisationInvitation::with("role")->find($id) ;
+        $invitation = OrganisationInvitation::with('role')->find($id);
         if (!$invitation) {
             return redirect()->route($this->getIndexRouteName());
         }
@@ -102,7 +114,7 @@ class OrganisationInvitationController extends Controller
 
         return Inertia::render($this->getShowView(), [
             'invitation' => $invitation,
-            'permissions' => $this->permissions($request, $invitation)
+            'permissions' => $this->permissions($request, $invitation),
         ]);
     }
 
@@ -110,10 +122,12 @@ class OrganisationInvitationController extends Controller
      * Resend the specified resource.
      * @throws AuthorizationException
      */
-    public function resend(Request $request, string $id): Response|RedirectResponse
-    {
+    public function resend(
+        Request $request,
+        string $id,
+    ): Response|RedirectResponse {
         /** @var OrganisationInvitation $invitation */
-        $invitation = OrganisationInvitation::find( $id);
+        $invitation = OrganisationInvitation::find($id);
         if (!$invitation) {
             return redirect()->route($this->getIndexRouteName());
         }
@@ -122,7 +136,7 @@ class OrganisationInvitationController extends Controller
 
         $invitation->update([
             'sent_at' => null,
-            'status' => 'pending'
+            'status' => 'pending',
         ]);
 
         InvitationCreated::dispatch($invitation);
@@ -134,23 +148,34 @@ class OrganisationInvitationController extends Controller
      * Resend the specified resource.
      * @throws AuthorizationException
      */
-    public function accept(Request $request, string $token): Response|RedirectResponse
-    {
+    public function accept(
+        Request $request,
+        string $token,
+    ): Response|RedirectResponse {
         /** @var OrganisationInvitation $invitation */
         $invitation = OrganisationInvitation::firstWhere('token', $token);
         if (!$invitation || $invitation->isExpired()) {
             // TODO: Expired/Invalid Page
-            return redirect()->route("tenant.landing-page", ["e" => "Notfound-expired"]);
+            return redirect()->route('tenant.landing-page', [
+                'e' => 'Notfound-expired',
+            ]);
         }
 
-        if ($request->user() && $request->user()->email !== $invitation->email) {
+        if (
+            $request->user() &&
+            $request->user()->email !== $invitation->email
+        ) {
             // TODO: Expired/Invalid Page
-            return redirect()->route("tenant.landing-page", ["e" => "wrong-email"]);
+            return redirect()->route('tenant.landing-page', [
+                'e' => 'wrong-email',
+            ]);
         }
 
-        $user = User::firstWhere("email", $invitation->email);
+        $user = User::firstWhere('email', $invitation->email);
 
-        return redirect()->route($user ? "login" :"register", ["token" => $invitation->token, "organisation" => tenancy()->tenant->id]);
-
+        return redirect()->route($user ? 'login' : 'register', [
+            'token' => $invitation->token,
+            'organisation' => tenancy()->tenant->id,
+        ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Tenant\OrganisationInvitation;
-use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Events\ShouldDispatchAfterCommit;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -16,9 +15,7 @@ class InvitationCreated implements ShouldDispatchAfterCommit
     /**
      * Create a new event instance.
      */
-    public function __construct(
-        public OrganisationInvitation $invitation
-    )
+    public function __construct(public OrganisationInvitation $invitation)
     {
     }
 }

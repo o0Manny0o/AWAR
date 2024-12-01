@@ -8,7 +8,6 @@ use App\Models\User;
 
 class OrganisationInvitationPolicy extends BasePolicy
 {
-
     function isOwner(User $user, $entity): bool
     {
         return $user->asMember()?->id === $entity->member_id;
@@ -17,8 +16,10 @@ class OrganisationInvitationPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, OrganisationInvitation $organisationInvitation): bool
-    {
+    public function view(
+        User $user,
+        OrganisationInvitation $organisationInvitation,
+    ): bool {
         return $this->isAdmin($user);
     }
 
@@ -33,28 +34,35 @@ class OrganisationInvitationPolicy extends BasePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, OrganisationInvitation $organisationInvitation): bool
-    {
+    public function update(
+        User $user,
+        OrganisationInvitation $organisationInvitation,
+    ): bool {
         return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, OrganisationInvitation $organisationInvitation): bool
-    {
+    public function delete(
+        User $user,
+        OrganisationInvitation $organisationInvitation,
+    ): bool {
         return false;
     }
 
     /**
      * Determine whether the user can resend the model.
      */
-    public function resend(User $user, OrganisationInvitation $organisationInvitation): bool
-    {
+    public function resend(
+        User $user,
+        OrganisationInvitation $organisationInvitation,
+    ): bool {
         return $this->isAdmin($user) &&
-            Member::firstWhere('email', $organisationInvitation->email) == null &&
+            Member::firstWhere('email', $organisationInvitation->email) ==
+                null &&
             ($organisationInvitation->sent_at === null ||
-                $organisationInvitation->sent_at->diffInHours(now()) > config("tenancy.invitations_resend_timeout"));
+                $organisationInvitation->sent_at->diffInHours(now()) >
+                    config('tenancy.invitations_resend_timeout'));
     }
-
 }

@@ -48,7 +48,10 @@ export default forwardRef(function TextInput(
                 type={type}
                 ref={localRef}
                 className={twMerge(
-                    'bg-ceiling text-basic block w-full rounded-md border-0 py-1.5 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 read-only:ring-0 focus:ring-2 focus:ring-inset focus:ring-primary-500 read-only:focus:ring-0 sm:text-sm sm:leading-6 dark:focus:ring-primary-600',
+                    `bg-ceiling text-basic block w-full rounded-md border-0 py-1.5 ring-1 ring-inset
+                    ring-gray-300 placeholder:text-gray-400 read-only:ring-0 focus:ring-2
+                    focus:ring-inset focus:ring-primary-500 read-only:focus:ring-0 sm:text-sm
+                    sm:leading-6 dark:focus:ring-primary-600`,
                     append ? 'pr-12' : '',
                     leading ? 'pl-7' : '',
                     className,

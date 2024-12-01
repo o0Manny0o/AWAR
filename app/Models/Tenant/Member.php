@@ -11,7 +11,7 @@ use Stancl\Tenancy\Contracts\Syncable;
 use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
 
 /**
- * 
+ *
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member newQuery()
@@ -53,19 +53,12 @@ class Member extends Model implements Syncable
 
     public function getSyncedAttributeNames(): array
     {
-        return [
-            'name',
-            'email',
-        ];
+        return ['name', 'email'];
     }
 
     public function getSyncedCreationAttributes(): array
     {
-        return [
-            'global_id',
-            'name',
-            'email',
-        ];
+        return ['global_id', 'name', 'email'];
     }
 
     /**

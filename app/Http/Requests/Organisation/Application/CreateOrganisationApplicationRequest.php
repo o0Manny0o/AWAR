@@ -8,7 +8,6 @@ use Illuminate\Validation\Validator;
 
 class CreateOrganisationApplicationRequest extends FormRequest
 {
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,18 +22,18 @@ class CreateOrganisationApplicationRequest extends FormRequest
                 'name' => OrganisationApplicationRules::nameRules(),
                 'type' => OrganisationApplicationRules::typeRules(),
                 'user_role' => OrganisationApplicationRules::userRoleRules(),
-                'registered' => OrganisationApplicationRules::registeredRules()
+                'registered' => OrganisationApplicationRules::registeredRules(),
             ];
         } elseif ($step == '2') {
             return [
                 'street' => OrganisationApplicationRules::streetRules(),
                 'post_code' => OrganisationApplicationRules::postCodeRules(),
                 'city' => OrganisationApplicationRules::cityRules(),
-                'country' => OrganisationApplicationRules::countryRules()
+                'country' => OrganisationApplicationRules::countryRules(),
             ];
         } else {
             return [
-                'subdomain' => OrganisationApplicationRules::subdomainRules()
+                'subdomain' => OrganisationApplicationRules::subdomainRules(),
             ];
         }
     }
@@ -43,15 +42,27 @@ class CreateOrganisationApplicationRequest extends FormRequest
     {
         return [
             function (Validator $validator) {
-                $exists = OrganisationApplication::where('name', $this->input('name'))
-                    ->where('id', '!=', $this->route()->parameter('application'))
+                $exists = OrganisationApplication::where(
+                    'name',
+                    $this->input('name'),
+                )
+                    ->where(
+                        'id',
+                        '!=',
+                        $this->route()->parameter('application'),
+                    )
                     ->where('user_id', $this->user()->id)
                     ->exists();
 
                 if ($exists) {
-                    $validator->errors()->add('name', 'You already created an application with this name.');
+                    $validator
+                        ->errors()
+                        ->add(
+                            'name',
+                            'You already created an application with this name.',
+                        );
                 }
-            }
+            },
         ];
     }
 }
