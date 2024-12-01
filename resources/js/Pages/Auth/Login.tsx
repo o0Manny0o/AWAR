@@ -1,8 +1,8 @@
 import Checkbox from '@/Components/Checkbox'
-import InputError from '@/Components/InputError'
-import InputLabel from '@/Components/InputLabel'
+import InputError from '@/Components/_Base/Input/InputError'
+import InputLabel from '@/Components/_Base/Input/InputLabel'
 import PrimaryButton from '@/Components/PrimaryButton'
-import TextInput from '@/Components/TextInput'
+import TextInput from '@/Components/_Base/Input/TextInput'
 import GuestLayout from '@/Layouts/PublicLayout'
 import { Head, Link, useForm } from '@inertiajs/react'
 import { FormEventHandler } from 'react'
@@ -91,7 +91,9 @@ export default function Login({
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900
+                                focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+                                dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                         >
                             Forgot your password?
                         </Link>

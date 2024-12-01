@@ -1,17 +1,23 @@
-import InputError from '@/Components/InputError'
-import InputLabel from '@/Components/InputLabel'
+import InputError from '@/Components/_Base/Input/InputError'
+import InputLabel from '@/Components/_Base/Input/InputLabel'
 import PrimaryButton from '@/Components/PrimaryButton'
-import TextInput from '@/Components/TextInput'
+import TextInput from '@/Components/_Base/Input/TextInput'
 import GuestLayout from '@/Layouts/GuestFlowLayout'
 import { Head, Link, useForm } from '@inertiajs/react'
 import { FormEventHandler } from 'react'
 
-export default function Register() {
+export default function Register({
+    email,
+    token,
+    organisation,
+}: AppPageProps<{ email?: string; token?: string; organisation?: string }>) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
-        email: '',
+        email: email,
         password: '',
         password_confirmation: '',
+        token: token,
+        organisation: organisation,
     })
 
     const submit: FormEventHandler = (e) => {
@@ -27,6 +33,13 @@ export default function Register() {
             <Head title="Register" />
 
             <form onSubmit={submit}>
+                <input type="hidden" name="token" value={data.token} />
+                <input
+                    type="hidden"
+                    name="organisation"
+                    value={data.organisation}
+                />
+
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
@@ -52,6 +65,7 @@ export default function Register() {
                         type="email"
                         name="email"
                         value={data.email}
+                        readOnly={!!email}
                         className="mt-1 block w-full"
                         autoComplete="username"
                         onChange={(e) => setData('email', e.target.value)}
@@ -106,7 +120,9 @@ export default function Register() {
                 <div className="mt-4 flex items-center justify-end">
                     <Link
                         href={route('login')}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900
+                            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+                            dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
                     >
                         Already registered?
                     </Link>

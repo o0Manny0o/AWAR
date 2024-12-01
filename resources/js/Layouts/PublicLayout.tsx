@@ -2,7 +2,7 @@ import { HeaderBar } from '@/Components/Layout/HeaderBar'
 import { PropsWithChildren } from 'react'
 import { Footer } from '@/Components/Layout/Footer'
 
-export default function Guest({ children }: PropsWithChildren) {
+export default function PublicLayout({ children }: PropsWithChildren) {
     return (
         <div className="bg-floor min-h-screen">
             <HeaderBar />

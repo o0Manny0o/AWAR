@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer components {
     .bg-floor {
-        @apply bg-gray-100  dark:bg-gray-900;
+        @apply bg-gray-100 dark:bg-gray-900;
     }
 
     .bg-ceiling {
@@ -13,27 +12,27 @@
     }
 
     .bg-interactive {
-        @apply hover:bg-gray-50 dark:hover:bg-gray-700 focus:bg-gray-50 dark:focus:bg-gray-700
+        @apply hover:bg-gray-50 focus:bg-gray-50 dark:hover:bg-gray-700 dark:focus:bg-gray-700;
     }
 
     .bg-active {
-        @apply bg-primary-100 dark:bg-primary-800/40 hover:bg-primary-50 dark:hover:bg-primary-800/30 focus:bg-primary-50 dark:focus:bg-primary-800/30
+        @apply bg-primary-100 hover:bg-primary-50 focus:bg-primary-50 dark:bg-primary-800/40 dark:hover:bg-primary-800/30 dark:focus:bg-primary-800/30;
     }
 
     .bg-active-interactive {
-        @apply  hover:bg-primary-50 dark:hover:bg-primary-800/30 focus:bg-primary-50 dark:focus:bg-primary-800/30
+        @apply hover:bg-primary-50 focus:bg-primary-50 dark:hover:bg-primary-800/30 dark:focus:bg-primary-800/30;
     }
 
-    .text-base {
+    .text-basic {
         @apply text-gray-700 dark:text-gray-100;
     }
 
     .text-active {
-        @apply text-primary-700 hover:text-primary-800 focus:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 dark:focus:text-primary-300
+        @apply text-primary-700 hover:text-primary-800 focus:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 dark:focus:text-primary-300;
     }
 
     .text-interactive {
-        @apply text-gray-600 hover:text-gray-800 focus:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:text-gray-200 data-[focus]:text-gray-800 dark:data-[focus]:text-gray-200
+        @apply text-gray-600 hover:text-gray-800 focus:text-gray-800 data-[focus]:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:text-gray-200 dark:data-[focus]:text-gray-200;
     }
 
     .border-base {
@@ -41,10 +40,10 @@
     }
 
     .border-active {
-        @apply border-primary-400 focus:border-primary-700 dark:border-primary-600 dark:focus:border-primary-300
+        @apply border-primary-400 focus:border-primary-700 dark:border-primary-600 dark:focus:border-primary-300;
     }
 
     .border-interactive {
-        @apply border-transparent hover:border-gray-300 focus:border-gray-300  dark:hover:border-gray-600 dark:focus:border-gray-600
+        @apply border-transparent hover:border-gray-300 focus:border-gray-300 dark:hover:border-gray-600 dark:focus:border-gray-600;
     }
 }

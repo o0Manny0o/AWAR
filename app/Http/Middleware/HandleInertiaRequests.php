@@ -33,10 +33,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $file = lang_path(App::currentLocale() . ".json");
-        if (App::currentLocale() !== "en") {
-            $fallbackFile = lang_path("en.json");
-            $fallback = File::exists($fallbackFile) ? File::json($fallbackFile) : [];
+        $file = lang_path(App::currentLocale() . '.json');
+        if (App::currentLocale() !== 'en') {
+            $fallbackFile = lang_path('en.json');
+            $fallback = File::exists($fallbackFile)
+                ? File::json($fallbackFile)
+                : [];
         } else {
             $fallback = null;
         }
@@ -51,13 +53,26 @@ class HandleInertiaRequests extends Middleware
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'ziggy' => fn() => [
-                ...(new Ziggy)->toArray(),
+                ...(new Ziggy())->toArray(),
                 'location' => $request->url(),
             ],
             'locale' => App::currentLocale(),
             'locales' => config('app.available_locales'),
             'translations' => $translations,
             'fallback' => $fallback,
+            'centralDomain' => config('tenancy.central_domains')[0],
+            'previousUrl' => function () {
+                if (
+                    url()->previous() !== route('login') &&
+                    url()->previous() !== '' &&
+                    url()->previous() !== url()->current()
+                ) {
+                    return url()->previous();
+                } else {
+                    return null;
+                }
+            },
+            'tenant' => tenancy()->tenant?->only('name'),
         ];
     }
 }

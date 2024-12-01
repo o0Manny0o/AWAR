@@ -190,7 +190,22 @@ return [
      * Parameters used by the tenants:seed command.
      */
     'seeder_parameters' => [
-        '--class' => 'DatabaseSeeder', // root seeder class
+        '--class' => 'TenantSeeder', // root seeder class
         // '--force' => true,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Invitations
+    |--------------------------------------------------------------------------
+    |
+    | The configuration options for the invitations sent out by tenants
+    |
+    */
+
+    /** Number of days before an invitation expires */
+    'invitations_validity' => env('APP_INVITATIONS_VALIDITY', 7),
+
+    /** Hours before another invitation can be sent out to an invitee */
+    'invitations_resend_timeout' => env('APP_INVITATIONS_RESEND_TIMEOUT', 3),
 ];

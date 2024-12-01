@@ -1,4 +1,7 @@
 {
+    "validation": {
+        "required": "Das Feld {attribute} ist erforderlich."
+    },
     "general": {
         "languages": {
             "en": "Englisch",
@@ -10,7 +13,13 @@
             "logout": "Abmelden",
             "profile": "Dein Profil",
             "about": "Über Uns",
-            "home": "Startseite"
+            "home": "Startseite",
+            "organisations": {
+                "applications": "Bewerbungen",
+                "invitations": "Einladungen",
+                "members": "Mitglieder"
+            },
+            "overview": "Übersicht"
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
@@ -24,9 +33,136 @@
             "open_user_menu": "Benutzermenü öffnen",
             "open_sidebar": "Seitenleiste öffnen",
             "close_sidebar": "Seitenleiste schließen"
+        },
+        "status": {
+            "submitted": "Abgeschickt",
+            "pending": "In Bearbeitung",
+            "approved": "Genehmigt",
+            "rejected": "Abgelehnt",
+            "created": "Erstellt",
+            "draft": "Entwurf",
+            "sent": "Gesendet",
+            "accepted": "Akzeptiert"
+        },
+        "button": {
+            "view": ":resource Öffnen",
+            "edit": ":resource Bearbeiten",
+            "delete": ":resource Löschen",
+            "open": ":resource Öffnen",
+            "restore": ":resource Wiederherstellen",
+            "new": "Neue :resource",
+            "submit": ":resource Absenden",
+            "continue": "Weiter",
+            "save": ":resource Speichern",
+            "cancel": "Abbrechen",
+            "go_back": "Zurück",
+            "go_back_to": "Zurück zur :page",
+            "send": ":resource Senden",
+            "resend": ":resource Erneut Senden"
+        },
+        "last_update": "Letzte Aktualisierung",
+        "options": "Optionen",
+        "deleted": "Gelöscht",
+        "your_resource": "Ihre :resource",
+        "continue_later": "Möchten Sie später weiter machen?",
+        "resources": {
+            "organisation": {
+                "invitation": "Einladung",
+                "application": "Bewerbung"
+            }
+        },
+        "roles": {
+            "tenant": {
+                "admin": "Admin",
+                "member": "Mitglied",
+                "adoption_lead": "Leitung der Adoption",
+                "adoption_handler": "Adoptions Bearbeiter",
+                "foster_home_lead": "Leitung der Pflegestellen",
+                "foster_home_handler": "Pflegestellen Betreuer",
+                "foster_home": "Pflegestelle"
+            }
         }
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"
+    },
+    "organisations": {
+        "applications": {
+            "form": {
+                "name": {
+                    "label": "Wie heißt Ihre Organisation?"
+                },
+                "type": {
+                    "label": "Was macht Ihre Organisation?",
+                    "placeholder": "Typ"
+                },
+                "registered": {
+                    "label": "Ist Ihre Organisation offiziell registriert?"
+                },
+                "street": {
+                    "label": "Straße",
+                    "placeholder": "Straße"
+                },
+                "post_code": {
+                    "label": "Postleitzahl",
+                    "placeholder": "Postleitzahl"
+                },
+                "city": {
+                    "label": "Stadt",
+                    "placeholder": "Stadt"
+                },
+                "country": {
+                    "label": "Land",
+                    "placeholder": "Land"
+                },
+                "general_info": "Allgemeine Info",
+                "subdomain": {
+                    "label": "Welche Subdomain hätten Sie gerne?"
+                },
+                "address_info": "Adresse",
+                "subdomain_info": "Subdomain ",
+                "cancel_create": "Möchten Sie sich nicht für einen Organisations Platz bewerben?",
+                "user_role": {
+                    "label": "Was ist Ihre Rolle?",
+                    "placeholder": "Rolle"
+                }
+            }
+        },
+        "invitations": {
+            "mail": {
+                "header": "Sie wurden zu einer Organisation eingeladen",
+                "body": "Wir freuen uns, Ihnen mitteilen zu können, dass :inviter Sie eingeladen hat, <strong>:name</strong> auf <a href=\"https://awar.app\">AWAR.app</a> beizutreten.",
+                "get_started": " Um loszulegen, klicken Sie einfach auf den unten angegebenen Einladungslink, um ein <a href=\"https://awar.app\">AWAR.app</a> Konto zu erstellen oder sich anzumelden. Wir freuen uns darauf, Sie an Bord zu haben, und sind gespannt auf die positiven Beiträge, die Sie leisten werden. Wenn Sie Fragen haben oder Unterstützung benötigen, können Sie sich gerne direkt an uns wenden.",
+                "regards": "Herzliche Grüße, <br /> Ihr AWAR-Team",
+                "subject": "Sie wurden von :inviter eingeladen, :organisation beizutreten"
+            },
+            "form": {
+                "email": {
+                    "label": "E-Mail",
+                    "placeholder": "E-Mail"
+                },
+                "role": {
+                    "label": "Rolle",
+                    "placeholder": "Rolle"
+                },
+                "cancel_create": "Möchten Sie momentan niemanden einladen?"
+            },
+            "titles": {
+                "create": "Einladung senden",
+                "index": "Ihre Einladungen"
+            },
+            "headers": {
+                "index": "Ihre Einladungen",
+                "create": "Laden Sie jemanden in Ihre Organisation ein"
+            }
+        },
+        "members": {
+            "headers": {
+                "index": "Alle Mitglieder"
+            }
+        },
+        "dashboard": {
+            "welcome": "Wilkommen bei :organisation, :name"
+        }
     }
 }

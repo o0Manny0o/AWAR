@@ -5,6 +5,10 @@ type User = {
     email_verified_at?: string
 }
 
+type Organisation = {
+    name: string
+}
+
 type ZiggyConfig = {
     url: string
     port: number | null
@@ -38,16 +42,23 @@ type Locale = {
     name: string
 }
 
+type NestedRecord<K, T> = Record<K, T | NestedRecord<K, T>>
+
 type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
     T & {
         auth: {
             user: User
         }
+        permissions?: NestedRecord<string, boolean>
         ziggy: ZiggyConfig
         locale: LanguageKey
         locales: Locale[]
         translations: Partial<Translations>
         fallback?: Translations
+        centralDomain: string
+        previousUrl?: string
+        tenant: Organisation
     }
 
-type TranslationKey = Paths<Translations>
+type TranslationKey = Paths<Translations, 10>
+type TranslationReplace = Record<string, string | TranslationKey>

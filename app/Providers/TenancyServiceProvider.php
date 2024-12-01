@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Listeners\UpdateSyncedResource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -28,14 +29,15 @@ class TenancyServiceProvider extends ServiceProvider
                 JobPipeline::make([
                     Jobs\CreateDatabase::class,
                     Jobs\MigrateDatabase::class,
-                    // Jobs\SeedDatabase::class,
+                    Jobs\SeedDatabase::class,
 
                     // Your own jobs to prepare the tenant.
                     // Provision API keys, create S3 buckets, anything you want!
-
-                ])->send(function (Events\TenantCreated $event) {
-                    return $event->tenant;
-                })->shouldBeQueued(false), // `false` by default, but you probably want to make this `true` for production.
+                ])
+                    ->send(function (Events\TenantCreated $event) {
+                        return $event->tenant;
+                    })
+                    ->shouldBeQueued(false), // `false` by default, but you probably want to make this `true` for production.
             ],
             Events\SavingTenant::class => [],
             Events\TenantSaved::class => [],
@@ -43,11 +45,11 @@ class TenancyServiceProvider extends ServiceProvider
             Events\TenantUpdated::class => [],
             Events\DeletingTenant::class => [],
             Events\TenantDeleted::class => [
-                JobPipeline::make([
-                    Jobs\DeleteDatabase::class,
-                ])->send(function (Events\TenantDeleted $event) {
-                    return $event->tenant;
-                })->shouldBeQueued(false), // `false` by default, but you probably want to make this `true` for production.
+                JobPipeline::make([Jobs\DeleteDatabase::class])
+                    ->send(function (Events\TenantDeleted $event) {
+                        return $event->tenant;
+                    })
+                    ->shouldBeQueued(false), // `false` by default, but you probably want to make this `true` for production.
             ],
 
             // Domain events
@@ -76,17 +78,30 @@ class TenancyServiceProvider extends ServiceProvider
             Events\EndingTenancy::class => [],
             Events\TenancyEnded::class => [
                 Listeners\RevertToCentralContext::class,
+                function (Events\TenancyEnded $event) {
+                    $permissionRegistrar = app(
+                        \Spatie\Permission\PermissionRegistrar::class,
+                    );
+                    $permissionRegistrar->cacheKey = 'spatie.permission.cache';
+                },
             ],
 
             Events\BootstrappingTenancy::class => [],
-            Events\TenancyBootstrapped::class => [],
+            Events\TenancyBootstrapped::class => [
+                function (Events\TenancyBootstrapped $event) {
+                    $permissionRegistrar = app(
+                        \Spatie\Permission\PermissionRegistrar::class,
+                    );
+                    $permissionRegistrar->cacheKey =
+                        'spatie.permission.cache.tenant.' .
+                        $event->tenancy->tenant->getTenantKey();
+                },
+            ],
             Events\RevertingToCentralContext::class => [],
             Events\RevertedToCentralContext::class => [],
 
             // Resource syncing
-            Events\SyncedResourceSaved::class => [
-                Listeners\UpdateSyncedResource::class,
-            ],
+            Events\SyncedResourceSaved::class => [UpdateSyncedResource::class],
 
             // Fired only when a synced resource is changed in a different DB than the origin DB (to avoid infinite loops)
             Events\SyncedResourceChangedInForeignDatabase::class => [],
@@ -102,7 +117,6 @@ class TenancyServiceProvider extends ServiceProvider
     {
         BelongsToTenant::$tenantIdColumn = 'organisation_id';
         $this->bootEvents();
-        // $this->mapRoutes();
 
         $this->makeTenancyMiddlewareHighestPriority();
     }
@@ -124,8 +138,9 @@ class TenancyServiceProvider extends ServiceProvider
     {
         $this->app->booted(function () {
             if (file_exists(base_path('routes/tenant.php'))) {
-                Route::namespace(static::$controllerNamespace)
-                    ->group(base_path('routes/tenant.php'));
+                Route::namespace(static::$controllerNamespace)->group(
+                    base_path('routes/tenant.php'),
+                );
             }
         });
     }
@@ -144,7 +159,9 @@ class TenancyServiceProvider extends ServiceProvider
         ];
 
         foreach (array_reverse($tenancyMiddleware) as $middleware) {
-            $this->app[\Illuminate\Contracts\Http\Kernel::class]->prependToMiddlewarePriority($middleware);
+            $this->app[
+                \Illuminate\Contracts\Http\Kernel::class
+            ]->prependToMiddlewarePriority($middleware);
         }
     }
 }

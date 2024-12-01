@@ -6,18 +6,29 @@ import {
     TransitionChild,
 } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from '@inertiajs/react'
+import { Link, usePage } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import {
     DesktopMainNav,
     DesktopSecondaryNav,
 } from '@/Components/Layout/Desktop'
 import { Logo } from '@/Components/Layout/Logo'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { MobileMainNav } from '@/Components/Layout/Mobile'
+import PublicNavigation from '@/shared/_constants/PublicNavigation'
+import DesktopNavLink from './Desktop/DesktopNavLink'
 
-export function HeaderBar() {
+export function HeaderBar({
+    mainNavigation,
+    secondaryNavigation,
+    mobileNavigation,
+}: {
+    mainNavigation?: ReactNode
+    secondaryNavigation?: ReactNode
+    mobileNavigation?: ReactNode
+}) {
     const __ = useTranslate()
+    const { tenant } = usePage().props
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -29,7 +40,8 @@ export function HeaderBar() {
                         <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                             <button
                                 onClick={() => setSidebarOpen(true)}
-                                className="text-interactive group relative inline-flex items-center justify-center rounded-md p-2"
+                                className="text-interactive group relative inline-flex items-center justify-center
+                                    rounded-md p-2"
                             >
                                 <span className="absolute -inset-0.5" />
                                 <span className="sr-only">
@@ -48,13 +60,29 @@ export function HeaderBar() {
                         <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                             <Link
                                 href="/"
-                                className="hidden shrink-0 items-center hover:text-primary-600 focus:text-primary-600 sm:flex dark:hover:text-primary-400 dark:focus:text-primary-400"
+                                className="hidden shrink-0 items-center hover:text-primary-600 focus:text-primary-600
+                                    sm:flex dark:hover:text-primary-400 dark:focus:text-primary-400"
                             >
                                 <Logo className="h-8 w-auto" />
                             </Link>
-                            <DesktopMainNav />
+                            {mainNavigation ?? (
+                                <DesktopMainNav navigation={PublicNavigation} />
+                            )}
                         </div>
-                        <DesktopSecondaryNav />
+                        {secondaryNavigation ?? (
+                            <DesktopSecondaryNav>
+                                <DesktopNavLink
+                                    href={
+                                        tenant
+                                            ? route('tenant.dashboard')
+                                            : route('dashboard')
+                                    }
+                                    active={route().current('dashboard')}
+                                >
+                                    {__('general.navigation.dashboard')}
+                                </DesktopNavLink>
+                            </DesktopSecondaryNav>
+                        )}
                     </div>
                 </div>
             </Disclosure>
@@ -65,16 +93,21 @@ export function HeaderBar() {
             >
                 <DialogBackdrop
                     transition
-                    className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
+                    className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear
+                        data-[closed]:opacity-0"
                 />
 
                 <div className="fixed inset-0 flex">
                     <DialogPanel
                         transition
-                        className="relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out data-[closed]:-translate-x-full"
+                        className="relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300
+                            ease-in-out data-[closed]:-translate-x-full"
                     >
                         <TransitionChild>
-                            <div className="absolute left-full top-0 flex w-16 justify-center pt-5 duration-300 ease-in-out data-[closed]:opacity-0">
+                            <div
+                                className="absolute left-full top-0 flex w-16 justify-center pt-5 duration-300 ease-in-out
+                                    data-[closed]:opacity-0"
+                            >
                                 <button
                                     type="button"
                                     onClick={() => setSidebarOpen(false)}
@@ -90,7 +123,9 @@ export function HeaderBar() {
                                 </button>
                             </div>
                         </TransitionChild>
-                        <MobileMainNav />
+                        {mobileNavigation ?? (
+                            <MobileMainNav navigation={PublicNavigation} />
+                        )}
                     </DialogPanel>
                 </div>
             </Dialog>

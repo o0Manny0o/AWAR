@@ -48,6 +48,13 @@ services:
             - redis
         restart: on-failure
 
+    mailhog:
+        image: mailhog/mailhog
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+        restart: on-failure
+
 volumes:
     redis:
     redis-config:
