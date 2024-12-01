@@ -72,7 +72,7 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
             },
-            'isTenant' => tenancy()->initialized,
+            'tenant' => tenancy()->tenant?->only('name'),
         ];
     }
 }

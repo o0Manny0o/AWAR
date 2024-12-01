@@ -240,6 +240,7 @@ type Translations_Organisations = {
     applications: Organisations_Applications
     invitations: Organisations_Invitations
     members: Organisations_Members
+    dashboard: Organisations_Dashboard
 }
 type Organisations_Applications = {
     form: Applications_Form
@@ -294,4 +295,7 @@ type Organisations_Members = {
 }
 type Members_Headers = {
     index: string
+}
+type Organisations_Dashboard = {
+    welcome: string
 }

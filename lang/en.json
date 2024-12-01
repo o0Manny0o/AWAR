@@ -328,6 +328,9 @@
             "headers": {
                 "index": "All Members"
             }
+        },
+        "dashboard": {
+            "welcome": "Welcome to :organisation, :name"
         }
     }
 }

@@ -5,6 +5,10 @@ type User = {
     email_verified_at?: string
 }
 
+type Organisation = {
+    name: string
+}
+
 type ZiggyConfig = {
     url: string
     port: number | null
@@ -53,7 +57,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         fallback?: Translations
         centralDomain: string
         previousUrl?: string
-        isTenant: boolean
+        tenant: Organisation
     }
 
 type TranslationKey = Paths<Translations, 10>

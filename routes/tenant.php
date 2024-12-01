@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Tenant\MemberController;
 use App\Http\Controllers\Tenant\OrganisationInvitationController;
-use App\Models\Organisation;
-use App\Models\User;
+use App\Models\Tenant\Member;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -44,7 +43,11 @@ Route::middleware([
 
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', function () {
-            return Inertia::render('Dashboard');
+            Gate::authorize('viewAny', Member::class);
+            $members = Member::with('roles')->get();
+            return Inertia::render('Tenant/Dashboard', [
+                'members' => $members,
+            ]);
         })->name('tenant.dashboard');
 
         Route::name('organisation.')->group(function () {

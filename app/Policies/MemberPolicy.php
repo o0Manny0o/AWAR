@@ -17,7 +17,7 @@ class MemberPolicy extends BasePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $this->isAdmin($user);
+        return true;
     }
 
     /**

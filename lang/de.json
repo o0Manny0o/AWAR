@@ -160,6 +160,9 @@
             "headers": {
                 "index": "Alle Mitglieder"
             }
+        },
+        "dashboard": {
+            "welcome": "Wilkommen bei :organisation, :name"
         }
     }
 }

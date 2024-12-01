@@ -16,8 +16,8 @@ export default function Authenticated({
     header,
     children,
 }: PropsWithChildren<{ header?: ReactNode }>) {
-    const { isTenant } = usePage().props
-    const navigation = isTenant ? TenantNavigation : CentralNavigation
+    const { tenant } = usePage().props
+    const navigation = tenant ? TenantNavigation : CentralNavigation
     return (
         <div className="bg-floor min-h-screen">
             <HeaderBar
