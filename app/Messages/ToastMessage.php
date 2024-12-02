@@ -25,7 +25,12 @@ class ToastMessage
         ?string $type = null,
         array $config = [],
     ): void {
-        Session::flash('message', new ToastMessage($message, $type, $config));
+        Session::flash(
+            'messages',
+            array_merge(Session::get('messages', []), [
+                new ToastMessage($message, $type, $config),
+            ]),
+        );
     }
 
     /**

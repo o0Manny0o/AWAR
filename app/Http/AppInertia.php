@@ -13,9 +13,9 @@ class AppInertia extends Inertia
         string $component,
         array|Arrayable $props = [],
     ): Response {
-        if (Session::has('message')) {
-            $messages = Inertia::getShared('messages', []);
-            $messages[] = Session::get('message');
+        if (Session::has('messages')) {
+            $shared = Inertia::getShared('messages', []);
+            $messages = array_merge(Session::get('messages', []), $shared);
             AppInertia::share('messages', $messages);
         }
         return parent::render($component, $props);
