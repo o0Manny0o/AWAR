@@ -327,6 +327,9 @@
         "members": {
             "headers": {
                 "index": "All Members"
+            },
+            "titles": {
+                "index": "Members"
             }
         },
         "dashboard": {

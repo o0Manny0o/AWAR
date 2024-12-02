@@ -291,9 +291,10 @@ type TitlesOrHeaders = {
     index: string
 }
 type Organisations_Members = {
-    headers: Members_Headers
+    headers: HeadersOrTitles
+    titles: HeadersOrTitles
 }
-type Members_Headers = {
+type HeadersOrTitles = {
     index: string
 }
 type Organisations_Dashboard = {

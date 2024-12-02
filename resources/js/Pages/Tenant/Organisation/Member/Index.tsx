@@ -22,7 +22,7 @@ export default function Index({
                 />
             }
         >
-            <Head title={__('organisations.invitations.titles.index')} />
+            <Head title={__('organisations.members.titles.index')} />
 
             <div className="py-12">
                 <Card>
