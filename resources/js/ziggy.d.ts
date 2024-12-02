@@ -9,7 +9,6 @@ declare module 'ziggy-js' {
             },
         ]
         'landing-page': []
-        healthcheck: []
         about: []
         pricing: []
         dashboard: []

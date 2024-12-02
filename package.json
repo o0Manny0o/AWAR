@@ -39,6 +39,6 @@
         "vite": "^5.0"
     },
     "lint-staged": {
-        "**/*": "prettier --write --ignore-unknown"
+        "**/*": "prettier --write {./app/**/*.php,./resources/**/*.{tsx,css}} --ignore-unknown"
     }
 }

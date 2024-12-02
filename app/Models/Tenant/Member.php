@@ -27,6 +27,12 @@ use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Member withoutRole($roles, $guard = null)
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tenant\OrganisationInvitation> $invitations
  * @property-read int|null $invitations_count
+ * @property-read bool $can_be_deleted
+ * @property-read bool $can_be_resended
+ * @property-read bool $can_be_restored
+ * @property-read bool $can_be_submitted
+ * @property-read bool $can_be_updated
+ * @property-read bool $can_be_viewed
  * @mixin \Eloquent
  */
 class Member extends Model implements Syncable
