@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\InvitationAccepted;
 use App\Http\Controllers\Controller;
+use App\Messages\ToastMessage;
 use App\Models\Organisation;
 use App\Models\Tenant\OrganisationInvitation;
 use App\Models\User;
@@ -88,14 +89,19 @@ class RegisteredUserController extends Controller
             $organisation = Organisation::find($request->organisation);
             if ($organisation) {
                 $user->tenants()->attach($organisation);
+                ToastMessage::success(
+                    __('organisations.invitations.messages.accepted', [
+                        'organisation' => $organisation->name,
+                    ]),
+                );
+                event(
+                    new InvitationAccepted(
+                        $request->token,
+                        $request->organisation,
+                        $user,
+                    ),
+                );
             }
-            event(
-                new InvitationAccepted(
-                    $request->token,
-                    $request->organisation,
-                    $user,
-                ),
-            );
         }
 
         Auth::login($user);

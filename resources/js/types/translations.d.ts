@@ -292,7 +292,13 @@ type TitlesOrHeaders = {
     index: string
 }
 type Invitations_Messages = {
-    sent: string
+    sent: Messages_Sent
+}
+type Messages_Sent = {
+    expired: string
+    wrong_email: string
+    already_accepted: string
+    accepted: string
 }
 type Organisations_Members = {
     headers: HeadersOrTitles

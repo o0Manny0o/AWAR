@@ -324,7 +324,11 @@
                 "create": "Invite someone to your organisation"
             },
             "messages": {
-                "sent": "Invitation sent to :email"
+                "sent": "Invitation sent to :email",
+                "expired": "Invitation expired",
+                "accepted": "You are now a member of :organisation",
+                "already_accepted": "Invitation has already been accepted",
+                "wrong_email": "Invitation can not be accepted on this account"
             }
         },
         "members": {

@@ -7,6 +7,7 @@ use App\Events\InvitationSaved;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\Invitation\CreateOrganisationInvitationRequest;
+use App\Messages\ToastMessage;
 use App\Models\Tenant\OrganisationInvitation;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -160,19 +161,14 @@ class OrganisationInvitationController extends Controller
         /** @var OrganisationInvitation $invitation */
         $invitation = OrganisationInvitation::firstWhere('token', $token);
         if (!$invitation || $invitation->isExpired()) {
-            // TODO: Expired/Invalid Page
-            return redirect()->route('tenant.landing-page', [
-                'e' => 'Notfound-expired',
-            ]);
+            ToastMessage::warning(
+                __('organisations.invitations.messages.expired'),
+            );
+            return redirect()->route('tenant.landing-page');
         }
 
         if ($request->user()) {
-            if ($request->user()->email !== $invitation->email) {
-                // TODO: Expired/Invalid Page
-                return redirect()->route('tenant.landing-page', [
-                    'e' => 'wrong-email',
-                ]);
-            } else {
+            if ($request->user()->email === $invitation->email) {
                 if (
                     $request
                         ->user()
@@ -181,12 +177,22 @@ class OrganisationInvitationController extends Controller
                         ->exists()
                 ) {
                     // User already accepted the invitation
+                    ToastMessage::warning(
+                        __(
+                            'organisations.invitations.messages.already_accepted',
+                        ),
+                    );
                     return redirect()->route('tenant.landing-page');
                 }
                 $request
                     ->user()
                     ->tenants()
                     ->attach(tenancy()->tenant);
+                ToastMessage::success(
+                    __('organisations.invitations.messages.accepted', [
+                        'organisation' => tenancy()->tenant->name,
+                    ]),
+                );
                 event(
                     new InvitationAccepted(
                         $request->token,
@@ -194,8 +200,12 @@ class OrganisationInvitationController extends Controller
                         $request->user(),
                     ),
                 );
-                return redirect()->route('tenant.landing-page');
+            } else {
+                ToastMessage::warning(
+                    __('organisations.invitations.messages.wrong_email'),
+                );
             }
+            return redirect()->route('tenant.landing-page');
         } else {
             $user = User::firstWhere('email', $invitation->email);
 

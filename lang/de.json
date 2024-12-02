@@ -156,7 +156,11 @@
                 "create": "Laden Sie jemanden in Ihre Organisation ein"
             },
             "messages": {
-                "sent": "Einladung wurde an :email gesendet"
+                "sent": "Einladung wurde an :email gesendet",
+                "expired": "Einladung abgelaufen",
+                "accepted": "Sie sind jetzt Mitglied von: organisation",
+                "already_accepted": "Einladung wurde bereits angenommen",
+                "wrong_email": "Einladung kann nicht mit diesem Konto angenommen werden"
             }
         },
         "members": {
