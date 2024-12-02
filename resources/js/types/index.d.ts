@@ -42,6 +42,12 @@ type Locale = {
     name: string
 }
 
+type AppMessage = {
+    message: string
+    type?: 'success' | 'error' | 'warning' | 'info'
+    config?: Record<string, unknown>
+}
+
 type NestedRecord<K, T> = Record<K, T | NestedRecord<K, T>>
 
 type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
@@ -58,6 +64,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         centralDomain: string
         previousUrl?: string
         tenant: Organisation
+        messages?: AppMessage[]
     }
 
 type TranslationKey = Paths<Translations, 10>

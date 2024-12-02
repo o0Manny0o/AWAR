@@ -10,7 +10,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
+use App\Http\AppInertia;
 use Inertia\Response;
 
 class OrganisationApplicationController extends Controller
@@ -54,7 +54,7 @@ class OrganisationApplicationController extends Controller
             $application->setPermissions($request->user());
         }
 
-        return Inertia::render('Organisation/Application/Index', [
+        return AppInertia::render('Organisation/Application/Index', [
             'applications' => $applications,
             'permissions' => $this->permissions($request),
         ]);
@@ -67,7 +67,7 @@ class OrganisationApplicationController extends Controller
     public function create(Request $request): Response
     {
         $this->authorize('create', OrganisationApplication::class);
-        return Inertia::render('Organisation/Application/Create', [
+        return AppInertia::render('Organisation/Application/Create', [
             'step' => 1,
         ]);
     }
@@ -87,7 +87,7 @@ class OrganisationApplicationController extends Controller
             return redirect()->route('organisations.applications.create');
         }
 
-        return Inertia::render('Organisation/Application/Create', [
+        return AppInertia::render('Organisation/Application/Create', [
             'step' => $step,
             'application' => $application,
         ]);
@@ -162,7 +162,7 @@ class OrganisationApplicationController extends Controller
         }
         $this->authorize('view', $application);
 
-        return Inertia::render('Organisation/Application/Show', [
+        return AppInertia::render('Organisation/Application/Show', [
             'application' => $application,
             'permissions' => $this->permissions($request, $application),
         ]);
@@ -182,7 +182,7 @@ class OrganisationApplicationController extends Controller
         }
         $this->authorize('update', $application);
 
-        return Inertia::render('Organisation/Application/Edit', [
+        return AppInertia::render('Organisation/Application/Edit', [
             'application' => $application,
             'permissions' => $this->permissions($request, $application),
         ]);

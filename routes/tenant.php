@@ -7,7 +7,7 @@ use App\Http\Controllers\Tenant\OrganisationInvitationController;
 use App\Models\Tenant\Member;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\AppInertia;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
@@ -28,7 +28,7 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     Route::get('/', function () {
-        return Inertia::render('Welcome', [
+        return AppInertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
@@ -45,7 +45,7 @@ Route::middleware([
         Route::get('/dashboard', function () {
             Gate::authorize('viewAny', Member::class);
             $members = Member::with('roles')->get();
-            return Inertia::render('Tenant/Dashboard', [
+            return AppInertia::render('Tenant/Dashboard', [
                 'members' => $members,
             ]);
         })->name('tenant.dashboard');

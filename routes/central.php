@@ -1,21 +1,21 @@
 <?php
 
-use Inertia\Inertia;
+use App\Http\AppInertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return AppInertia::render('Welcome');
 })->name('landing-page');
 
 Route::get('/about', function () {
-    return Inertia::render('Welcome');
+    return AppInertia::render('Welcome');
 })->name('about');
 
 Route::get('/pricing', function () {
-    return Inertia::render('Welcome');
+    return AppInertia::render('Welcome');
 })->name('pricing');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return AppInertia::render('Dashboard');
 })
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

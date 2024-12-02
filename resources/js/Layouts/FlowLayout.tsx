@@ -1,6 +1,7 @@
 import { Logo } from '@/Components/Layout/Logo'
 import { PropsWithChildren } from 'react'
 import { Link } from '@inertiajs/react'
+import { BaseLayout } from '@/Layouts/BaseLayout'
 
 export default function FlowLayout({
     header,
@@ -11,7 +12,7 @@ export default function FlowLayout({
     footer?: { href: string; text?: string; label: string }
 }>) {
     return (
-        <div className="bg-floor min-h-screen">
+        <BaseLayout>
             <div className="fixed left-1/2 top-[min(20vh,256px)] w-full max-w-xl -translate-x-1/2 px-4">
                 <div className="flex flex-col items-center gap-6">
                     <Logo />
@@ -36,6 +37,6 @@ export default function FlowLayout({
                     )}
                 </div>
             </div>
-        </div>
+        </BaseLayout>
     )
 }
