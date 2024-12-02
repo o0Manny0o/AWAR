@@ -10,8 +10,6 @@ export default function Create({
 }: AppPageProps<{ roleOptions: { [id: number]: string } }>) {
     const __ = useTranslate()
 
-    console.log(roleOptions)
-
     return (
         <FlowLayout
             header={__('organisations.invitations.headers.create')}

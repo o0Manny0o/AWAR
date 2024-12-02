@@ -159,6 +159,9 @@
         "members": {
             "headers": {
                 "index": "Alle Mitglieder"
+            },
+            "titles": {
+                "index": "Mitglieder"
             }
         },
         "dashboard": {

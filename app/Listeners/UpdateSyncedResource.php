@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\TenantResourceCreated;
 use Illuminate\Database\Eloquent\Model;
 use Stancl\Tenancy\Contracts\SyncMaster;
 use Stancl\Tenancy\Events\SyncedResourceChangedInForeignDatabase;
@@ -90,6 +91,8 @@ class UpdateSyncedResource extends BaseUpdateSyncedResource
                             $eventModel->getSyncedCreationAttributes(),
                         ),
                     );
+                    // Emit custom create event
+                    TenantResourceCreated::dispatch($localModel);
                 }
 
                 event(
