@@ -3,7 +3,6 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
 import PageHeader from '@/Components/Layout/PageHeader'
 import { Card } from '@/Components/Layout/Card'
-import usePermission from '@/shared/hooks/usePermission'
 import List from '@/Components/Resource/List'
 import Member = App.Models.Member
 
@@ -11,7 +10,6 @@ export default function Index({
     members,
 }: AppPageProps<{ members: Member[] }>) {
     const __ = useTranslate()
-    const { can } = usePermission()
 
     return (
         <AuthenticatedLayout
