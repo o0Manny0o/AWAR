@@ -322,6 +322,9 @@
             "headers": {
                 "index": "Your Invitations",
                 "create": "Invite someone to your organisation"
+            },
+            "messages": {
+                "sent": "Invitation sent to :email"
             }
         },
         "members": {

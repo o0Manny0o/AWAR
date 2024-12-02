@@ -272,6 +272,7 @@ type Organisations_Invitations = {
     form: Invitations_Form
     titles: TitlesOrHeaders
     headers: TitlesOrHeaders
+    messages: Invitations_Messages
 }
 type Invitations_Mail = {
     header: string
@@ -289,6 +290,9 @@ type Invitations_Form = {
 type TitlesOrHeaders = {
     create: string
     index: string
+}
+type Invitations_Messages = {
+    sent: string
 }
 type Organisations_Members = {
     headers: HeadersOrTitles

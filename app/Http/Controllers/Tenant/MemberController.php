@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Tenant\Member;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use App\Http\AppInertia;
 use Inertia\Response;
 
 class MemberController extends Controller
@@ -24,7 +24,7 @@ class MemberController extends Controller
 
         $members = Member::with('roles')->get();
 
-        return Inertia::render($this->getIndexView(), [
+        return AppInertia::render($this->getIndexView(), [
             'members' => $members,
             'permissions' => $this->permissions($request),
         ]);

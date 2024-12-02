@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Events\InvitationAccepted;
 use App\Events\InvitationSaved;
+use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\Invitation\CreateOrganisationInvitationRequest;
 use App\Models\Tenant\OrganisationInvitation;
@@ -13,7 +14,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
@@ -36,7 +36,7 @@ class OrganisationInvitationController extends Controller
             $invitation->setPermissions($request->user());
         }
 
-        return Inertia::render($this->getIndexView(), [
+        return AppInertia::render($this->getIndexView(), [
             'invitations' => $invitations,
             'permissions' => $this->permissions($request),
         ]);
@@ -97,7 +97,7 @@ class OrganisationInvitationController extends Controller
     {
         $this->authorize('create', OrganisationInvitation::class);
         $roles = Role::all()->pluck('name', 'id')->toArray();
-        return Inertia::render($this->getCreateView(), [
+        return AppInertia::render($this->getCreateView(), [
             'roleOptions' => $roles,
         ]);
     }
@@ -117,7 +117,7 @@ class OrganisationInvitationController extends Controller
         }
         $this->authorize('view', $invitation);
 
-        return Inertia::render($this->getShowView(), [
+        return AppInertia::render($this->getShowView(), [
             'invitation' => $invitation,
             'permissions' => $this->permissions($request, $invitation),
         ]);

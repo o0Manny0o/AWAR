@@ -1,0 +1,54 @@
+:root {
+    --toastify-icon-color-success: theme('colors.green.500');
+    --toastify-icon-color-info: theme('colors.cyan.500');
+    --toastify-icon-color-warning: theme('colors.yellow.500');
+    --toastify-icon-color-error: theme('colors.red.500');
+}
+
+.Toastify__toast-container--top-right {
+    top: calc(64px + var(--toastify-toast-top));
+}
+
+.Toastify__close-button--light {
+    @apply text-basic;
+}
+
+.Toastify__toast-theme--light {
+    @apply bg-ceiling text-basic border border-gray-600;
+}
+
+.Toastify__toast--success {
+    @apply border-green-600 bg-green-50 text-green-800 dark:bg-green-900 dark:text-green-50;
+}
+
+.Toastify__toast--info {
+    @apply border-cyan-600 bg-cyan-50 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-50;
+}
+
+.Toastify__toast--warning {
+    @apply border-yellow-600 bg-yellow-50 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-50;
+}
+
+.Toastify__toast--error {
+    @apply border-red-600 bg-red-50 text-red-800 dark:bg-red-900 dark:text-red-50;
+}
+
+.Toastify__progress-bar-theme--light {
+    @apply bg-gradient-to-r from-primary-300 to-primary-500;
+}
+
+.Toastify__progress-bar--success {
+    @apply bg-gradient-to-r from-green-300 to-green-500;
+}
+
+.Toastify__progress-bar--info {
+    @apply bg-gradient-to-r from-cyan-300 to-cyan-500;
+}
+
+.Toastify__progress-bar--warning {
+    @apply bg-gradient-to-r from-yellow-300 to-yellow-500;
+}
+
+.Toastify__progress-bar--error {
+    @apply bg-gradient-to-r from-red-300 to-red-500;
+}

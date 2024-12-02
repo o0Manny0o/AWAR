@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
-use Inertia\Inertia;
+use App\Http\AppInertia;
 use Inertia\Response;
 
 class RegisteredUserController extends Controller
@@ -35,24 +35,24 @@ class RegisteredUserController extends Controller
                     $token,
                 );
                 if (!$invitation || $invitation->isExpired()) {
-                    return Inertia::render('Auth/Register');
+                    return AppInertia::render('Auth/Register');
                 }
 
                 if (User::firstWhere('email', $invitation->email)) {
                     return redirect()->route('login');
                 }
 
-                return Inertia::render('Auth/Register', [
+                return AppInertia::render('Auth/Register', [
                     'email' => $invitation->email,
                     'token' => $token,
                     'organisation' => $organisation,
                 ]);
             } catch (\Exception $e) {
-                return Inertia::render('Auth/Register');
+                return AppInertia::render('Auth/Register');
             }
         }
 
-        return Inertia::render('Auth/Register');
+        return AppInertia::render('Auth/Register');
     }
 
     /**

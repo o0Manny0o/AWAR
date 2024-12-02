@@ -154,6 +154,9 @@
             "headers": {
                 "index": "Ihre Einladungen",
                 "create": "Laden Sie jemanden in Ihre Organisation ein"
+            },
+            "messages": {
+                "sent": "Einladung wurde an :email gesendet"
             }
         },
         "members": {
