@@ -11,6 +11,7 @@ import {
 import { BellIcon } from '@heroicons/react/24/solid'
 import { MobileMainNav } from '@/Components/Layout/Mobile'
 import { usePage } from '@inertiajs/react'
+import { BaseLayout } from '@/Layouts/BaseLayout'
 
 export default function Authenticated({
     header,
@@ -19,7 +20,7 @@ export default function Authenticated({
     const { tenant } = usePage().props
     const navigation = tenant ? TenantNavigation : CentralNavigation
     return (
-        <div className="bg-floor min-h-screen">
+        <BaseLayout>
             <HeaderBar
                 mainNavigation={<DesktopMainNav navigation={navigation} />}
                 secondaryNavigation={
@@ -47,6 +48,6 @@ export default function Authenticated({
             <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                 {children}
             </main>
-        </div>
+        </BaseLayout>
     )
 }
