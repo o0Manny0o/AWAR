@@ -18,11 +18,6 @@ const Ziggy = {
             methods: ['GET', 'HEAD'],
             domain: 'awar.test',
         },
-        healthcheck: {
-            uri: 'health',
-            methods: ['GET', 'HEAD'],
-            domain: 'awar.test',
-        },
         about: { uri: 'about', methods: ['GET', 'HEAD'], domain: 'awar.test' },
         pricing: {
             uri: 'pricing',

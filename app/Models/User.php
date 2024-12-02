@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Tenant\Member;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -56,9 +57,14 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
  * @property string $global_id
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereGlobalId($value)
+ * @property string $locale
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLocale($value)
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements SyncMaster, MustVerifyEmail
+class User extends Authenticatable implements
+    SyncMaster,
+    MustVerifyEmail,
+    HasLocalePreference
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory,
@@ -73,7 +79,7 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['name', 'email', 'password', 'locale'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -81,19 +87,6 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
      * @var array<int, string>
      */
     protected $hidden = ['password', 'remember_token'];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
 
     public function organisationApplications(): HasMany
     {
@@ -118,14 +111,14 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
         return Member::class;
     }
 
-    public function getGlobalIdentifierKeyName(): string
-    {
-        return 'global_id';
-    }
-
     public function getGlobalIdentifierKey()
     {
         return $this->getAttribute($this->getGlobalIdentifierKeyName());
+    }
+
+    public function getGlobalIdentifierKeyName(): string
+    {
+        return 'global_id';
     }
 
     public function getCentralModelName(): string
@@ -159,5 +152,26 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
         /** @var Member|null $member */
         $member = Member::firstWhere('global_id', $this->global_id);
         return $member;
+    }
+
+    /**
+     * Get the user's preferred locale.
+     */
+    public function preferredLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 }
