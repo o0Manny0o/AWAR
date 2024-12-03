@@ -1,28 +1,21 @@
 import { twJoin } from 'tailwind-merge'
-import * as React from 'react'
-import { PropsWithChildren, useContext } from 'react'
+import { ComponentType, PropsWithChildren, useContext } from 'react'
 import { SidebarContext } from '@/Components/Layout/Sidebar/Sidebar.context'
+import { Link } from '@inertiajs/react'
 
 export function SidebarMenuItem({
     href,
     active,
     children,
-    icon,
 }: PropsWithChildren<{
     href: string
     active: boolean
-    icon?: {
-        component?: React.ComponentType<{
-            className?: string
-        }>
-        props?: PropsWithChildren<{ className?: string }>
-    }
 }>) {
     const { colored } = useContext(SidebarContext)
 
     return (
         <li>
-            <a
+            <Link
                 href={href}
                 className={twJoin(
                     active
@@ -37,7 +30,7 @@ export function SidebarMenuItem({
                 )}
             >
                 {children}
-            </a>
+            </Link>
         </li>
     )
 }
