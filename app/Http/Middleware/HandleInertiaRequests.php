@@ -50,7 +50,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request
                     ->user()
-                    ->load(['tenants', 'tenants.domains']),
+                    ?->load(['tenants', 'tenants.domains']),
+                'member' => $request->user()?->asMember(),
             ],
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),

@@ -2,6 +2,7 @@
 
 namespace App\Models\Tenant;
 
+use App\Enum\DefaultTenantUserRole;
 use App\Models\User;
 use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -74,5 +75,10 @@ class Member extends Model implements Syncable
     public function invitations(): HasMany
     {
         return $this->hasMany(OrganisationInvitation::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole(DefaultTenantUserRole::ADMIN);
     }
 }

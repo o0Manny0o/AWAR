@@ -119,7 +119,7 @@ export default function Authenticated({
                             className="h-6 w-px dark:bg-gray-400 bg-gray-900/10 lg:hidden"
                         />
                         <div className="flex self-stretch">
-                            <DesktopSecondaryNav></DesktopSecondaryNav>
+                            <DesktopSecondaryNav />
                         </div>
                     </div>
 

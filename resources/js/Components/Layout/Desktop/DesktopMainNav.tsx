@@ -1,12 +1,14 @@
 import useTranslate from '@/shared/hooks/useTranslate'
 import DesktopNavLink from '@/Components/Layout/Desktop/DesktopNavLink'
 import { NavigationItem } from '@/types/navigation'
+import { PropsWithChildren } from 'react'
 
 export default function DesktopMainNav({
     navigation,
-}: {
+    children,
+}: PropsWithChildren<{
     navigation: NavigationItem[]
-}) {
+}>) {
     const __ = useTranslate()
 
     return (
@@ -20,6 +22,7 @@ export default function DesktopMainNav({
                     {__(link.label)}
                 </DesktopNavLink>
             ))}
+            {children}
         </div>
     )
 }

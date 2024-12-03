@@ -6,12 +6,6 @@ import { useContext } from 'react'
 import { SidebarContext } from '@/Components/Layout/Sidebar/Sidebar.context'
 import { usePage } from '@inertiajs/react'
 
-const organisations = [
-    { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-    { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-    { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-]
-
 export function SidebarOrganisationNav() {
     const __ = useTranslate()
     const { colored } = useContext(SidebarContext)
@@ -19,6 +13,10 @@ export function SidebarOrganisationNav() {
         auth: { user },
         tenant,
     } = usePage().props
+
+    if (!user.tenants?.length) {
+        return null
+    }
 
     return (
         <>

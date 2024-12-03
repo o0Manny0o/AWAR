@@ -145,7 +145,7 @@ class User extends Authenticatable implements
             }
         }
 
-        if (!tenancy()) {
+        if (!tenant()) {
             // Currently not in organisation context
             return null;
         }

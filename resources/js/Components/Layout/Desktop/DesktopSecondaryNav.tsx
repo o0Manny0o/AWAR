@@ -8,7 +8,7 @@ import { getAbbreviation } from '@/shared/util'
 
 export default function DesktopMainNav({ children }: PropsWithChildren) {
     const __ = useTranslate()
-    const { auth } = usePage().props
+    const { auth, centralDomain } = usePage().props
 
     return (
         <div className="right-0 flex sm:static sm:pr-0">
@@ -53,6 +53,20 @@ export default function DesktopMainNav({ children }: PropsWithChildren) {
                                 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-200
                                 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                         >
+                            <MenuItem>
+                                <MenuItemLink
+                                    component={function Anchor(props) {
+                                        return (
+                                            <a {...props}>{props.children}</a>
+                                        )
+                                    }}
+                                    href={`https://${centralDomain}/dashboard`}
+                                    active={route().current('dashboard')}
+                                >
+                                    {/* TODO: Find better name */}
+                                    {__('general.navigation.dashboard')}
+                                </MenuItemLink>
+                            </MenuItem>
                             <MenuItem>
                                 <MenuItemLink href={route('profile.edit')}>
                                     {__('general.navigation.profile')}

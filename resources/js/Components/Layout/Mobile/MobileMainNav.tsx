@@ -23,8 +23,8 @@ export default function MobileMainNav({
                     {navigation.map((link) => (
                         <li key={link.name}>
                             <MobileNavLink
-                                href={route(link.routeName)}
-                                active={route().current(link.routeName)}
+                                href={route(link.name)}
+                                active={route().current(link.name)}
                             >
                                 {__(link.label)}
                             </MobileNavLink>
