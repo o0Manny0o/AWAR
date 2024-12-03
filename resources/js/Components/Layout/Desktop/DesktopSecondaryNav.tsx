@@ -63,8 +63,7 @@ export default function DesktopMainNav({ children }: PropsWithChildren) {
                                     href={`https://${centralDomain}/dashboard`}
                                     active={route().current('dashboard')}
                                 >
-                                    {/* TODO: Find better name */}
-                                    {__('general.navigation.dashboard')}
+                                    {__('general.navigation.your_dashboard')}
                                 </MenuItemLink>
                             </MenuItem>
                             <MenuItem>
