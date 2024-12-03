@@ -1,4 +1,3 @@
-import { twJoin, twMerge } from 'tailwind-merge'
 import {
     CalendarIcon,
     ChartPieIcon,
@@ -6,7 +5,10 @@ import {
     FolderIcon,
     HomeIcon,
     UsersIcon,
-} from '@heroicons/react/24/solid'
+} from '@heroicons/react/24/outline'
+import { SidebarMenuItem } from '@/Components/Layout/Sidebar/SidebarMenuItem'
+import { SidebarMenuItemIcon } from '@/Components/Layout/Sidebar/SidebarMenuItemIcon'
+import { SidebarMenuList } from '@/Components/Layout/Sidebar/SidebarMenuList'
 
 const navigation = [
     { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
@@ -24,32 +26,20 @@ const navigation = [
 
 export function SidebarMainNav() {
     return (
-        <ul role="list" className="-mx-2 space-y-1">
+        <SidebarMenuList>
             {navigation.map((item) => (
-                <li key={item.name}>
-                    <a
-                        href={item.href}
-                        className={twJoin(
-                            item.current
-                                ? 'bg-primary-700 text-white'
-                                : 'dark:text-primary-200 hover:bg-primary-700 hover:text-white text-primary-700',
-                            `group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold transition-colors
-                            ease-in`,
-                        )}
-                    >
-                        <item.icon
-                            aria-hidden="true"
-                            className={twJoin(
-                                item.current
-                                    ? 'text-white'
-                                    : 'dark:text-primary-200 group-hover:text-white text-primary-700',
-                                'size-6 shrink-0 transition-colors ease-in',
-                            )}
-                        />
-                        {item.name}
-                    </a>
-                </li>
+                <SidebarMenuItem
+                    key={item.name}
+                    href={item.href}
+                    active={item.current}
+                >
+                    <SidebarMenuItemIcon
+                        icon={item.icon}
+                        active={item.current}
+                    />
+                    {item.name}
+                </SidebarMenuItem>
             ))}
-        </ul>
+        </SidebarMenuList>
     )
 }

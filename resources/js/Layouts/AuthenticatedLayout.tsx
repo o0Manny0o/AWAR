@@ -1,6 +1,5 @@
-import { PropsWithChildren, ReactNode, useState } from 'react'
-import { Cog6ToothIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid'
-import { usePage } from '@inertiajs/react'
+import { PropsWithChildren, useState } from 'react'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import { BaseLayout } from '@/Layouts/BaseLayout'
 import {
     Dialog,
@@ -9,18 +8,16 @@ import {
     TransitionChild,
 } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { SidebarMainNav } from '@/Components/Layout/Sidebar/SidebarMainNav'
-import { SidebarBranding } from '@/Components/Layout/Sidebar/SidebarBranding'
-import { SidebarOrganisationNav } from '@/Components/Layout/Sidebar/SidebarOrganisationNav'
 import { DesktopSecondaryNav } from '@/Components/Layout/Desktop'
-import { SidebarMenuItem } from '@/Components/Layout/Sidebar/SidebarMenuItem'
+import { SidebarNav } from '@/Components/Layout/Sidebar/SidebarNav'
+import useTranslate from '@/shared/hooks/useTranslate'
+import PageHeader, { PageHeaderProps } from '@/Components/Layout/PageHeader'
 
 export default function Authenticated({
-    header,
     children,
-}: PropsWithChildren<{ header?: ReactNode }>) {
-    const { tenant } = usePage().props
-    // const navigation = tenant ? TenantNavigation : CentralNavigation
+    ...pageHeaderProps
+}: PropsWithChildren<PageHeaderProps>) {
+    const __ = useTranslate()
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -55,7 +52,7 @@ export default function Authenticated({
                                         className="-m-2.5 p-2.5 text-interactive"
                                     >
                                         <span className="sr-only">
-                                            Close sidebar
+                                            {__('general.layout.close_sidebar')}
                                         </span>
                                         <XMarkIcon
                                             aria-hidden="true"
@@ -64,74 +61,14 @@ export default function Authenticated({
                                     </button>
                                 </div>
                             </TransitionChild>
-                            {/* Sidebar component, swap this element with another sidebar if you like */}
-                            <div
-                                className="flex grow flex-col gap-y-5 overflow-y-auto bg-primary-200 dark:bg-primary-950
-                                    px-6 pb-4"
-                            >
-                                <SidebarBranding />
-                                <nav className="flex flex-1 flex-col">
-                                    <ul
-                                        role="list"
-                                        className="flex flex-1 flex-col gap-y-7"
-                                    >
-                                        <li>
-                                            <SidebarMainNav />
-                                        </li>
-                                        <li>
-                                            <SidebarOrganisationNav />
-                                        </li>
-                                        <li className="mt-auto">
-                                            <a
-                                                href="#"
-                                                className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-indigo-200
-                                                    hover:bg-indigo-700 hover:text-white"
-                                            >
-                                                <Cog6ToothIcon
-                                                    aria-hidden="true"
-                                                    className="size-6 shrink-0 text-indigo-200 group-hover:text-white"
-                                                />
-                                                Settings
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+
+                            <SidebarNav />
                         </DialogPanel>
                     </div>
                 </Dialog>
 
-                {/* Static sidebar for desktop */}
                 <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-                    <div
-                        className="flex grow flex-col gap-y-5 overflow-y-auto bg-primary-200 dark:bg-primary-950
-                            px-6 pb-4"
-                    >
-                        <div className="flex h-16 shrink-0 items-center">
-                            <SidebarBranding />
-                        </div>
-                        <nav className="flex flex-1 flex-col">
-                            <ul
-                                role="list"
-                                className="flex flex-1 flex-col gap-y-7"
-                            >
-                                <li>
-                                    <SidebarMainNav />
-                                </li>
-                                <li className="mt-auto"></li>
-                                <li>
-                                    <SidebarOrganisationNav />
-                                </li>
-                                <SidebarMenuItem href={'#'} active={false}>
-                                    <Cog6ToothIcon
-                                        aria-hidden="true"
-                                        className="size-6 shrink-0 text-indigo-200 group-hover:text-white"
-                                    />
-                                    Settings
-                                </SidebarMenuItem>
-                            </ul>
-                        </nav>
-                    </div>
+                    <SidebarNav />
                 </div>
 
                 <div className="lg:pl-72">
@@ -145,11 +82,12 @@ export default function Authenticated({
                             onClick={() => setSidebarOpen(true)}
                             className="-m-2.5 p-2.5 text-interactive lg:hidden"
                         >
-                            <span className="sr-only">Open sidebar</span>
+                            <span className="sr-only">
+                                {__('general.layout.open_sidebar')}
+                            </span>
                             <Bars3Icon aria-hidden="true" className="size-6" />
                         </button>
 
-                        {/* Separator */}
                         <div
                             aria-hidden="true"
                             className="h-6 w-px dark:bg-gray-400 bg-gray-900/10 lg:hidden"
@@ -176,7 +114,6 @@ export default function Authenticated({
                             </form>
                         </div>
 
-                        {/* Separator */}
                         <div
                             aria-hidden="true"
                             className="h-6 w-px dark:bg-gray-400 bg-gray-900/10 lg:hidden"
@@ -186,7 +123,10 @@ export default function Authenticated({
                         </div>
                     </div>
 
-                    <main className="py-8 sm:px-2">{children}</main>
+                    <main className="py-8 px-2 sm:px-6 lg:px-8">
+                        <PageHeader {...pageHeaderProps} className="mb-4" />
+                        {children}
+                    </main>
                 </div>
             </div>
         </BaseLayout>

@@ -15,17 +15,13 @@ export default function Show({
 
     return (
         <AuthenticatedLayout
-            header={
-                <PageHeader
-                    title={invitation.email}
-                    badge={{
-                        color: badgeColor(invitation),
-                        label: __(badgeLabelKey(invitation)),
-                    }}
-                    actionButtons={ShowActionButtons(invitation)}
-                    backUrl={route('organisation.invitations.index')}
-                />
-            }
+            title={invitation.email}
+            badge={{
+                color: badgeColor(invitation),
+                label: __(badgeLabelKey(invitation)),
+            }}
+            actionButtons={ShowActionButtons(invitation)}
+            backUrl={route('organisation.invitations.index')}
         >
             <Head title={`Invitation ${invitation.email}`} />
 

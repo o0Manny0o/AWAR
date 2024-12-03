@@ -19,21 +19,17 @@ export default function Show({
 
     return (
         <AuthenticatedLayout
-            header={
-                <PageHeader
-                    title={application.name}
-                    badge={{
-                        color: badgeColor(application),
-                        label: __(badgeLabelKey(application)),
-                    }}
-                    actionButtons={ShowActionButtons(application)}
-                    backUrl={route('organisations.applications.index')}
-                />
-            }
+            title={application.name}
+            badge={{
+                color: badgeColor(application),
+                label: __(badgeLabelKey(application)),
+            }}
+            actionButtons={ShowActionButtons(application)}
+            backUrl={route('organisations.applications.index')}
         >
             <Head title={`${application.name} Application`} />
 
-            <div className="space-y-6 py-12">
+            <div className="space-y-6">
                 <Card
                     header={__('organisations.applications.form.general_info')}
                 >

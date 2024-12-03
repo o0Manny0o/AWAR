@@ -63,7 +63,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         fallback?: Translations
         centralDomain: string
         previousUrl?: string
-        tenant: Organisation
+        tenant?: Organisation
         messages?: AppMessage[]
     }
 

@@ -170,11 +170,16 @@ type General_Navigation = {
     organisations: Navigation_Organisations
     overview: string
     your_organisations: string
+    sidebar: Navigation_Sidebar
 }
 type Navigation_Organisations = {
     applications: string
     invitations: string
     members: string
+}
+type Navigation_Sidebar = {
+    open: string
+    close: string
 }
 type General_Newsletter = {
     description: string

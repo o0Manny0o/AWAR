@@ -11,26 +11,19 @@ export default function Index({
     auth: {
         user: { name },
     },
-    tenant: { name: organisation },
+    tenant,
 }: AppPageProps<{ members: Member[] }>) {
     const __ = useTranslate()
 
     return (
-        <AuthenticatedLayout
-            header={
-                <PageHeader
-                    title={__('general.navigation.dashboard')}
-                    actionButtons={[]}
-                />
-            }
-        >
+        <AuthenticatedLayout title={__('general.navigation.dashboard')}>
             <Head title={__('general.navigation.dashboard')} />
 
             <div className="space-y-6">
                 <Card>
                     {__('organisations.dashboard.welcome', {
                         name: name,
-                        organisation: organisation,
+                        organisation: tenant?.name ?? 'AWAR',
                     })}
                 </Card>
                 <Card header={__('organisations.members.headers.index')}>
