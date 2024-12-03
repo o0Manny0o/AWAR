@@ -1,8 +1,8 @@
 import { RouteName } from 'ziggy-js'
+import { ComponentType } from 'react'
 
 type NavigationItem = {
-    icon?: string
-    name: string
+    icon?: ComponentType<{ className?: string }>
+    name: RouteName
     label: TranslationKey
-    routeName: RouteName
 }

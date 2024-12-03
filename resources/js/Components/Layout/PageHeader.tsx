@@ -2,6 +2,7 @@ import { Button, ButtonColorVariants } from '@/Components/_Base/Button'
 import { Method } from '@inertiajs/core'
 import { Badge, BadgeColor } from '@/Components/_Base/Badge'
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
+import { twMerge } from 'tailwind-merge'
 
 type PageHeaderBaseButton = {
     label: string
@@ -23,7 +24,7 @@ function isPageHeaderLink(item: PageHeaderButton): item is PageHeaderLink {
     return !!(item as PageHeaderLink).href
 }
 
-interface PageHeaderProps {
+export interface PageHeaderProps {
     title: string
     badge?: {
         color: BadgeColor
@@ -31,6 +32,7 @@ interface PageHeaderProps {
     }
     actionButtons?: PageHeaderButton[]
     backUrl?: string
+    className?: string
 }
 
 export default function PageHeader({
@@ -38,9 +40,15 @@ export default function PageHeader({
     badge,
     actionButtons,
     backUrl,
+    className,
 }: PageHeaderProps) {
     return (
-        <div className="flex items-baseline justify-between">
+        <div
+            className={twMerge(
+                'flex items-center h-10 justify-between',
+                className,
+            )}
+        >
             <div className="flex items-center gap-2">
                 {/* TODO: Improve style */}
                 {backUrl && (

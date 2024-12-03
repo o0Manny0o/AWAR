@@ -3,10 +3,12 @@ type User = {
     name: string
     email: string
     email_verified_at?: string
+    tenants?: Organisation[]
 }
 
 type Organisation = {
     name: string
+    domains?: { domain: string }[]
 }
 
 type ZiggyConfig = {
@@ -54,6 +56,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
     T & {
         auth: {
             user: User
+            member?: any
         }
         permissions?: NestedRecord<string, boolean>
         ziggy: ZiggyConfig
@@ -63,7 +66,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         fallback?: Translations
         centralDomain: string
         previousUrl?: string
-        tenant: Organisation
+        tenant?: Organisation
         messages?: AppMessage[]
     }
 

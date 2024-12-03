@@ -169,6 +169,8 @@ type General_Navigation = {
     home: string
     organisations: Navigation_Organisations
     overview: string
+    your_organisations: string
+    your_dashboard: string
 }
 type Navigation_Organisations = {
     applications: string
@@ -292,13 +294,11 @@ type TitlesOrHeaders = {
     index: string
 }
 type Invitations_Messages = {
-    sent: Messages_Sent
-}
-type Messages_Sent = {
+    sent: string
     expired: string
-    wrong_email: string
-    already_accepted: string
     accepted: string
+    already_accepted: string
+    wrong_email: string
 }
 type Organisations_Members = {
     headers: HeadersOrTitles

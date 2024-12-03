@@ -4,17 +4,18 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { usePage } from '@inertiajs/react'
 import { MenuItemLink } from '@/Components/_Base'
 import { PropsWithChildren } from 'react'
+import { getAbbreviation } from '@/shared/util'
 
 export default function DesktopMainNav({ children }: PropsWithChildren) {
     const __ = useTranslate()
-    const { auth } = usePage().props
+    const { auth, centralDomain } = usePage().props
 
     return (
-        <div className="absolute inset-y-0 right-0 flex pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+        <div className="right-0 flex sm:static sm:pr-0">
             {auth.user ? (
                 <>
                     {children}
-                    <Menu as="div" className="relative ml-3">
+                    <Menu as="div" className="relative">
                         <div className="flex h-full">
                             <MenuButton
                                 className="text-interactive border-interactive bg-interactive relative flex items-center
@@ -24,7 +25,12 @@ export default function DesktopMainNav({ children }: PropsWithChildren) {
                                     {__('general.layout.open_user_menu')}
                                 </span>
 
-                                {auth.user.name}
+                                <span className="hidden sm:inline-block">
+                                    {auth.user.name}
+                                </span>
+                                <span className="sm:hidden">
+                                    {getAbbreviation(auth.user.name)}
+                                </span>
 
                                 <svg
                                     className="-me-0.5 ms-2 h-4 w-4"
@@ -47,6 +53,19 @@ export default function DesktopMainNav({ children }: PropsWithChildren) {
                                 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-200
                                 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                         >
+                            <MenuItem>
+                                <MenuItemLink
+                                    component={function Anchor(props) {
+                                        return (
+                                            <a {...props}>{props.children}</a>
+                                        )
+                                    }}
+                                    href={`https://${centralDomain}/dashboard`}
+                                    active={route().current('dashboard')}
+                                >
+                                    {__('general.navigation.your_dashboard')}
+                                </MenuItemLink>
+                            </MenuItem>
                             <MenuItem>
                                 <MenuItemLink href={route('profile.edit')}>
                                     {__('general.navigation.profile')}

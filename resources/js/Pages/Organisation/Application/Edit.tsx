@@ -15,12 +15,8 @@ export default function Edit({
 
     return (
         <AuthenticatedLayout
-            header={
-                <PageHeader
-                    title={application.name!}
-                    actionButtons={EditActionButtons(application, FORM_ID)}
-                />
-            }
+            title={application.name!}
+            actionButtons={EditActionButtons(application, FORM_ID)}
         >
             <Head title="Organisation Applications" />
 

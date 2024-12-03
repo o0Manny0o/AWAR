@@ -182,7 +182,9 @@
                 "invitations": "Invitations",
                 "members": "Members"
             },
-            "overview": "Overview"
+            "overview": "Overview",
+            "your_organisations": "Your Organisations",
+            "your_dashboard": "Your Dashboard"
         },
         "newsletter": {
             "description": "Get updates about the development of the platform right in your inbox.",

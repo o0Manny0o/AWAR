@@ -48,7 +48,10 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request
+                    ->user()
+                    ?->load(['tenants', 'tenants.domains']),
+                'member' => $request->user()?->asMember(),
             ],
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -72,7 +75,7 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
             },
-            'tenant' => tenancy()->tenant?->only('name'),
+            'tenant' => tenancy()->tenant?->load('domains'),
         ];
     }
 }

@@ -19,16 +19,12 @@ import PublicNavigation from '@/shared/_constants/PublicNavigation'
 import DesktopNavLink from './Desktop/DesktopNavLink'
 
 export function HeaderBar({
-    mainNavigation,
     secondaryNavigation,
-    mobileNavigation,
 }: {
-    mainNavigation?: ReactNode
     secondaryNavigation?: ReactNode
-    mobileNavigation?: ReactNode
 }) {
     const __ = useTranslate()
-    const { tenant } = usePage().props
+    const { tenant, auth } = usePage().props
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -65,24 +61,31 @@ export function HeaderBar({
                             >
                                 <Logo className="h-8 w-auto" />
                             </Link>
-                            {mainNavigation ?? (
-                                <DesktopMainNav navigation={PublicNavigation} />
-                            )}
+                            <DesktopMainNav
+                                navigation={tenant ? [] : PublicNavigation}
+                            />
                         </div>
-                        {secondaryNavigation ?? (
-                            <DesktopSecondaryNav>
+
+                        <DesktopSecondaryNav>
+                            {secondaryNavigation}
+                            {!tenant ? (
                                 <DesktopNavLink
-                                    href={
-                                        tenant
-                                            ? route('tenant.dashboard')
-                                            : route('dashboard')
-                                    }
+                                    href={route('dashboard')}
                                     active={route().current('dashboard')}
                                 >
                                     {__('general.navigation.dashboard')}
                                 </DesktopNavLink>
-                            </DesktopSecondaryNav>
-                        )}
+                            ) : auth.member ? (
+                                <DesktopNavLink
+                                    href={route('tenant.dashboard')}
+                                    active={route().current('tenant.dashboard')}
+                                >
+                                    {__('general.navigation.dashboard')}
+                                </DesktopNavLink>
+                            ) : (
+                                <></>
+                            )}
+                        </DesktopSecondaryNav>
                     </div>
                 </div>
             </Disclosure>
@@ -123,9 +126,9 @@ export function HeaderBar({
                                 </button>
                             </div>
                         </TransitionChild>
-                        {mobileNavigation ?? (
-                            <MobileMainNav navigation={PublicNavigation} />
-                        )}
+                        <MobileMainNav
+                            navigation={tenant ? [] : PublicNavigation}
+                        />
                     </DialogPanel>
                 </div>
             </Dialog>

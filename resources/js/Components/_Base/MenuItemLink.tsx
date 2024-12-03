@@ -1,13 +1,26 @@
 import { InertiaLinkProps, Link } from '@inertiajs/react'
-import { forwardRef } from 'react'
+import { ComponentType, forwardRef, ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export default forwardRef(function MenuItemLink(
-    { children, active, ...props }: InertiaLinkProps & { active?: boolean },
+    {
+        children,
+        active,
+        component: Component = Link,
+        ...props
+    }: InertiaLinkProps & {
+        active?: boolean
+        component?: ComponentType<{
+            className?: string
+            href: string
+            children: ReactNode
+            ref?: any
+        }>
+    },
     ref,
 ) {
     return (
-        <Link
+        <Component
             ref={ref}
             {...props}
             className={twMerge(
@@ -17,6 +30,6 @@ export default forwardRef(function MenuItemLink(
             )}
         >
             {children}
-        </Link>
+        </Component>
     )
 })

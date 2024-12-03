@@ -20,31 +20,25 @@ export default function Index({
 
     return (
         <AuthenticatedLayout
-            header={
-                <PageHeader
-                    title={__('organisations.invitations.headers.index')}
-                    actionButtons={
-                        can('organisations.invitations.create')
-                            ? [
-                                  {
-                                      label: __('general.button.new', {
-                                          resource:
-                                              'general.resources.organisation.invitation',
-                                      }),
-                                      variant: 'primary',
-                                      href: route(
-                                          'organisation.invitations.create',
-                                      ),
-                                  },
-                              ]
-                            : []
-                    }
-                />
+            title={__('organisations.invitations.headers.index')}
+            actionButtons={
+                can('organisations.invitations.create')
+                    ? [
+                          {
+                              label: __('general.button.new', {
+                                  resource:
+                                      'general.resources.organisation.invitation',
+                              }),
+                              variant: 'primary',
+                              href: route('organisation.invitations.create'),
+                          },
+                      ]
+                    : []
             }
         >
             <Head title={__('organisations.invitations.titles.index')} />
 
-            <div className="py-12">
+            <div className="">
                 <Card>
                     <List
                         entities={invitations}

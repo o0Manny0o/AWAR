@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Tenant\MemberController;
 use App\Http\Controllers\Tenant\OrganisationInvitationController;
+use App\Http\Middleware\IsMember;
+use App\Http\Middleware\IsTenantAdmin;
 use App\Models\Tenant\Member;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,33 +43,37 @@ Route::middleware([
         'accept',
     ])->name('organisation.invitations.accept');
 
-    Route::middleware(['auth', 'verified'])->group(function () {
-        Route::get('/dashboard', function () {
-            Gate::authorize('viewAny', Member::class);
-            $members = Member::with('roles')->get();
-            return AppInertia::render('Tenant/Dashboard', [
-                'members' => $members,
-            ]);
-        })->name('tenant.dashboard');
+    Route::middleware(['auth', 'verified', IsMember::class])->group(
+        function () {
+            Route::get('/dashboard', function () {
+                Gate::authorize('viewAny', Member::class);
+                $members = Member::with('roles')->get();
+                return AppInertia::render('Tenant/Dashboard', [
+                    'members' => $members,
+                ]);
+            })->name('tenant.dashboard');
 
-        Route::name('organisation.')->group(function () {
-            Route::name('invitations.')
-                ->prefix('invitations')
-                ->group(function () {
-                    Route::post('/resend/{id}', [
+            Route::middleware([IsTenantAdmin::class])->group(function () {
+                Route::name('organisation.')->group(function () {
+                    Route::name('invitations.')
+                        ->prefix('invitations')
+                        ->group(function () {
+                            Route::post('/resend/{id}', [
+                                OrganisationInvitationController::class,
+                                'resend',
+                            ])->name('resend');
+                        });
+
+                    Route::resource(
+                        'invitations',
                         OrganisationInvitationController::class,
-                        'resend',
-                    ])->name('resend');
+                    )->except(['edit', 'update', 'destroy']);
+
+                    Route::resource('members', MemberController::class)->only([
+                        'index',
+                    ]);
                 });
-
-            Route::resource(
-                'invitations',
-                OrganisationInvitationController::class,
-            )->except(['edit', 'update', 'destroy']);
-
-            Route::resource('members', MemberController::class)->only([
-                'index',
-            ]);
-        });
-    });
+            });
+        },
+    );
 });

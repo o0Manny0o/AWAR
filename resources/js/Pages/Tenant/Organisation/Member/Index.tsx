@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
-import PageHeader from '@/Components/Layout/PageHeader'
 import { Card } from '@/Components/Layout/Card'
 import List from '@/Components/Resource/List'
 import Member = App.Models.Member
@@ -12,17 +11,10 @@ export default function Index({
     const __ = useTranslate()
 
     return (
-        <AuthenticatedLayout
-            header={
-                <PageHeader
-                    title={__('organisations.members.headers.index')}
-                    actionButtons={[]}
-                />
-            }
-        >
+        <AuthenticatedLayout title={__('organisations.members.headers.index')}>
             <Head title={__('organisations.members.titles.index')} />
 
-            <div className="py-12">
+            <div className="">
                 <Card>
                     <List
                         entities={members}

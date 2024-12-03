@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
-import PageHeader from '@/Components/Layout/PageHeader'
 import { Card } from '@/Components/Layout/Card'
 import List from '@/Components/Resource/List'
 import Member = App.Models.Member
@@ -11,26 +10,19 @@ export default function Index({
     auth: {
         user: { name },
     },
-    tenant: { name: organisation },
+    tenant,
 }: AppPageProps<{ members: Member[] }>) {
     const __ = useTranslate()
 
     return (
-        <AuthenticatedLayout
-            header={
-                <PageHeader
-                    title={__('general.navigation.dashboard')}
-                    actionButtons={[]}
-                />
-            }
-        >
+        <AuthenticatedLayout title={__('general.navigation.dashboard')}>
             <Head title={__('general.navigation.dashboard')} />
 
-            <div className="py-12 space-y-6">
+            <div className="space-y-6">
                 <Card>
                     {__('organisations.dashboard.welcome', {
                         name: name,
-                        organisation: organisation,
+                        organisation: tenant?.name ?? 'AWAR',
                     })}
                 </Card>
                 <Card header={__('organisations.members.headers.index')}>
