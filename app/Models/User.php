@@ -86,7 +86,7 @@ class User extends Authenticatable implements
      *
      * @var array<int, string>
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'pivot'];
 
     public function organisationApplications(): HasMany
     {

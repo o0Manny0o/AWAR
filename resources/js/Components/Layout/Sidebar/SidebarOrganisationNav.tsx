@@ -4,6 +4,7 @@ import { SidebarMenuItemIcon } from '@/Components/Layout/Sidebar/SidebarMenuItem
 import { SidebarMenuList } from '@/Components/Layout/Sidebar/SidebarMenuList'
 import { useContext } from 'react'
 import { SidebarContext } from '@/Components/Layout/Sidebar/Sidebar.context'
+import { usePage } from '@inertiajs/react'
 
 const organisations = [
     { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
@@ -14,6 +15,10 @@ const organisations = [
 export function SidebarOrganisationNav() {
     const __ = useTranslate()
     const { colored } = useContext(SidebarContext)
+    const {
+        auth: { user },
+        tenant,
+    } = usePage().props
 
     return (
         <>
@@ -24,16 +29,32 @@ export function SidebarOrganisationNav() {
                 {__('general.navigation.your_organisations')}
             </div>
             <SidebarMenuList>
-                {organisations.map((team) => (
-                    <SidebarMenuItem
-                        key={team.name}
-                        href={team.href}
-                        active={team.current}
-                    >
-                        <SidebarMenuItemIcon text={team.initial} />
-                        <span className="truncate">{team.name}</span>
-                    </SidebarMenuItem>
-                ))}
+                {user.tenants?.map(
+                    (organisation) =>
+                        organisation.domains &&
+                        organisation.domains[0] && (
+                            <SidebarMenuItem
+                                key={organisation.name}
+                                href={`https://${organisation.domains[0].domain}/dashboard`}
+                                active={
+                                    tenant?.domains?.[0].domain ===
+                                    organisation.domains[0].domain
+                                }
+                                element={function Anchor(props) {
+                                    return <a {...props}>{props.children}</a>
+                                }}
+                            >
+                                <SidebarMenuItemIcon
+                                    text={organisation.name
+                                        .charAt(0)
+                                        .toUpperCase()}
+                                />
+                                <span className="truncate">
+                                    {organisation.name}
+                                </span>
+                            </SidebarMenuItem>
+                        ),
+                )}
             </SidebarMenuList>
         </>
     )

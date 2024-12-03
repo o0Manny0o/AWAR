@@ -3,10 +3,12 @@ type User = {
     name: string
     email: string
     email_verified_at?: string
+    tenants?: Organisation[]
 }
 
 type Organisation = {
     name: string
+    domains?: { domain: string }[]
 }
 
 type ZiggyConfig = {

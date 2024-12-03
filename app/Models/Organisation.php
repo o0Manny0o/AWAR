@@ -46,6 +46,8 @@ class Organisation extends Tenant implements TenantWithDatabase
 
     protected $fillable = ['name'];
 
+    protected $hidden = ['pivot', 'data', 'tenancy_db_name', 'id'];
+
     public static function getCustomColumns(): array
     {
         return ['id', 'name'];
