@@ -14,8 +14,8 @@ export default function DesktopMainNav({
             {navigation.map((link) => (
                 <DesktopNavLink
                     key={link.name}
-                    href={route(link.routeName)}
-                    active={route().current(link.routeName)}
+                    href={route(link.name)}
+                    active={route().current(link.name)}
                 >
                     {__(link.label)}
                 </DesktopNavLink>
