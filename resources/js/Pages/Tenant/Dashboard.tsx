@@ -26,7 +26,7 @@ export default function Index({
         >
             <Head title={__('general.navigation.dashboard')} />
 
-            <div className="py-12 space-y-6">
+            <div className="space-y-6">
                 <Card>
                     {__('organisations.dashboard.welcome', {
                         name: name,
