@@ -9,17 +9,13 @@ use App\Models\User;
 
 abstract class BasePolicy
 {
-    public function before(User $user): ?true
+    protected function isAdmin(User $user): bool
     {
+        // Super-Admins are admins in all contexts
         if ($user->hasRole(CentralUserRole::SUPER_ADMIN)) {
             return true;
         }
 
-        return null;
-    }
-
-    protected function isAdmin(User $user): bool
-    {
         if (tenancy()->initialized) {
             /** @var Member $member */
             $member = Member::firstWhere('global_id', $user->global_id);

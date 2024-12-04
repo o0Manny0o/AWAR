@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Animal\Animal;
 use App\Models\Tenant\Member;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Translation\HasLocalePreference;
@@ -59,6 +60,8 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereGlobalId($value)
  * @property string $locale
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLocale($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\Animal> $animals
+ * @property-read int|null $animals_count
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements
@@ -173,5 +176,19 @@ class User extends Authenticatable implements
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * The animals that are assigned to the user.
+     */
+    public function animals(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Animal::class,
+            'animal_users',
+            'global_user_id',
+            'animal_id',
+            'global_id',
+        );
     }
 }

@@ -6,6 +6,7 @@ type Translations = {
     general: Translations_General
     landing_page: Translations_Landing_page
     organisations: Translations_Organisations
+    animals: Translations_Animals
 }
 type Translations_Auth = {
     failed: string
@@ -171,11 +172,16 @@ type General_Navigation = {
     overview: string
     your_organisations: string
     your_dashboard: string
+    animals: Navigation_Animals
 }
 type Navigation_Organisations = {
     applications: string
     invitations: string
     members: string
+}
+type Navigation_Animals = {
+    dogs: string
+    cats: string
 }
 type General_Newsletter = {
     description: string
@@ -218,10 +224,15 @@ type General_Button = {
 }
 type General_Resources = {
     organisation: Resources_Organisation
+    animals: Resources_Animals
 }
 type Resources_Organisation = {
     invitation: string
     application: string
+}
+type Resources_Animals = {
+    dog: string
+    cat: string
 }
 type General_Roles = {
     tenant: Roles_Tenant
@@ -301,12 +312,24 @@ type Invitations_Messages = {
     wrong_email: string
 }
 type Organisations_Members = {
-    headers: HeadersOrTitles
-    titles: HeadersOrTitles
+    headers: Members_Set
+    titles: Members_Set
 }
-type HeadersOrTitles = {
+type Members_Set = {
     index: string
 }
 type Organisations_Dashboard = {
     welcome: string
+}
+type Translations_Animals = {
+    dogs: Animals_Dogs
+    cats: Animals_Cats
+}
+type Animals_Dogs = {
+    headers: Members_Set
+    titles: Members_Set
+}
+type Animals_Cats = {
+    titles: Members_Set
+    headers: Members_Set
 }

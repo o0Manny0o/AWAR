@@ -21,7 +21,11 @@
             },
             "overview": "Übersicht",
             "your_organisations": "Deine Organisationen",
-            "your_dashboard": "Ihr Dashboard"
+            "your_dashboard": "Ihr Dashboard",
+            "animals": {
+                "dogs": "Ihre Hunde",
+                "cats": "Ihre Katzen"
+            }
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
@@ -71,6 +75,10 @@
             "organisation": {
                 "invitation": "Einladung",
                 "application": "Bewerbung"
+            },
+            "animals": {
+                "dog": "Hund",
+                "cat": "Katze"
             }
         },
         "roles": {
@@ -175,6 +183,24 @@
         },
         "dashboard": {
             "welcome": "Wilkommen bei :organisation, :name"
+        }
+    },
+    "animals": {
+        "dogs": {
+            "headers": {
+                "index": "Ihre Hunde"
+            },
+            "titles": {
+                "index": "Hunde"
+            }
+        },
+        "cats": {
+            "titles": {
+                "index": "Katzen"
+            },
+            "headers": {
+                "index": "Katzen"
+            }
         }
     }
 }

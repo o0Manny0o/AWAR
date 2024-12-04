@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
+use App\Enum\DefaultTenantUserRole;
+use App\Http\AppInertia;
+use App\Http\Controllers\Tenant\CatController;
+use App\Http\Controllers\Tenant\DogController;
 use App\Http\Controllers\Tenant\MemberController;
 use App\Http\Controllers\Tenant\OrganisationInvitationController;
+use App\Http\Middleware\HasTenantRole;
 use App\Http\Middleware\IsMember;
 use App\Http\Middleware\IsTenantAdmin;
 use App\Models\Tenant\Member;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\AppInertia;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
@@ -73,6 +77,17 @@ Route::middleware([
                         'index',
                     ]);
                 });
+            });
+
+            Route::middleware([
+                'tenantRole:admin,adoption-lead,adoption-handler',
+            ])->group(function () {
+                Route::name('animals.')
+                    ->prefix('animals')
+                    ->group(function () {
+                        Route::resource('dogs', DogController::class);
+                        Route::resource('cats', CatController::class);
+                    });
             });
         },
     );

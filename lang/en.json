@@ -184,7 +184,11 @@
             },
             "overview": "Overview",
             "your_organisations": "Your Organisations",
-            "your_dashboard": "Your Dashboard"
+            "your_dashboard": "Your Dashboard",
+            "animals": {
+                "dogs": "Your Dogs",
+                "cats": "Your Cats"
+            }
         },
         "newsletter": {
             "description": "Get updates about the development of the platform right in your inbox.",
@@ -234,6 +238,10 @@
             "organisation": {
                 "invitation": "Invitation",
                 "application": "Application"
+            },
+            "animals": {
+                "dog": "Dog",
+                "cat": "Cat"
             }
         },
         "roles": {
@@ -343,6 +351,24 @@
         },
         "dashboard": {
             "welcome": "Welcome to :organisation, :name"
+        }
+    },
+    "animals": {
+        "dogs": {
+            "headers": {
+                "index": "Your Dogs"
+            },
+            "titles": {
+                "index": "Dogs"
+            }
+        },
+        "cats": {
+            "titles": {
+                "index": "Cats"
+            },
+            "headers": {
+                "index": "Your Cats"
+            }
         }
     }
 }

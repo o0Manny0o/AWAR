@@ -84,4 +84,25 @@ declare namespace App.Models {
         created_at: string
         updated_at: string
     }
+
+    export interface Animal {
+        id: string
+        name: string
+        date_of_birth: string
+        deleted_at?: string
+        created_at: string
+        updated_at: string
+    }
+
+    export interface Dog extends Animal {
+        animalable: {
+            breed: string
+        }
+    }
+
+    export interface Cat extends Animal {
+        animalable: {
+            breed: string
+        }
+    }
 }

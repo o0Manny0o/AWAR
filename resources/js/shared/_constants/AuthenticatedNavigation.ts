@@ -1,5 +1,7 @@
 import { NavigationItem } from '@/types/navigation'
 import { EnvelopeIcon, HomeIcon, UsersIcon } from '@heroicons/react/24/outline'
+import { CatIcon } from '@/shared/icons/CatIcon'
+import { DogIcon } from '@/shared/icons/DogIcon'
 
 export const CentralNavigation: NavigationItem[] = [
     {
@@ -27,5 +29,15 @@ export const TenantNavigation: NavigationItem[] = [
         name: 'organisation.members.index',
         label: 'general.navigation.organisations.members',
         icon: UsersIcon,
+    },
+    {
+        name: 'animals.dogs.index',
+        label: 'general.navigation.animals.dogs',
+        icon: DogIcon,
+    },
+    {
+        name: 'animals.cats.index',
+        label: 'general.navigation.animals.cats',
+        icon: CatIcon,
     },
 ]

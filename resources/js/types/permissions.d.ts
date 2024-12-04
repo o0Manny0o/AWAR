@@ -23,6 +23,10 @@ interface Resources {
             delete: string
         }
     }
+
+    animals: {
+        create: string
+    }
 }
 
 type ResourcePermissions = Paths<Resources, 10>

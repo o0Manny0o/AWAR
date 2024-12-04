@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Organisation;
+use App\Models\Animal\Animal;
 use App\Models\User;
 
-class OrganisationPolicy
+class AnimalPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -18,7 +18,7 @@ class OrganisationPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Organisation $organisation): bool
+    public function view(User $user, Animal $animal): bool
     {
         return true;
     }
@@ -34,7 +34,7 @@ class OrganisationPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Organisation $organisation): bool
+    public function update(User $user, Animal $animal): bool
     {
         return true;
     }
@@ -42,7 +42,7 @@ class OrganisationPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Organisation $organisation): bool
+    public function delete(User $user, Animal $animal): bool
     {
         return true;
     }
@@ -50,7 +50,7 @@ class OrganisationPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Organisation $organisation): bool
+    public function restore(User $user, Animal $animal): bool
     {
         return true;
     }
@@ -58,8 +58,13 @@ class OrganisationPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Organisation $organisation): bool
+    public function forceDelete(User $user, Animal $animal): bool
     {
         return true;
+    }
+
+    function isOwner(User $user, $entity): bool
+    {
+        return false;
     }
 }
