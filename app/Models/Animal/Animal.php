@@ -4,12 +4,14 @@ namespace App\Models\Animal;
 
 use App\Models\Organisation;
 use App\Models\User;
+use App\Trackable;
 use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
@@ -49,7 +51,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @property-read Organisation $organisation
  * @mixin \Eloquent
  */
-class Animal extends Model
+class Animal extends Model implements Trackable
 {
     use CentralConnection, HasResourcePermissions, HasUuids;
 
@@ -58,11 +60,14 @@ class Animal extends Model
     protected $with = ['animalable'];
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
 
-    private static function subtype($class): Builder|Animal
+    protected $tracked = ['name', 'date_of_birth', 'organisation_id'];
+
+    /**
+     * @return string[]
+     */
+    public function getTracked(): array
     {
-        return self::where('animalable_type', $class)->whereOrganisationId(
-            tenant()->id,
-        );
+        return $this->tracked;
     }
 
     /**
@@ -74,6 +79,13 @@ class Animal extends Model
         return self::subtype(Dog::class);
     }
 
+    private static function subtype($class): Builder|Animal
+    {
+        return self::where('animalable_type', $class)->whereOrganisationId(
+            tenant()->id,
+        );
+    }
+
     /**
      * Returns all the cats
      * @return Animal|Builder
@@ -81,6 +93,16 @@ class Animal extends Model
     public static function cats(): Animal|Builder
     {
         return self::subtype(Cat::class);
+    }
+
+    protected static function booted(): void
+    {
+        self::created(static function (Animal $animal): void {
+            AnimalHistory::createInitialEntry($animal);
+        });
+        self::updated(static function (Animal $animal): void {
+            AnimalHistory::createUpdateEntry($animal);
+        });
     }
 
     public function animalable(): MorphTo
@@ -107,5 +129,10 @@ class Animal extends Model
     public function organisation(): BelongsTo
     {
         return $this->belongsTo(Organisation::class);
+    }
+
+    public function histories(): HasMany
+    {
+        return $this->hasMany(AnimalHistory::class);
     }
 }

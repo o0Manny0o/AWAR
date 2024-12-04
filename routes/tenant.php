@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Enum\DefaultTenantUserRole;
 use App\Http\AppInertia;
-use App\Http\Controllers\Tenant\CatController;
-use App\Http\Controllers\Tenant\DogController;
+use App\Http\Controllers\Animals\CatController;
+use App\Http\Controllers\Animals\DogController;
 use App\Http\Controllers\Tenant\MemberController;
 use App\Http\Controllers\Tenant\OrganisationInvitationController;
-use App\Http\Middleware\HasTenantRole;
 use App\Http\Middleware\IsMember;
 use App\Http\Middleware\IsTenantAdmin;
 use App\Models\Tenant\Member;

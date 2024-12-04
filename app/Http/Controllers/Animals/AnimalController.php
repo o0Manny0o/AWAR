@@ -1,36 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Tenant;
+namespace App\Http\Controllers\Animals;
 
+use App\Events\Animals\AnimalCreated;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\Animal;
-use App\Models\Animal\Cat;
 use App\Models\Animal\Dog;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Response;
 
-class CatController extends Controller
+class AnimalController extends Controller
 {
-    protected string $baseRouteName = 'animals.cats';
-    protected string $baseViewPath = 'Tenant/Animals/Cats';
-
-    /**
-     * Display a listing of the resource.
-     * @throws AuthorizationException
-     */
-    public function index(Request $request)
-    {
-        $this->authorize('viewAny', Animal::class);
-
-        $animals = Animal::cats()->get();
-
-        return AppInertia::render($this->getIndexView(), [
-            'cats' => $animals,
-            'permissions' => $this->permissions($request),
-        ]);
-    }
-
     private function permissions(Request $request, Animal $animal = null): array
     {
         $animal?->setPermissions($request->user());
@@ -45,19 +29,27 @@ class CatController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     * @throws AuthorizationException
+     */
+    protected function showIndex(
+        Request $request,
+        Collection $animals,
+    ): Response {
+        $this->authorize('viewAny', Animal::class);
+
+        return AppInertia::render($this->getIndexView(), [
+            'animals' => $animals,
+            'permissions' => $this->permissions($request),
+        ]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $this->authorize('create', Animal::class);
-
-        $cat = Cat::create(['breed' => 'British Short Hair']);
-
-        $cat->animal()->create([
-            'name' => 'Cica',
-            'date_of_birth' => now(),
-            'organisation_id' => tenant()->id,
-        ]);
+        //
     }
 
     /**

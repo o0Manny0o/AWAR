@@ -6,7 +6,7 @@ import usePermission from '@/shared/hooks/usePermission'
 import List from '@/Components/Resource/List'
 import Dog = App.Models.Dog
 
-export default function Index({ dogs }: AppPageProps<{ dogs: Dog[] }>) {
+export default function Index({ animals }: AppPageProps<{ animals: Dog[] }>) {
     const __ = useTranslate()
     const { can } = usePermission()
 
@@ -32,7 +32,7 @@ export default function Index({ dogs }: AppPageProps<{ dogs: Dog[] }>) {
             <div className="">
                 <Card>
                     <List
-                        entities={dogs}
+                        entities={animals}
                         title={(a) => a.name}
                         subtitle={(a) => a.animalable.breed}
                         resourceUrl={'animals.dogs'}

@@ -2,6 +2,7 @@
 
 namespace App\Models\Animal;
 
+use App\Trackable;
 use App\Traits\IsAnimal;
 use Illuminate\Database\Eloquent\Model;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
@@ -23,11 +24,21 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Dog whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Cat extends Model
+class Cat extends Model implements Trackable
 {
     use IsAnimal, CentralConnection;
 
     public $timestamps = false;
     protected $fillable = ['breed'];
     protected $hidden = ['id'];
+
+    protected array $tracked = ['breed'];
+
+    /**
+     * @return string[]
+     */
+    public function getTracked(): array
+    {
+        return $this->tracked;
+    }
 }
