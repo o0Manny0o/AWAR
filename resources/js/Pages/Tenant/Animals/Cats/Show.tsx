@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
+import { ShowActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
 import Cat = App.Models.Cat
 
 export default function Show({ animal }: AppPageProps<{ animal: Cat }>) {
@@ -11,7 +12,11 @@ export default function Show({ animal }: AppPageProps<{ animal: Cat }>) {
     return (
         <AuthenticatedLayout
             title={animal.name}
-            actionButtons={[]}
+            actionButtons={ShowActionButtons(
+                animal,
+                'general.resources.animals.cat',
+                'animals.cats',
+            )}
             backUrl={route('animals.cats.index')}
         >
             <Head title={`${animal.name} - Cats`} />

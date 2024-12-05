@@ -23,7 +23,7 @@ class TrackAnimalChangesSubscriber
      */
     public function handleAnimalCreated(AnimalCreated $event): void
     {
-        AnimalHistory::createInitialEntry($event->animal);
+        AnimalHistory::createInitialEntry($event);
     }
 
     /**
@@ -31,6 +31,7 @@ class TrackAnimalChangesSubscriber
      */
     public function handleAnimalUpdated(AnimalUpdated $event): void
     {
+        AnimalHistory::createUpdateEntry($event);
     }
 
     /**

@@ -7,7 +7,7 @@ type CreateRefContextData = {
     date_of_birth: RefObject<HTMLInputElement>
 }
 
-export const CreateDogFormWrapper = FormContext<CreateRefContextData>([
+export const DogFormWrapper = FormContext<CreateRefContextData>([
     'name',
     'breed',
     'date_of_birth',

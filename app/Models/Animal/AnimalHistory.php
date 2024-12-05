@@ -2,10 +2,12 @@
 
 namespace App\Models\Animal;
 
+use App\Events\Animals\AnimalCreated;
+use App\Events\Animals\AnimalUpdated;
 use App\Interface\Trackable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
@@ -32,19 +34,15 @@ class AnimalHistory extends Model
 
     protected $fillable = ['global_user_id', 'type'];
 
-    public function changes(): HasMany
-    {
-        return $this->hasMany(AnimalChange::class);
-    }
-
-    public static function createInitialEntry(Animal $animal)
+    public static function createInitialEntry(AnimalCreated $event): void
     {
         /** @var Trackable $animalable */
-        $animalable = $animal->animalable;
+        $animalable = $event->animal->animalable;
+        $animal = $event->animal;
 
         /** @var AnimalHistory $history */
-        $history = $animal->histories()->create([
-            'global_user_id' => Auth::user()->global_id,
+        $history = $event->animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
         ]);
         $history->changes()->createMany(
             array_merge(
@@ -66,15 +64,51 @@ class AnimalHistory extends Model
         );
     }
 
-    public static function createUpdateEntry(Animal $animal)
+    public function changes(): HasMany
+    {
+        return $this->hasMany(AnimalChange::class);
+    }
+
+    public static function createUpdateEntry(AnimalUpdated $event): void
     {
         /** @var Trackable $animalable */
-        $animalable = $animal->animalable;
+        $animalable = $event->animal->animalable;
+        $animal = $event->animal;
 
         /** @var AnimalHistory $history */
-        $history = $animal->histories()->create([
-            'global_user_id' => Auth::user()->global_id,
+        $history = $event->animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
             'type' => 'update',
         ]);
+
+        $animalChanges = array_intersect_key(
+            $event->changes,
+            array_flip($animal->getTracked()),
+        );
+        $animalableChanges = array_intersect_key(
+            $event->changes,
+            array_flip($animalable->getTracked()),
+        );
+
+        $history->changes()->createMany(
+            array_merge(
+                array_map(
+                    fn($col, $val) => [
+                        'field' => $col,
+                        'value' => $val,
+                    ],
+                    array_keys($animalChanges),
+                    array_values($animalChanges),
+                ),
+                array_map(
+                    fn($col, $val) => [
+                        'field' => $col,
+                        'value' => $val,
+                    ],
+                    array_keys($animalableChanges),
+                    array_values($animalableChanges),
+                ),
+            ),
+        );
     }
 }

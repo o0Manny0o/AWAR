@@ -1,9 +1,10 @@
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
+import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
 import Dog = App.Models.Dog
+import { ShowActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
 
 export default function Show({ animal }: AppPageProps<{ animal: Dog }>) {
     const __ = useTranslate()
@@ -11,7 +12,11 @@ export default function Show({ animal }: AppPageProps<{ animal: Dog }>) {
     return (
         <AuthenticatedLayout
             title={animal.name}
-            actionButtons={[]}
+            actionButtons={ShowActionButtons(
+                animal,
+                'general.resources.animals.dog',
+                'animals.dogs',
+            )}
             backUrl={route('animals.dogs.index')}
         >
             <Head title={`${animal.name} - Dogs`} />

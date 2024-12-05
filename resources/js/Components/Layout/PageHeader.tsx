@@ -3,14 +3,7 @@ import { Method } from '@inertiajs/core'
 import { Badge, BadgeColor } from '@/Components/_Base/Badge'
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
 import { twMerge } from 'tailwind-merge'
-import {
-    Context,
-    ContextType,
-    createContext,
-    useContext,
-    useEffect,
-} from 'react'
-import { FormContextData } from '@/shared/contexts/Form.context'
+import { Context, createContext, useContext } from 'react'
 
 type PageHeaderBaseButton = {
     label: string

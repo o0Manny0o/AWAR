@@ -26,6 +26,8 @@ interface Resources {
 
     animals: {
         create: string
+        update: string
+        delete: string
     }
 }
 

@@ -2,10 +2,9 @@ import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
-import usePermission from '@/shared/hooks/usePermission'
 import List from '@/Components/Resource/List'
+import { IndexActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
 import Dog = App.Models.Dog
-import { ShowActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
 
 export default function Index({ animals }: AppPageProps<{ animals: Dog[] }>) {
     const __ = useTranslate()
@@ -13,7 +12,7 @@ export default function Index({ animals }: AppPageProps<{ animals: Dog[] }>) {
     return (
         <AuthenticatedLayout
             title={__('animals.dogs.headers.index')}
-            actionButtons={ShowActionButtons(
+            actionButtons={IndexActionButtons(
                 'general.resources.animals.dog',
                 'animals.dogs.create',
             )}

@@ -361,7 +361,8 @@
             },
             "titles": {
                 "index": "Dogs",
-                "create": "New Dog"
+                "create": "New Dog",
+                "edit": "Edit Dog"
             },
             "form": {
                 "name": {
@@ -381,7 +382,8 @@
         "cats": {
             "titles": {
                 "index": "Cats",
-                "create": "New Cat"
+                "create": "New Cat",
+                "edit": "Edit Cat"
             },
             "headers": {
                 "index": "Your Cats",

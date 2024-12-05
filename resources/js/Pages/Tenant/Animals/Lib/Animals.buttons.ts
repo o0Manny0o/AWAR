@@ -2,10 +2,11 @@ import { PageHeaderButton } from '@/Components/Layout/PageHeader'
 import useTranslate from '@/shared/hooks/useTranslate'
 import usePermission from '@/shared/hooks/usePermission'
 import { RouteName } from 'ziggy-js'
+import Animal = App.Models.Animal
 
-export function ShowActionButtons(
+export function IndexActionButtons(
     resource: TranslationKey,
-    routeName: RouteName,
+    createRouteName: RouteName,
 ): PageHeaderButton[] {
     const __ = useTranslate()
     const { can } = usePermission()
@@ -17,14 +18,51 @@ export function ShowActionButtons(
                       resource,
                   }),
                   variant: 'primary',
-                  href: route(routeName),
+                  href: route(createRouteName),
               },
           ]
         : []
 }
 
-export function EditActionButtons(
-    indexRouteName: RouteName,
+export function ShowActionButtons(
+    animal: Animal,
+    resource: TranslationKey,
+    baseRouteName: RouteName,
+): PageHeaderButton[] {
+    const __ = useTranslate()
+    const { canUpdate, canDelete } = usePermission()
+
+    const EDIT_BUTTON: PageHeaderButton = {
+        label: __('general.button.edit', {
+            resource: '',
+        }),
+        variant: 'secondary',
+        href: route(baseRouteName + '.edit', animal.id),
+    }
+
+    const DELETE_BUTTON: PageHeaderButton = {
+        label: __('general.button.delete', {
+            resource: '',
+        }),
+        variant: 'danger',
+        method: 'delete',
+        href: route(baseRouteName + '.destroy', animal.id),
+    }
+
+    const buttons = []
+
+    if (canUpdate(animal)) {
+        buttons.push(EDIT_BUTTON)
+    }
+    if (canDelete(animal)) {
+        buttons.push(DELETE_BUTTON)
+    }
+
+    return buttons
+}
+
+export function FormActionButtons(
+    cancelRoute: string,
     formId: string,
 ): PageHeaderButton[] {
     const __ = useTranslate()
@@ -42,7 +80,7 @@ export function EditActionButtons(
             resource: '',
         }),
         variant: 'secondary',
-        href: route(indexRouteName),
+        href: cancelRoute,
     }
 
     return [SAVE_BUTTON, CANCEL_BUTTON]

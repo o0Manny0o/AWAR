@@ -283,8 +283,8 @@ type RegisteredOrToken = {
 type Organisations_Invitations = {
     mail: Invitations_Mail
     form: Invitations_Form
-    titles: Invitations_Set
-    headers: Invitations_Set
+    titles: TitlesOrHeadersOrHeadersOrHeaders
+    headers: TitlesOrHeadersOrHeadersOrHeaders
     messages: Invitations_Messages
 }
 type Invitations_Mail = {
@@ -300,7 +300,7 @@ type Invitations_Form = {
     token: RegisteredOrToken
     cancel_create: string
 }
-type Invitations_Set = {
+type TitlesOrHeadersOrHeadersOrHeaders = {
     create: string
     index: string
 }
@@ -326,9 +326,14 @@ type Translations_Animals = {
     cats: Animals_Cats
 }
 type Animals_Dogs = {
-    headers: Invitations_Set
-    titles: Invitations_Set
+    headers: TitlesOrHeadersOrHeadersOrHeaders
+    titles: TitlesOrTitles
     form: FormOrForm
+}
+type TitlesOrTitles = {
+    index: string
+    create: string
+    edit: string
 }
 type FormOrForm = {
     name: Form_Set
@@ -336,7 +341,7 @@ type FormOrForm = {
     date_of_birth: Form_Set
 }
 type Animals_Cats = {
-    titles: Invitations_Set
-    headers: Invitations_Set
+    titles: TitlesOrTitles
+    headers: TitlesOrHeadersOrHeadersOrHeaders
     form: FormOrForm
 }

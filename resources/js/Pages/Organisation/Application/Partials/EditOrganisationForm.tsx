@@ -1,5 +1,5 @@
 import useTranslate from '@/shared/hooks/useTranslate'
-import { FormEventHandler, useContext } from 'react'
+import { FormEventHandler } from 'react'
 import { useForm } from '@inertiajs/react'
 import {
     removeTrailingDash,
@@ -12,8 +12,8 @@ import {
 } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
 import { Card } from '@/Components/Layout/Card'
 import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
-import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 import useFormContext from '@/shared/hooks/useFormContext'
+import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function EditOrganisationForm({
     domain,

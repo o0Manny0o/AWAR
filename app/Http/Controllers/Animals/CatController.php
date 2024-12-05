@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Animals;
 
 use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\CreateCatRequest;
+use App\Http\Requests\Animals\UpdateAnimalRequest;
+use App\Http\Requests\Animals\UpdateCatRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\Cat;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -18,7 +20,7 @@ class CatController extends AnimalController
     protected string $baseViewPath = 'Tenant/Animals/Cats';
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of cats.
      * @throws AuthorizationException
      */
     public function index(Request $request): Response
@@ -27,7 +29,7 @@ class CatController extends AnimalController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created dog in storage.
      * @throws AuthorizationException|Throwable
      */
     public function store(
@@ -38,18 +40,19 @@ class CatController extends AnimalController
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified cat in storage.
+     * @throws AuthorizationException|Throwable
      */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(
+        UpdateAnimalRequest $animalRequest,
+        UpdateCatRequest $catRequest,
+        string $id,
+    ): RedirectResponse {
+        return parent::updateAnimal(
+            $animalRequest,
+            $catRequest,
+            Cat::class,
+            $id,
+        );
     }
 }

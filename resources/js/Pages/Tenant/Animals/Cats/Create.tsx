@@ -1,9 +1,9 @@
 import { Head } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import { EditActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
+import { FormActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
 import { FormContextProvider } from '@/shared/contexts/Form.context'
-import { CreateCatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
+import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import CreateCatForm from '@/Pages/Tenant/Animals/Cats/Partials/CreateCatForm'
 
 export default function Create({}: AppPageProps<{}>) {
@@ -14,11 +14,14 @@ export default function Create({}: AppPageProps<{}>) {
     return (
         <AuthenticatedLayout
             title={__('animals.cats.headers.create')}
-            actionButtons={EditActionButtons('animals.cats.index', FORM_ID)}
+            actionButtons={FormActionButtons(
+                route('animals.cats.index'),
+                FORM_ID,
+            )}
         >
             <Head title={__('animals.cats.titles.create')} />
 
-            <FormContextProvider context={CreateCatFormWrapper}>
+            <FormContextProvider context={CatFormWrapper}>
                 <CreateCatForm formId={FORM_ID} />
             </FormContextProvider>
         </AuthenticatedLayout>

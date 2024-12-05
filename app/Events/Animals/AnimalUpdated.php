@@ -16,6 +16,7 @@ class AnimalUpdated
      * Create a new event instance.
      */
     public function __construct(
+        public Animal $animal,
         public array $changes,
         public Authenticatable $user,
     ) {

@@ -193,7 +193,8 @@
             },
             "titles": {
                 "index": "Hunde",
-                "create": "Neuer Hund"
+                "create": "Neuer Hund",
+                "edit": "Hund bearbeiten"
             },
             "form": {
                 "name": {
@@ -213,7 +214,8 @@
         "cats": {
             "titles": {
                 "index": "Katzen",
-                "create": "Neue Katze"
+                "create": "Neue Katze",
+                "edit": "Katze bearbeiten"
             },
             "headers": {
                 "index": "Katzen",

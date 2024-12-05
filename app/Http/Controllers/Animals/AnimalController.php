@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Animals;
 
 use App\Events\Animals\AnimalCreated;
+use App\Events\Animals\AnimalUpdated;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Animals\CreateAnimalRequest;
+use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,6 +27,7 @@ class AnimalController extends Controller
      */
     public function show(string $id): RedirectResponse|Response
     {
+        /** @var Animal|null $animal */
         $animal = Animal::find($id);
         if (!$animal) {
             return redirect()->route($this->getIndexRouteName());
@@ -34,6 +37,7 @@ class AnimalController extends Controller
 
         return AppInertia::render($this->getShowView(), [
             'animal' => $animal,
+            'permissions' => $this->permissions(request(), $animal),
         ]);
     }
 
@@ -56,6 +60,94 @@ class AnimalController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Request $request, string $id)
+    {
+        /** @var Animal|null $animal */
+        $animal = Animal::find($id);
+        if (!$animal) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('update', $animal);
+
+        return AppInertia::render($this->getEditView(), [
+            'animal' => $animal,
+            'permissions' => $this->permissions($request, $animal),
+        ]);
+    }
+
+    private function permissions(Request $request, Animal $animal = null): array
+    {
+        $animal?->setPermissions($request->user());
+
+        return [
+            'animals' => [
+                'create' => $request->user()->can('create', Animal::class),
+                'view' => $request->user()->can('view', $animal),
+                'delete' => $request->user()->can('delete', $animal),
+            ],
+        ];
+    }
+
+    /**
+     * Update the specified animal in storage.
+     * @throws AuthorizationException
+     * @throws Throwable
+     */
+    public function updateAnimal(
+        UpdateAnimalRequest $animalRequest,
+        FormRequest $animalableRequest,
+        $class,
+        string $id,
+    ) {
+        /** @var Animal|null $animal */
+        $animal = Animal::find($id);
+        if (!$animal) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('update', $animal);
+
+        $animal = tenancy()->central(function () use (
+            $animalableRequest,
+            $animalRequest,
+            $animal,
+        ) {
+            return DB::transaction(function () use (
+                $animalableRequest,
+                $animalRequest,
+                $animal,
+            ) {
+                $animalableValidated = $animalableRequest->validated();
+
+                $animal->animalable->update($animalableValidated);
+
+                $validated = $animalRequest->validated();
+
+                $animal->update($validated);
+
+                return $animal;
+            }, 5);
+        });
+
+        $changes = array_diff_key(
+            array_merge(
+                $animal->getChanges(),
+                $animal->animalable->getChanges(),
+            ),
+            array_flip(['updated_at']),
+        );
+
+        AnimalUpdated::dispatch($animal, $changes, Auth::user());
+
+        return $this->redirect($animalRequest, $this->getShowRouteName(), [
+            'animal' => $animal,
+        ]);
+    }
+
+    /**
      * Display a listing of the resource.
      * @throws AuthorizationException
      */
@@ -75,22 +167,10 @@ class AnimalController extends Controller
         ]);
     }
 
-    private function permissions(Request $request, Animal $animal = null): array
-    {
-        $animal?->setPermissions($request->user());
-
-        return [
-            'animals' => [
-                'create' => $request->user()->can('create', Animal::class),
-                'view' => $request->user()->can('view', $animal),
-                'delete' => $request->user()->can('delete', $animal),
-            ],
-        ];
-    }
-
     /**
      * Store the animal for an animalable resource.
      *
+     * @throws AuthorizationException
      * @throws Throwable
      */
     protected function storeAnimal(

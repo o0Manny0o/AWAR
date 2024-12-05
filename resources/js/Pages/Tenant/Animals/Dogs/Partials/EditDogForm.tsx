@@ -1,14 +1,21 @@
 import { FormEventHandler } from 'react'
 import { useForm } from '@inertiajs/react'
-import { DogFormWrapper } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
 import useFormContext from '@/shared/hooks/useFormContext'
+import { DogFormWrapper } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
 import { DogForm } from '@/Pages/Tenant/Animals/Dogs/Partials/DogForm'
+import Dog = App.Models.Dog
 
-export default function CreateDogForm({ formId }: { formId: string }) {
-    const { data, setData, errors, post, reset, processing } = useForm({
-        name: '',
-        date_of_birth: '',
-        breed: '',
+export default function EditDogForm({
+    animal,
+    formId,
+}: {
+    animal: Dog
+    formId: string
+}) {
+    const { data, setData, errors, patch, reset, processing } = useForm({
+        name: animal.name ?? '',
+        date_of_birth: animal.date_of_birth ?? '',
+        breed: animal.animalable.breed ?? '',
     })
 
     const { focusError } = useFormContext(DogFormWrapper, processing)
@@ -16,7 +23,7 @@ export default function CreateDogForm({ formId }: { formId: string }) {
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        post(route('animals.dogs.store'), {
+        patch(route('animals.dogs.update', animal.id), {
             onSuccess: () => reset(),
             onError: (errors) => focusError(errors as any),
         })

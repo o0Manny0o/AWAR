@@ -63,7 +63,7 @@ class Animal extends Model implements Trackable
 
     protected $tracked = ['name', 'date_of_birth', 'organisation_id'];
 
-    protected $appends = ['can_be_viewed', 'can_be_deleted'];
+    protected $appends = ['can_be_viewed', 'can_be_deleted', 'can_be_updated'];
 
     /**
      * @return string[]
