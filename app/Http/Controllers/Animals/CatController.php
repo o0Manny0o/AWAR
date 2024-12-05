@@ -52,12 +52,4 @@ class CatController extends AnimalController
     {
         //
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
@@ -53,7 +54,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  */
 class Animal extends Model implements Trackable
 {
-    use CentralConnection, HasResourcePermissions, HasUuids;
+    use CentralConnection, HasResourcePermissions, HasUuids, SoftDeletes;
 
     protected $fillable = ['name', 'date_of_birth', 'organisation_id'];
 
@@ -62,7 +63,7 @@ class Animal extends Model implements Trackable
 
     protected $tracked = ['name', 'date_of_birth', 'organisation_id'];
 
-    protected $appends = ['can_be_viewed'];
+    protected $appends = ['can_be_viewed', 'can_be_deleted'];
 
     /**
      * @return string[]

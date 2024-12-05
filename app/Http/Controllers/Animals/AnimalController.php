@@ -20,6 +20,42 @@ use Throwable;
 class AnimalController extends Controller
 {
     /**
+     * Display the specified resource.
+     * @throws AuthorizationException
+     */
+    public function show(string $id): RedirectResponse|Response
+    {
+        $animal = Animal::find($id);
+        if (!$animal) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('view', $animal);
+
+        return AppInertia::render($this->getShowView(), [
+            'animal' => $animal,
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id): RedirectResponse
+    {
+        /** @var Animal|null $animal */
+        $animal = Animal::find($id);
+        if (!$animal) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('delete', $animal);
+
+        $animal->delete();
+
+        return redirect()->route($this->getIndexRouteName());
+    }
+
+    /**
      * Display a listing of the resource.
      * @throws AuthorizationException
      */
@@ -107,28 +143,10 @@ class AnimalController extends Controller
      * Show the form for creating a new animal.
      * @throws AuthorizationException
      */
-    protected function create(): Response
+    public function create(): Response
     {
         $this->authorize('create', Animal::class);
 
         return AppInertia::render($this->getCreateView());
-    }
-
-    /**
-     * Display the specified resource.
-     * @throws AuthorizationException
-     */
-    public function show(string $id): Response
-    {
-        $animal = Animal::find($id);
-        if (!$animal) {
-            redirect()->route($this->getIndexRouteName());
-        }
-
-        $this->authorize('view', $animal);
-
-        return AppInertia::render($this->getShowView(), [
-            'animal' => $animal,
-        ]);
     }
 }
