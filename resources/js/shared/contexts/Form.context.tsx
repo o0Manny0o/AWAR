@@ -2,15 +2,16 @@ import {
     Context,
     createContext,
     createRef,
+    Dispatch,
     PropsWithChildren,
     RefObject,
+    SetStateAction,
     useMemo,
+    useState,
 } from 'react'
 
-export interface ElementRefContextWrapper<
-    T extends Record<string, RefObject<any>>,
-> {
-    Context: Context<ElementRefContextData<T>>
+export interface FormContextWrapper<T extends Record<string, RefObject<any>>> {
+    Context: Context<FormContextData<T>>
     _fields: (keyof T)[]
 }
 
@@ -18,29 +19,35 @@ type Errors<T> = {
     [Key in keyof T]: string
 }
 
-interface ElementRefContextData<T extends Record<string, RefObject<any>>> {
+export interface FormContextData<T extends Record<string, RefObject<any>>> {
     focus: (id: keyof T) => void
     focusError: (errors: Errors<T>) => void
     refs: T
+    processing: boolean
+    setProcessing: Dispatch<SetStateAction<boolean>>
 }
 
-export const ElementRefContext = <T extends Record<string, RefObject<any>>>(
+export const FormContext = <T extends Record<string, RefObject<any>>>(
     fields: (keyof T)[],
-): ElementRefContextWrapper<T> => ({
-    Context: createContext<ElementRefContextData<T>>({
+): FormContextWrapper<T> => ({
+    Context: createContext<FormContextData<T>>({
         focus: () => console.error('No Context'),
         focusError: () => console.error('No Context'),
         refs: {} as T,
+        processing: false,
+        setProcessing: () => console.error('No Context'),
     }),
     _fields: fields,
 })
 
-export function ElementRefProvider<T extends Record<string, RefObject<any>>>({
+export function FormContextProvider<T extends Record<string, RefObject<any>>>({
     context: { Context, _fields },
     children,
 }: PropsWithChildren<{
-    context: ElementRefContextWrapper<T>
+    context: FormContextWrapper<T>
 }>) {
+    const [processing, setProcessing] = useState(false)
+
     const inputRefs = useMemo(
         () =>
             Object.fromEntries(
@@ -66,6 +73,8 @@ export function ElementRefProvider<T extends Record<string, RefObject<any>>>({
                 refs: inputRefs,
                 focus,
                 focusError,
+                processing,
+                setProcessing,
             }}
         >
             {children}

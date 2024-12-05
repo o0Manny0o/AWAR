@@ -3,21 +3,21 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
-use Symfony\Component\HttpFoundation\Response;
 
 class IsMember
 {
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param Request $request
+     * @param Closure $next
      * @param string|null $redirectToRoute
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse|null
+     * @return Response|RedirectResponse|null
      */
     public function handle(
         Request $request,

@@ -50,7 +50,11 @@ export function Button(
                 ? { as: 'button' }
                 : {})}
             className={twMerge(
-                button({ color: props.color, size: props.size }),
+                button({
+                    color: props.color,
+                    size: props.size,
+                    disabled: props.disabled,
+                }),
                 props.className,
             )}
         >
@@ -61,7 +65,11 @@ export function Button(
             {...props}
             className={twMerge(
                 props.className,
-                button({ color: props.color, size: props.size }),
+                button({
+                    color: props.color,
+                    size: props.size,
+                    disabled: props.disabled,
+                }),
             )}
         >
             {props.children}

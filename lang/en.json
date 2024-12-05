@@ -184,7 +184,11 @@
             },
             "overview": "Overview",
             "your_organisations": "Your Organisations",
-            "your_dashboard": "Your Dashboard"
+            "your_dashboard": "Your Dashboard",
+            "animals": {
+                "dogs": "Your Dogs",
+                "cats": "Your Cats"
+            }
         },
         "newsletter": {
             "description": "Get updates about the development of the platform right in your inbox.",
@@ -234,6 +238,10 @@
             "organisation": {
                 "invitation": "Invitation",
                 "application": "Application"
+            },
+            "animals": {
+                "dog": "Dog",
+                "cat": "Cat"
             }
         },
         "roles": {
@@ -343,6 +351,58 @@
         },
         "dashboard": {
             "welcome": "Welcome to :organisation, :name"
+        }
+    },
+    "animals": {
+        "dogs": {
+            "headers": {
+                "index": "Your Dogs",
+                "create": "Create a new dog"
+            },
+            "titles": {
+                "index": "Dogs",
+                "create": "New Dog",
+                "edit": "Edit Dog"
+            },
+            "form": {
+                "name": {
+                    "placeholder": "Name",
+                    "label": "Name of the dog"
+                },
+                "breed": {
+                    "label": "Breed",
+                    "placeholder": "Breed"
+                },
+                "date_of_birth": {
+                    "label": "Date of birth",
+                    "placeholder": "Date of birth"
+                }
+            }
+        },
+        "cats": {
+            "titles": {
+                "index": "Cats",
+                "create": "New Cat",
+                "edit": "Edit Cat"
+            },
+            "headers": {
+                "index": "Your Cats",
+                "create": "Create a new cat"
+            },
+            "form": {
+                "name": {
+                    "label": "Name",
+                    "placeholder": "Name"
+                },
+                "breed": {
+                    "placeholder": "Breed",
+                    "label": "Breed"
+                },
+                "date_of_birth": {
+                    "placeholder": "Date of birth",
+                    "label": "Date of birth"
+                }
+            }
         }
     }
 }

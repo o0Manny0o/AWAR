@@ -6,6 +6,7 @@ type Translations = {
     general: Translations_General
     landing_page: Translations_Landing_page
     organisations: Translations_Organisations
+    animals: Translations_Animals
 }
 type Translations_Auth = {
     failed: string
@@ -171,11 +172,16 @@ type General_Navigation = {
     overview: string
     your_organisations: string
     your_dashboard: string
+    animals: Navigation_Animals
 }
 type Navigation_Organisations = {
     applications: string
     invitations: string
     members: string
+}
+type Navigation_Animals = {
+    dogs: string
+    cats: string
 }
 type General_Newsletter = {
     description: string
@@ -218,10 +224,15 @@ type General_Button = {
 }
 type General_Resources = {
     organisation: Resources_Organisation
+    animals: Resources_Animals
 }
 type Resources_Organisation = {
     invitation: string
     application: string
+}
+type Resources_Animals = {
+    dog: string
+    cat: string
 }
 type General_Roles = {
     tenant: Roles_Tenant
@@ -272,8 +283,8 @@ type RegisteredOrToken = {
 type Organisations_Invitations = {
     mail: Invitations_Mail
     form: Invitations_Form
-    titles: TitlesOrHeaders
-    headers: TitlesOrHeaders
+    titles: TitlesOrHeadersOrHeadersOrHeaders
+    headers: TitlesOrHeadersOrHeadersOrHeaders
     messages: Invitations_Messages
 }
 type Invitations_Mail = {
@@ -289,7 +300,7 @@ type Invitations_Form = {
     token: RegisteredOrToken
     cancel_create: string
 }
-type TitlesOrHeaders = {
+type TitlesOrHeadersOrHeadersOrHeaders = {
     create: string
     index: string
 }
@@ -309,4 +320,28 @@ type HeadersOrTitles = {
 }
 type Organisations_Dashboard = {
     welcome: string
+}
+type Translations_Animals = {
+    dogs: Animals_Dogs
+    cats: Animals_Cats
+}
+type Animals_Dogs = {
+    headers: TitlesOrHeadersOrHeadersOrHeaders
+    titles: TitlesOrTitles
+    form: FormOrForm
+}
+type TitlesOrTitles = {
+    index: string
+    create: string
+    edit: string
+}
+type FormOrForm = {
+    name: Form_Set
+    breed: Form_Set
+    date_of_birth: Form_Set
+}
+type Animals_Cats = {
+    titles: TitlesOrTitles
+    headers: TitlesOrHeadersOrHeadersOrHeaders
+    form: FormOrForm
 }

@@ -7,7 +7,7 @@ import {
     transformSubdomain,
 } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
 import { SubdomainInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
-import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
 import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function CreateOrganisationFormStep3({
@@ -19,7 +19,7 @@ export default function CreateOrganisationFormStep3({
     domain: string
     application: OrganisationApplicationDraft
 }) {
-    const { focusError } = useContext(FormInputRefs.Context)
+    const { focusError } = useContext(ApplicationFormWrapper.Context)
 
     const { data, setData, errors, post, reset, processing, transform } =
         useForm({

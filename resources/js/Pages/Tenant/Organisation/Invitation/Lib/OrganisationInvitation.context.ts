@@ -1,12 +1,12 @@
 import { RefObject } from 'react'
-import { ElementRefContext } from '@/shared/contexts/ElementRef.context'
+import { FormContext } from '@/shared/contexts/Form.context'
 
 type CreateRefContextData = {
     email: RefObject<HTMLInputElement>
     role: RefObject<HTMLInputElement>
 }
 
-export const FormInputRefs = ElementRefContext<CreateRefContextData>([
+export const FormInputRefs = FormContext<CreateRefContextData>([
     'email',
     'role',
 ])

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Animal\Animal;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,6 +37,8 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read TenantPivot|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $members
  * @property-read int|null $members_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Animal> $animals
+ * @property-read int|null $animals_count
  * @mixin \Eloquent
  */
 class Organisation extends Tenant implements TenantWithDatabase
@@ -78,5 +81,10 @@ class Organisation extends Tenant implements TenantWithDatabase
         )
             ->using(TenantPivot::class)
             ->withTimestamps();
+    }
+
+    public function animals(): HasMany
+    {
+        return $this->hasMany(Animal::class);
     }
 }

@@ -1,8 +1,8 @@
 import CreateOrganisationFormStep1 from './CreateOrganisationFormStep1'
 import CreateOrganisationFormStep2 from './CreateOrganisationFormStep2'
 import CreateOrganisationFormStep3 from './CreateOrganisationFormStep3'
-import { ElementRefProvider } from '@/shared/contexts/ElementRef.context'
-import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { FormContextProvider } from '@/shared/contexts/Form.context'
+import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
 import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function CreateOrganisationForm({
@@ -36,8 +36,8 @@ export default function CreateOrganisationForm({
     }
 
     return (
-        <ElementRefProvider context={FormInputRefs}>
+        <FormContextProvider context={ApplicationFormWrapper}>
             {renderStep()}
-        </ElementRefProvider>
+        </FormContextProvider>
     )
 }

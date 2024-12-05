@@ -125,6 +125,64 @@ const Ziggy = {
             uri: 'members',
             methods: ['GET', 'HEAD'],
         },
+        'animals.dogs.index': {
+            uri: 'animals\/dogs',
+            methods: ['GET', 'HEAD'],
+        },
+        'animals.dogs.create': {
+            uri: 'animals\/dogs\/create',
+            methods: ['GET', 'HEAD'],
+        },
+        'animals.dogs.store': { uri: 'animals\/dogs', methods: ['POST'] },
+        'animals.dogs.show': {
+            uri: 'animals\/dogs\/{animal}',
+            methods: ['GET', 'HEAD'],
+            parameters: ['animal'],
+        },
+        'animals.dogs.edit': {
+            uri: 'animals\/dogs\/{animal}\/edit',
+            methods: ['GET', 'HEAD'],
+            parameters: ['animal'],
+        },
+        'animals.dogs.update': {
+            uri: 'animals\/dogs\/{animal}',
+            methods: ['PUT', 'PATCH'],
+            parameters: ['animal'],
+        },
+        'animals.dogs.destroy': {
+            uri: 'animals\/dogs\/{animal}',
+            methods: ['DELETE'],
+            parameters: ['animal'],
+        },
+        'animals.cats.index': {
+            uri: 'animals\/cats',
+            methods: ['GET', 'HEAD'],
+        },
+        'animals.cats.create': {
+            uri: 'animals\/cats\/create',
+            methods: ['GET', 'HEAD'],
+        },
+        'animals.cats.store': { uri: 'animals\/cats', methods: ['POST'] },
+        'animals.cats.show': {
+            uri: 'animals\/cats\/{animal}',
+            methods: ['GET', 'HEAD'],
+            parameters: ['animal'],
+        },
+        'animals.cats.edit': {
+            uri: 'animals\/cats\/{animal}\/edit',
+            methods: ['GET', 'HEAD'],
+            parameters: ['animal'],
+        },
+        'animals.cats.update': {
+            uri: 'animals\/cats\/{animal}',
+            methods: ['PUT', 'PATCH'],
+            parameters: ['animal'],
+        },
+        'animals.cats.destroy': {
+            uri: 'animals\/cats\/{animal}',
+            methods: ['DELETE'],
+            parameters: ['animal'],
+        },
         'profile.edit': { uri: 'profile', methods: ['GET', 'HEAD'] },
         'profile.update': { uri: 'profile', methods: ['PATCH'] },
         'profile.destroy': { uri: 'profile', methods: ['DELETE'] },

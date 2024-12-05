@@ -3,7 +3,7 @@ import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { AddressInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
-import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
 import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function CreateOrganisationFormStep2({
@@ -13,7 +13,7 @@ export default function CreateOrganisationFormStep2({
     className?: string
     application: OrganisationApplicationDraft
 }) {
-    const { focusError } = useContext(FormInputRefs.Context)
+    const { focusError } = useContext(ApplicationFormWrapper.Context)
 
     const { data, setData, errors, post, reset, processing } = useForm({
         street: application?.street ?? '',

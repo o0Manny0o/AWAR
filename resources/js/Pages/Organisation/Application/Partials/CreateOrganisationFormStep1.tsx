@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Button } from '@/Components/_Base/Button'
 import { GeneralInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
-import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
 
 export default function CreateOrganisationFormStep1({
     className = '',
@@ -18,7 +18,7 @@ export default function CreateOrganisationFormStep1({
     routeParams?: Record<string, unknown>
 }) {
     const __ = useTranslate()
-    const { focusError } = useContext(FormInputRefs.Context)
+    const { focusError } = useContext(ApplicationFormWrapper.Context)
 
     const { data, setData, errors, post, reset, processing } = useForm({
         name: application?.name ?? '',

@@ -1,5 +1,5 @@
 import { RefObject } from 'react'
-import { ElementRefContext } from '@/shared/contexts/ElementRef.context'
+import { FormContext } from '@/shared/contexts/Form.context'
 
 type GeneralInfoRefContextData = {
     name: RefObject<HTMLInputElement>
@@ -21,7 +21,7 @@ type EditRefContextData = GeneralInfoRefContextData &
     AddressRefContextData &
     SubdomainRefContextData
 
-export const FormInputRefs = ElementRefContext<EditRefContextData>([
+export const ApplicationFormWrapper = FormContext<EditRefContextData>([
     'name',
     'type',
     'role',

@@ -95,6 +95,60 @@ declare module 'ziggy-js' {
             },
         ]
         'organisation.members.index': []
+        'animals.dogs.index': []
+        'animals.dogs.create': []
+        'animals.dogs.store': []
+        'animals.dogs.show': [
+            {
+                name: 'animal'
+                required: true
+            },
+        ]
+        'animals.dogs.edit': [
+            {
+                name: 'animal'
+                required: true
+            },
+        ]
+        'animals.dogs.update': [
+            {
+                name: 'animal'
+                required: true
+            },
+        ]
+        'animals.dogs.destroy': [
+            {
+                name: 'animal'
+                required: true
+            },
+        ]
+        'animals.cats.index': []
+        'animals.cats.create': []
+        'animals.cats.store': []
+        'animals.cats.show': [
+            {
+                name: 'animal'
+                required: true
+            },
+        ]
+        'animals.cats.edit': [
+            {
+                name: 'animal'
+                required: true
+            },
+        ]
+        'animals.cats.update': [
+            {
+                name: 'animal'
+                required: true
+            },
+        ]
+        'animals.cats.destroy': [
+            {
+                name: 'animal'
+                required: true
+            },
+        ]
         'profile.edit': []
         'profile.update': []
         'profile.destroy': []
