@@ -27,15 +27,6 @@ class CatController extends AnimalController
     }
 
     /**
-     * Show the form for creating a new resource.
-     * @throws AuthorizationException
-     */
-    public function create(): Response
-    {
-        return parent::create();
-    }
-
-    /**
      * Store a newly created resource in storage.
      * @throws AuthorizationException|Throwable
      */
@@ -44,14 +35,6 @@ class CatController extends AnimalController
         CreateCatRequest $catRequest,
     ): RedirectResponse {
         return parent::storeAnimal($animalRequest, $catRequest, Cat::class);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**

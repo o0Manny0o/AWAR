@@ -8,6 +8,7 @@ use App\Models\Animal\Animal;
 use App\Models\Animal\Dog;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
+use Inertia\Response;
 use Throwable;
 
 class DogController extends AnimalController
@@ -33,23 +34,6 @@ class DogController extends AnimalController
         CreateDogRequest $dogRequest,
     ) {
         return parent::storeAnimal($animalRequest, $dogRequest, Dog::class);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @throws Throwable
-     */
-    public function create()
-    {
-        return parent::create();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**

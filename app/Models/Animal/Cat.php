@@ -32,7 +32,6 @@ class Cat extends Model implements Trackable, Animalable
     public $timestamps = false;
     protected $fillable = ['breed'];
     protected $hidden = ['id'];
-
     protected array $tracked = ['breed'];
 
     /**

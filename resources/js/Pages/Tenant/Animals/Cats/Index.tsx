@@ -27,7 +27,7 @@ export default function Index({ animals }: AppPageProps<{ animals: Dog[] }>) {
                         title={(a) => a.name}
                         subtitle={(a) => a.animalable.breed}
                         resourceUrl={'animals.cats'}
-                        resourceLabel={'general.resources.cats.dog'}
+                        resourceLabel={'general.resources.animals.cat'}
                     />
                 </Card>
             </div>
