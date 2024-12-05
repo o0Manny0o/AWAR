@@ -48,11 +48,6 @@ class CatController extends AnimalController
         UpdateCatRequest $catRequest,
         string $id,
     ): RedirectResponse {
-        return parent::updateAnimal(
-            $animalRequest,
-            $catRequest,
-            Cat::class,
-            $id,
-        );
+        return parent::updateAnimal($animalRequest, $catRequest, $id);
     }
 }

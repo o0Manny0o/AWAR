@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge'
 interface ShowGroupProps {
     name: string
     label: string
-    value: string
+    value?: string
     append?: string
     leading?: string
     className?: string
@@ -33,7 +33,7 @@ export default function ShowGroup({
                 {value ? (
                     <>
                         {leading}
-                        {value}
+                        {value || ' - '}
                         {append}
                     </>
                 ) : (

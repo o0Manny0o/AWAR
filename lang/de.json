@@ -48,7 +48,9 @@
             "created": "Erstellt",
             "draft": "Entwurf",
             "sent": "Gesendet",
-            "accepted": "Akzeptiert"
+            "accepted": "Akzeptiert",
+            "published": "Veröffentlicht",
+            "unlisted": "Nicht gelistet"
         },
         "button": {
             "view": ":resource Öffnen",
@@ -208,6 +210,14 @@
                 "date_of_birth": {
                     "label": "Geburtstag",
                     "placeholder": "Geburtstag"
+                },
+                "bio": {
+                    "placeholder": "Biographie",
+                    "label": "Biographie"
+                },
+                "abstract": {
+                    "placeholder": "Kurzbeschreibung",
+                    "label": "Kurzbeschreibung"
                 }
             }
         },
@@ -233,6 +243,14 @@
                 "date_of_birth": {
                     "placeholder": "Geburtstag",
                     "label": "Geburtstag"
+                },
+                "bio": {
+                    "placeholder": "Biography",
+                    "label": "Biography"
+                },
+                "abstract": {
+                    "placeholder": "Abstract",
+                    "label": "Abstract"
                 }
             }
         }

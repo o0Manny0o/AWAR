@@ -4,6 +4,10 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
 import { ShowActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
+import {
+    badgeColor,
+    badgeLabelKey,
+} from '@/Pages/Tenant/Animals/Lib/Animals.util'
 import Cat = App.Models.Cat
 
 export default function Show({ animal }: AppPageProps<{ animal: Cat }>) {
@@ -17,22 +21,41 @@ export default function Show({ animal }: AppPageProps<{ animal: Cat }>) {
                 'general.resources.animals.cat',
                 'animals.cats',
             )}
+            badge={{
+                color: badgeColor(animal),
+                label: __(badgeLabelKey(animal)),
+            }}
             backUrl={route('animals.cats.index')}
         >
             <Head title={`${animal.name} - Cats`} />
 
-            <Card>
-                <ShowGroup
-                    name="date_of_birth"
-                    label={__('animals.cats.form.date_of_birth.label')}
-                    value={animal.date_of_birth}
-                />
-                <ShowGroup
-                    name="breed"
-                    label={__('animals.cats.form.breed.label')}
-                    value={animal.animalable.breed}
-                />
-            </Card>
+            <div className="space-y-4">
+                <Card>
+                    <ShowGroup
+                        name="date_of_birth"
+                        label={__('animals.cats.form.date_of_birth.label')}
+                        value={animal.date_of_birth}
+                    />
+                    <ShowGroup
+                        name="breed"
+                        label={__('animals.cats.form.breed.label')}
+                        value={animal.animalable.breed}
+                    />
+                </Card>
+
+                <Card>
+                    <ShowGroup
+                        name="bio"
+                        label={__('animals.cats.form.bio.label')}
+                        value={animal.bio}
+                    />
+                    <ShowGroup
+                        name="abstract"
+                        label={__('animals.cats.form.abstract.label')}
+                        value={animal.abstract}
+                    />
+                </Card>
+            </div>
         </AuthenticatedLayout>
     )
 }

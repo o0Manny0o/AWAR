@@ -102,9 +102,8 @@ class AnimalController extends Controller
     public function updateAnimal(
         UpdateAnimalRequest $animalRequest,
         FormRequest $animalableRequest,
-        $class,
         string $id,
-    ) {
+    ): RedirectResponse {
         /** @var Animal|null $animal */
         $animal = Animal::find($id);
         if (!$animal) {

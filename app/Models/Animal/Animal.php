@@ -56,7 +56,13 @@ class Animal extends Model implements Trackable
 {
     use CentralConnection, HasResourcePermissions, HasUuids, SoftDeletes;
 
-    protected $fillable = ['name', 'date_of_birth', 'organisation_id'];
+    protected $fillable = [
+        'name',
+        'date_of_birth',
+        'organisation_id',
+        'bio',
+        'abstract',
+    ];
 
     protected $with = ['animalable'];
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];

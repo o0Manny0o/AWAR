@@ -211,7 +211,9 @@
             "created": "Created",
             "draft": "Draft",
             "sent": "Sent",
-            "accepted": "Accepted"
+            "accepted": "Accepted",
+            "published": "Published",
+            "unlisted": "Unlisted"
         },
         "button": {
             "view": "View :resource",
@@ -376,6 +378,14 @@
                 "date_of_birth": {
                     "label": "Date of birth",
                     "placeholder": "Date of birth"
+                },
+                "bio": {
+                    "placeholder": "Biography",
+                    "label": "Biography"
+                },
+                "abstract": {
+                    "placeholder": "Abstract",
+                    "label": "Abstract"
                 }
             }
         },
@@ -401,6 +411,14 @@
                 "date_of_birth": {
                     "placeholder": "Date of birth",
                     "label": "Date of birth"
+                },
+                "bio": {
+                    "placeholder": "Biography",
+                    "label": "Biography"
+                },
+                "abstract": {
+                    "placeholder": "Abstract",
+                    "label": "Abstract"
                 }
             }
         }

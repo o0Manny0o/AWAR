@@ -205,6 +205,8 @@ type General_Status = {
     draft: string
     sent: string
     accepted: string
+    published: string
+    unlisted: string
 }
 type General_Button = {
     view: string
@@ -339,6 +341,8 @@ type FormOrForm = {
     name: Form_Set
     breed: Form_Set
     date_of_birth: Form_Set
+    bio: Form_Set
+    abstract: Form_Set
 }
 type Animals_Cats = {
     titles: TitlesOrTitles

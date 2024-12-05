@@ -17,6 +17,8 @@ class CreateAnimalRequest extends FormRequest
         return [
             'name' => AnimalRules::nameRules(),
             'date_of_birth' => AnimalRules::dateOfBirthRules(),
+            'bio' => AnimalRules::bioRules(),
+            'abstract' => AnimalRules::abstractRules(),
         ];
     }
 }

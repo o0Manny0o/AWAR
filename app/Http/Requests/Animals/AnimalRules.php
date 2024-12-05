@@ -13,4 +13,14 @@ class AnimalRules
     {
         return ['required', 'date', 'before:today'];
     }
+
+    public static function bioRules(): array
+    {
+        return ['nullable', 'string', 'max:1000'];
+    }
+
+    public static function abstractRules(): array
+    {
+        return ['nullable', 'string', 'max:255'];
+    }
 }
