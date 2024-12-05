@@ -11,14 +11,6 @@ use Illuminate\Events\Dispatcher;
 class TrackAnimalChangesSubscriber
 {
     /**
-     * Create the event listener.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the AnimalCreated event.
      */
     public function handleAnimalCreated(AnimalCreated $event): void

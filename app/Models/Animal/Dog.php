@@ -22,8 +22,6 @@ namespace App\Models\Animal;
 class Dog extends Animalable
 {
     protected $fillable = ['breed'];
-
     protected $hidden = ['id'];
-
     protected array $tracked = ['breed'];
 }

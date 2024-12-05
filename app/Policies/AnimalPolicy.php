@@ -2,11 +2,28 @@
 
 namespace App\Policies;
 
+use App\Enum\DefaultTenantUserRole;
 use App\Models\Animal\Animal;
 use App\Models\User;
 
 class AnimalPolicy extends BasePolicy
 {
+    public function before(User $user): ?false
+    {
+        if (
+            !$user
+                ->asMember()
+                ->hasAnyRole(
+                    DefaultTenantUserRole::ADMIN,
+                    DefaultTenantUserRole::ADOPTION_LEAD,
+                    DefaultTenantUserRole::ADOPTION_HANDLER,
+                )
+        ) {
+            return false;
+        }
+        return null;
+    }
+
     /**
      * Determine whether the user can view any models.
      */

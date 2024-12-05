@@ -100,25 +100,25 @@ declare module 'ziggy-js' {
         'animals.dogs.store': []
         'animals.dogs.show': [
             {
-                name: 'animals'
+                name: 'animal'
                 required: true
             },
         ]
         'animals.dogs.edit': [
             {
-                name: 'animals'
+                name: 'animal'
                 required: true
             },
         ]
         'animals.dogs.update': [
             {
-                name: 'animals'
+                name: 'animal'
                 required: true
             },
         ]
         'animals.dogs.destroy': [
             {
-                name: 'animals'
+                name: 'animal'
                 required: true
             },
         ]
@@ -127,25 +127,25 @@ declare module 'ziggy-js' {
         'animals.cats.store': []
         'animals.cats.show': [
             {
-                name: 'animals'
+                name: 'animal'
                 required: true
             },
         ]
         'animals.cats.edit': [
             {
-                name: 'animals'
+                name: 'animal'
                 required: true
             },
         ]
         'animals.cats.update': [
             {
-                name: 'animals'
+                name: 'animal'
                 required: true
             },
         ]
         'animals.cats.destroy': [
             {
-                name: 'animals'
+                name: 'animal'
                 required: true
             },
         ]
