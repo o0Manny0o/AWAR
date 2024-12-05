@@ -2,9 +2,9 @@
 
 namespace App\Models\Animal;
 
+use App\Interface\Trackable;
 use App\Models\Organisation;
 use App\Models\User;
-use App\Trackable;
 use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -93,16 +93,6 @@ class Animal extends Model implements Trackable
     public static function cats(): Animal|Builder
     {
         return self::subtype(Cat::class);
-    }
-
-    protected static function booted(): void
-    {
-        self::created(static function (Animal $animal): void {
-            AnimalHistory::createInitialEntry($animal);
-        });
-        self::updated(static function (Animal $animal): void {
-            AnimalHistory::createUpdateEntry($animal);
-        });
     }
 
     public function animalable(): MorphTo

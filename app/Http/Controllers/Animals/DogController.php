@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Animals;
 
-use App\Events\Animals\AnimalCreated;
+use App\Http\Requests\Animals\CreateAnimalRequest;
+use App\Http\Requests\Animals\CreateDogRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\Dog;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class DogController extends AnimalController
 {
@@ -25,28 +26,22 @@ class DogController extends AnimalController
 
     /**
      * Store a newly created resource in storage.
+     * @throws Throwable
      */
-    public function store(Request $request)
-    {
-        $this->authorize('create', Animal::class);
-
-        $dog = Dog::create(['breed' => 'Pug']);
-
-        $animal = $dog->animal()->create([
-            'name' => 'Toby',
-            'date_of_birth' => now(),
-            'organisation_id' => tenant()->id,
-        ]);
-
-        AnimalCreated::dispatch($animal, Auth::user());
+    public function store(
+        CreateAnimalRequest $animalRequest,
+        CreateDogRequest $dogRequest,
+    ) {
+        return parent::storeAnimal($animalRequest, $dogRequest, Dog::class);
     }
 
     /**
      * Show the form for creating a new resource.
+     * @throws Throwable
      */
     public function create()
     {
-        $this->authorize('create', Animal::class);
+        return parent::create();
     }
 
     /**

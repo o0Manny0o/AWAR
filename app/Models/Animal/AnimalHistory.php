@@ -2,7 +2,7 @@
 
 namespace App\Models\Animal;
 
-use App\Trackable;
+use App\Interface\Trackable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;

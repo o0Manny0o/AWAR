@@ -4,28 +4,19 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import usePermission from '@/shared/hooks/usePermission'
 import List from '@/Components/Resource/List'
+import { ShowActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
 import Dog = App.Models.Dog
 
 export default function Index({ animals }: AppPageProps<{ animals: Dog[] }>) {
     const __ = useTranslate()
-    const { can } = usePermission()
 
     return (
         <AuthenticatedLayout
             title={__('animals.cats.headers.index')}
-            actionButtons={
-                can('animals.create')
-                    ? [
-                          {
-                              label: __('general.button.new', {
-                                  resource: 'general.resources.animals.cat',
-                              }),
-                              variant: 'primary',
-                              href: route('animals.cats.create'),
-                          },
-                      ]
-                    : []
-            }
+            actionButtons={ShowActionButtons(
+                'general.resources.animals.cat',
+                'animals.cats.create',
+            )}
         >
             <Head title={__('animals.cats.titles.index')} />
 

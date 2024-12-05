@@ -2,7 +2,8 @@
 
 namespace App\Models\Animal;
 
-use App\Trackable;
+use App\Interface\Animalable;
+use App\Interface\Trackable;
 use App\Traits\IsAnimal;
 use Illuminate\Database\Eloquent\Model;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
@@ -24,7 +25,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Dog whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Dog extends Model implements Trackable
+class Dog extends Model implements Trackable, Animalable
 {
     use IsAnimal, CentralConnection;
 

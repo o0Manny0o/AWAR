@@ -7,7 +7,7 @@ import { forwardRef, useImperativeHandle, useRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 interface InputGroupProps {
-    type?: 'text' | 'email'
+    type?: 'text' | 'email' | 'date'
     name: string
     label: string
     placeholder?: string
@@ -44,34 +44,24 @@ export default forwardRef(function InputGroup(
         focus: () => localRef.current?.focus(),
     }))
 
-    const renderField = () => {
-        switch (type) {
-            case 'email':
-            case 'text':
-                return (
-                    <TextInput
-                        id={name}
-                        ref={localRef}
-                        value={value}
-                        maxLength={255}
-                        append={append}
-                        leading={leading}
-                        onChange={(e) => onChange?.(e.target.value)}
-                        onBlur={(e) => onBlur?.(e)}
-                        type={type}
-                        placeholder={placeholder}
-                        className={twMerge('block w-full', className)}
-                        readOnly={readOnly}
-                    />
-                )
-        }
-    }
-
     return (
         <div>
             <InputLabel htmlFor={name} value={label} />
 
-            {renderField()}
+            <TextInput
+                id={name}
+                ref={localRef}
+                value={value}
+                maxLength={255}
+                append={append}
+                leading={leading}
+                onChange={(e) => onChange?.(e.target.value)}
+                onBlur={(e) => onBlur?.(e)}
+                type={type}
+                placeholder={placeholder}
+                className={twMerge('block w-full', className)}
+                readOnly={readOnly}
+            />
 
             <InputError message={error} className="mt-2" />
         </div>

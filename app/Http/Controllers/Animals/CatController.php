@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Animals;
 
-use App\Http\AppInertia;
-use App\Http\Controllers\Controller;
+use App\Http\Requests\Animals\CreateAnimalRequest;
+use App\Http\Requests\Animals\CreateCatRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\Cat;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Throwable;
 
 class CatController extends AnimalController
 {
@@ -26,26 +28,22 @@ class CatController extends AnimalController
 
     /**
      * Show the form for creating a new resource.
+     * @throws AuthorizationException
      */
-    public function create()
+    public function create(): Response
     {
-        $this->authorize('create', Animal::class);
-
-        $cat = Cat::create(['breed' => 'British Short Hair']);
-
-        $cat->animal()->create([
-            'name' => 'Cica',
-            'date_of_birth' => now(),
-            'organisation_id' => tenant()->id,
-        ]);
+        return parent::create();
     }
 
     /**
      * Store a newly created resource in storage.
+     * @throws AuthorizationException|Throwable
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(
+        CreateAnimalRequest $animalRequest,
+        CreateCatRequest $catRequest,
+    ): RedirectResponse {
+        return parent::storeAnimal($animalRequest, $catRequest, Cat::class);
     }
 
     /**

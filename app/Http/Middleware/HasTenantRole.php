@@ -14,13 +14,15 @@ class HasTenantRole
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param Request $request
+     * @param Closure(Request): (Response) $next
+     * @param array $roles
+     * @return Response
      */
     public function handle(
         Request $request,
         Closure $next,
-        string $roles,
-        string $redirectToRoute = null,
+        string ...$roles,
     ): Response {
         if (tenant() && $request->user()) {
             /** @var Member $member */
@@ -32,12 +34,7 @@ class HasTenantRole
         return $request->expectsJson()
             ? abort(403, 'You are not allowed to access this page.')
             : Redirect::guest(
-                URL::route(
-                    $redirectToRoute ?:
-                    (tenant()
-                        ? 'tenant.dashboard'
-                        : 'dashboard'),
-                ),
+                URL::route(tenant() ? 'tenant.dashboard' : 'dashboard'),
             );
     }
 }
