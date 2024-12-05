@@ -1,8 +1,6 @@
 import { Slide, toast, ToastContainer } from 'react-toastify'
 import { usePage } from '@inertiajs/react'
 import { useEffect } from 'react'
-import 'react-toastify/dist/ReactToastify.css'
-import './ToastMessages.css'
 
 export function ToastMessages() {
     const { messages } = usePage().props
