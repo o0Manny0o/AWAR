@@ -3,11 +3,11 @@
 namespace App\Models\Animal;
 
 use App\Events\Animals\AnimalCreated;
+use App\Events\Animals\AnimalDeleted;
 use App\Events\Animals\AnimalUpdated;
 use App\Interface\Trackable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Log;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
@@ -41,7 +41,7 @@ class AnimalHistory extends Model
         $animal = $event->animal;
 
         /** @var AnimalHistory $history */
-        $history = $event->animal->histories()->create([
+        $history = $animal->histories()->create([
             'global_user_id' => $event->user->global_id,
         ]);
         $history->changes()->createMany(
@@ -76,7 +76,7 @@ class AnimalHistory extends Model
         $animal = $event->animal;
 
         /** @var AnimalHistory $history */
-        $history = $event->animal->histories()->create([
+        $history = $animal->histories()->create([
             'global_user_id' => $event->user->global_id,
             'type' => 'update',
         ]);
@@ -110,5 +110,14 @@ class AnimalHistory extends Model
                 ),
             ),
         );
+    }
+
+    public static function createDeleteEntry(AnimalDeleted $event): void
+    {
+        /** @var AnimalHistory $history */
+        $event->animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'type' => 'delete',
+        ]);
     }
 }

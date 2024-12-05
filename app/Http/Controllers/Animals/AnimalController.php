@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Animals;
 
 use App\Events\Animals\AnimalCreated;
+use App\Events\Animals\AnimalDeleted;
 use App\Events\Animals\AnimalUpdated;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
@@ -55,6 +56,8 @@ class AnimalController extends Controller
         $this->authorize('delete', $animal);
 
         $animal->delete();
+
+        AnimalDeleted::dispatch($animal, Auth::user());
 
         return redirect()->route($this->getIndexRouteName());
     }

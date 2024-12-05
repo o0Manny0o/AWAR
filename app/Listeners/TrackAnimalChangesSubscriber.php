@@ -39,6 +39,7 @@ class TrackAnimalChangesSubscriber
      */
     public function handleAnimalDeleted(AnimalDeleted $event): void
     {
+        AnimalHistory::createDeleteEntry($event);
     }
 
     /**
