@@ -83,8 +83,14 @@ Route::middleware([
                 Route::name('animals.')
                     ->prefix('animals')
                     ->group(function () {
-                        Route::resource('dogs', DogController::class);
-                        Route::resource('cats', CatController::class);
+                        Route::resource(
+                            'dogs',
+                            DogController::class,
+                        )->parameters(['dogs' => 'animal']);
+                        Route::resource(
+                            'cats',
+                            CatController::class,
+                        )->parameters(['cats' => 'animal']);
                     });
             });
         },

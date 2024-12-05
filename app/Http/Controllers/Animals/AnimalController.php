@@ -102,7 +102,7 @@ class AnimalController extends Controller
 
         $organisation = tenant();
 
-        $animal = tenancy()->central(function ($tenant) use (
+        $animal = tenancy()->central(function () use (
             $organisation,
             $class,
             $animalableRequest,
@@ -132,11 +132,9 @@ class AnimalController extends Controller
             }, 5);
         });
 
-        // TODO: Enable when show implemented
-        //        return $this->redirect($animalRequest, $this->getShowRouteName(), [
-        //            'animal' => $animal,
-        //        ]);
-        return $this->redirect($animalRequest, $this->getIndexRouteName());
+        return $this->redirect($animalRequest, $this->getShowRouteName(), [
+            'animal' => $animal,
+        ]);
     }
 
     /**
