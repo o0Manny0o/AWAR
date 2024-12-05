@@ -8,7 +8,7 @@ import {
 } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
 import { usePage } from '@inertiajs/react'
-import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
 import OrganisationApplication = App.Models.OrganisationApplication
 
 interface GroupProps {
@@ -39,7 +39,7 @@ export function GeneralInfoGroup({
 
     const {
         refs: { name, type, role, registered },
-    } = useContext(FormInputRefs.Context)
+    } = useContext(ApplicationFormWrapper.Context)
 
     return (
         <>
@@ -115,7 +115,7 @@ export function AddressInfoGroup({
 
     const {
         refs: { street, postCode, city, country },
-    } = useContext(FormInputRefs.Context)
+    } = useContext(ApplicationFormWrapper.Context)
 
     return (
         <>
@@ -190,7 +190,7 @@ export function SubdomainInfoGroup({
     const { centralDomain } = usePage().props
     const {
         refs: { subdomain },
-    } = useContext(FormInputRefs.Context)
+    } = useContext(ApplicationFormWrapper.Context)
 
     return (
         <>

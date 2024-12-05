@@ -2,23 +2,23 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { FormEventHandler, useContext } from 'react'
 import { useForm } from '@inertiajs/react'
 import { Card } from '@/Components/Layout/Card'
-import { FormInputRefs } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
+import { CreateCatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
+import useFormContext from '@/shared/hooks/useFormContext'
 
 export default function CreateCatForm({ formId }: { formId: string }) {
     const __ = useTranslate()
-    const { focusError } = useContext(FormInputRefs.Context)
 
-    const {
-        refs: { name, breed, date_of_birth },
-    } = useContext(FormInputRefs.Context)
-
-    // TODO: Disable buttons while processing
     const { data, setData, errors, post, reset, processing } = useForm({
         name: '',
         date_of_birth: '',
         breed: '',
     })
+
+    const {
+        refs: { name, breed, date_of_birth },
+        focusError,
+    } = useFormContext(CreateCatFormWrapper, processing)
 
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()

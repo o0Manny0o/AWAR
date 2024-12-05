@@ -1,7 +1,7 @@
 import { Head } from '@inertiajs/react'
 import FlowLayout from '@/Layouts/FlowLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
-import { ElementRefProvider } from '@/shared/contexts/ElementRef.context'
+import { FormContextProvider } from '@/shared/contexts/Form.context'
 import { FormInputRefs } from '@/Pages/Tenant/Organisation/Invitation/Lib/OrganisationInvitation.context'
 import CreateInvitationForm from '@/Pages/Tenant/Organisation/Invitation/Partials/CreateInvitationForm'
 
@@ -21,13 +21,13 @@ export default function Create({
         >
             <Head title={__('organisations.invitations.titles.create')} />
 
-            <ElementRefProvider context={FormInputRefs}>
+            <FormContextProvider context={FormInputRefs}>
                 <CreateInvitationForm
                     roleOptions={Object.entries(roleOptions).map(
                         ([id, name]) => ({ id, name }),
                     )}
                 />
-            </ElementRefProvider>
+            </FormContextProvider>
         </FlowLayout>
     )
 }

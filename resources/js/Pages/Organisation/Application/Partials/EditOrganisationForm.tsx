@@ -11,8 +11,9 @@ import {
     SubdomainInfoGroup,
 } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
 import { Card } from '@/Components/Layout/Card'
-import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
 import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
+import useFormContext from '@/shared/hooks/useFormContext'
 
 export default function EditOrganisationForm({
     domain,
@@ -24,9 +25,7 @@ export default function EditOrganisationForm({
     formId: string
 }) {
     const __ = useTranslate()
-    const { focusError } = useContext(FormInputRefs.Context)
 
-    // TODO: Disable buttons while processing
     const { data, setData, errors, patch, reset, processing, transform } =
         useForm({
             name: application?.name ?? '',
@@ -43,6 +42,8 @@ export default function EditOrganisationForm({
                 application?.subdomain ??
                 transformSubdomain(application.name ?? ''),
         })
+
+    const { focusError } = useFormContext(ApplicationFormWrapper, processing)
 
     transform((data) => ({
         ...data,

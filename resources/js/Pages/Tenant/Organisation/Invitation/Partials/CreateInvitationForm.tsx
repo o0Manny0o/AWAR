@@ -1,5 +1,5 @@
 import { FormEventHandler, useContext } from 'react'
-import { FormInputRefs } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
 import { useForm } from '@inertiajs/react'
 import { CreateGroup } from '@/Pages/Tenant/Organisation/Invitation/Lib/OrganisationInvitation.components'
 import { Button } from '@/Components/_Base/Button'
@@ -11,7 +11,7 @@ export default function CreateInvitationForm({
     readonly roleOptions: { id: string; name: string }[]
 }) {
     const __ = useTranslate()
-    const { focusError } = useContext(FormInputRefs.Context)
+    const { focusError } = useContext(ApplicationFormWrapper.Context)
 
     const { data, setData, errors, post, reset, processing } = useForm({
         email: '',

@@ -3,10 +3,19 @@ import { Method } from '@inertiajs/core'
 import { Badge, BadgeColor } from '@/Components/_Base/Badge'
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
 import { twMerge } from 'tailwind-merge'
+import {
+    Context,
+    ContextType,
+    createContext,
+    useContext,
+    useEffect,
+} from 'react'
+import { FormContextData } from '@/shared/contexts/Form.context'
 
 type PageHeaderBaseButton = {
     label: string
     variant: ButtonColorVariants
+    disabled?: boolean
 }
 
 type PageHeaderLink = PageHeaderBaseButton & {
@@ -33,6 +42,7 @@ export interface PageHeaderProps {
     actionButtons?: PageHeaderButton[]
     backUrl?: string
     className?: string
+    formContext?: Context<any>
 }
 
 export default function PageHeader({
@@ -41,7 +51,12 @@ export default function PageHeader({
     actionButtons,
     backUrl,
     className,
+    formContext,
 }: PageHeaderProps) {
+    const { processing } = useContext(
+        formContext ?? createContext({ processing: false }),
+    )
+
     return (
         <div
             className={twMerge(
@@ -70,6 +85,7 @@ export default function PageHeader({
                                 href={button.href}
                                 color={button.variant}
                                 method={button.method}
+                                disabled={button.disabled || processing}
                             >
                                 {button.label}
                             </Button>
@@ -78,6 +94,7 @@ export default function PageHeader({
                                 key={button.label}
                                 color={button.variant}
                                 form={button.form}
+                                disabled={button.disabled || processing}
                             >
                                 {button.label}
                             </Button>
