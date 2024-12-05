@@ -188,18 +188,50 @@
     "animals": {
         "dogs": {
             "headers": {
-                "index": "Ihre Hunde"
+                "index": "Ihre Hunde",
+                "create": "Neuen Hund einstellen"
             },
             "titles": {
-                "index": "Hunde"
+                "index": "Hunde",
+                "create": "Neuer Hund"
+            },
+            "form": {
+                "name": {
+                    "placeholder": "Name",
+                    "label": "Name vom Hund"
+                },
+                "breed": {
+                    "label": "Rasse",
+                    "placeholder": "Rasse"
+                },
+                "date_of_birth": {
+                    "label": "Geburtstag",
+                    "placeholder": "Geburtstag"
+                }
             }
         },
         "cats": {
             "titles": {
-                "index": "Katzen"
+                "index": "Katzen",
+                "create": "Neue Katze"
             },
             "headers": {
-                "index": "Katzen"
+                "index": "Katzen",
+                "create": "Neue Katze einstellen"
+            },
+            "form": {
+                "name": {
+                    "label": "Name",
+                    "placeholder": "Name"
+                },
+                "breed": {
+                    "placeholder": "Rasse",
+                    "label": "Rasse"
+                },
+                "date_of_birth": {
+                    "placeholder": "Geburtstag",
+                    "label": "Geburtstag"
+                }
             }
         }
     }

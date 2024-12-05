@@ -356,18 +356,50 @@
     "animals": {
         "dogs": {
             "headers": {
-                "index": "Your Dogs"
+                "index": "Your Dogs",
+                "create": "Create a new dog"
             },
             "titles": {
-                "index": "Dogs"
+                "index": "Dogs",
+                "create": "New Dog"
+            },
+            "form": {
+                "name": {
+                    "placeholder": "Name",
+                    "label": "Name of the dog"
+                },
+                "breed": {
+                    "label": "Breed",
+                    "placeholder": "Breed"
+                },
+                "date_of_birth": {
+                    "label": "Date of birth",
+                    "placeholder": "Date of birth"
+                }
             }
         },
         "cats": {
             "titles": {
-                "index": "Cats"
+                "index": "Cats",
+                "create": "New Cat"
             },
             "headers": {
-                "index": "Your Cats"
+                "index": "Your Cats",
+                "create": "Create a new cat"
+            },
+            "form": {
+                "name": {
+                    "label": "Name",
+                    "placeholder": "Name"
+                },
+                "breed": {
+                    "placeholder": "Breed",
+                    "label": "Breed"
+                },
+                "date_of_birth": {
+                    "placeholder": "Date of birth",
+                    "label": "Date of birth"
+                }
             }
         }
     }
