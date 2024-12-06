@@ -47,13 +47,13 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
         if ($user) {
             $user = User::find($user);
             $user->tenants()->attach($organisation);
-        }
 
-        tenancy()
-            ->find($organisation->id)
-            ->run(function () use ($user) {
-                $member = Member::firstWhere('global_id', $user->global_id);
-                $member->assignRole(DefaultTenantUserRole::ADMIN);
-            });
+            tenancy()
+                ->find($organisation->id)
+                ->run(function () use ($user) {
+                    $member = Member::firstWhere('global_id', $user->global_id);
+                    $member->assignRole(DefaultTenantUserRole::ADMIN);
+                });
+        }
     }
 }

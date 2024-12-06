@@ -25,7 +25,9 @@
             "animals": {
                 "dogs": "Ihre Hunde",
                 "cats": "Ihre Katzen"
-            }
+            },
+            "browse": "Suchen",
+            "pricing": "Preis"
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",

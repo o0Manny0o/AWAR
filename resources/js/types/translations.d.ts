@@ -173,6 +173,8 @@ type General_Navigation = {
     your_organisations: string
     your_dashboard: string
     animals: Navigation_Animals
+    browse: string
+    pricing: string
 }
 type Navigation_Organisations = {
     applications: string

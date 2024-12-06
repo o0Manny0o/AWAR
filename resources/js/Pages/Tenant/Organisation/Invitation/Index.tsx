@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
-import PageHeader from '@/Components/Layout/PageHeader'
 import { Card } from '@/Components/Layout/Card'
 import usePermission from '@/shared/hooks/usePermission'
 import List from '@/Components/Resource/List'

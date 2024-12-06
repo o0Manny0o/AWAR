@@ -188,7 +188,9 @@
             "animals": {
                 "dogs": "Your Dogs",
                 "cats": "Your Cats"
-            }
+            },
+            "browse": "Browse",
+            "pricing": "Pricing"
         },
         "newsletter": {
             "description": "Get updates about the development of the platform right in your inbox.",

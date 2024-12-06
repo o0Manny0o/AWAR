@@ -3,7 +3,7 @@ export function getAbbreviation(text: string) {
         return ''
     }
     if (!text.match(/\s/g)) {
-        return text
+        return text.toUpperCase()
     }
     return text
         .match(/[\p{Alpha}\p{Nd}]+/gu)

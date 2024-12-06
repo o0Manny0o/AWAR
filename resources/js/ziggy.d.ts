@@ -164,6 +164,7 @@ declare module 'ziggy-js' {
         'profile.edit': []
         'profile.update': []
         'profile.destroy': []
+        'animals.browse': []
         language: [
             {
                 name: 'language'

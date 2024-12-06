@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import MobileNavLink from '@/Components/Layout/Mobile/MobileNavLink'
 import { NavigationItem } from '@/types/navigation'
+import { Branding } from '@/Components/Layout/Branding'
 
 export default function MobileMainNav({
     navigation,
@@ -14,9 +15,7 @@ export default function MobileMainNav({
     return (
         <div className="bg-ceiling flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-                <Link href={'/'}>
-                    <Logo />
-                </Link>
+                <Branding />
             </div>
             <nav className="flex flex-1 flex-col">
                 <ul role="list" className="flex-1 space-y-4 font-semibold">

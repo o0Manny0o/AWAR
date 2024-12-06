@@ -11,6 +11,7 @@ use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
@@ -167,6 +168,28 @@ class AnimalController extends Controller
 
         return $this->redirect($request, $this->getShowRouteName(), [
             'animal' => $animal,
+        ]);
+    }
+
+    /**
+     * Browse all animals.
+     */
+    public function browse(): Response
+    {
+        $animals = Animal::whereNotNull('published_at')
+            ->when(
+                tenant(),
+                function (Builder $query) {
+                    return $query->where('organisation_id', tenant()->id);
+                },
+                function (Builder $query) {
+                    return $query->with(['organisation']);
+                },
+            )
+            ->get();
+
+        return AppInertia::render('Animals/Browse', [
+            'animals' => $animals,
         ]);
     }
 

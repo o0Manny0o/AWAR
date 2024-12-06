@@ -2,8 +2,10 @@ import { HeaderBar } from '@/Components/Layout/HeaderBar'
 import { PropsWithChildren } from 'react'
 import { Footer } from '@/Components/Layout/Footer'
 import { BaseLayout } from '@/Layouts/BaseLayout'
+import { usePage } from '@inertiajs/react'
 
 export default function PublicLayout({ children }: PropsWithChildren) {
+    const { tenant } = usePage().props
     return (
         <BaseLayout>
             <HeaderBar />
@@ -12,7 +14,7 @@ export default function PublicLayout({ children }: PropsWithChildren) {
                 {children}
             </main>
 
-            <Footer />
+            {!tenant && <Footer />}
         </BaseLayout>
     )
 }

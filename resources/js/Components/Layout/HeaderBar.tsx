@@ -15,8 +15,12 @@ import {
 import { Logo } from '@/Components/Layout/Logo'
 import { ReactNode, useState } from 'react'
 import { MobileMainNav } from '@/Components/Layout/Mobile'
-import PublicNavigation from '@/shared/_constants/PublicNavigation'
+import {
+    CentralPublicNavigation,
+    TenantPublicNavigation,
+} from '@/shared/_constants/PublicNavigation'
 import DesktopNavLink from './Desktop/DesktopNavLink'
+import { Branding } from '@/Components/Layout/Branding'
 
 export function HeaderBar({
     secondaryNavigation,
@@ -54,15 +58,15 @@ export function HeaderBar({
                             </button>
                         </div>
                         <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                            <Link
-                                href="/"
-                                className="hidden shrink-0 items-center hover:text-primary-600 focus:text-primary-600
-                                    sm:flex dark:hover:text-primary-400 dark:focus:text-primary-400"
-                            >
-                                <Logo className="h-8 w-auto" />
-                            </Link>
+                            <div className="hidden sm:block">
+                                <Branding />
+                            </div>
                             <DesktopMainNav
-                                navigation={tenant ? [] : PublicNavigation}
+                                navigation={
+                                    tenant
+                                        ? TenantPublicNavigation
+                                        : CentralPublicNavigation
+                                }
                             />
                         </div>
 
@@ -127,7 +131,11 @@ export function HeaderBar({
                             </div>
                         </TransitionChild>
                         <MobileMainNav
-                            navigation={tenant ? [] : PublicNavigation}
+                            navigation={
+                                tenant
+                                    ? TenantPublicNavigation
+                                    : CentralPublicNavigation
+                            }
                         />
                     </DialogPanel>
                 </div>

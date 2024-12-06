@@ -196,6 +196,7 @@ const Ziggy = {
         'profile.edit': { uri: 'profile', methods: ['GET', 'HEAD'] },
         'profile.update': { uri: 'profile', methods: ['PATCH'] },
         'profile.destroy': { uri: 'profile', methods: ['DELETE'] },
+        'animals.browse': { uri: 'animals', methods: ['GET', 'HEAD'] },
         language: {
             uri: 'language\/{language}',
             methods: ['GET', 'HEAD'],
