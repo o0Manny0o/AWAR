@@ -62,6 +62,7 @@ class Animal extends Model implements Trackable
         'organisation_id',
         'bio',
         'abstract',
+        'published_at',
     ];
 
     protected $with = ['animalable'];
@@ -69,7 +70,12 @@ class Animal extends Model implements Trackable
 
     protected $tracked = ['name', 'date_of_birth', 'organisation_id'];
 
-    protected $appends = ['can_be_viewed', 'can_be_deleted', 'can_be_updated'];
+    protected $appends = [
+        'can_be_viewed',
+        'can_be_deleted',
+        'can_be_updated',
+        'can_be_published',
+    ];
 
     /**
      * @return string[]

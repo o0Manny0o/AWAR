@@ -95,6 +95,12 @@ declare module 'ziggy-js' {
             },
         ]
         'organisation.members.index': []
+        'animals.dogs.publish': [
+            {
+                name: 'id'
+                required: true
+            },
+        ]
         'animals.dogs.index': []
         'animals.dogs.create': []
         'animals.dogs.store': []
@@ -119,6 +125,12 @@ declare module 'ziggy-js' {
         'animals.dogs.destroy': [
             {
                 name: 'animal'
+                required: true
+            },
+        ]
+        'animals.cats.publish': [
+            {
+                name: 'id'
                 required: true
             },
         ]

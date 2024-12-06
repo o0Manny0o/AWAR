@@ -66,7 +66,8 @@
             "go_back": "Zurück",
             "go_back_to": "Zurück zur :page",
             "send": ":resource Senden",
-            "resend": ":resource Erneut Senden"
+            "resend": ":resource Erneut Senden",
+            "publish": ":resource Veröffentlichen"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",

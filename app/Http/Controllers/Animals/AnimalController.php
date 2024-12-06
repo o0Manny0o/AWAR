@@ -42,6 +42,19 @@ class AnimalController extends Controller
         ]);
     }
 
+    private function permissions(Request $request, Animal $animal = null): array
+    {
+        $animal?->setPermissions($request->user());
+
+        return [
+            'animals' => [
+                'create' => $request->user()->can('create', Animal::class),
+                'view' => $request->user()->can('view', $animal),
+                'delete' => $request->user()->can('delete', $animal),
+            ],
+        ];
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -79,19 +92,6 @@ class AnimalController extends Controller
             'animal' => $animal,
             'permissions' => $this->permissions($request, $animal),
         ]);
-    }
-
-    private function permissions(Request $request, Animal $animal = null): array
-    {
-        $animal?->setPermissions($request->user());
-
-        return [
-            'animals' => [
-                'create' => $request->user()->can('create', Animal::class),
-                'view' => $request->user()->can('view', $animal),
-                'delete' => $request->user()->can('delete', $animal),
-            ],
-        ];
     }
 
     /**
@@ -145,6 +145,27 @@ class AnimalController extends Controller
         AnimalUpdated::dispatch($animal, $changes, Auth::user());
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
+            'animal' => $animal,
+        ]);
+    }
+
+    /**
+     * Publish an animal.
+     * @throws AuthorizationException
+     */
+    public function publish(Request $request, string $id): RedirectResponse
+    {
+        /** @var Animal|null $animal */
+        $animal = Animal::find($id);
+        if (!$animal) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('publish', $animal);
+
+        $animal->update(['published_at' => now()]);
+
+        return $this->redirect($request, $this->getShowRouteName(), [
             'animal' => $animal,
         ]);
     }

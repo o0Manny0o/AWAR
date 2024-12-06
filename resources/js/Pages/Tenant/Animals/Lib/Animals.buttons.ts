@@ -30,7 +30,16 @@ export function ShowActionButtons(
     baseRouteName: RouteName,
 ): PageHeaderButton[] {
     const __ = useTranslate()
-    const { canUpdate, canDelete } = usePermission()
+    const { canUpdate, canDelete, canPublish } = usePermission()
+
+    const PUBLISH_BUTTON: PageHeaderButton = {
+        label: __('general.button.publish', {
+            resource: '',
+        }),
+        variant: 'primary',
+        method: 'post',
+        href: route(baseRouteName + '.publish', animal.id),
+    }
 
     const EDIT_BUTTON: PageHeaderButton = {
         label: __('general.button.edit', {
@@ -51,6 +60,9 @@ export function ShowActionButtons(
 
     const buttons = []
 
+    if (canPublish(animal)) {
+        buttons.push(PUBLISH_BUTTON)
+    }
     if (canUpdate(animal)) {
         buttons.push(EDIT_BUTTON)
     }

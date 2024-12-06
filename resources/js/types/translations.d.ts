@@ -223,6 +223,7 @@ type General_Button = {
     go_back_to: string
     send: string
     resend: string
+    publish: string
 }
 type General_Resources = {
     organisation: Resources_Organisation

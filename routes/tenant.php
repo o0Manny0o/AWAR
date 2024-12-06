@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\AppInertia;
+use App\Http\Controllers\Animals\AnimalController;
 use App\Http\Controllers\Animals\CatController;
 use App\Http\Controllers\Animals\DogController;
 use App\Http\Controllers\Tenant\MemberController;
@@ -83,10 +84,27 @@ Route::middleware([
                 Route::name('animals.')
                     ->prefix('animals')
                     ->group(function () {
+                        Route::name('dogs.')
+                            ->prefix('dogs')
+                            ->group(function () {
+                                Route::post('/publish/{id}', [
+                                    DogController::class,
+                                    'publish',
+                                ])->name('publish');
+                            });
                         Route::resource(
                             'dogs',
                             DogController::class,
                         )->parameters(['dogs' => 'animal']);
+
+                        Route::name('cats.')
+                            ->prefix('cats')
+                            ->group(function () {
+                                Route::post('/publish/{id}', [
+                                    CatController::class,
+                                    'publish',
+                                ])->name('publish');
+                            });
                         Route::resource(
                             'cats',
                             CatController::class,

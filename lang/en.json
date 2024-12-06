@@ -229,7 +229,8 @@
             "go_back": "Go back",
             "go_back_to": "Back to :page",
             "send": "Send :resource",
-            "resend": "Resend :resource"
+            "resend": "Resend :resource",
+            "publish": "Publish :resource"
         },
         "last_update": "Last Update",
         "options": "Options",
