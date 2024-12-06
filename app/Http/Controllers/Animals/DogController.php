@@ -48,11 +48,6 @@ class DogController extends AnimalController
         UpdateDogRequest $dogRequest,
         string $id,
     ): RedirectResponse {
-        return parent::updateAnimal(
-            $animalRequest,
-            $dogRequest,
-            Dog::class,
-            $id,
-        );
+        return parent::updateAnimal($animalRequest, $dogRequest, $id);
     }
 }

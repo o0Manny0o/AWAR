@@ -16,6 +16,8 @@ export default function EditDogForm({
         name: animal.name ?? '',
         date_of_birth: animal.date_of_birth ?? '',
         breed: animal.animalable.breed ?? '',
+        bio: animal.bio ?? '',
+        abstract: animal.abstract ?? '',
     })
 
     const { focusError } = useFormContext(DogFormWrapper, processing)

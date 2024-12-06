@@ -13,6 +13,7 @@ export default function usePermission(base?: ResourcePermissions) {
     const canView = (e: any): boolean => e.can_be_viewed ?? false
     const canSubmit = (e: any): boolean => e.can_be_submitted ?? false
     const canResend = (e: any): boolean => e.can_be_resended ?? false
+    const canPublish = (e: any): boolean => e.can_be_published ?? false
 
     return {
         can,
@@ -22,5 +23,6 @@ export default function usePermission(base?: ResourcePermissions) {
         canView,
         canSubmit,
         canResend,
+        canPublish,
     }
 }

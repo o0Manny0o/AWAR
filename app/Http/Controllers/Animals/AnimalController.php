@@ -11,6 +11,7 @@ use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
@@ -40,6 +41,19 @@ class AnimalController extends Controller
             'animal' => $animal,
             'permissions' => $this->permissions(request(), $animal),
         ]);
+    }
+
+    private function permissions(Request $request, Animal $animal = null): array
+    {
+        $animal?->setPermissions($request->user());
+
+        return [
+            'animals' => [
+                'create' => $request->user()->can('create', Animal::class),
+                'view' => $request->user()->can('view', $animal),
+                'delete' => $request->user()->can('delete', $animal),
+            ],
+        ];
     }
 
     /**
@@ -81,19 +95,6 @@ class AnimalController extends Controller
         ]);
     }
 
-    private function permissions(Request $request, Animal $animal = null): array
-    {
-        $animal?->setPermissions($request->user());
-
-        return [
-            'animals' => [
-                'create' => $request->user()->can('create', Animal::class),
-                'view' => $request->user()->can('view', $animal),
-                'delete' => $request->user()->can('delete', $animal),
-            ],
-        ];
-    }
-
     /**
      * Update the specified animal in storage.
      * @throws AuthorizationException
@@ -102,9 +103,8 @@ class AnimalController extends Controller
     public function updateAnimal(
         UpdateAnimalRequest $animalRequest,
         FormRequest $animalableRequest,
-        $class,
         string $id,
-    ) {
+    ): RedirectResponse {
         /** @var Animal|null $animal */
         $animal = Animal::find($id);
         if (!$animal) {
@@ -147,6 +147,49 @@ class AnimalController extends Controller
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,
+        ]);
+    }
+
+    /**
+     * Publish an animal.
+     * @throws AuthorizationException
+     */
+    public function publish(Request $request, string $id): RedirectResponse
+    {
+        /** @var Animal|null $animal */
+        $animal = Animal::find($id);
+        if (!$animal) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('publish', $animal);
+
+        $animal->update(['published_at' => now()]);
+
+        return $this->redirect($request, $this->getShowRouteName(), [
+            'animal' => $animal,
+        ]);
+    }
+
+    /**
+     * Browse all animals.
+     */
+    public function browse(): Response
+    {
+        $animals = Animal::whereNotNull('published_at')
+            ->when(
+                tenant(),
+                function (Builder $query) {
+                    return $query->where('organisation_id', tenant()->id);
+                },
+                function (Builder $query) {
+                    return $query->with(['organisation']);
+                },
+            )
+            ->get();
+
+        return AppInertia::render('Animals/Browse', [
+            'animals' => $animals,
         ]);
     }
 

@@ -1,7 +1,6 @@
 import { Head } from '@inertiajs/react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
-import PageHeader from '@/Components/Layout/PageHeader'
 import { Card } from '@/Components/Layout/Card'
 import { badgeColor, badgeLabelKey } from './Lib/OrganisationInvitation.util'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'

@@ -1,4 +1,4 @@
-import { SidebarBranding } from '@/Components/Layout/Sidebar/SidebarBranding'
+import { Branding } from '@/Components/Layout/Branding'
 import { SidebarMainNav } from '@/Components/Layout/Sidebar/SidebarMainNav'
 import { SidebarOrganisationNav } from '@/Components/Layout/Sidebar/SidebarOrganisationNav'
 import { SidebarMenuList } from '@/Components/Layout/Sidebar/SidebarMenuList'
@@ -14,7 +14,7 @@ export function SidebarNav({ colored }: { colored?: boolean }) {
                 className={`flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4
                     ${colored ? 'bg-primary-200 dark:bg-primary-950' : 'bg-ceiling'}`}
             >
-                <SidebarBranding />
+                <Branding />
                 <nav className="flex flex-1 flex-col">
                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
                         <li>

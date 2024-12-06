@@ -124,7 +124,7 @@ export default function Authenticated({
                     </div>
 
                     <main className="py-8 px-2 sm:px-6 lg:px-8">
-                        <PageHeader {...pageHeaderProps} className="mb-4" />
+                        <PageHeader {...pageHeaderProps} />
                         {children}
                     </main>
                 </div>

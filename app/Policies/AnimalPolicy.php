@@ -6,6 +6,7 @@ use App\Enum\DefaultTenantUserRole;
 use App\Models\Animal\Animal;
 use App\Models\User;
 
+/** TODO: Set Permissions */
 class AnimalPolicy extends BasePolicy
 {
     public function before(User $user): ?false
@@ -78,6 +79,14 @@ class AnimalPolicy extends BasePolicy
     public function forceDelete(User $user, Animal $animal): bool
     {
         return true;
+    }
+
+    /**
+     * Determine whether the user can publish the animal.
+     */
+    public function publish(User $user, Animal $animal): bool
+    {
+        return $animal->published_at === null;
     }
 
     function isOwner(User $user, $entity): bool

@@ -16,6 +16,11 @@ return new class extends Migration {
             $table->string('name');
             $table->date('date_of_birth');
 
+            $table->text('bio')->nullable();
+            $table->text('abstract')->nullable();
+
+            $table->timestamp('published_at')->nullable();
+
             $table->morphs('animalable');
 
             $table

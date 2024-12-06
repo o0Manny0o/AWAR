@@ -89,6 +89,15 @@ declare namespace App.Models {
         id: string
         name: string
         date_of_birth: string
+
+        animalable: any
+
+        bio?: string
+        abstract?: string
+
+        organisation?: Organisation
+
+        published_at?: string
         deleted_at?: string
         created_at: string
         updated_at: string

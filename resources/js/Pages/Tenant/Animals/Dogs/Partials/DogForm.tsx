@@ -2,21 +2,14 @@ import { Card } from '@/Components/Layout/Card'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { FormEventHandler, useContext } from 'react'
-import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
+import { DogFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
+import { DogFormWrapper } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
 
 interface DogFormProps {
     formId: string
-    data: {
-        name: string
-        date_of_birth: string
-        breed: string
-    }
+    data: DogFormData
     setData: (key: string, value: string) => void
-    errors: Partial<{
-        name: string
-        date_of_birth: string
-        breed: string
-    }>
+    errors: Partial<DogFormData>
     submitHandler: FormEventHandler
 }
 
@@ -29,8 +22,8 @@ export function DogForm({
 }: DogFormProps) {
     const __ = useTranslate()
     const {
-        refs: { name, breed, date_of_birth },
-    } = useContext(CatFormWrapper.Context)
+        refs: { name, breed, date_of_birth, bio, abstract },
+    } = useContext(DogFormWrapper.Context)
     return (
         <form id={formId} onSubmit={submitHandler}>
             <div className="space-y-6 py-6">
@@ -64,6 +57,28 @@ export function DogForm({
                         error={errors.date_of_birth}
                         type={'date'}
                         onChange={(value) => setData('date_of_birth', value)}
+                    />
+                </Card>
+                <Card>
+                    <InputGroup
+                        name="bio"
+                        placeholder={__('animals.dogs.form.bio.placeholder')}
+                        value={data.bio}
+                        ref={bio}
+                        label={__('animals.dogs.form.bio.label')}
+                        error={errors.bio}
+                        onChange={(value) => setData('bio', value)}
+                    />
+                    <InputGroup
+                        name="abstract"
+                        placeholder={__(
+                            'animals.dogs.form.abstract.placeholder',
+                        )}
+                        value={data.abstract}
+                        ref={abstract}
+                        label={__('animals.dogs.form.abstract.label')}
+                        error={errors.abstract}
+                        onChange={(value) => setData('abstract', value)}
                     />
                 </Card>
             </div>

@@ -125,6 +125,11 @@ const Ziggy = {
             uri: 'members',
             methods: ['GET', 'HEAD'],
         },
+        'animals.dogs.publish': {
+            uri: 'animals\/dogs\/publish\/{id}',
+            methods: ['POST'],
+            parameters: ['id'],
+        },
         'animals.dogs.index': {
             uri: 'animals\/dogs',
             methods: ['GET', 'HEAD'],
@@ -153,6 +158,11 @@ const Ziggy = {
             uri: 'animals\/dogs\/{animal}',
             methods: ['DELETE'],
             parameters: ['animal'],
+        },
+        'animals.cats.publish': {
+            uri: 'animals\/cats\/publish\/{id}',
+            methods: ['POST'],
+            parameters: ['id'],
         },
         'animals.cats.index': {
             uri: 'animals\/cats',
@@ -186,6 +196,7 @@ const Ziggy = {
         'profile.edit': { uri: 'profile', methods: ['GET', 'HEAD'] },
         'profile.update': { uri: 'profile', methods: ['PATCH'] },
         'profile.destroy': { uri: 'profile', methods: ['DELETE'] },
+        'animals.browse': { uri: 'animals', methods: ['GET', 'HEAD'] },
         language: {
             uri: 'language\/{language}',
             methods: ['GET', 'HEAD'],

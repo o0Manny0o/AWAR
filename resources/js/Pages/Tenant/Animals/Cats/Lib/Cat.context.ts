@@ -1,14 +1,15 @@
 import { RefObject } from 'react'
 import { FormContext } from '@/shared/contexts/Form.context'
+import { AnimalFormContextData } from '@/Pages/Tenant/Animals/Lib/Animals.context'
 
-type CreateRefContextData = {
-    name: RefObject<HTMLInputElement>
+type CatFormContextData = AnimalFormContextData & {
     breed: RefObject<HTMLInputElement>
-    date_of_birth: RefObject<HTMLInputElement>
 }
 
-export const CatFormWrapper = FormContext<CreateRefContextData>([
+export const CatFormWrapper = FormContext<CatFormContextData>([
     'name',
     'breed',
     'date_of_birth',
+    'bio',
+    'abstract',
 ])

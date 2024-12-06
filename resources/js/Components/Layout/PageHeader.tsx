@@ -53,7 +53,7 @@ export default function PageHeader({
     return (
         <div
             className={twMerge(
-                'flex items-center h-10 justify-between',
+                'flex items-center mb-4 h-10 justify-between',
                 className,
             )}
         >

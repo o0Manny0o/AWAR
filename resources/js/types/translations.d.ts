@@ -173,6 +173,8 @@ type General_Navigation = {
     your_organisations: string
     your_dashboard: string
     animals: Navigation_Animals
+    browse: string
+    pricing: string
 }
 type Navigation_Organisations = {
     applications: string
@@ -205,6 +207,8 @@ type General_Status = {
     draft: string
     sent: string
     accepted: string
+    published: string
+    unlisted: string
 }
 type General_Button = {
     view: string
@@ -221,6 +225,7 @@ type General_Button = {
     go_back_to: string
     send: string
     resend: string
+    publish: string
 }
 type General_Resources = {
     organisation: Resources_Organisation
@@ -339,6 +344,8 @@ type FormOrForm = {
     name: Form_Set
     breed: Form_Set
     date_of_birth: Form_Set
+    bio: Form_Set
+    abstract: Form_Set
 }
 type Animals_Cats = {
     titles: TitlesOrTitles

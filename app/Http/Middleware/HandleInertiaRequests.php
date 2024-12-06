@@ -75,7 +75,7 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
             },
-            'tenant' => tenancy()->tenant?->load('domains'),
+            'tenant' => tenant()?->load('domains'),
         ];
     }
 }

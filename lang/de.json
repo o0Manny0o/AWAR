@@ -25,7 +25,9 @@
             "animals": {
                 "dogs": "Ihre Hunde",
                 "cats": "Ihre Katzen"
-            }
+            },
+            "browse": "Suchen",
+            "pricing": "Preis"
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
@@ -48,7 +50,9 @@
             "created": "Erstellt",
             "draft": "Entwurf",
             "sent": "Gesendet",
-            "accepted": "Akzeptiert"
+            "accepted": "Akzeptiert",
+            "published": "Veröffentlicht",
+            "unlisted": "Nicht gelistet"
         },
         "button": {
             "view": ":resource Öffnen",
@@ -64,7 +68,8 @@
             "go_back": "Zurück",
             "go_back_to": "Zurück zur :page",
             "send": ":resource Senden",
-            "resend": ":resource Erneut Senden"
+            "resend": ":resource Erneut Senden",
+            "publish": ":resource Veröffentlichen"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",
@@ -208,6 +213,14 @@
                 "date_of_birth": {
                     "label": "Geburtstag",
                     "placeholder": "Geburtstag"
+                },
+                "bio": {
+                    "placeholder": "Biographie",
+                    "label": "Biographie"
+                },
+                "abstract": {
+                    "placeholder": "Kurzbeschreibung",
+                    "label": "Kurzbeschreibung"
                 }
             }
         },
@@ -233,6 +246,14 @@
                 "date_of_birth": {
                     "placeholder": "Geburtstag",
                     "label": "Geburtstag"
+                },
+                "bio": {
+                    "placeholder": "Biography",
+                    "label": "Biography"
+                },
+                "abstract": {
+                    "placeholder": "Abstract",
+                    "label": "Abstract"
                 }
             }
         }
