@@ -3,7 +3,7 @@ import { getAbbreviation } from '@/shared/util'
 import { Link, usePage } from '@inertiajs/react'
 import { useContext } from 'react'
 import { SidebarContext } from '@/Components/Layout/Sidebar/Sidebar.context'
-import { twJoin, twMerge } from 'tailwind-merge'
+import { twMerge } from 'tailwind-merge'
 import { RouteName } from 'ziggy-js'
 
 // TODO: Improve Design

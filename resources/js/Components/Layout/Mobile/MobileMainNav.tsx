@@ -1,5 +1,3 @@
-import { Logo } from '@/Components/Layout/Logo'
-import { Link } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import MobileNavLink from '@/Components/Layout/Mobile/MobileNavLink'
 import { NavigationItem } from '@/types/navigation'

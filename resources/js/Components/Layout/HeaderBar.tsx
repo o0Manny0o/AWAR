@@ -6,13 +6,12 @@ import {
     TransitionChild,
 } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link, usePage } from '@inertiajs/react'
+import { usePage } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import {
     DesktopMainNav,
     DesktopSecondaryNav,
 } from '@/Components/Layout/Desktop'
-import { Logo } from '@/Components/Layout/Logo'
 import { ReactNode, useState } from 'react'
 import { MobileMainNav } from '@/Components/Layout/Mobile'
 import {
