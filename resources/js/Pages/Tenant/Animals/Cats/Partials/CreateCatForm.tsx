@@ -5,11 +5,15 @@ import useFormContext from '@/shared/hooks/useFormContext'
 import { CatForm } from '@/Pages/Tenant/Animals/Cats/Partials/CatForm'
 
 export default function CreateCatForm({ formId }: { formId: string }) {
-    const { data, setData, errors, post, reset, processing } = useForm({
-        name: '',
-        date_of_birth: '',
-        breed: '',
-    })
+    const { data, setData, errors, post, reset, processing, progress } =
+        useForm({
+            name: '',
+            date_of_birth: '',
+            breed: '',
+            bio: '',
+            abstract: '',
+            images: [],
+        })
 
     const { focusError } = useFormContext(CatFormWrapper, processing)
 
@@ -29,6 +33,7 @@ export default function CreateCatForm({ formId }: { formId: string }) {
             setData={setData}
             errors={errors}
             submitHandler={submitHandler}
+            progress={progress}
         />
     )
 }

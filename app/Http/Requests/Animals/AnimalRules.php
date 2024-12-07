@@ -23,4 +23,14 @@ class AnimalRules
     {
         return ['nullable', 'string', 'max:255'];
     }
+
+    public static function imagesRules(): array
+    {
+        return ['required', 'array', 'min:1'];
+    }
+
+    public static function imageRules(): array
+    {
+        return ['image', 'mimes:jpeg,jpg,png,webp', 'max:2048'];
+    }
 }

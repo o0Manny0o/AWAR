@@ -4,13 +4,17 @@ import { FormEventHandler, useContext } from 'react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import { CatFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
+import { AxiosProgressEvent } from 'axios'
+import { InputError } from '@/Components/_Base/Input'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 
 interface CatFormProps {
     formId: string
     data: CatFormData
-    setData: (key: string, value: string) => void
-    errors: Partial<CatFormData>
+    setData: (key: string, value: any) => void
+    errors: Errors<CatFormData>
     submitHandler: FormEventHandler
+    progress: AxiosProgressEvent | null
 }
 
 export function CatForm({
@@ -19,6 +23,7 @@ export function CatForm({
     formId,
     errors,
     submitHandler,
+    progress,
 }: CatFormProps) {
     const __ = useTranslate()
     const {
@@ -81,6 +86,54 @@ export function CatForm({
                         error={errors.abstract}
                         onChange={(value) => setData('abstract', value)}
                     />
+                </Card>
+
+                <Card header="Images">
+                    <input
+                        name="images[]"
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={(e) =>
+                            setData('images', [
+                                ...(e.target.files ?? []),
+                                ...data.images,
+                            ])
+                        }
+                    />
+
+                    <div className="flex flex-wrap gap-4">
+                        {data.images?.map((img) => (
+                            <div
+                                key={URL.createObjectURL(img)}
+                                className="relative"
+                            >
+                                <button
+                                    type="button"
+                                    className="absolute end-2 top-2 size-4"
+                                    onClick={() =>
+                                        setData(
+                                            'images',
+                                            data.images?.filter(
+                                                (i) => i !== img,
+                                            ),
+                                        )
+                                    }
+                                >
+                                    <XMarkIcon />
+                                </button>
+                                <img
+                                    className="size-44 object-cover rounded-md"
+                                    src={URL.createObjectURL(img)}
+                                    alt={'Selected image'}
+                                />
+                            </div>
+                        ))}
+                    </div>
+
+                    {errors.images && (
+                        <InputError message={errors.images} className="mt-2" />
+                    )}
                 </Card>
             </div>
         </form>

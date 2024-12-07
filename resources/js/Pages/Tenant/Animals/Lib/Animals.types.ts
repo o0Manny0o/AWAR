@@ -3,6 +3,7 @@ interface AnimalFormData {
     date_of_birth: string
     bio: string
     abstract: string
+    images: any[]
 }
 
 export interface DogFormData extends AnimalFormData {

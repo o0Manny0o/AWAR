@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Response;
+use Intervention\Image\Laravel\Facades\Image;
 use Throwable;
 
 class AnimalController extends Controller
@@ -245,6 +246,21 @@ class AnimalController extends Controller
                 $animalable = $class::create($animalableValidated);
 
                 $validated = $animalRequest->validated();
+
+                // TODO: Optimise and queue
+                foreach ($validated['images'] as $image) {
+                    $img = Image::read($image);
+                    $img->scaleDown(width: 1200);
+                    $img->core()->native()->stripImage();
+
+                    $quality = 90;
+                    $encoded = $img->toWebp($quality);
+
+                    while ($encoded->size() > 200000) {
+                        $quality -= 5;
+                        $encoded = $img->toWebp($quality);
+                    }
+                }
 
                 $animal = $animalable->animal()->create(
                     array_merge($validated, [
