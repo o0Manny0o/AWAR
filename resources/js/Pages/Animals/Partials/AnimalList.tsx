@@ -9,11 +9,14 @@ export function AnimalList({ animals }: { animals: Animal[] }) {
         <ul role="list" className="space-y-2 sm:space-y-4">
             {animals.map((animal) => (
                 <li key={animal.id} className="">
-                    <Card bodyClassName="p-4 sm:p-4">
+                    <Card bodyClassName="p-0 sm:p-4">
                         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
-                            <span className="size-52 flex-none rounded-md bg-gray-300 hidden sm:block" />
-                            <span className="h-44 -mx-4 -mt-4 flex-none rounded-md rounded-b-none bg-gray-300 sm:hidden" />
-                            <div className="flex-auto">
+                            <img
+                                src={animal.thumbnail}
+                                className="h-96 flex-none rounded-md rounded-b-none object-cover sm:size-52 sm:rounded-b-md"
+                                alt={`${animal.name} thumbnail`}
+                            />
+                            <div className="flex-auto p-4 sm:p-0">
                                 <div className="flex items-baseline justify-between gap-4">
                                     <div className="w-full grid grid-cols-2 grid-rows-2">
                                         <p className="text-xl/9 font-semibold text-basic">

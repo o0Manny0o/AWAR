@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\HasResourcePermissions;
 use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Psr\Http\Message\UriInterface;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
@@ -80,6 +82,8 @@ class Animal extends Model implements Trackable
         'can_be_deleted',
         'can_be_updated',
         'can_be_published',
+        'thumbnail',
+        'gallery',
     ];
 
     /**
@@ -144,5 +148,47 @@ class Animal extends Model implements Trackable
     public function histories(): HasMany
     {
         return $this->hasMany(AnimalHistory::class);
+    }
+
+    /**
+     * Get the animal thumbnail
+     *
+     * @return Attribute
+     */
+    protected function thumbnail(): Attribute
+    {
+        return Attribute::make(get: fn() => $this->fetchThumbnail());
+    }
+
+    public function fetchThumbnail(): UriInterface|string|null
+    {
+        $image = $this->fetchFirstMedia();
+        if ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->namedTransformation('thumbnail')
+                ->toUrl();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the animal thumbnail
+     *
+     * @return Attribute
+     */
+    protected function gallery(): Attribute
+    {
+        return Attribute::make(get: fn() => $this->fetchGallery());
+    }
+
+    public function fetchGallery()
+    {
+        return $this->fetchAllMedia()->map(function ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->toUrl();
+        });
     }
 }

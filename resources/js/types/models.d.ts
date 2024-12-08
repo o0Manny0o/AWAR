@@ -97,6 +97,8 @@ declare namespace App.Models {
 
         organisation?: Organisation
 
+        thumbnail?: string
+
         published_at?: string
         deleted_at?: string
         created_at: string
