@@ -6,6 +6,7 @@ use App\Interface\Trackable;
 use App\Models\Organisation;
 use App\Models\User;
 use App\Traits\HasResourcePermissions;
+use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -54,7 +55,11 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  */
 class Animal extends Model implements Trackable
 {
-    use CentralConnection, HasResourcePermissions, HasUuids, SoftDeletes;
+    use CentralConnection,
+        HasResourcePermissions,
+        HasUuids,
+        SoftDeletes,
+        MediaAlly;
 
     protected $fillable = [
         'name',

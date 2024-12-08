@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
+use App\Services\Storj\Connection;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -19,7 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Response;
-use Intervention\Image\Laravel\Facades\Image;
+use Storj\Uplink\Uplink;
 use Throwable;
 
 class AnimalController extends Controller
@@ -247,26 +248,24 @@ class AnimalController extends Controller
 
                 $validated = $animalRequest->validated();
 
-                // TODO: Optimise and queue
-                foreach ($validated['images'] as $image) {
-                    $img = Image::read($image);
-                    $img->scaleDown(width: 1200);
-                    $img->core()->native()->stripImage();
-
-                    $quality = 90;
-                    $encoded = $img->toWebp($quality);
-
-                    while ($encoded->size() > 200000) {
-                        $quality -= 5;
-                        $encoded = $img->toWebp($quality);
-                    }
-                }
-
+                /** @var Animal $animal */
                 $animal = $animalable->animal()->create(
                     array_merge($validated, [
                         'organisation_id' => $organisation->id,
                     ]),
                 );
+
+                foreach ($validated['images'] as $image) {
+                    $animal->attachMedia($image, [
+                        'asset_folder' =>
+                            $organisation->id . '/animals/' . $animal->id,
+                        'public_id_prefix' =>
+                            $organisation->id . '/animals/' . $animal->id,
+                        'width' => 2000,
+                        'crop' => 'limit',
+                        'format' => 'webp',
+                    ]);
+                }
 
                 AnimalCreated::dispatch($animal, Auth::user());
 
@@ -277,6 +276,7 @@ class AnimalController extends Controller
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,
         ]);
+        //        return $this->redirect($animalRequest, $this->getIndexRouteName());
     }
 
     /**
