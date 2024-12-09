@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Animals;
 
+use App\Rules\ImageOrDatabaseEntry;
+
 class AnimalRules
 {
     public static function nameRules(): array
@@ -22,5 +24,17 @@ class AnimalRules
     public static function abstractRules(): array
     {
         return ['nullable', 'string', 'max:255'];
+    }
+
+    public static function imagesRules(): array
+    {
+        return ['required', 'array', 'min:1'];
+    }
+
+    public static function imageRules(): array
+    {
+        return [
+            new ImageOrDatabaseEntry(table: 'media', idParameter: 'animal'),
+        ];
     }
 }

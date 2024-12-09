@@ -6,7 +6,9 @@ use App\Interface\Trackable;
 use App\Models\Organisation;
 use App\Models\User;
 use App\Traits\HasResourcePermissions;
+use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Psr\Http\Message\UriInterface;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
@@ -50,11 +53,32 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @property-read bool $can_be_updated
  * @property-read bool $can_be_viewed
  * @property-read Organisation $organisation
+ * @property string|null $bio
+ * @property string|null $abstract
+ * @property string|null $published_at
+ * @property-read mixed $gallery
+ * @property-read bool $can_be_published
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalHistory> $histories
+ * @property-read int|null $histories_count
+ * @property-read mixed $images
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \CloudinaryLabs\CloudinaryLaravel\Model\Media> $medially
+ * @property-read int|null $medially_count
+ * @property-read mixed $thumbnail
+ * @method static Builder<static>|Animal onlyTrashed()
+ * @method static Builder<static>|Animal whereAbstract($value)
+ * @method static Builder<static>|Animal whereBio($value)
+ * @method static Builder<static>|Animal wherePublishedAt($value)
+ * @method static Builder<static>|Animal withTrashed()
+ * @method static Builder<static>|Animal withoutTrashed()
  * @mixin \Eloquent
  */
 class Animal extends Model implements Trackable
 {
-    use CentralConnection, HasResourcePermissions, HasUuids, SoftDeletes;
+    use CentralConnection,
+        HasResourcePermissions,
+        HasUuids,
+        SoftDeletes,
+        MediaAlly;
 
     protected $fillable = [
         'name',
@@ -68,13 +92,25 @@ class Animal extends Model implements Trackable
     protected $with = ['animalable'];
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
 
-    protected $tracked = ['name', 'date_of_birth', 'organisation_id'];
+    protected $tracked = [
+        'name',
+        'date_of_birth',
+        'organisation_id',
+        'bio',
+        'abstract',
+        'published_at',
+        'added_media',
+        'removed_media',
+    ];
 
     protected $appends = [
         'can_be_viewed',
         'can_be_deleted',
         'can_be_updated',
         'can_be_published',
+        'thumbnail',
+        'gallery',
+        'images',
     ];
 
     /**
@@ -139,5 +175,68 @@ class Animal extends Model implements Trackable
     public function histories(): HasMany
     {
         return $this->hasMany(AnimalHistory::class);
+    }
+
+    /**
+     * Get the animal thumbnail
+     *
+     * @return Attribute
+     */
+    protected function thumbnail(): Attribute
+    {
+        return Attribute::make(get: fn() => $this->fetchThumbnail());
+    }
+
+    public function fetchThumbnail(): UriInterface|string|null
+    {
+        $image = $this->fetchFirstMedia();
+        if ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->namedTransformation('thumbnail')
+                ->toUrl();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the animal thumbnail
+     *
+     * @return Attribute
+     */
+    protected function gallery(): Attribute
+    {
+        return Attribute::make(get: fn() => $this->fetchGallery());
+    }
+
+    public function fetchGallery()
+    {
+        return $this->fetchAllMedia()->map(function ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->namedTransformation('gallery')
+                ->toUrl();
+        });
+    }
+
+    /**
+     * Get the animal thumbnail
+     *
+     * @return Attribute
+     */
+    protected function images(): Attribute
+    {
+        return Attribute::make(get: fn() => $this->fetchGallery());
+    }
+
+    public function fetchImages()
+    {
+        return $this->fetchAllMedia()->map(function ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->namedTransformation('none')
+                ->toUrl();
+        });
     }
 }

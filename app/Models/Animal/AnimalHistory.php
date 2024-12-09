@@ -26,6 +26,12 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereUserId($value)
+ * @property string $type
+ * @property string $global_user_id
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalChange> $changes
+ * @property-read int|null $changes_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereGlobalUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereType($value)
  * @mixin \Eloquent
  */
 class AnimalHistory extends Model
@@ -75,12 +81,6 @@ class AnimalHistory extends Model
         $animalable = $event->animal->animalable;
         $animal = $event->animal;
 
-        /** @var AnimalHistory $history */
-        $history = $animal->histories()->create([
-            'global_user_id' => $event->user->global_id,
-            'type' => 'update',
-        ]);
-
         $animalChanges = array_intersect_key(
             $event->changes,
             array_flip($animal->getTracked()),
@@ -89,6 +89,16 @@ class AnimalHistory extends Model
             $event->changes,
             array_flip($animalable->getTracked()),
         );
+
+        if (empty($animalChanges) && empty($animalableChanges)) {
+            return;
+        }
+
+        /** @var AnimalHistory $history */
+        $history = $animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'type' => 'update',
+        ]);
 
         $history->changes()->createMany(
             array_merge(

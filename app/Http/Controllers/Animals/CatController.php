@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Animals;
 
-use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\CreateCatRequest;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Http\Requests\Animals\UpdateCatRequest;
@@ -32,11 +31,9 @@ class CatController extends AnimalController
      * Store a newly created dog in storage.
      * @throws AuthorizationException|Throwable
      */
-    public function store(
-        CreateAnimalRequest $animalRequest,
-        CreateCatRequest $catRequest,
-    ): RedirectResponse {
-        return parent::storeAnimal($animalRequest, $catRequest, Cat::class);
+    public function store(CreateCatRequest $catRequest): RedirectResponse
+    {
+        return parent::storeAnimal($catRequest, Cat::class);
     }
 
     /**
@@ -44,10 +41,9 @@ class CatController extends AnimalController
      * @throws AuthorizationException|Throwable
      */
     public function update(
-        UpdateAnimalRequest $animalRequest,
         UpdateCatRequest $catRequest,
         string $id,
     ): RedirectResponse {
-        return parent::updateAnimal($animalRequest, $catRequest, $id);
+        return parent::updateAnimal($catRequest, $id);
     }
 }

@@ -9,6 +9,7 @@ import {
     badgeLabelKey,
 } from '@/Pages/Tenant/Animals/Lib/Animals.util'
 import Cat = App.Models.Cat
+import { ShowImages } from '@/Components/_Base/Input/Images/ShowImages'
 
 export default function Show({ animal }: AppPageProps<{ animal: Cat }>) {
     const __ = useTranslate()
@@ -54,6 +55,10 @@ export default function Show({ animal }: AppPageProps<{ animal: Cat }>) {
                         label={__('animals.cats.form.abstract.label')}
                         value={animal.abstract}
                     />
+                </Card>
+
+                <Card header={__('general.images')}>
+                    <ShowImages animal={animal} />
                 </Card>
             </div>
         </AuthenticatedLayout>

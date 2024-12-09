@@ -7,9 +7,8 @@ use App\Events\Animals\AnimalDeleted;
 use App\Events\Animals\AnimalUpdated;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Animals\CreateAnimalRequest;
-use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,6 +22,26 @@ use Throwable;
 
 class AnimalController extends Controller
 {
+    /**
+     * @throws Exception
+     */
+    private function attachMedia(
+        Animal $animal,
+        array $media,
+        $organisation,
+    ): void {
+        foreach ($media as $image) {
+            $animal->attachMedia($image, [
+                'asset_folder' => $organisation->id . '/animals/' . $animal->id,
+                'public_id_prefix' =>
+                    $organisation->id . '/animals/' . $animal->id,
+                'width' => 2000,
+                'crop' => 'limit',
+                'format' => 'webp',
+            ]);
+        }
+    }
+
     /**
      * Display the specified resource.
      * @throws AuthorizationException
@@ -82,7 +101,19 @@ class AnimalController extends Controller
     public function edit(Request $request, string $id)
     {
         /** @var Animal|null $animal */
-        $animal = Animal::find($id);
+        $animal = Animal::whereId($id)
+            ->with([
+                'medially' => function ($query) {
+                    return $query->select(
+                        'id',
+                        'file_url',
+                        'medially_id',
+                        'medially_type',
+                    );
+                },
+            ])
+            ->get()
+            ->first();
         if (!$animal) {
             return redirect()->route($this->getIndexRouteName());
         }
@@ -101,8 +132,7 @@ class AnimalController extends Controller
      * @throws Throwable
      */
     public function updateAnimal(
-        UpdateAnimalRequest $animalRequest,
-        FormRequest $animalableRequest,
+        FormRequest $animalRequest,
         string $id,
     ): RedirectResponse {
         /** @var Animal|null $animal */
@@ -113,21 +143,57 @@ class AnimalController extends Controller
 
         $this->authorize('update', $animal);
 
+        $organisation = tenant();
+
+        $changedMedia = ['removed_media' => false, 'added_media' => false];
+
         $animal = tenancy()->central(function () use (
-            $animalableRequest,
+            $organisation,
             $animalRequest,
             $animal,
+            &$changedMedia,
         ) {
             return DB::transaction(function () use (
-                $animalableRequest,
+                $organisation,
                 $animalRequest,
                 $animal,
+                &$changedMedia,
             ) {
-                $animalableValidated = $animalableRequest->validated();
-
-                $animal->animalable->update($animalableValidated);
-
                 $validated = $animalRequest->validated();
+
+                $animal->animalable->update($validated);
+
+                if ($validated['images']) {
+                    $allMedia = $animal->fetchAllMedia();
+
+                    $mediaToKeep = [];
+                    $newMedia = [];
+
+                    array_map(function ($image) use (
+                        &$mediaToKeep,
+                        &$newMedia,
+                    ) {
+                        if (is_numeric($image)) {
+                            $mediaToKeep[] = $image;
+                        } else {
+                            $newMedia[] = $image;
+                        }
+                    }, $validated['images']);
+
+                    // Delete removed media
+                    foreach ($allMedia as $media) {
+                        if (!in_array($media->id, $mediaToKeep)) {
+                            $animal->detachMedia($media);
+                            $changedMedia['removed_media'] = true;
+                        }
+                    }
+
+                    // Add new media
+                    if (!empty($newMedia)) {
+                        $changedMedia['added_media'] = true;
+                        $this->attachMedia($animal, $newMedia, $organisation);
+                    }
+                }
 
                 $animal->update($validated);
 
@@ -139,6 +205,7 @@ class AnimalController extends Controller
             array_merge(
                 $animal->getChanges(),
                 $animal->animalable->getChanges(),
+                array_filter($changedMedia, fn($val) => $val),
             ),
             array_flip(['updated_at']),
         );
@@ -165,6 +232,12 @@ class AnimalController extends Controller
         $this->authorize('publish', $animal);
 
         $animal->update(['published_at' => now()]);
+
+        AnimalUpdated::dispatch(
+            $animal,
+            ['published_at' => now()],
+            Auth::user(),
+        );
 
         return $this->redirect($request, $this->getShowRouteName(), [
             'animal' => $animal,
@@ -220,8 +293,7 @@ class AnimalController extends Controller
      * @throws Throwable
      */
     protected function storeAnimal(
-        CreateAnimalRequest $animalRequest,
-        FormRequest $animalableRequest,
+        FormRequest $animalRequest,
         $class,
     ): RedirectResponse {
         $this->authorize('create', Animal::class);
@@ -231,25 +303,28 @@ class AnimalController extends Controller
         $animal = tenancy()->central(function () use (
             $organisation,
             $class,
-            $animalableRequest,
             $animalRequest,
         ) {
             return DB::transaction(function () use (
                 $organisation,
                 $class,
-                $animalableRequest,
                 $animalRequest,
             ) {
-                $animalableValidated = $animalableRequest->validated();
-
-                $animalable = $class::create($animalableValidated);
-
                 $validated = $animalRequest->validated();
 
+                $animalable = $class::create($validated);
+
+                /** @var Animal $animal */
                 $animal = $animalable->animal()->create(
                     array_merge($validated, [
                         'organisation_id' => $organisation->id,
                     ]),
+                );
+
+                $this->attachMedia(
+                    $animal,
+                    $validated['images'],
+                    $organisation,
                 );
 
                 AnimalCreated::dispatch($animal, Auth::user());

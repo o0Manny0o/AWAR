@@ -85,6 +85,11 @@ declare namespace App.Models {
         updated_at: string
     }
 
+    export interface Media {
+        id: number
+        file_url: string
+    }
+
     export interface Animal {
         id: string
         name: string
@@ -96,6 +101,12 @@ declare namespace App.Models {
         abstract?: string
 
         organisation?: Organisation
+
+        thumbnail?: string
+        gallery?: string[]
+        images?: string[]
+
+        medially: Media[]
 
         published_at?: string
         deleted_at?: string

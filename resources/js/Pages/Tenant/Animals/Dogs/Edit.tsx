@@ -21,6 +21,7 @@ export default function Edit({
                     route('animals.dogs.show', animal.id),
                     FORM_ID,
                 )}
+                formContext={DogFormWrapper.Context}
             >
                 <Head title={__('animals.dogs.titles.edit')} />
 

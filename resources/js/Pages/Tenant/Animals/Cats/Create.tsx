@@ -18,6 +18,7 @@ export default function Create({}: AppPageProps<{}>) {
                 route('animals.cats.index'),
                 FORM_ID,
             )}
+            formContext={CatFormWrapper.Context}
         >
             <Head title={__('animals.cats.titles.create')} />
 

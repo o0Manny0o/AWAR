@@ -17,3 +17,12 @@ export function getAbbreviation(text: string) {
         )
         .toUpperCase()
 }
+
+export function getArrayErrors(
+    errors: Record<string, string>,
+    propertyKey: string,
+) {
+    return Object.fromEntries(
+        Object.entries(errors).filter(([key]) => key.startsWith(propertyKey)),
+    )
+}

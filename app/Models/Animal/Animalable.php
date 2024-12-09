@@ -7,6 +7,15 @@ use App\Traits\IsAnimal;
 use Illuminate\Database\Eloquent\Model;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
+/**
+ *
+ *
+ * @property-read \App\Models\Animal\Animal|null $animal
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Animalable newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Animalable newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Animalable query()
+ * @mixin \Eloquent
+ */
 class Animalable extends Model implements Trackable, \App\Interface\Animalable
 {
     use IsAnimal, CentralConnection;
