@@ -7,10 +7,7 @@ use App\Events\Animals\AnimalDeleted;
 use App\Events\Animals\AnimalUpdated;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Animals\CreateAnimalRequest;
-use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
-use App\Services\Storj\Connection;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,7 +18,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Response;
-use Storj\Uplink\Uplink;
 use Throwable;
 
 class AnimalController extends Controller
@@ -149,15 +145,19 @@ class AnimalController extends Controller
 
         $organisation = tenant();
 
+        $changedMedia = ['removed_media' => false, 'added_media' => false];
+
         $animal = tenancy()->central(function () use (
             $organisation,
             $animalRequest,
             $animal,
+            &$changedMedia,
         ) {
             return DB::transaction(function () use (
                 $organisation,
                 $animalRequest,
                 $animal,
+                &$changedMedia,
             ) {
                 $validated = $animalRequest->validated();
 
@@ -184,11 +184,15 @@ class AnimalController extends Controller
                     foreach ($allMedia as $media) {
                         if (!in_array($media->id, $mediaToKeep)) {
                             $animal->detachMedia($media);
+                            $changedMedia['removed_media'] = true;
                         }
                     }
 
                     // Add new media
-                    $this->attachMedia($animal, $newMedia, $organisation);
+                    if (!empty($newMedia)) {
+                        $changedMedia['added_media'] = true;
+                        $this->attachMedia($animal, $newMedia, $organisation);
+                    }
                 }
 
                 $animal->update($validated);
@@ -201,6 +205,7 @@ class AnimalController extends Controller
             array_merge(
                 $animal->getChanges(),
                 $animal->animalable->getChanges(),
+                array_filter($changedMedia, fn($val) => $val),
             ),
             array_flip(['updated_at']),
         );
@@ -227,6 +232,12 @@ class AnimalController extends Controller
         $this->authorize('publish', $animal);
 
         $animal->update(['published_at' => now()]);
+
+        AnimalUpdated::dispatch(
+            $animal,
+            ['published_at' => now()],
+            Auth::user(),
+        );
 
         return $this->redirect($request, $this->getShowRouteName(), [
             'animal' => $animal,
@@ -325,7 +336,6 @@ class AnimalController extends Controller
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,
         ]);
-        //        return $this->redirect($animalRequest, $this->getIndexRouteName());
     }
 
     /**

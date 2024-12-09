@@ -92,7 +92,16 @@ class Animal extends Model implements Trackable
     protected $with = ['animalable'];
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
 
-    protected $tracked = ['name', 'date_of_birth', 'organisation_id'];
+    protected $tracked = [
+        'name',
+        'date_of_birth',
+        'organisation_id',
+        'bio',
+        'abstract',
+        'published_at',
+        'added_media',
+        'removed_media',
+    ];
 
     protected $appends = [
         'can_be_viewed',
