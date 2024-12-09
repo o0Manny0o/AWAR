@@ -114,14 +114,6 @@ class Animal extends Model implements Trackable
     ];
 
     /**
-     * @return string[]
-     */
-    public function getTracked(): array
-    {
-        return $this->tracked;
-    }
-
-    /**
      * Returns all the dogs
      * @return Animal|Builder
      */
@@ -144,6 +136,14 @@ class Animal extends Model implements Trackable
     public static function cats(): Animal|Builder
     {
         return self::subtype(Cat::class);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTracked(): array
+    {
+        return $this->tracked;
     }
 
     public function animalable(): MorphTo
@@ -175,6 +175,16 @@ class Animal extends Model implements Trackable
     public function histories(): HasMany
     {
         return $this->hasMany(AnimalHistory::class);
+    }
+
+    public function fetchImages()
+    {
+        return $this->fetchAllMedia()->map(function ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->namedTransformation('none')
+                ->toUrl();
+        });
     }
 
     /**
@@ -228,15 +238,5 @@ class Animal extends Model implements Trackable
     protected function images(): Attribute
     {
         return Attribute::make(get: fn() => $this->fetchGallery());
-    }
-
-    public function fetchImages()
-    {
-        return $this->fetchAllMedia()->map(function ($image) {
-            return cloudinary()
-                ->getImage($image->file_name)
-                ->namedTransformation('none')
-                ->toUrl();
-        });
     }
 }

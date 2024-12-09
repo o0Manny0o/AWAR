@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Animals;
 
 use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalDeleted;
+use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUpdated;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\Animal;
+use App\Models\Animal\AnimalHistory;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,26 +25,6 @@ use Throwable;
 class AnimalController extends Controller
 {
     /**
-     * @throws Exception
-     */
-    private function attachMedia(
-        Animal $animal,
-        array $media,
-        $organisation,
-    ): void {
-        foreach ($media as $image) {
-            $animal->attachMedia($image, [
-                'asset_folder' => $organisation->id . '/animals/' . $animal->id,
-                'public_id_prefix' =>
-                    $organisation->id . '/animals/' . $animal->id,
-                'width' => 2000,
-                'crop' => 'limit',
-                'format' => 'webp',
-            ]);
-        }
-    }
-
-    /**
      * Display the specified resource.
      * @throws AuthorizationException
      */
@@ -56,8 +38,11 @@ class AnimalController extends Controller
 
         $this->authorize('view', $animal);
 
+        $history = AnimalHistory::internalHistory($animal);
+
         return AppInertia::render($this->getShowView(), [
             'animal' => $animal,
+            'history' => $history,
             'permissions' => $this->permissions(request(), $animal),
         ]);
     }
@@ -73,6 +58,28 @@ class AnimalController extends Controller
                 'delete' => $request->user()->can('delete', $animal),
             ],
         ];
+    }
+
+    /**
+     * Display the public version of the specified resource.
+     * @throws AuthorizationException
+     */
+    public function showPublic(string $id): RedirectResponse|Response
+    {
+        /** @var Animal|null $animal */
+        $animal = Animal::find($id);
+        if (!$animal) {
+            return redirect()->route('animals.browse');
+        }
+
+        $animal->makeHidden('abstract');
+
+        $history = AnimalHistory::publicHistory($animal);
+
+        return AppInertia::render('Animals/Show', [
+            'animal' => $animal,
+            'history' => $history,
+        ]);
     }
 
     /**
@@ -218,6 +225,26 @@ class AnimalController extends Controller
     }
 
     /**
+     * @throws Exception
+     */
+    private function attachMedia(
+        Animal $animal,
+        array $media,
+        $organisation,
+    ): void {
+        foreach ($media as $image) {
+            $animal->attachMedia($image, [
+                'asset_folder' => $organisation->id . '/animals/' . $animal->id,
+                'public_id_prefix' =>
+                    $organisation->id . '/animals/' . $animal->id,
+                'width' => 2000,
+                'crop' => 'limit',
+                'format' => 'webp',
+            ]);
+        }
+    }
+
+    /**
      * Publish an animal.
      * @throws AuthorizationException
      */
@@ -233,11 +260,7 @@ class AnimalController extends Controller
 
         $animal->update(['published_at' => now()]);
 
-        AnimalUpdated::dispatch(
-            $animal,
-            ['published_at' => now()],
-            Auth::user(),
-        );
+        AnimalPublished::dispatch($animal, Auth::user());
 
         return $this->redirect($request, $this->getShowRouteName(), [
             'animal' => $animal,

@@ -426,5 +426,21 @@
                 }
             }
         }
+    },
+    "history": {
+        "changes": {
+            "internal": {
+                "initial": ":user inserted :animal :when",
+                "update": ":user updated :animal :when",
+                "delete": ":user deleted :animal :when",
+                "restore": ":user restored :animal :when",
+                "publish": ":user published :animal :when",
+                "unpublish": ":user unpublished :animal :when"
+            },
+            "public": {
+                "initial": ":animal was found :when"
+            }
+        },
+        "title": "History"
     }
 }

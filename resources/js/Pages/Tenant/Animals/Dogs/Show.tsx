@@ -10,8 +10,12 @@ import {
     badgeLabelKey,
 } from '@/Pages/Tenant/Animals/Lib/Animals.util'
 import { ShowImages } from '@/Components/_Base/Input/Images/ShowImages'
+import History = App.Models.History
 
-export default function Show({ animal }: AppPageProps<{ animal: Dog }>) {
+export default function Show({
+    animal,
+    history,
+}: AppPageProps<{ animal: Dog; history: History[] }>) {
     const __ = useTranslate()
 
     return (
@@ -58,6 +62,14 @@ export default function Show({ animal }: AppPageProps<{ animal: Dog }>) {
 
                 <Card header={__('general.images')}>
                     <ShowImages animal={animal} />
+                </Card>
+
+                <Card header={__('history.title')}>
+                    <ul className="space-y-4">
+                        {history.map((item, idx) => (
+                            <li key={idx}>{item.text}</li>
+                        ))}
+                    </ul>
                 </Card>
             </div>
         </AuthenticatedLayout>

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
 
             $table->string('field');
-            $table->string('value');
+            $table->string('value')->nullable();
 
             $table
                 ->foreignId('animal_history_id')
