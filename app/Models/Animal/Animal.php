@@ -70,6 +70,10 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|Animal wherePublishedAt($value)
  * @method static Builder<static>|Animal withTrashed()
  * @method static Builder<static>|Animal withoutTrashed()
+ * @property string|null $sex
+ * @property string|null $animal_family_id
+ * @method static Builder<static>|Animal whereAnimalFamilyId($value)
+ * @method static Builder<static>|Animal whereSex($value)
  * @mixin \Eloquent
  */
 class Animal extends Model implements Trackable
@@ -83,6 +87,7 @@ class Animal extends Model implements Trackable
     protected $fillable = [
         'name',
         'date_of_birth',
+        'sex',
         'organisation_id',
         'bio',
         'abstract',

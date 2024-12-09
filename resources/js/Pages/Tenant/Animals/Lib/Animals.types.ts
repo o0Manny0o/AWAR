@@ -1,8 +1,7 @@
-import Media = App.Models.Media
-
 interface AnimalFormData {
     name: string
     date_of_birth: string
+    family: { id: string; name: string }
     bio: string
     abstract: string
     images: (string | File)[]

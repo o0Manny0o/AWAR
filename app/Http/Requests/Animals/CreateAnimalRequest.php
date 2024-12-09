@@ -17,10 +17,14 @@ class CreateAnimalRequest extends FormRequest
         return [
             'name' => AnimalRules::nameRules(),
             'date_of_birth' => AnimalRules::dateOfBirthRules(),
+            'sex' => AnimalRules::sexRules(),
             'bio' => AnimalRules::bioRules(),
             'abstract' => AnimalRules::abstractRules(),
             'images' => AnimalRules::imagesRules(),
             'images.*' => AnimalRules::imageRules(),
+            'father' => AnimalRules::parentRules(),
+            'mother' => AnimalRules::parentRules(),
+            'family' => AnimalRules::familyRules(),
         ];
     }
 }

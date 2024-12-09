@@ -7,6 +7,7 @@ import { DogFormWrapper } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
 import { ImageInput } from '@/Components/_Base/Input/Images/ImageInput'
 import Media = App.Models.Media
 import { getArrayErrors } from '@/shared/util'
+import CreatableGroup from '@/Components/_Base/Input/CreatableGroup'
 
 interface DogFormProps {
     formId: string
@@ -29,11 +30,19 @@ export function DogForm({
 }: DogFormProps) {
     const __ = useTranslate()
     const {
-        refs: { name, breed, date_of_birth, bio, abstract },
+        refs: { name, breed, date_of_birth, bio, abstract, family },
     } = useContext(DogFormWrapper.Context)
+
+    // TODO: REMOVE
+    const options = [
+        { id: '1', name: 'K', father: { name: 'father' } },
+        { id: '2', name: 'L', mother: { name: 'mother' } },
+        { id: '3', name: 'M', children: [{ name: 'children' }] },
+    ]
+
     return (
         <form id={formId} onSubmit={submitHandler}>
-            <div className="space-y-6 py-6">
+            <div className="space-y-6 py-6 mb-32">
                 <Card>
                     <InputGroup
                         name="name"
@@ -101,6 +110,25 @@ export function DogForm({
                             )
                         }}
                         errors={getArrayErrors(errors, 'images')}
+                    />
+                </Card>
+
+                <Card header={__('animals.dogs.form.family.header')}>
+                    {data.family?.id}
+                    <CreatableGroup
+                        options={options}
+                        name="family"
+                        placeholder={__('animals.dogs.form.family.placeholder')}
+                        value={data.family}
+                        ref={family}
+                        label={__('animals.dogs.form.family.label')}
+                        error={errors.family}
+                        onChange={(value) => setData('family', value)}
+                        description={(value) =>
+                            value.mother?.name ??
+                            value.father?.name ??
+                            value.children?.length
+                        }
                     />
                 </Card>
             </div>
