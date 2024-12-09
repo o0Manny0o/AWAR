@@ -6,6 +6,7 @@ import { DogFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
 import { DogFormWrapper } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
 import { ImageInput } from '@/Components/_Base/Input/Images/ImageInput'
 import Media = App.Models.Media
+import { getArrayErrors } from '@/shared/util'
 
 interface DogFormProps {
     formId: string
@@ -14,6 +15,7 @@ interface DogFormProps {
     errors: Errors<DogFormData>
     submitHandler: FormEventHandler
     images?: Media[]
+    clearErrors: (...keys: string[]) => void
 }
 
 export function DogForm({
@@ -23,6 +25,7 @@ export function DogForm({
     errors,
     submitHandler,
     images,
+    clearErrors,
 }: DogFormProps) {
     const __ = useTranslate()
     const {
@@ -86,10 +89,18 @@ export function DogForm({
                     />
                 </Card>
 
-                <Card header="Images">
+                <Card header={__('general.images')}>
                     <ImageInput
                         images={images ?? []}
-                        onChange={(e) => setData('images', e)}
+                        onChange={(e) => {
+                            setData('images', e)
+                            clearErrors?.(
+                                ...Object.keys(
+                                    getArrayErrors(errors, 'images'),
+                                ),
+                            )
+                        }}
+                        errors={getArrayErrors(errors, 'images')}
                     />
                 </Card>
             </div>

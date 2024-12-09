@@ -33,6 +33,8 @@ class AnimalRules
 
     public static function imageRules(): array
     {
-        return [new ImageOrDatabaseEntry('media')];
+        return [
+            new ImageOrDatabaseEntry(table: 'media', idParameter: 'animal'),
+        ];
     }
 }

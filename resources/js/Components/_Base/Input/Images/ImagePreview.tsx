@@ -2,30 +2,25 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useMemo } from 'react'
-import { twJoin } from 'tailwind-merge'
-import { first } from 'lodash-es'
+import { twMerge } from 'tailwind-merge'
+import { InputError } from '@/Components/_Base/Input'
 
 interface ImagePreviewProps {
     image: { id: string; file: File | string }
     onDeleteClick: (id: string) => void
     first?: boolean
+    error?: string
 }
 
 export function ImagePreview({
     onDeleteClick,
-    first,
     image: { id, file },
+    error,
 }: ImagePreviewProps) {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transition,
-        transform,
-        isDragging,
-    } = useSortable({
-        id: id,
-    })
+    const { attributes, listeners, setNodeRef, transition, transform } =
+        useSortable({
+            id: id,
+        })
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -37,36 +32,31 @@ export function ImagePreview({
     }, [file])
 
     return (
-        <div ref={setNodeRef} style={style} className="relative">
-            <button
-                type="button"
-                className="absolute end-2 top-2 size-8 p-2 rounded-full bg-gray-100 hover:bg-gray-300
-                    text-gray-700"
-                onClick={(e) => {
-                    e.stopPropagation()
-                    onDeleteClick(id)
-                }}
-            >
-                <XMarkIcon />
-            </button>
-            <img
-                className={twJoin(
-                    'size-44 object-cover rounded-md border-2 border-transparent',
-                    !isDragging && first && 'border-primary-500',
-                )}
-                src={url}
-                {...attributes}
-                {...listeners}
-                alt={'Selected image'}
-            />
-            {!isDragging && first && (
-                <span
-                    className="absolute inset-x-0 bottom-0 text-center font-bold text-white bg-primary-500
-                        rounded-b-md text-xl"
+        <div className="flex flex-col">
+            <div ref={setNodeRef} style={style} className="relative">
+                <button
+                    type="button"
+                    className="absolute end-2 top-2 size-8 p-2 rounded-full bg-gray-100 hover:bg-gray-300
+                        text-gray-700"
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        onDeleteClick(id)
+                    }}
                 >
-                    Gallery Image
-                </span>
-            )}
+                    <XMarkIcon />
+                </button>
+                <img
+                    className={twMerge(
+                        'size-44 object-cover rounded-md border-2 border-transparent',
+                        error && 'border-red-500',
+                    )}
+                    src={url}
+                    {...attributes}
+                    {...listeners}
+                    alt={'Selected image'}
+                />
+            </div>
+            {error && <InputError className="w-44" message={error} />}
         </div>
     )
 }

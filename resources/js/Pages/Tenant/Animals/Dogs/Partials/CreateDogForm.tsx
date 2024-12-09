@@ -5,14 +5,15 @@ import useFormContext from '@/shared/hooks/useFormContext'
 import { DogForm } from '@/Pages/Tenant/Animals/Dogs/Partials/DogForm'
 
 export default function CreateDogForm({ formId }: { formId: string }) {
-    const { data, setData, errors, post, reset, processing } = useForm({
-        name: '',
-        date_of_birth: '',
-        breed: '',
-        bio: '',
-        abstract: '',
-        images: [],
-    })
+    const { data, setData, errors, post, reset, processing, clearErrors } =
+        useForm({
+            name: '',
+            date_of_birth: '',
+            breed: '',
+            bio: '',
+            abstract: '',
+            images: [],
+        })
 
     const { focusError } = useFormContext(DogFormWrapper, processing)
 
@@ -32,6 +33,7 @@ export default function CreateDogForm({ formId }: { formId: string }) {
             setData={setData}
             errors={errors}
             submitHandler={submitHandler}
+            clearErrors={clearErrors as any}
         />
     )
 }

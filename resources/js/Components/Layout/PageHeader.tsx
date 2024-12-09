@@ -22,6 +22,8 @@ type PageHeaderSubmit = PageHeaderBaseButton & {
 
 export type PageHeaderButton = PageHeaderLink | PageHeaderSubmit
 
+const defaultFormContext = createContext({ processing: false })
+
 function isPageHeaderLink(item: PageHeaderButton): item is PageHeaderLink {
     return !!(item as PageHeaderLink).href
 }
@@ -46,9 +48,7 @@ export default function PageHeader({
     className,
     formContext,
 }: PageHeaderProps) {
-    const { processing } = useContext(
-        formContext ?? createContext({ processing: false }),
-    )
+    const { processing } = useContext(formContext ?? defaultFormContext)
 
     return (
         <div

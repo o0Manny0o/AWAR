@@ -12,16 +12,18 @@ export default function EditDogForm({
     animal: Dog
     formId: string
 }) {
-    const { data, setData, errors, post, reset, processing } = useForm({
-        name: animal.name ?? '',
-        date_of_birth: animal.date_of_birth ?? '',
-        breed: animal.animalable.breed ?? '',
-        bio: animal.bio ?? '',
-        abstract: animal.abstract ?? '',
-        images:
-            animal.medially?.map((media) => String(media.id)) ?? ([] as any[]),
-        _method: 'PATCH',
-    })
+    const { data, setData, errors, post, reset, processing, clearErrors } =
+        useForm({
+            name: animal.name ?? '',
+            date_of_birth: animal.date_of_birth ?? '',
+            breed: animal.animalable.breed ?? '',
+            bio: animal.bio ?? '',
+            abstract: animal.abstract ?? '',
+            images:
+                animal.medially?.map((media) => String(media.id)) ??
+                ([] as any[]),
+            _method: 'PATCH',
+        })
 
     const { focusError } = useFormContext(DogFormWrapper, processing)
 
@@ -42,6 +44,7 @@ export default function EditDogForm({
             setData={setData}
             errors={errors}
             submitHandler={submitHandler}
+            clearErrors={clearErrors as any}
         />
     )
 }

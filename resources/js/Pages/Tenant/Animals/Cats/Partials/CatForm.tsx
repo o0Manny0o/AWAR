@@ -5,6 +5,7 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import { CatFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
 import { ImageInput } from '@/Components/_Base/Input/Images/ImageInput'
+import { getArrayErrors } from '@/shared/util'
 import Media = App.Models.Media
 
 interface CatFormProps {
@@ -14,6 +15,7 @@ interface CatFormProps {
     errors: Errors<CatFormData>
     submitHandler: FormEventHandler
     images?: Media[]
+    clearErrors: (...keys: string[]) => void
 }
 
 export function CatForm({
@@ -23,11 +25,13 @@ export function CatForm({
     errors,
     submitHandler,
     images,
+    clearErrors,
 }: CatFormProps) {
     const __ = useTranslate()
     const {
         refs: { name, breed, date_of_birth, bio, abstract },
     } = useContext(CatFormWrapper.Context)
+
     return (
         <form id={formId} onSubmit={submitHandler}>
             <div className="space-y-6 py-6">
@@ -87,10 +91,18 @@ export function CatForm({
                     />
                 </Card>
 
-                <Card header="Images">
+                <Card header={__('general.images')}>
                     <ImageInput
                         images={images ?? []}
-                        onChange={(e) => setData('images', e)}
+                        onChange={(e) => {
+                            setData('images', e)
+                            clearErrors?.(
+                                ...Object.keys(
+                                    getArrayErrors(errors, 'images'),
+                                ),
+                            )
+                        }}
+                        errors={getArrayErrors(errors, 'images')}
                     />
                 </Card>
             </div>

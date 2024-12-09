@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import {
     arrayMove,
-    horizontalListSortingStrategy,
+    rectSortingStrategy,
     SortableContext,
     sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
@@ -21,13 +21,14 @@ import Media = App.Models.Media
 interface ImageInputProps {
     images: File[] | Media[]
     onChange: (files: (File | string)[]) => void
+    errors?: Record<string, string>
 }
 
 function isMedia(item: Media | File): item is Media {
     return !!(item as Media).file_url
 }
 
-export function ImageInput({ onChange, images }: ImageInputProps) {
+export function ImageInput({ onChange, images, errors }: ImageInputProps) {
     const [selectedImages, setSelectedImages] = useState<
         { id: string; file: File | string }[]
     >(
@@ -123,14 +124,18 @@ export function ImageInput({ onChange, images }: ImageInputProps) {
             >
                 <SortableContext
                     items={selectedImages}
-                    strategy={horizontalListSortingStrategy}
+                    strategy={rectSortingStrategy}
                 >
-                    <div className="flex m-4 gap-4">
+                    <div className="flex my-4 gap-4 flex-wrap after:content-[''] after:flex-auto">
                         {selectedImages.map((image, idx) => (
                             <ImagePreview
                                 key={image.id}
-                                first={idx === 0}
                                 image={image}
+                                error={
+                                    Object.entries(errors ?? {}).find(([key]) =>
+                                        key.endsWith(String(idx)),
+                                    )?.[1]
+                                }
                                 onDeleteClick={(e) =>
                                     setSelectedImages((images) =>
                                         images.filter((f) => f.id !== e),

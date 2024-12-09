@@ -56,7 +56,7 @@ export default function Show({ animal }: AppPageProps<{ animal: Dog }>) {
                     />
                 </Card>
 
-                <Card header="Images">
+                <Card header={__('general.images')}>
                     <ShowImages animal={animal} />
                 </Card>
             </div>

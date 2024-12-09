@@ -1,9 +1,10 @@
-import { FormEventHandler } from 'react'
+import { FormEventHandler, useEffect } from 'react'
 import { useForm } from '@inertiajs/react'
 import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import useFormContext from '@/shared/hooks/useFormContext'
 import { CatForm } from '@/Pages/Tenant/Animals/Cats/Partials/CatForm'
 import Cat = App.Models.Cat
+import { getArrayErrors } from '@/shared/util'
 
 export default function EditCatForm({
     animal,
@@ -12,16 +13,18 @@ export default function EditCatForm({
     animal: Cat
     formId: string
 }) {
-    const { data, setData, errors, post, reset, processing } = useForm({
-        name: animal.name ?? '',
-        date_of_birth: animal.date_of_birth ?? '',
-        breed: animal.animalable.breed ?? '',
-        bio: animal.bio ?? '',
-        abstract: animal.abstract ?? '',
-        images:
-            animal.medially?.map((media) => String(media.id)) ?? ([] as any[]),
-        _method: 'PATCH',
-    })
+    const { data, setData, errors, post, reset, processing, clearErrors } =
+        useForm({
+            name: animal.name ?? '',
+            date_of_birth: animal.date_of_birth ?? '',
+            breed: animal.animalable.breed ?? '',
+            bio: animal.bio ?? '',
+            abstract: animal.abstract ?? '',
+            images:
+                animal.medially?.map((media) => String(media.id)) ??
+                ([] as any[]),
+            _method: 'PATCH',
+        })
 
     const { focusError } = useFormContext(CatFormWrapper, processing)
 
@@ -43,6 +46,7 @@ export default function EditCatForm({
             setData={setData}
             errors={errors}
             submitHandler={submitHandler}
+            clearErrors={clearErrors as any}
         />
     )
 }

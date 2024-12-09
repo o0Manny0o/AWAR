@@ -96,7 +96,8 @@
                 "foster_home_handler": "Pflegestellen Betreuer",
                 "foster_home": "Pflegestelle"
             }
-        }
+        },
+        "images": "Bilder"
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"

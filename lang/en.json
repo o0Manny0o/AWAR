@@ -259,7 +259,8 @@
                 "foster_home_handler": "Foster Home Handler",
                 "foster_home": "Foster Home"
             }
-        }
+        },
+        "images": "Images"
     },
     "landing_page": {
         "welcome_message": "Welcome to AWAR, :name"

@@ -155,6 +155,7 @@ type Translations_General = {
     continue_later: string
     resources: General_Resources
     roles: General_Roles
+    images: string
 }
 type General_Languages = {
     en: string
