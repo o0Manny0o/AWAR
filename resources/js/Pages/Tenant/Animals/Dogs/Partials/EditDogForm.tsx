@@ -12,12 +12,15 @@ export default function EditDogForm({
     animal: Dog
     formId: string
 }) {
-    const { data, setData, errors, patch, reset, processing } = useForm({
+    const { data, setData, errors, post, reset, processing } = useForm({
         name: animal.name ?? '',
         date_of_birth: animal.date_of_birth ?? '',
         breed: animal.animalable.breed ?? '',
         bio: animal.bio ?? '',
         abstract: animal.abstract ?? '',
+        images:
+            animal.medially?.map((media) => String(media.id)) ?? ([] as any[]),
+        _method: 'PATCH',
     })
 
     const { focusError } = useFormContext(DogFormWrapper, processing)
@@ -25,7 +28,7 @@ export default function EditDogForm({
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        patch(route('animals.dogs.update', animal.id), {
+        post(route('animals.dogs.update', animal.id), {
             onSuccess: () => reset(),
             onError: (errors) => focusError(errors as any),
         })
@@ -35,6 +38,7 @@ export default function EditDogForm({
         <DogForm
             formId={formId}
             data={data}
+            images={animal.medially}
             setData={setData}
             errors={errors}
             submitHandler={submitHandler}

@@ -4,7 +4,6 @@ import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import useFormContext from '@/shared/hooks/useFormContext'
 import { CatForm } from '@/Pages/Tenant/Animals/Cats/Partials/CatForm'
 import Cat = App.Models.Cat
-import Media = App.Models.Media
 
 export default function EditCatForm({
     animal,
@@ -20,8 +19,7 @@ export default function EditCatForm({
         bio: animal.bio ?? '',
         abstract: animal.abstract ?? '',
         images:
-            animal.medially?.map((media) => String(media.id)) ??
-            ([] as Media[]),
+            animal.medially?.map((media) => String(media.id)) ?? ([] as any[]),
         _method: 'PATCH',
     })
 

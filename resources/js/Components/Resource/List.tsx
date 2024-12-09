@@ -46,6 +46,7 @@ export default function List<
                             <img
                                 className="h-12 rounded object-cover"
                                 src={entity.thumbnail} // TODO: Placeholder
+                                alt="Animal Thumbnail"
                             />
                         </div>
                         <div className="min-w-0">

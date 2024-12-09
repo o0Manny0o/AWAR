@@ -4,13 +4,16 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { FormEventHandler, useContext } from 'react'
 import { DogFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
 import { DogFormWrapper } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
+import { ImageInput } from '@/Components/_Base/Input/Images/ImageInput'
+import Media = App.Models.Media
 
 interface DogFormProps {
     formId: string
     data: DogFormData
-    setData: (key: string, value: string) => void
-    errors: Partial<DogFormData>
+    setData: (key: string, value: any) => void
+    errors: Errors<DogFormData>
     submitHandler: FormEventHandler
+    images?: Media[]
 }
 
 export function DogForm({
@@ -19,6 +22,7 @@ export function DogForm({
     formId,
     errors,
     submitHandler,
+    images,
 }: DogFormProps) {
     const __ = useTranslate()
     const {
@@ -79,6 +83,13 @@ export function DogForm({
                         label={__('animals.dogs.form.abstract.label')}
                         error={errors.abstract}
                         onChange={(value) => setData('abstract', value)}
+                    />
+                </Card>
+
+                <Card header="Images">
+                    <ImageInput
+                        images={images ?? []}
+                        onChange={(e) => setData('images', e)}
                     />
                 </Card>
             </div>

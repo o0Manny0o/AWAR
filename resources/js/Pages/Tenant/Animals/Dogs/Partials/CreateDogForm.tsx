@@ -11,6 +11,7 @@ export default function CreateDogForm({ formId }: { formId: string }) {
         breed: '',
         bio: '',
         abstract: '',
+        images: [],
     })
 
     const { focusError } = useFormContext(DogFormWrapper, processing)
