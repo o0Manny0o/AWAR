@@ -1,9 +1,11 @@
+import Media = App.Models.Media
+
 interface AnimalFormData {
     name: string
     date_of_birth: string
     bio: string
     abstract: string
-    images: any[]
+    images: (string | File)[]
 }
 
 export interface DogFormData extends AnimalFormData {

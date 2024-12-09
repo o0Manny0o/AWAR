@@ -11,6 +11,7 @@ use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use App\Services\Storj\Connection;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -25,6 +26,26 @@ use Throwable;
 
 class AnimalController extends Controller
 {
+    /**
+     * @throws Exception
+     */
+    private function attachMedia(
+        Animal $animal,
+        array $media,
+        $organisation,
+    ): void {
+        foreach ($media as $image) {
+            $animal->attachMedia($image, [
+                'asset_folder' => $organisation->id . '/animals/' . $animal->id,
+                'public_id_prefix' =>
+                    $organisation->id . '/animals/' . $animal->id,
+                'width' => 2000,
+                'crop' => 'limit',
+                'format' => 'webp',
+            ]);
+        }
+    }
+
     /**
      * Display the specified resource.
      * @throws AuthorizationException
@@ -84,7 +105,19 @@ class AnimalController extends Controller
     public function edit(Request $request, string $id)
     {
         /** @var Animal|null $animal */
-        $animal = Animal::find($id);
+        $animal = Animal::whereId($id)
+            ->with([
+                'medially' => function ($query) {
+                    return $query->select(
+                        'id',
+                        'file_url',
+                        'medially_id',
+                        'medially_type',
+                    );
+                },
+            ])
+            ->get()
+            ->first();
         if (!$animal) {
             return redirect()->route($this->getIndexRouteName());
         }
@@ -115,12 +148,16 @@ class AnimalController extends Controller
 
         $this->authorize('update', $animal);
 
+        $organisation = tenant();
+
         $animal = tenancy()->central(function () use (
+            $organisation,
             $animalableRequest,
             $animalRequest,
             $animal,
         ) {
             return DB::transaction(function () use (
+                $organisation,
                 $animalableRequest,
                 $animalRequest,
                 $animal,
@@ -130,6 +167,34 @@ class AnimalController extends Controller
                 $animal->animalable->update($animalableValidated);
 
                 $validated = $animalRequest->validated();
+
+                if ($validated['images']) {
+                    $allMedia = $animal->fetchAllMedia();
+
+                    $mediaToKeep = [];
+                    $newMedia = [];
+
+                    array_map(function ($image) use (
+                        &$mediaToKeep,
+                        &$newMedia,
+                    ) {
+                        if (is_numeric($image)) {
+                            $mediaToKeep[] = $image;
+                        } else {
+                            $newMedia[] = $image;
+                        }
+                    }, $validated['images']);
+
+                    // Delete removed media
+                    foreach ($allMedia as $media) {
+                        if (!in_array($media->id, $mediaToKeep)) {
+                            $animal->detachMedia($media);
+                        }
+                    }
+
+                    // Add new media
+                    $this->attachMedia($animal, $newMedia, $organisation);
+                }
 
                 $animal->update($validated);
 
@@ -255,17 +320,11 @@ class AnimalController extends Controller
                     ]),
                 );
 
-                foreach ($validated['images'] as $image) {
-                    $animal->attachMedia($image, [
-                        'asset_folder' =>
-                            $organisation->id . '/animals/' . $animal->id,
-                        'public_id_prefix' =>
-                            $organisation->id . '/animals/' . $animal->id,
-                        'width' => 2000,
-                        'crop' => 'limit',
-                        'format' => 'webp',
-                    ]);
-                }
+                $this->attachMedia(
+                    $animal,
+                    $validated['images'],
+                    $organisation,
+                );
 
                 AnimalCreated::dispatch($animal, Auth::user());
 

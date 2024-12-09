@@ -4,6 +4,7 @@ import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import useFormContext from '@/shared/hooks/useFormContext'
 import { CatForm } from '@/Pages/Tenant/Animals/Cats/Partials/CatForm'
 import Cat = App.Models.Cat
+import Media = App.Models.Media
 
 export default function EditCatForm({
     animal,
@@ -12,12 +13,16 @@ export default function EditCatForm({
     animal: Cat
     formId: string
 }) {
-    const { data, setData, errors, patch, reset, processing } = useForm({
+    const { data, setData, errors, post, reset, processing } = useForm({
         name: animal.name ?? '',
         date_of_birth: animal.date_of_birth ?? '',
         breed: animal.animalable.breed ?? '',
         bio: animal.bio ?? '',
         abstract: animal.abstract ?? '',
+        images:
+            animal.medially?.map((media) => String(media.id)) ??
+            ([] as Media[]),
+        _method: 'PATCH',
     })
 
     const { focusError } = useFormContext(CatFormWrapper, processing)
@@ -25,7 +30,8 @@ export default function EditCatForm({
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        patch(route('animals.cats.update', animal.id), {
+        post(route('animals.cats.update', animal.id), {
+            method: 'patch',
             onSuccess: () => reset(),
             onError: (errors) => focusError(errors as any),
         })
@@ -35,6 +41,7 @@ export default function EditCatForm({
         <CatForm
             formId={formId}
             data={data}
+            images={animal.medially}
             setData={setData}
             errors={errors}
             submitHandler={submitHandler}

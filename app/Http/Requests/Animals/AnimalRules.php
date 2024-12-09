@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\Animals;
 
+use App\Rules\ImageOrDatabaseEntry;
+
 class AnimalRules
 {
     public static function nameRules(): array
@@ -31,6 +33,6 @@ class AnimalRules
 
     public static function imageRules(): array
     {
-        return ['image', 'mimes:jpeg,jpg,png,webp', 'max:2048'];
+        return [new ImageOrDatabaseEntry('media')];
     }
 }

@@ -53,6 +53,23 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @property-read bool $can_be_updated
  * @property-read bool $can_be_viewed
  * @property-read Organisation $organisation
+ * @property string|null $bio
+ * @property string|null $abstract
+ * @property string|null $published_at
+ * @property-read mixed $gallery
+ * @property-read bool $can_be_published
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalHistory> $histories
+ * @property-read int|null $histories_count
+ * @property-read mixed $images
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \CloudinaryLabs\CloudinaryLaravel\Model\Media> $medially
+ * @property-read int|null $medially_count
+ * @property-read mixed $thumbnail
+ * @method static Builder<static>|Animal onlyTrashed()
+ * @method static Builder<static>|Animal whereAbstract($value)
+ * @method static Builder<static>|Animal whereBio($value)
+ * @method static Builder<static>|Animal wherePublishedAt($value)
+ * @method static Builder<static>|Animal withTrashed()
+ * @method static Builder<static>|Animal withoutTrashed()
  * @mixin \Eloquent
  */
 class Animal extends Model implements Trackable
@@ -84,6 +101,7 @@ class Animal extends Model implements Trackable
         'can_be_published',
         'thumbnail',
         'gallery',
+        'images',
     ];
 
     /**
@@ -188,6 +206,27 @@ class Animal extends Model implements Trackable
         return $this->fetchAllMedia()->map(function ($image) {
             return cloudinary()
                 ->getImage($image->file_name)
+                ->namedTransformation('gallery')
+                ->toUrl();
+        });
+    }
+
+    /**
+     * Get the animal thumbnail
+     *
+     * @return Attribute
+     */
+    protected function images(): Attribute
+    {
+        return Attribute::make(get: fn() => $this->fetchGallery());
+    }
+
+    public function fetchImages()
+    {
+        return $this->fetchAllMedia()->map(function ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->namedTransformation('none')
                 ->toUrl();
         });
     }

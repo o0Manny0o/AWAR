@@ -22,6 +22,7 @@ use Spatie\Permission\Models\Role;
  * @property-read bool $can_be_viewed
  * @property-read bool $can_be_resended
  * @property-read Role|null $role
+ * @property-read bool $can_be_published
  * @mixin \Eloquent
  */
 class OrganisationInvitation extends Model

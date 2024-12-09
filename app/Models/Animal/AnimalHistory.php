@@ -26,6 +26,12 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereUserId($value)
+ * @property string $type
+ * @property string $global_user_id
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalChange> $changes
+ * @property-read int|null $changes_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereGlobalUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereType($value)
  * @mixin \Eloquent
  */
 class AnimalHistory extends Model
