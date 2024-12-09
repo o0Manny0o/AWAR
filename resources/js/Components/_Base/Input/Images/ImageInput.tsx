@@ -17,6 +17,7 @@ import {
 } from '@dnd-kit/core'
 import { ImagePreview } from '@/Components/_Base/Input/Images/ImagePreview'
 import Media = App.Models.Media
+import { InputError } from '@/Components/_Base/Input'
 
 interface ImageInputProps {
     images: File[] | Media[]
@@ -146,6 +147,9 @@ export function ImageInput({ onChange, images, errors }: ImageInputProps) {
                     </div>
                 </SortableContext>
             </DndContext>
+            {errors && errors['images'] && (
+                <InputError message={errors['images']} className="mt-2" />
+            )}
         </div>
     )
 }

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Animals;
 
-use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\CreateDogRequest;
-use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Http\Requests\Animals\UpdateDogRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\Dog;
@@ -32,11 +30,9 @@ class DogController extends AnimalController
      * Store a newly created dog in storage.
      * @throws Throwable
      */
-    public function store(
-        CreateAnimalRequest $animalRequest,
-        CreateDogRequest $dogRequest,
-    ): RedirectResponse {
-        return parent::storeAnimal($animalRequest, $dogRequest, Dog::class);
+    public function store(CreateDogRequest $dogRequest): RedirectResponse
+    {
+        return parent::storeAnimal($dogRequest, Dog::class);
     }
 
     /**
@@ -44,10 +40,9 @@ class DogController extends AnimalController
      * @throws AuthorizationException|Throwable
      */
     public function update(
-        UpdateAnimalRequest $animalRequest,
         UpdateDogRequest $dogRequest,
         string $id,
     ): RedirectResponse {
-        return parent::updateAnimal($animalRequest, $dogRequest, $id);
+        return parent::updateAnimal($dogRequest, $id);
     }
 }

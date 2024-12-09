@@ -5,7 +5,7 @@ namespace App\Http\Requests\Animals;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCatRequest extends FormRequest
+class CreateCatRequest extends CreateAnimalRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,8 +14,8 @@ class CreateCatRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        return array_merge(parent::rules(), [
             'breed' => CatRules::breedRules(),
-        ];
+        ]);
     }
 }

@@ -136,8 +136,7 @@ class AnimalController extends Controller
      * @throws Throwable
      */
     public function updateAnimal(
-        UpdateAnimalRequest $animalRequest,
-        FormRequest $animalableRequest,
+        FormRequest $animalRequest,
         string $id,
     ): RedirectResponse {
         /** @var Animal|null $animal */
@@ -152,21 +151,17 @@ class AnimalController extends Controller
 
         $animal = tenancy()->central(function () use (
             $organisation,
-            $animalableRequest,
             $animalRequest,
             $animal,
         ) {
             return DB::transaction(function () use (
                 $organisation,
-                $animalableRequest,
                 $animalRequest,
                 $animal,
             ) {
-                $animalableValidated = $animalableRequest->validated();
-
-                $animal->animalable->update($animalableValidated);
-
                 $validated = $animalRequest->validated();
+
+                $animal->animalable->update($validated);
 
                 if ($validated['images']) {
                     $allMedia = $animal->fetchAllMedia();
@@ -287,8 +282,7 @@ class AnimalController extends Controller
      * @throws Throwable
      */
     protected function storeAnimal(
-        CreateAnimalRequest $animalRequest,
-        FormRequest $animalableRequest,
+        FormRequest $animalRequest,
         $class,
     ): RedirectResponse {
         $this->authorize('create', Animal::class);
@@ -298,20 +292,16 @@ class AnimalController extends Controller
         $animal = tenancy()->central(function () use (
             $organisation,
             $class,
-            $animalableRequest,
             $animalRequest,
         ) {
             return DB::transaction(function () use (
                 $organisation,
                 $class,
-                $animalableRequest,
                 $animalRequest,
             ) {
-                $animalableValidated = $animalableRequest->validated();
-
-                $animalable = $class::create($animalableValidated);
-
                 $validated = $animalRequest->validated();
+
+                $animalable = $class::create($validated);
 
                 /** @var Animal $animal */
                 $animal = $animalable->animal()->create(

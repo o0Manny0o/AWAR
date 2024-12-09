@@ -26,19 +26,3 @@ export function getArrayErrors(
         Object.entries(errors).filter(([key]) => key.startsWith(propertyKey)),
     )
 }
-
-export function mapErrorsToIds(
-    entries: { id: string }[],
-    errors?: Record<string, string>,
-) {
-    return Object.fromEntries(
-        Object.entries(errors ?? {}).map(([key, value]) => {
-            const idx: string | undefined = key.split('.')[1]
-            if (!idx || isNaN(parseInt(idx))) {
-                return [key, value]
-            }
-            const entry = entries[parseInt(idx)]
-            return [entry.id, value]
-        }),
-    )
-}
