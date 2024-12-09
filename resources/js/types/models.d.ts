@@ -125,4 +125,13 @@ declare namespace App.Models {
             breed: string
         }
     }
+
+    export interface History {
+        text: string
+        type: string
+        fields?: {
+            field: string
+            value: string
+        }[]
+    }
 }

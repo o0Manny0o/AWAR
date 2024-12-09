@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Animals\AnimalController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,10 +21,16 @@ Route::middleware([
         );
     });
 
-    Route::get('/animals', [
-        \App\Http\Controllers\Animals\AnimalController::class,
-        'browse',
-    ])->name('animals.browse');
+    Route::prefix('animals')
+        ->name('animals.')
+        ->group(function () {
+            Route::get('/', [AnimalController::class, 'browse'])->name(
+                'browse',
+            );
+            Route::get('{id}', [AnimalController::class, 'showPublic'])->name(
+                'show',
+            );
+        });
 
     Route::get('/language/{language}', function (Request $request, $language) {
         $availableLocales = array_map(

@@ -7,6 +7,7 @@ type Translations = {
     landing_page: Translations_Landing_page
     organisations: Translations_Organisations
     animals: Translations_Animals
+    history: Translations_History
 }
 type Translations_Auth = {
     failed: string
@@ -352,4 +353,23 @@ type Animals_Cats = {
     titles: TitlesOrTitles
     headers: TitlesOrHeadersOrHeadersOrHeaders
     form: FormOrForm
+}
+type Translations_History = {
+    changes: History_Changes
+    title: string
+}
+type History_Changes = {
+    internal: Changes_Internal
+    public: Changes_Public
+}
+type Changes_Internal = {
+    initial: string
+    update: string
+    delete: string
+    restore: string
+    publish: string
+    unpublish: string
+}
+type Changes_Public = {
+    initial: string
 }

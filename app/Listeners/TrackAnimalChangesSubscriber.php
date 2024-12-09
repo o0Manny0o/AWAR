@@ -2,9 +2,13 @@
 
 namespace App\Listeners;
 
+use App\Enum\AnimalHistoryType;
 use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalDeleted;
+use App\Events\Animals\AnimalPublished;
+use App\Events\Animals\AnimalUnpublished;
 use App\Events\Animals\AnimalUpdated;
+use App\Interface\Trackable;
 use App\Models\Animal\AnimalHistory;
 use Illuminate\Events\Dispatcher;
 
@@ -15,7 +19,39 @@ class TrackAnimalChangesSubscriber
      */
     public function handleAnimalCreated(AnimalCreated $event): void
     {
-        AnimalHistory::createInitialEntry($event);
+        /** @var Trackable $animalable */
+        $animalable = $event->animal->animalable;
+        $animal = $event->animal;
+
+        /** @var AnimalHistory $history */
+        $history = $animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'public' => true,
+        ]);
+        $history->changes()->createMany(
+            array_merge(
+                array_map(
+                    fn($col) => [
+                        'field' => $col,
+                        'value' => $animal[$col],
+                    ],
+                    array_filter(
+                        $animal->getTracked(),
+                        fn($col) => $animal[$col],
+                    ),
+                ),
+                array_map(
+                    fn($col) => [
+                        'field' => $col,
+                        'value' => $animalable[$col],
+                    ],
+                    array_filter(
+                        $animalable->getTracked(),
+                        fn($col) => $animalable[$col],
+                    ),
+                ),
+            ),
+        );
     }
 
     /**
@@ -23,7 +59,49 @@ class TrackAnimalChangesSubscriber
      */
     public function handleAnimalUpdated(AnimalUpdated $event): void
     {
-        AnimalHistory::createUpdateEntry($event);
+        /** @var Trackable $animalable */
+        $animalable = $event->animal->animalable;
+        $animal = $event->animal;
+
+        $animalChanges = array_intersect_key(
+            $event->changes,
+            array_flip($animal->getTracked()),
+        );
+        $animalableChanges = array_intersect_key(
+            $event->changes,
+            array_flip($animalable->getTracked()),
+        );
+
+        if (empty($animalChanges) && empty($animalableChanges)) {
+            return;
+        }
+
+        /** @var AnimalHistory $history */
+        $history = $animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'type' => AnimalHistoryType::UPDATE,
+        ]);
+
+        $history->changes()->createMany(
+            array_merge(
+                array_map(
+                    fn($col, $val) => [
+                        'field' => $col,
+                        'value' => $val,
+                    ],
+                    array_keys($animalChanges),
+                    array_values($animalChanges),
+                ),
+                array_map(
+                    fn($col, $val) => [
+                        'field' => $col,
+                        'value' => $val,
+                    ],
+                    array_keys($animalableChanges),
+                    array_values($animalableChanges),
+                ),
+            ),
+        );
     }
 
     /**
@@ -31,7 +109,35 @@ class TrackAnimalChangesSubscriber
      */
     public function handleAnimalDeleted(AnimalDeleted $event): void
     {
-        AnimalHistory::createDeleteEntry($event);
+        /** @var AnimalHistory $history */
+        $event->animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'type' => AnimalHistoryType::DELETE,
+        ]);
+    }
+
+    /**
+     * Handle the AnimalPublished event.
+     */
+    public function handleAnimalPublished(AnimalPublished $event): void
+    {
+        /** @var AnimalHistory $history */
+        $event->animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'type' => AnimalHistoryType::PUBLISH,
+        ]);
+    }
+
+    /**
+     * Handle the AnimalUnpublished event.
+     */
+    public function handleAnimalUnpublished(AnimalUnpublished $event): void
+    {
+        /** @var AnimalHistory $history */
+        $event->animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'type' => AnimalHistoryType::UNPUBLISH,
+        ]);
     }
 
     /**
@@ -52,6 +158,16 @@ class TrackAnimalChangesSubscriber
         $events->listen(AnimalDeleted::class, [
             TrackAnimalChangesSubscriber::class,
             'handleAnimalDeleted',
+        ]);
+
+        $events->listen(AnimalPublished::class, [
+            TrackAnimalChangesSubscriber::class,
+            'handleAnimalPublished',
+        ]);
+
+        $events->listen(AnimalUnpublished::class, [
+            TrackAnimalChangesSubscriber::class,
+            'handleAnimalUnpublished',
         ]);
     }
 }

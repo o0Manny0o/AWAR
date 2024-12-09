@@ -2,8 +2,11 @@
 
 namespace App\Enum;
 
+use App\Traits\HasValues;
+
 enum DefaultTenantUserRole: string
 {
+    use HasValues;
     case MEMBER = 'member';
     case ADMIN = 'admin';
     case ADOPTION_LEAD = 'adoption-lead';
@@ -12,15 +15,10 @@ enum DefaultTenantUserRole: string
     case FOSTER_HOME_HANDLER = 'foster-home-handler';
     case FOSTER_HOME = 'foster-home';
 
-    public static function values(): array
-    {
-        return array_column(self::cases(), 'value');
-    }
-
     function permissions(): array
     {
         return match ($this) {
-            self::ADMIN => array_column(TenantPermission::cases(), 'value'),
+            self::ADMIN => TenantPermission::values(),
             self::ADOPTION_LEAD => [
                 TenantPermission::EDIT_ANIMALS->value,
                 TenantPermission::DELETE_ANIMALS->value,

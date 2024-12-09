@@ -165,6 +165,12 @@ declare module 'ziggy-js' {
         'profile.update': []
         'profile.destroy': []
         'animals.browse': []
+        'animals.show': [
+            {
+                name: 'id'
+                required: true
+            },
+        ]
         language: [
             {
                 name: 'language'
