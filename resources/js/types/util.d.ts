@@ -23,3 +23,14 @@ type Paths<
                 : never
         }[keyof TEntity]
       : ''
+
+type SetDataAction<TForm> = setDataByObject<TForm> &
+    setDataByMethod<TForm> &
+    setDataByKeyValuePair<TForm>
+
+type setDataByObject<TForm> = (data: TForm) => void
+type setDataByMethod<TForm> = (data: (previousData: TForm) => TForm) => void
+type setDataByKeyValuePair<TForm> = <K extends keyof TForm>(
+    key: K,
+    value: TForm[K],
+) => void

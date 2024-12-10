@@ -4,9 +4,14 @@ namespace App\Models\Animal;
 
 use App\Interface\Trackable;
 use App\Models\Organisation;
+use App\Models\Scopes\TenantScope;
+use App\Models\Scopes\WithAnimalableScope;
 use App\Models\User;
+use App\Traits\HasMorphableScopes;
 use App\Traits\HasResourcePermissions;
+use App\Traits\OptionalAppends;
 use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -76,13 +81,16 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|Animal whereSex($value)
  * @mixin \Eloquent
  */
+#[ScopedBy([TenantScope::class, WithAnimalableScope::class])]
 class Animal extends Model implements Trackable
 {
     use CentralConnection,
         HasResourcePermissions,
         HasUuids,
         SoftDeletes,
-        MediaAlly;
+        MediaAlly,
+        HasMorphableScopes,
+        OptionalAppends;
 
     protected $fillable = [
         'name',
@@ -92,9 +100,9 @@ class Animal extends Model implements Trackable
         'bio',
         'abstract',
         'published_at',
+        'family_id',
     ];
 
-    protected $with = ['animalable'];
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
 
     protected $tracked = [
@@ -102,6 +110,7 @@ class Animal extends Model implements Trackable
         'date_of_birth',
         'organisation_id',
         'bio',
+        'sex',
         'abstract',
         'published_at',
         'added_media',
@@ -117,31 +126,6 @@ class Animal extends Model implements Trackable
         'gallery',
         'images',
     ];
-
-    /**
-     * Returns all the dogs
-     * @return Animal|Builder
-     */
-    public static function dogs(): Animal|Builder
-    {
-        return self::subtype(Dog::class);
-    }
-
-    private static function subtype($class): Builder|Animal
-    {
-        return self::where('animalable_type', $class)->whereOrganisationId(
-            tenant()->id,
-        );
-    }
-
-    /**
-     * Returns all the cats
-     * @return Animal|Builder
-     */
-    public static function cats(): Animal|Builder
-    {
-        return self::subtype(Cat::class);
-    }
 
     /**
      * @return string[]
@@ -190,6 +174,13 @@ class Animal extends Model implements Trackable
                 ->namedTransformation('none')
                 ->toUrl();
         });
+    }
+
+    public function scopeAsOption(Builder $builder): void
+    {
+        $builder
+            ->withoutGlobalScope(WithAnimalableScope::class)
+            ->select(['id', 'name', 'sex']);
     }
 
     /**
@@ -243,5 +234,22 @@ class Animal extends Model implements Trackable
     protected function images(): Attribute
     {
         return Attribute::make(get: fn() => $this->fetchGallery());
+    }
+
+    public function paternalFamilies()
+    {
+        return $this->hasMany(AnimalFamily::class, 'father_id');
+    }
+    public function maternalFamilies()
+    {
+        return $this->hasMany(AnimalFamily::class, 'mother_id');
+    }
+
+    /**
+     * The family that the animal belongs to.
+     */
+    public function family(): BelongsTo
+    {
+        return $this->belongsTo(AnimalFamily::class);
     }
 }

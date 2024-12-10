@@ -1,7 +1,10 @@
 interface AnimalFormData {
     name: string
     date_of_birth: string
-    family: { id: string; name: string }
+    sex: 'male' | 'female'
+    family?: string | null
+    mother?: string | null
+    father?: string | null
     bio: string
     abstract: string
     images: (string | File)[]

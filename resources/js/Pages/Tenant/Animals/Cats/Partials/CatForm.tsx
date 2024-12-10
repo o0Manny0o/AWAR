@@ -6,12 +6,18 @@ import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import { CatFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
 import { ImageInput } from '@/Components/_Base/Input/Images/ImageInput'
 import { getArrayErrors } from '@/shared/util'
+import SelectGroup from '@/Components/_Base/Input/SelectGroup'
+import useAnimalOptions from '@/shared/hooks/useAnimalOptions'
+import { usePage } from '@inertiajs/react'
 import Media = App.Models.Media
+import Family = App.Models.Family
+import Animal = App.Models.Animal
+import { FamilyGroup } from '@/Components/_Base/Input/FamilyGroup'
 
 interface CatFormProps {
     formId: string
     data: CatFormData
-    setData: (key: string, value: any) => void
+    setData: SetDataAction<CatFormData>
     errors: Errors<CatFormData>
     submitHandler: FormEventHandler
     images?: Media[]
@@ -31,6 +37,13 @@ export function CatForm({
     const {
         refs: { name, breed, date_of_birth, bio, abstract },
     } = useContext(CatFormWrapper.Context)
+    const { families, animals } =
+        usePage<AppPageProps<{ families: Family[]; animals: Animal[] }>>().props
+
+    const { males: fathers, females: mothers } = useAnimalOptions(animals, {
+        ...data,
+        name: data.name || 'This Dog',
+    })
 
     return (
         <form id={formId} onSubmit={submitHandler}>
@@ -65,6 +78,19 @@ export function CatForm({
                         error={errors.date_of_birth}
                         type={'date'}
                         onChange={(value) => setData('date_of_birth', value)}
+                    />
+                    <SelectGroup
+                        name={'sex'}
+                        options={[
+                            { value: 'female', label: 'Female' },
+                            { value: 'male', label: 'Male' },
+                        ]}
+                        value={data.sex}
+                        onChange={(e) =>
+                            setData('sex', e.target.value as 'female' | 'male')
+                        }
+                        error={errors.sex}
+                        label={'sex'}
                     />
                 </Card>
 
@@ -103,6 +129,17 @@ export function CatForm({
                             )
                         }}
                         errors={getArrayErrors(errors, 'images')}
+                    />
+                </Card>
+
+                <Card header={__('animals.dogs.form.family.header')}>
+                    <FamilyGroup
+                        families={families}
+                        mothers={mothers}
+                        fathers={fathers}
+                        data={data}
+                        setData={setData}
+                        errors={errors}
                     />
                 </Card>
             </div>

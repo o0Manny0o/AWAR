@@ -3,16 +3,21 @@ import { useForm } from '@inertiajs/react'
 import { DogFormWrapper } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
 import useFormContext from '@/shared/hooks/useFormContext'
 import { DogForm } from '@/Pages/Tenant/Animals/Dogs/Partials/DogForm'
+import { DogFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
 
 export default function CreateDogForm({ formId }: { formId: string }) {
     const { data, setData, errors, post, reset, processing, clearErrors } =
-        useForm({
+        useForm<DogFormData>({
             name: '',
             date_of_birth: '',
             breed: '',
+            sex: 'female',
             bio: '',
             abstract: '',
             images: [],
+            family: undefined,
+            father: undefined,
+            mother: undefined,
         })
 
     const { focusError } = useFormContext(DogFormWrapper, processing)

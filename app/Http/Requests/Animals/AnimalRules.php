@@ -2,14 +2,17 @@
 
 namespace App\Http\Requests\Animals;
 
+use App\Models\Animal\Animal;
+use App\Models\Animal\AnimalFamily;
 use App\Rules\ImageOrDatabaseEntry;
+use App\Rules\ModelUuidOrNew;
 use Illuminate\Validation\Rule;
 
 class AnimalRules
 {
     public static function nameRules(): array
     {
-        return ['required', 'string', 'max:255'];
+        return ['required', 'string', 'max:255', 'not_regex:/^(\d*)$/'];
     }
 
     public static function dateOfBirthRules(): array
@@ -46,26 +49,43 @@ class AnimalRules
 
     public static function parentRules(): array
     {
+        return ['nullable', 'uuid', Rule::exists(Animal::class, 'id')];
+    }
+
+    public static function fatherRules(): array
+    {
         return [
             'nullable',
-            Rule::exists('animals', 'id')->whereNot(
-                'id',
-                request()->route('animal'),
+            new ModelUuidOrNew(
+                table: Animal::class,
+                newRules: ['regex:/^0$/'],
+                column: 'id',
+            ),
+        ];
+    }
+    public static function motherRules(): array
+    {
+        return [
+            'exclude_without:family',
+            'required',
+            new ModelUuidOrNew(
+                table: Animal::class,
+                newRules: ['regex:/^0$/'],
+                column: 'id',
             ),
         ];
     }
 
     public static function familyRules(): array
     {
-        return ['nullable', 'string', 'max:255'];
-    }
-
-    public static function relationRules(): array
-    {
         return [
-            'exclude_without:family',
-            'required',
-            Rule::in('father', 'mother', 'child'),
+            'sometimes',
+            'nullable',
+            new ModelUuidOrNew(
+                table: AnimalFamily::class,
+                newRules: ['required', 'string', 'max:255'],
+                column: 'id',
+            ),
         ];
     }
 }

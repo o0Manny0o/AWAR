@@ -1,18 +1,23 @@
 import { Card } from '@/Components/Layout/Card'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
 import useTranslate from '@/shared/hooks/useTranslate'
-import { FormEventHandler, useContext } from 'react'
+import { Dispatch, FormEventHandler, useContext } from 'react'
 import { DogFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
 import { DogFormWrapper } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
 import { ImageInput } from '@/Components/_Base/Input/Images/ImageInput'
-import Media = App.Models.Media
 import { getArrayErrors } from '@/shared/util'
-import CreatableGroup from '@/Components/_Base/Input/CreatableGroup'
+import { usePage } from '@inertiajs/react'
+import useAnimalOptions from '@/shared/hooks/useAnimalOptions'
+import { FamilyGroup } from '@/Components/_Base/Input/FamilyGroup'
+import SelectGroup from '@/Components/_Base/Input/SelectGroup'
+import Media = App.Models.Media
+import Family = App.Models.Family
+import Animal = App.Models.Animal
 
 interface DogFormProps {
     formId: string
     data: DogFormData
-    setData: (key: string, value: any) => void
+    setData: SetDataAction<DogFormData>
     errors: Errors<DogFormData>
     submitHandler: FormEventHandler
     images?: Media[]
@@ -30,15 +35,15 @@ export function DogForm({
 }: DogFormProps) {
     const __ = useTranslate()
     const {
-        refs: { name, breed, date_of_birth, bio, abstract, family },
+        refs: { name, breed, date_of_birth, bio, abstract },
     } = useContext(DogFormWrapper.Context)
+    const { families, animals } =
+        usePage<AppPageProps<{ families: Family[]; animals: Animal[] }>>().props
 
-    // TODO: REMOVE
-    const options = [
-        { id: '1', name: 'K', father: { name: 'father' } },
-        { id: '2', name: 'L', mother: { name: 'mother' } },
-        { id: '3', name: 'M', children: [{ name: 'children' }] },
-    ]
+    const { males: fathers, females: mothers } = useAnimalOptions(animals, {
+        ...data,
+        name: data.name || 'This Dog',
+    })
 
     return (
         <form id={formId} onSubmit={submitHandler}>
@@ -73,6 +78,19 @@ export function DogForm({
                         error={errors.date_of_birth}
                         type={'date'}
                         onChange={(value) => setData('date_of_birth', value)}
+                    />
+                    <SelectGroup
+                        name={'sex'}
+                        options={[
+                            { value: 'female', label: 'Female' },
+                            { value: 'male', label: 'Male' },
+                        ]}
+                        value={data.sex}
+                        onChange={(e) =>
+                            setData('sex', e.target.value as 'female' | 'male')
+                        }
+                        error={errors.sex}
+                        label={'sex'}
                     />
                 </Card>
                 <Card>
@@ -114,21 +132,13 @@ export function DogForm({
                 </Card>
 
                 <Card header={__('animals.dogs.form.family.header')}>
-                    {data.family?.id}
-                    <CreatableGroup
-                        options={options}
-                        name="family"
-                        placeholder={__('animals.dogs.form.family.placeholder')}
-                        value={data.family}
-                        ref={family}
-                        label={__('animals.dogs.form.family.label')}
-                        error={errors.family}
-                        onChange={(value) => setData('family', value)}
-                        description={(value) =>
-                            value.mother?.name ??
-                            value.father?.name ??
-                            value.children?.length
-                        }
+                    <FamilyGroup
+                        families={families}
+                        mothers={mothers}
+                        fathers={fathers}
+                        data={data}
+                        setData={setData}
+                        errors={errors}
                     />
                 </Card>
             </div>

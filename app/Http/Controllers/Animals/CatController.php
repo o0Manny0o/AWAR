@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Animals;
 
 use App\Http\Requests\Animals\CreateCatRequest;
-use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Http\Requests\Animals\UpdateCatRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\Cat;
+use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,9 +31,11 @@ class CatController extends AnimalController
      * Store a newly created dog in storage.
      * @throws AuthorizationException|Throwable
      */
-    public function store(CreateCatRequest $catRequest): RedirectResponse
-    {
-        return parent::storeAnimal($catRequest, Cat::class);
+    public function store(
+        AnimalService $animalService,
+        CreateCatRequest $catRequest,
+    ): RedirectResponse {
+        return parent::storeAnimal($animalService, $catRequest, Cat::class);
     }
 
     /**
@@ -45,5 +47,14 @@ class CatController extends AnimalController
         string $id,
     ): RedirectResponse {
         return parent::updateAnimal($catRequest, $id);
+    }
+
+    /**
+     * Show the form for creating a new cat.
+     * @throws AuthorizationException
+     */
+    public function create(): Response
+    {
+        return parent::createAnimal(Cat::class);
     }
 }

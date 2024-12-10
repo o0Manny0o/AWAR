@@ -6,6 +6,7 @@ use App\Http\Requests\Animals\CreateDogRequest;
 use App\Http\Requests\Animals\UpdateDogRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\Dog;
+use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,9 +31,11 @@ class DogController extends AnimalController
      * Store a newly created dog in storage.
      * @throws Throwable
      */
-    public function store(CreateDogRequest $dogRequest): RedirectResponse
-    {
-        return parent::storeAnimal($dogRequest, Dog::class);
+    public function store(
+        AnimalService $animalService,
+        CreateDogRequest $dogRequest,
+    ): RedirectResponse {
+        return parent::storeAnimal($animalService, $dogRequest, Dog::class);
     }
 
     /**
@@ -44,5 +47,14 @@ class DogController extends AnimalController
         string $id,
     ): RedirectResponse {
         return parent::updateAnimal($dogRequest, $id);
+    }
+
+    /**
+     * Show the form for creating a new dog.
+     * @throws AuthorizationException
+     */
+    public function create(): Response
+    {
+        return parent::createAnimal(Dog::class);
     }
 }

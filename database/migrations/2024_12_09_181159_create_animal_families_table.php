@@ -13,11 +13,11 @@ return new class extends Migration {
         Schema::create('animal_families', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->boolean('siblings_grouped')->default(false);
-
-            $table->string('name')->nullable();
+            $table->string('name');
             $table->text('bio')->nullable();
             $table->text('abstract')->nullable();
+
+            $table->string('family_type')->index();
 
             $table
                 ->foreignUuid('father_id')
@@ -32,6 +32,12 @@ return new class extends Migration {
                 ->constrained('animals')
                 ->cascadeOnUpdate()
                 ->nullOnDelete();
+
+            $table
+                ->foreignUuid('organisation_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->timestamps();
         });

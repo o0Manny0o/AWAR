@@ -22,8 +22,8 @@ class CreateAnimalRequest extends FormRequest
             'abstract' => AnimalRules::abstractRules(),
             'images' => AnimalRules::imagesRules(),
             'images.*' => AnimalRules::imageRules(),
-            'father' => AnimalRules::parentRules(),
-            'mother' => AnimalRules::parentRules(),
+            'father' => AnimalRules::fatherRules(),
+            'mother' => AnimalRules::motherRules(),
             'family' => AnimalRules::familyRules(),
         ];
     }
