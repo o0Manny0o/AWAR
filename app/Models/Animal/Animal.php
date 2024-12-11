@@ -116,6 +116,11 @@ class Animal extends Model implements Trackable
         'published_at',
         'added_media',
         'removed_media',
+        'animal_family_id',
+        'father_added',
+        'mother_added',
+        'father_removed',
+        'mother_removed',
     ];
 
     protected $appends = [
@@ -270,10 +275,10 @@ class Animal extends Model implements Trackable
 
     public function getFatherAttribute()
     {
-        return $this->family?->pluck('father_id')->first();
+        return $this->family()->pluck('father_id')->first();
     }
     public function getMotherAttribute()
     {
-        return $this->family?->pluck('mother_id')->first();
+        return $this->family()->pluck('mother_id')->first();
     }
 }

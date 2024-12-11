@@ -17,6 +17,7 @@ class AnimalCreated
      */
     public function __construct(
         public Animal $animal,
+        public array $familyChanges,
         public Authenticatable $user,
     ) {
         //

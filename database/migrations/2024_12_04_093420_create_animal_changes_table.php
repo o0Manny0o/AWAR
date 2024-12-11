@@ -23,6 +23,8 @@ return new class extends Migration {
                 ->cascadeOnUpdate();
 
             $table->timestamp('created_at')->useCurrent();
+
+            $table->unique(['animal_history_id', 'field']);
         });
     }
 

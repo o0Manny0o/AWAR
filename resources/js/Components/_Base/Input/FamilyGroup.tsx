@@ -30,9 +30,9 @@ export function FamilyGroup<TForm extends Record<string, any>>({
                 canCreate
                 options={families}
                 name="family"
-                placeholder={__('animals.dogs.form.family.placeholder')}
+                placeholder={__('animals.form.family.placeholder')}
                 value={data.family}
-                label={__('animals.dogs.form.family.label')}
+                label={__('animals.form.family.label')}
                 error={errors.family}
                 onChange={(value) => {
                     setData((prev) => ({

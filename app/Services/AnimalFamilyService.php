@@ -14,13 +14,14 @@ class AnimalFamilyService
         FormRequest $request,
         Animal $animal,
         Organisation $organisation,
-    ): void {
+    ): array {
         $validated = $request->validated();
 
-        // Family removed from animal
+        // Family removed from animal (only removes if animal was child)
+        // TODO: Add better support for managing parental families with separate form field
         if (!isset($validated['family'])) {
             $animal->family()->dissociate();
-            return;
+            return [];
         }
 
         /** $validated['mother'] & $validated['father']
@@ -48,6 +49,36 @@ class AnimalFamilyService
                 mother: $mother,
                 father: $father,
             );
+            $changes = $family->getDirty();
+            $prev = $family->getOriginal();
+            $animalChanges = [];
+
+            if (isset($changes['father_id'])) {
+                if (isset($prev['father_id'])) {
+                    $animalChanges[$prev['father_id']] = [
+                        'father_removed' => $family->id,
+                    ];
+                }
+                if ($changes['father_id']) {
+                    $animalChanges[$changes['father_id']] = [
+                        'father_added' => $family->id,
+                    ];
+                }
+            }
+
+            if (isset($changes['mother_id'])) {
+                if (isset($prev['mother_id'])) {
+                    $animalChanges[$prev['mother_id']] = [
+                        'mother_removed' => $family->id,
+                    ];
+                }
+                if ($changes['mother_id']) {
+                    $animalChanges[$changes['mother_id']] = [
+                        'mother_added' => $family->id,
+                    ];
+                }
+            }
+            $family->save();
         } else {
             $family = $this->createFamily(
                 name: $validated['family'],
@@ -56,6 +87,20 @@ class AnimalFamilyService
                 organisation: $organisation,
                 type: $animal->animalable_type,
             );
+            $animalChanges = array_merge([
+                $animal->id => [
+                    'father_added' =>
+                        $father === $animal->id ? $family->id : null,
+                    'mother_added' =>
+                        $mother === $animal->id ? $family->id : null,
+                ],
+                $father !== $animal->id
+                    ? [$father => ['father_added' => true]]
+                    : [],
+                $mother !== $animal->id
+                    ? [$mother => ['mother_added' => true]]
+                    : [],
+            ]);
         }
 
         if (!$isParent) {
@@ -64,6 +109,8 @@ class AnimalFamilyService
             $animal->family()->dissociate();
         }
         $animal->save();
+
+        return $animalChanges;
     }
 
     public function updateFamily($id, $mother, $father): AnimalFamily
@@ -73,7 +120,7 @@ class AnimalFamilyService
 
         $family->mother()->associate($mother);
         $family->father()->associate($father);
-        $family->save();
+        //        $family->save();
 
         return $family;
     }

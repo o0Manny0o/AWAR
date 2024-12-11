@@ -41,6 +41,8 @@ class AnimalService
 
                 $animalable = $class::create($validated);
 
+                $changes = [];
+
                 /** @var Animal $animal */
                 $animal = $animalable->animal()->create(
                     array_merge($validated, [
@@ -49,11 +51,23 @@ class AnimalService
                 );
 
                 if (isset($validated['family'])) {
-                    $this->animalFamilyService->createOrUpdateFamily(
+                    $changes = $this->animalFamilyService->createOrUpdateFamily(
                         $animalRequest,
                         $animal,
                         $organisation,
                     );
+
+                    $changedAnimals = array_diff_key(
+                        $changes,
+                        array_flip([$animal->id]),
+                    );
+
+                    foreach ($changedAnimals as $id => $change) {
+                        $a = Animal::find($id);
+                        if ($a) {
+                            AnimalUpdated::dispatch($a, $change, Auth::user());
+                        }
+                    }
                 }
 
                 try {
@@ -66,7 +80,13 @@ class AnimalService
                     throw new \Exception('Image upload failed');
                 }
 
-                AnimalCreated::dispatch($animal, Auth::user());
+                AnimalCreated::dispatch(
+                    $animal,
+                    array_key_exists($animal->id, $changes)
+                        ? $changes[$animal->id]
+                        : [],
+                    Auth::user(),
+                );
 
                 return $animal;
             }, 5);
@@ -133,11 +153,23 @@ class AnimalService
                     }
                 }
 
-                $this->animalFamilyService->createOrUpdateFamily(
+                $changes = $this->animalFamilyService->createOrUpdateFamily(
                     $animalRequest,
                     $animal,
                     $organisation,
                 );
+
+                $changedAnimals = array_diff_key(
+                    $changes,
+                    array_flip([$animal->id]),
+                );
+
+                foreach ($changedAnimals as $id => $change) {
+                    $a = Animal::find($id);
+                    if ($a) {
+                        AnimalUpdated::dispatch($a, $change, Auth::user());
+                    }
+                }
 
                 $animal->update($validated);
 

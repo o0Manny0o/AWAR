@@ -224,9 +224,7 @@
                     "label": "Kurzbeschreibung"
                 },
                 "family": {
-                    "header": "Familie",
-                    "placeholder": "Geben Sie den Familiennamen ein",
-                    "label": "Wählen oder erstellen Sie eine Familie"
+                    "header": "Familie"
                 }
             }
         },
@@ -264,6 +262,12 @@
                 "family": {
                     "header": "Familie"
                 }
+            }
+        },
+        "form": {
+            "family": {
+                "placeholder": "Geben Sie den Familiennamen ein",
+                "label": "Wählen oder erstellen Sie eine Familie"
             }
         }
     },
