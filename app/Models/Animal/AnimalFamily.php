@@ -43,6 +43,14 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|AnimalFamily whereAbstract($value)
  * @method static Builder<static>|AnimalFamily whereBio($value)
  * @method static Builder<static>|AnimalFamily whereName($value)
+ * @property string $family_type
+ * @property string $organisation_id
+ * @property-read Organisation $organisation
+ * @method static Builder<static>|AnimalFamily cats()
+ * @method static Builder<static>|AnimalFamily dogs()
+ * @method static Builder<static>|AnimalFamily subtype(string $type)
+ * @method static Builder<static>|AnimalFamily whereFamilyType($value)
+ * @method static Builder<static>|AnimalFamily whereOrganisationId($value)
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class, WithRelativesScope::class])]

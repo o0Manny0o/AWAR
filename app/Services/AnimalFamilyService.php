@@ -87,20 +87,22 @@ class AnimalFamilyService
                 organisation: $organisation,
                 type: $animal->animalable_type,
             );
-            $animalChanges = array_merge([
-                $animal->id => [
-                    'father_added' =>
-                        $father === $animal->id ? $family->id : null,
-                    'mother_added' =>
-                        $mother === $animal->id ? $family->id : null,
+            $animalChanges = array_merge(
+                [
+                    $animal->id => [
+                        'father_added' =>
+                            $father === $animal->id ? $family->id : null,
+                        'mother_added' =>
+                            $mother === $animal->id ? $family->id : null,
+                    ],
                 ],
-                $father !== $animal->id
+                $father && $father !== $animal->id
                     ? [$father => ['father_added' => true]]
                     : [],
-                $mother !== $animal->id
+                $father && $mother !== $animal->id
                     ? [$mother => ['mother_added' => true]]
                     : [],
-            ]);
+            );
         }
 
         if (!$isParent) {

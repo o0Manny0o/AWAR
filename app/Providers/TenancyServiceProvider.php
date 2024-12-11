@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Jobs\DeleteMedia;
 use App\Listeners\UpdateSyncedResource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -45,7 +46,10 @@ class TenancyServiceProvider extends ServiceProvider
             Events\TenantUpdated::class => [],
             Events\DeletingTenant::class => [],
             Events\TenantDeleted::class => [
-                JobPipeline::make([Jobs\DeleteDatabase::class])
+                JobPipeline::make([
+                    DeleteMedia::class,
+                    Jobs\DeleteDatabase::class,
+                ])
                     ->send(function (Events\TenantDeleted $event) {
                         return $event->tenant;
                     })

@@ -264,7 +264,7 @@
                 }
             }
         },
-        "form": {
+        "form_general": {
             "family": {
                 "placeholder": "Geben Sie den Familiennamen ein",
                 "label": "Wählen oder erstellen Sie eine Familie"

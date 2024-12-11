@@ -79,6 +79,18 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @property string|null $animal_family_id
  * @method static Builder<static>|Animal whereAnimalFamilyId($value)
  * @method static Builder<static>|Animal whereSex($value)
+ * @property-read \App\Models\Animal\AnimalFamily|null $family
+ * @property-read mixed $father
+ * @property-read mixed $mother
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalFamily> $maternalFamilies
+ * @property-read int|null $maternal_families_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalFamily> $paternalFamilies
+ * @property-read int|null $paternal_families_count
+ * @method static Builder<static>|Animal asOption()
+ * @method static Builder<static>|Animal cats()
+ * @method static Builder<static>|Animal dogs()
+ * @method static Builder<static>|Animal subtype(string $type)
+ * @method static Builder<static>|Animal withMedia()
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class, WithAnimalableScope::class])]

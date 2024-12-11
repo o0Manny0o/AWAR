@@ -47,11 +47,6 @@ class AnimalRules
         ];
     }
 
-    public static function parentRules(): array
-    {
-        return ['nullable', 'uuid', Rule::exists(Animal::class, 'id')];
-    }
-
     public static function fatherRules(): array
     {
         return [

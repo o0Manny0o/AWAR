@@ -290,8 +290,8 @@ type RegisteredOrToken = {
 type Organisations_Invitations = {
     mail: Invitations_Mail
     form: Invitations_Form
-    titles: TitlesOrHeadersOrHeadersOrHeaders
-    headers: TitlesOrHeadersOrHeadersOrHeaders
+    titles: TitlesOrHeaders
+    headers: TitlesOrHeaders
     messages: Invitations_Messages
 }
 type Invitations_Mail = {
@@ -307,7 +307,7 @@ type Invitations_Form = {
     token: RegisteredOrToken
     cancel_create: string
 }
-type TitlesOrHeadersOrHeadersOrHeaders = {
+type TitlesOrHeaders = {
     create: string
     index: string
 }
@@ -331,36 +331,36 @@ type Organisations_Dashboard = {
 type Translations_Animals = {
     dogs: Animals_Dogs
     cats: Animals_Cats
-    form: Animals_Form
+    form_general: Animals_Form_general
 }
 type Animals_Dogs = {
-    headers: TitlesOrHeadersOrHeadersOrHeaders
-    titles: TitlesOrTitles
-    form: FormOrForm
+    headers: TitlesOrHeaders
+    titles: Titles
+    form: Form
 }
-type TitlesOrTitles = {
+type Titles = {
     index: string
     create: string
     edit: string
 }
-type FormOrForm = {
+type Form = {
     name: Form_Set
     breed: Form_Set
     date_of_birth: Form_Set
     bio: Form_Set
     abstract: Form_Set
-    family: FamilyOrFamily
+    family: Family
 }
-type FamilyOrFamily = {
+type Family = {
     header: string
 }
 type Animals_Cats = {
-    titles: TitlesOrTitles
-    headers: TitlesOrHeadersOrHeadersOrHeaders
-    form: FormOrForm
+    titles: Titles
+    headers: TitlesOrHeaders
+    form: Form
 }
-type Animals_Form = {
-    family: FamilyOrFamily
+type Animals_Form_general = {
+    family: Form_Set
 }
 type Translations_History = {
     changes: History_Changes
