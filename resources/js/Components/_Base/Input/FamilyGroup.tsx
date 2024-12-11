@@ -2,6 +2,7 @@ import AutocompleteGroup from '@/Components/_Base/Input/AutocompleteGroup'
 import useTranslate from '@/shared/hooks/useTranslate'
 import Family = App.Models.Family
 import Animal = App.Models.Animal
+import { usePage } from '@inertiajs/react'
 
 interface FamilyGroupProps<TForm> {
     families: Family[]
@@ -21,10 +22,12 @@ export function FamilyGroup<TForm extends Record<string, any>>({
     errors,
 }: FamilyGroupProps<TForm>) {
     const __ = useTranslate()
+    const { locale } = usePage().props
 
     return (
         <>
             <AutocompleteGroup
+                canCreate
                 options={families}
                 name="family"
                 placeholder={__('animals.dogs.form.family.placeholder')}
@@ -39,19 +42,9 @@ export function FamilyGroup<TForm extends Record<string, any>>({
                         father: value?.father?.id ?? null,
                     }))
                 }}
-                description={(value: Family) => {
-                    let description = ''
-                    if (value.mother) {
-                        description += ` Mother: ${value.mother.name}`
-                    }
-                    if (value.children_count > 0) {
-                        description += ` Siblings: ${value.children_count}`
-                    }
-                    if (value.father) {
-                        description += ` Father: ${value.father.name}`
-                    }
-                    return description
-                }}
+                description={(value: Family) =>
+                    `Created ${new Date(value.updated_at).toLocaleDateString(locale)} ${value.mother ? 'Mother: ' + value.mother.name : ''}`
+                }
             />
 
             {data.family && (
@@ -62,7 +55,7 @@ export function FamilyGroup<TForm extends Record<string, any>>({
                         label={'mother'}
                         value={data.mother ?? ''}
                         error={errors.mother}
-                        onChange={(value) =>
+                        onChange={(value) => {
                             setData((prev) => ({
                                 ...prev,
                                 mother: value?.id,
@@ -71,7 +64,8 @@ export function FamilyGroup<TForm extends Record<string, any>>({
                                         ? null
                                         : prev.father,
                             }))
-                        }
+                        }}
+                        withEmptyOption={'Unknown'}
                     />
 
                     <AutocompleteGroup
@@ -90,6 +84,7 @@ export function FamilyGroup<TForm extends Record<string, any>>({
                                         : prev.mother,
                             }))
                         }}
+                        withEmptyOption={'Unknown'}
                     />
                 </>
             )}

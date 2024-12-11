@@ -14,7 +14,6 @@ use App\Models\Animal\AnimalHistory;
 use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,6 +24,12 @@ use Throwable;
 
 class AnimalController extends Controller
 {
+    protected string $morphClass;
+
+    public function __construct(protected readonly AnimalService $animalService)
+    {
+    }
+
     /**
      * Display the specified resource.
      * @throws AuthorizationException
@@ -277,15 +282,14 @@ class AnimalController extends Controller
      * Display a listing of the resource.
      * @throws AuthorizationException
      */
-    protected function showIndex(
-        Request $request,
-        Collection $animals,
-    ): Response {
+    public function index(Request $request): Response
+    {
         $this->authorize('viewAny', Animal::class);
 
-        foreach ($animals as $animal) {
-            $animal->setPermissions($request->user());
-        }
+        $animals = $this->animalService->loadAnimalsWithPermissions(
+            $this->morphClass,
+            $request->user(),
+        );
 
         return AppInertia::render($this->getIndexView(), [
             'animals' => $animals,
@@ -317,15 +321,17 @@ class AnimalController extends Controller
      * Show the form for creating a new animal.
      * @throws AuthorizationException
      */
-    public function createAnimal($class): Response
+    public function create(): Response
     {
         $this->authorize('create', Animal::class);
 
         Animal::$withoutAppends = true;
 
-        $families = AnimalFamily::subtype($class)->get();
+        $families = AnimalFamily::subtype($this->morphClass)->get();
 
-        $animals = Animal::subtype($class)->asOption()->get();
+        $animals = Animal::subtype($this->morphClass)
+            ->asOption()
+            ->get();
 
         return AppInertia::render($this->getCreateView(), [
             'families' => $families,

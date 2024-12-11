@@ -142,5 +142,7 @@ declare namespace App.Models {
         father?: { id: string; name: string }
         mother?: { id: string; name: string }
         children_count: number
+        created_at: string
+        updated_at: string
     }
 }

@@ -17,36 +17,30 @@ interface InputGroupProps<T extends Option> {
     readOnly?: boolean
     description?: (value: T) => ReactNode
     canCreate?: boolean
+    withEmptyOption?: string
 }
 
 export default function AutocompleteGroup<T extends Option>({
     name,
     label,
-    value,
     onChange,
     error,
-    placeholder,
     className = '',
     readOnly = false,
-    description,
-    options,
-    canCreate,
+    ...props
 }: InputGroupProps<T>) {
     return (
         <div>
             <InputLabel htmlFor={name} value={label} />
 
             <AutocompleteInput
-                options={options}
+                {...props}
                 id={name}
-                value={value}
+                name={name}
                 maxLength={255}
                 onChange={(value) => onChange?.(value)}
-                placeholder={placeholder}
                 className={twMerge('block w-full', className)}
                 readOnly={readOnly}
-                description={description}
-                canCreate={canCreate}
             />
 
             <InputError message={error} className="mt-2" />

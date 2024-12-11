@@ -348,11 +348,20 @@ type FormOrForm = {
     date_of_birth: Form_Set
     bio: Form_Set
     abstract: Form_Set
+    family: Form_Family
+}
+type Form_Family = {
+    header: string
+    placeholder: string
+    label: string
 }
 type Animals_Cats = {
     titles: TitlesOrTitles
     headers: TitlesOrHeadersOrHeadersOrHeaders
     form: FormOrForm
+}
+type Form_Family = {
+    header: string
 }
 type Translations_History = {
     changes: History_Changes

@@ -7,7 +7,6 @@ export default function useAnimalOptions(
 ) {
     const females: Animal[] = useMemo(
         () => [
-            { id: '', name: 'Unknown' } as Animal,
             ...(self?.sex === 'female'
                 ? [
                       {
@@ -22,7 +21,6 @@ export default function useAnimalOptions(
     )
     const males: Animal[] = useMemo(
         () => [
-            { id: '', name: 'Unknown' } as Animal,
             ...(self?.sex === 'male'
                 ? [
                       {

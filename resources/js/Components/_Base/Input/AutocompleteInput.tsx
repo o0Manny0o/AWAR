@@ -4,10 +4,10 @@ import {
     Combobox,
     ComboboxButton,
     ComboboxInput,
-    ComboboxOption,
     ComboboxOptions,
 } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
+import { ChevronUpDownIcon } from '@heroicons/react/24/solid'
+import { AutocompleteInputOption } from '@/Components/_Base/Input/AutocompleteInputOption'
 
 export type Option = {
     id: string
@@ -20,6 +20,7 @@ interface CreatableInputProps<T extends Option> {
     value?: string | null
     description?: (value: T) => ReactNode
     canCreate?: boolean
+    withEmptyOption?: string
 }
 
 export default function AutocompleteInput<T extends Option>({
@@ -30,14 +31,40 @@ export default function AutocompleteInput<T extends Option>({
     name,
     description,
     canCreate,
+    withEmptyOption,
     ...props
 }: Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'type'> &
     CreatableInputProps<T>) {
+    const findOptionById = (id?: string | null) => {
+        return (
+            options.find((option) => option.id === id || (!id && !option.id)) ??
+            (withEmptyOption
+                ? ({
+                      id: '',
+                      name: withEmptyOption,
+                  } as T)
+                : null)
+        )
+    }
+
     const [selectedOption, setSelectedOption] = useState<T | null>(
-        value ? (options.find((option) => option.id === value) ?? null) : null,
+        findOptionById(value),
     )
 
+    useEffect(() => {
+        // Value changed externally
+        if (value !== selectedOption?.id) {
+            setSelectedOption(findOptionById(value))
+        }
+    }, [value])
+
     const [query, setQuery] = useState('')
+
+    const optionExists = (q: string) => {
+        return !!options.find(
+            (option) => option.name.toLowerCase() === q.toLowerCase(),
+        )
+    }
 
     useEffect(() => {
         onChange(selectedOption)
@@ -71,17 +98,20 @@ export default function AutocompleteInput<T extends Option>({
                         }
                         onChange={(event) => setQuery(event.target.value)}
                         onBlur={(event) => {
-                            setSelectedOption(
-                                options.find(
-                                    (option) =>
-                                        option.name.toLowerCase() ===
-                                        event.target.value.toLowerCase(),
-                                ) ??
-                                    ({
-                                        name: event.target.value,
-                                        id: event.target.value,
-                                    } as T),
-                            )
+                            if (canCreate) {
+                                // If the option doesn't exist, create it
+                                setSelectedOption(
+                                    options.find(
+                                        (option) =>
+                                            option.name.toLowerCase() ===
+                                            event.target.value.toLowerCase(),
+                                    ) ??
+                                        ({
+                                            name: event.target.value,
+                                            id: event.target.value,
+                                        } as T),
+                                )
+                            }
                         }}
                         className={twMerge(
                             `bg-ceiling text-basic block w-full rounded-md border-0 py-1.5 pl-3 pr-12 ring-1
@@ -106,69 +136,56 @@ export default function AutocompleteInput<T extends Option>({
                         transition
                         className="border empty:invisible w-[var(--input-width)] bg-ceiling mt-1 rounded-md py-1
                             shadow-lg ring-1 ring-black/5 transition focus:outline-none cursor-pointer
-                            data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0
-                            data-[enter]:duration-200 data-[leave]:duration-75 data-[enter]:ease-out
-                            data-[leave]:ease-in"
+                            data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-200
+                            data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
                     >
-                        {filteredOptions.map((option) => (
-                            <ComboboxOption
-                                key={option.id}
-                                value={option}
-                                className="group relative text-basic block w-full pl-4 pr-9 py-2 text-left text-sm
-                                    data-[focus]:bg-primary-600 data-[focus]:outline-none data-[focus]:text-white
-                                    dark:data-[focus]:bg-primary-400/50"
-                            >
-                                <div className="flex">
-                                    <span className="truncate group-data-[selected]:font-semibold">
-                                        {option.name}
-                                    </span>
-                                    {description && (
-                                        <span className="ml-2 truncate text-gray-500 group-data-[focus]:text-indigo-200">
-                                            {description(option)}
+                        {withEmptyOption && (
+                            <AutocompleteInputOption
+                                option={{ id: '', name: withEmptyOption } as T}
+                                body={(v) => (
+                                    <div className="flex">
+                                        <span className="truncate group-data-[selected]:font-semibold">
+                                            {withEmptyOption}
                                         </span>
-                                    )}
-                                </div>
-
-                                <span
-                                    className="absolute inset-y-0 right-0 hidden items-center pr-4 text-primary-600
-                                        dark:text-primary-400 group-data-[selected]:flex group-data-[focus]:text-white"
-                                >
-                                    <CheckIcon
-                                        className="size-5"
-                                        aria-hidden="true"
-                                    />
-                                </span>
-                            </ComboboxOption>
-                        ))}
-                        {canCreate && query.length > 0 && (
-                            <ComboboxOption
-                                value={{ id: query, name: query }}
-                                className="relative group text-basic block w-full pl-4 pr-9 py-2 text-left text-sm
-                                    data-[focus]:bg-primary-600 data-[focus]:outline-none data-[focus]:text-white
-                                    dark:data-[focus]:bg-primary-400/50"
-                            >
-                                <div className="flex">
-                                    <span className="truncate group-data-[selected]:font-semibold">
-                                        Create{' '}
-                                        <span className="font-bold">
-                                            "{query}"
-                                        </span>
-                                    </span>
-                                </div>
-
-                                {selectedOption?.id === query && (
-                                    <span
-                                        className="absolute flex inset-y-0 right-0 items-center pr-4 text-primary-600
-                                            dark:text-primary-400 group-data-[focus]:text-white"
-                                    >
-                                        <CheckIcon
-                                            className="size-5"
-                                            aria-hidden="true"
-                                        />
-                                    </span>
+                                    </div>
                                 )}
-                            </ComboboxOption>
+                            />
                         )}
+                        {filteredOptions.map((option) => (
+                            <AutocompleteInputOption
+                                key={option.id}
+                                option={option}
+                                body={(v) => (
+                                    <div className="flex">
+                                        <span className="truncate group-data-[selected]:font-semibold">
+                                            {option.name}
+                                        </span>
+                                        {description && (
+                                            <span className="ml-2 truncate text-gray-500 group-data-[focus]:text-indigo-200">
+                                                {description(option)}
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
+                            />
+                        ))}
+                        {canCreate &&
+                            query.length > 0 &&
+                            !optionExists(query) && (
+                                <AutocompleteInputOption
+                                    option={{ id: query, name: query }}
+                                    body={(v) => (
+                                        <div className="flex">
+                                            <span className="truncate group-data-[selected]:font-semibold">
+                                                Create{' '}
+                                                <span className="font-bold">
+                                                    "{query}"
+                                                </span>
+                                            </span>
+                                        </div>
+                                    )}
+                                />
+                            )}
                     </ComboboxOptions>
                 </div>
             </Combobox>

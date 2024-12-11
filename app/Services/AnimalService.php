@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Events\Animals\AnimalCreated;
 use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Models\Animal\Animal;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -88,5 +89,16 @@ class AnimalService
                 'format' => 'webp',
             ]);
         }
+    }
+
+    public function loadAnimalsWithPermissions(string $type, User $user)
+    {
+        $animals = Animal::subtype($type)->get();
+
+        foreach ($animals as $animal) {
+            $animal->setPermissions($user);
+        }
+
+        return $animals;
     }
 }

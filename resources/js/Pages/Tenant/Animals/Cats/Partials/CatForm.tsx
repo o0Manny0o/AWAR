@@ -132,7 +132,7 @@ export function CatForm({
                     />
                 </Card>
 
-                <Card header={__('animals.dogs.form.family.header')}>
+                <Card header={__('animals.cats.form.family.header')}>
                     <FamilyGroup
                         families={families}
                         mothers={mothers}

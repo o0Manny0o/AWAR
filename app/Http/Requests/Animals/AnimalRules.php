@@ -56,6 +56,8 @@ class AnimalRules
     {
         return [
             'nullable',
+            'exclude_without:family',
+            'different:mother',
             new ModelUuidOrNew(
                 table: Animal::class,
                 newRules: ['regex:/^0$/'],
@@ -66,8 +68,9 @@ class AnimalRules
     public static function motherRules(): array
     {
         return [
+            'nullable',
             'exclude_without:family',
-            'required',
+            'different:father',
             new ModelUuidOrNew(
                 table: Animal::class,
                 newRules: ['regex:/^0$/'],

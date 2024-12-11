@@ -101,6 +101,7 @@ class Animal extends Model implements Trackable
         'abstract',
         'published_at',
         'family_id',
+        'animal_family_id',
     ];
 
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
@@ -250,6 +251,6 @@ class Animal extends Model implements Trackable
      */
     public function family(): BelongsTo
     {
-        return $this->belongsTo(AnimalFamily::class);
+        return $this->belongsTo(AnimalFamily::class, 'animal_family_id');
     }
 }

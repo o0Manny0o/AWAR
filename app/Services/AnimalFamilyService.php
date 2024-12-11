@@ -18,16 +18,26 @@ class AnimalFamilyService
     ): void {
         $validated = $request->validated();
 
+        /** $validated['mother'] & $validated['father']
+         *
+         * - '0' = newly created $animal is mother / father
+         * - null = no mother / father
+         * - string = id of mother / father
+         */
+
         $mother =
-            $validated['mother'] === '0' ? $animal->id : $validated['mother'];
+            $validated['mother'] === '0' || $validated['mother'] === $animal->id
+                ? $animal->id
+                : $validated['mother'];
 
         $father =
-            $validated['father'] === '0' ? $animal->id : $validated['father'];
+            $validated['father'] === '0' || $validated['father'] === $animal->id
+                ? $animal->id
+                : $validated['father'];
 
-        $child =
-            $validated['mother'] === '0' && $validated['father'] === '0'
-                ? $animal
-                : null;
+        $isParent = $mother === $animal->id || $father === $animal->id;
+
+        $child = !$isParent ? $animal : null;
 
         if (Str::isUuid($validated['family'])) {
             $this->updateFamily(
@@ -78,11 +88,11 @@ class AnimalFamilyService
             'mother_id' => $mother,
             'father_id' => $father,
         ];
+        $family = AnimalFamily::create($values);
 
         if ($child) {
-            $child->family()->create($values);
-        } else {
-            AnimalFamily::create($values);
+            $child->family()->associate($family);
+            $child->save();
         }
     }
 }

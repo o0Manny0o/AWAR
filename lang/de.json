@@ -222,6 +222,11 @@
                 "abstract": {
                     "placeholder": "Kurzbeschreibung",
                     "label": "Kurzbeschreibung"
+                },
+                "family": {
+                    "header": "Familie",
+                    "placeholder": "Geben Sie den Familiennamen ein",
+                    "label": "Wählen oder erstellen Sie eine Familie"
                 }
             }
         },
@@ -255,6 +260,9 @@
                 "abstract": {
                     "placeholder": "Abstract",
                     "label": "Abstract"
+                },
+                "family": {
+                    "header": "Familie"
                 }
             }
         }
