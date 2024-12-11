@@ -8,6 +8,7 @@ use App\Events\Animals\AnimalUpdated;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Animals\CreateAnimalRequest;
+use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalFamily;
 use App\Models\Animal\AnimalHistory;
@@ -114,30 +115,23 @@ class AnimalController extends Controller
     public function edit(Request $request, string $id)
     {
         /** @var Animal|null $animal */
-        $animal = Animal::whereId($id)
-            ->with([
-                'medially' => function ($query) {
-                    return $query->select(
-                        'id',
-                        'file_url',
-                        'medially_id',
-                        'medially_type',
-                    );
-                },
-            ])
-            ->get()
-            ->first();
+        $animal = Animal::whereId($id)->withMedia()->get()->first();
         if (!$animal) {
             return redirect()->route($this->getIndexRouteName());
         }
 
         $this->authorize('update', $animal);
 
-        $families = AnimalFamily::all();
+        $families = AnimalFamily::subtype($this->morphClass)->get();
+
+        $animals = Animal::subtype($this->morphClass)
+            ->asOption()
+            ->get();
 
         return AppInertia::render($this->getEditView(), [
             'animal' => $animal,
             'families' => $families,
+            'animals' => $animals,
             'permissions' => $this->permissions($request, $animal),
         ]);
     }
@@ -148,7 +142,7 @@ class AnimalController extends Controller
      * @throws Throwable
      */
     public function updateAnimal(
-        FormRequest $animalRequest,
+        UpdateAnimalRequest $animalRequest,
         string $id,
     ): RedirectResponse {
         /** @var Animal|null $animal */
@@ -159,74 +153,11 @@ class AnimalController extends Controller
 
         $this->authorize('update', $animal);
 
-        $organisation = tenant();
-
-        $changedMedia = ['removed_media' => false, 'added_media' => false];
-
-        $animal = tenancy()->central(function () use (
-            $organisation,
+        $this->animalService->updateAnimal(
             $animalRequest,
             $animal,
-            &$changedMedia,
-        ) {
-            return DB::transaction(function () use (
-                $organisation,
-                $animalRequest,
-                $animal,
-                &$changedMedia,
-            ) {
-                $validated = $animalRequest->validated();
-
-                $animal->animalable->update($validated);
-
-                if ($validated['images']) {
-                    $allMedia = $animal->fetchAllMedia();
-
-                    $mediaToKeep = [];
-                    $newMedia = [];
-
-                    array_map(function ($image) use (
-                        &$mediaToKeep,
-                        &$newMedia,
-                    ) {
-                        if (is_numeric($image)) {
-                            $mediaToKeep[] = $image;
-                        } else {
-                            $newMedia[] = $image;
-                        }
-                    }, $validated['images']);
-
-                    // Delete removed media
-                    foreach ($allMedia as $media) {
-                        if (!in_array($media->id, $mediaToKeep)) {
-                            $animal->detachMedia($media);
-                            $changedMedia['removed_media'] = true;
-                        }
-                    }
-
-                    // Add new media
-                    if (!empty($newMedia)) {
-                        $changedMedia['added_media'] = true;
-                        $this->attachMedia($animal, $newMedia, $organisation);
-                    }
-                }
-
-                $animal->update($validated);
-
-                return $animal;
-            }, 5);
-        });
-
-        $changes = array_diff_key(
-            array_merge(
-                $animal->getChanges(),
-                $animal->animalable->getChanges(),
-                array_filter($changedMedia, fn($val) => $val),
-            ),
-            array_flip(['updated_at']),
+            Auth::user(),
         );
-
-        AnimalUpdated::dispatch($animal, $changes, Auth::user());
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,
@@ -245,11 +176,7 @@ class AnimalController extends Controller
             return redirect()->route($this->getIndexRouteName());
         }
 
-        $this->authorize('publish', $animal);
-
-        $animal->update(['published_at' => now()]);
-
-        AnimalPublished::dispatch($animal, Auth::user());
+        $this->animalService->publishAnimal($animal, Auth::user());
 
         return $this->redirect($request, $this->getShowRouteName(), [
             'animal' => $animal,

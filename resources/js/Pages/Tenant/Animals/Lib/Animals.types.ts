@@ -8,6 +8,8 @@ interface AnimalFormData {
     bio: string
     abstract: string
     images: (string | File)[]
+
+    _method?: string
 }
 
 export interface DogFormData extends AnimalFormData {

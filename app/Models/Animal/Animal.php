@@ -227,6 +227,20 @@ class Animal extends Model implements Trackable
         });
     }
 
+    public function scopeWithMedia(Builder $builder): void
+    {
+        $builder->with([
+            'medially' => function ($query) {
+                return $query->select(
+                    'id',
+                    'file_url',
+                    'medially_id',
+                    'medially_type',
+                );
+            },
+        ]);
+    }
+
     /**
      * Get the animal thumbnail
      *

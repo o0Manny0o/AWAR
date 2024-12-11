@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Events\Animals\AnimalCreated;
+use App\Events\Animals\AnimalPublished;
+use App\Events\Animals\AnimalUpdated;
 use App\Http\Requests\Animals\CreateAnimalRequest;
+use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use App\Models\User;
 use Exception;
@@ -72,6 +75,84 @@ class AnimalService
     }
 
     /**
+     * @throws Exception|\Throwable
+     */
+    public function updateAnimal(
+        UpdateAnimalRequest $animalRequest,
+        Animal $animal,
+        User $user,
+    ): void {
+        $organisation = tenant();
+
+        $changedMedia = ['removed_media' => false, 'added_media' => false];
+
+        $animal = tenancy()->central(function () use (
+            $organisation,
+            $animalRequest,
+            $animal,
+            &$changedMedia,
+        ) {
+            return DB::transaction(function () use (
+                $organisation,
+                $animalRequest,
+                $animal,
+                &$changedMedia,
+            ) {
+                $validated = $animalRequest->validated();
+
+                $animal->animalable->update($validated);
+
+                if ($validated['images']) {
+                    $allMedia = $animal->fetchAllMedia();
+
+                    $mediaToKeep = [];
+                    $newMedia = [];
+
+                    array_map(function ($image) use (
+                        &$mediaToKeep,
+                        &$newMedia,
+                    ) {
+                        if (is_numeric($image)) {
+                            $mediaToKeep[] = $image;
+                        } else {
+                            $newMedia[] = $image;
+                        }
+                    }, $validated['images']);
+
+                    // Delete removed media
+                    foreach ($allMedia as $media) {
+                        if (!in_array($media->id, $mediaToKeep)) {
+                            $animal->detachMedia($media);
+                            $changedMedia['removed_media'] = true;
+                        }
+                    }
+
+                    // Add new media
+                    if (!empty($newMedia)) {
+                        $changedMedia['added_media'] = true;
+                        $this->attachMedia($animal, $newMedia, $organisation);
+                    }
+                }
+
+                $animal->update($validated);
+
+                return $animal;
+            }, 5);
+        });
+
+        $changes = array_diff_key(
+            array_merge(
+                $animal->getChanges(),
+                $animal->animalable->getChanges(),
+                array_filter($changedMedia, fn($val) => $val),
+            ),
+            array_flip(['updated_at']),
+        );
+
+        AnimalUpdated::dispatch($animal, $changes, $user);
+    }
+
+    /**
      * @throws Exception
      */
     private function attachMedia(
@@ -100,5 +181,12 @@ class AnimalService
         }
 
         return $animals;
+    }
+
+    public function publishAnimal(Animal $animal, User $user): void
+    {
+        $animal->update(['published_at' => now()]);
+
+        AnimalPublished::dispatch($animal, $user);
     }
 }

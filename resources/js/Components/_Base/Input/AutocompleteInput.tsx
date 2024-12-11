@@ -142,20 +142,20 @@ export default function AutocompleteInput<T extends Option>({
                         {withEmptyOption && (
                             <AutocompleteInputOption
                                 option={{ id: '', name: withEmptyOption } as T}
-                                body={(v) => (
+                                body={
                                     <div className="flex">
                                         <span className="truncate group-data-[selected]:font-semibold">
                                             {withEmptyOption}
                                         </span>
                                     </div>
-                                )}
+                                }
                             />
                         )}
                         {filteredOptions.map((option) => (
                             <AutocompleteInputOption
                                 key={option.id}
                                 option={option}
-                                body={(v) => (
+                                body={
                                     <div className="flex">
                                         <span className="truncate group-data-[selected]:font-semibold">
                                             {option.name}
@@ -166,7 +166,7 @@ export default function AutocompleteInput<T extends Option>({
                                             </span>
                                         )}
                                     </div>
-                                )}
+                                }
                             />
                         ))}
                         {canCreate &&
@@ -174,7 +174,7 @@ export default function AutocompleteInput<T extends Option>({
                             !optionExists(query) && (
                                 <AutocompleteInputOption
                                     option={{ id: query, name: query }}
-                                    body={(v) => (
+                                    body={
                                         <div className="flex">
                                             <span className="truncate group-data-[selected]:font-semibold">
                                                 Create{' '}
@@ -183,7 +183,7 @@ export default function AutocompleteInput<T extends Option>({
                                                 </span>
                                             </span>
                                         </div>
-                                    )}
+                                    }
                                 />
                             )}
                     </ComboboxOptions>
