@@ -1,10 +1,10 @@
-import { FormEventHandler, useEffect } from 'react'
+import { FormEventHandler } from 'react'
 import { useForm } from '@inertiajs/react'
 import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import useFormContext from '@/shared/hooks/useFormContext'
 import { CatForm } from '@/Pages/Tenant/Animals/Cats/Partials/CatForm'
 import Cat = App.Models.Cat
-import { getArrayErrors } from '@/shared/util'
+import { CatFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
 
 export default function EditCatForm({
     animal,
@@ -14,16 +14,32 @@ export default function EditCatForm({
     formId: string
 }) {
     const { data, setData, errors, post, reset, processing, clearErrors } =
-        useForm({
+        useForm<CatFormData>({
             name: animal.name ?? '',
             date_of_birth: animal.date_of_birth ?? '',
             breed: animal.animalable.breed ?? '',
+            sex: animal.sex ?? 'female',
             bio: animal.bio ?? '',
             abstract: animal.abstract ?? '',
-            images:
-                animal.medially?.map((media) => String(media.id)) ??
-                ([] as any[]),
+            images: animal.medially?.map((media) => String(media.id)) ?? [],
             _method: 'PATCH',
+            // If no family is selected, use the first family as parent instead
+            // TODO: Add better support for setting maternal and paternal families
+            family:
+                animal.animal_family_id ??
+                animal.maternal_families?.[0]?.id ??
+                animal.paternal_families?.[0]?.id ??
+                undefined,
+            father:
+                animal.father ??
+                animal.maternal_families?.[0]?.father?.id ??
+                animal.paternal_families?.[0]?.father?.id ??
+                undefined,
+            mother:
+                animal.mother ??
+                animal.maternal_families?.[0]?.mother?.id ??
+                animal.paternal_families?.[0]?.mother?.id ??
+                undefined,
         })
 
     const { focusError } = useFormContext(CatFormWrapper, processing)

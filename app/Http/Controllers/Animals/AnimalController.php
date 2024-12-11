@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers\Animals;
 
-use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalDeleted;
-use App\Events\Animals\AnimalPublished;
-use App\Events\Animals\AnimalUpdated;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Animals\CreateAnimalRequest;
+use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
+use App\Models\Animal\AnimalFamily;
 use App\Models\Animal\AnimalHistory;
-use Exception;
+use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Inertia\Response;
 use Throwable;
 
 class AnimalController extends Controller
 {
+    protected string $morphClass;
+
+    public function __construct(protected readonly AnimalService $animalService)
+    {
+    }
+
     /**
      * Display the specified resource.
      * @throws AuthorizationException
@@ -108,27 +110,33 @@ class AnimalController extends Controller
     public function edit(Request $request, string $id)
     {
         /** @var Animal|null $animal */
-        $animal = Animal::whereId($id)
-            ->with([
-                'medially' => function ($query) {
-                    return $query->select(
-                        'id',
-                        'file_url',
-                        'medially_id',
-                        'medially_type',
-                    );
-                },
-            ])
-            ->get()
-            ->first();
+        $animal = Animal::whereId($id)->withMedia()->get()->first();
+
         if (!$animal) {
             return redirect()->route($this->getIndexRouteName());
         }
 
         $this->authorize('update', $animal);
 
+        $animal->load([
+            'paternalFamilies:id,name,mother_id,father_id',
+            'maternalFamilies:id,name,mother_id,father_id',
+        ]);
+
+        $animal->setForceAppends(['father', 'mother']);
+
+        $families = AnimalFamily::subtype($this->morphClass)->get();
+
+        Animal::$withoutAppends = true;
+
+        $animals = Animal::subtype($this->morphClass)
+            ->asOption()
+            ->get();
+
         return AppInertia::render($this->getEditView(), [
             'animal' => $animal,
+            'families' => $families,
+            'animals' => $animals,
             'permissions' => $this->permissions($request, $animal),
         ]);
     }
@@ -139,7 +147,7 @@ class AnimalController extends Controller
      * @throws Throwable
      */
     public function updateAnimal(
-        FormRequest $animalRequest,
+        UpdateAnimalRequest $animalRequest,
         string $id,
     ): RedirectResponse {
         /** @var Animal|null $animal */
@@ -150,98 +158,15 @@ class AnimalController extends Controller
 
         $this->authorize('update', $animal);
 
-        $organisation = tenant();
-
-        $changedMedia = ['removed_media' => false, 'added_media' => false];
-
-        $animal = tenancy()->central(function () use (
-            $organisation,
+        $this->animalService->updateAnimal(
             $animalRequest,
             $animal,
-            &$changedMedia,
-        ) {
-            return DB::transaction(function () use (
-                $organisation,
-                $animalRequest,
-                $animal,
-                &$changedMedia,
-            ) {
-                $validated = $animalRequest->validated();
-
-                $animal->animalable->update($validated);
-
-                if ($validated['images']) {
-                    $allMedia = $animal->fetchAllMedia();
-
-                    $mediaToKeep = [];
-                    $newMedia = [];
-
-                    array_map(function ($image) use (
-                        &$mediaToKeep,
-                        &$newMedia,
-                    ) {
-                        if (is_numeric($image)) {
-                            $mediaToKeep[] = $image;
-                        } else {
-                            $newMedia[] = $image;
-                        }
-                    }, $validated['images']);
-
-                    // Delete removed media
-                    foreach ($allMedia as $media) {
-                        if (!in_array($media->id, $mediaToKeep)) {
-                            $animal->detachMedia($media);
-                            $changedMedia['removed_media'] = true;
-                        }
-                    }
-
-                    // Add new media
-                    if (!empty($newMedia)) {
-                        $changedMedia['added_media'] = true;
-                        $this->attachMedia($animal, $newMedia, $organisation);
-                    }
-                }
-
-                $animal->update($validated);
-
-                return $animal;
-            }, 5);
-        });
-
-        $changes = array_diff_key(
-            array_merge(
-                $animal->getChanges(),
-                $animal->animalable->getChanges(),
-                array_filter($changedMedia, fn($val) => $val),
-            ),
-            array_flip(['updated_at']),
+            Auth::user(),
         );
-
-        AnimalUpdated::dispatch($animal, $changes, Auth::user());
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,
         ]);
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function attachMedia(
-        Animal $animal,
-        array $media,
-        $organisation,
-    ): void {
-        foreach ($media as $image) {
-            $animal->attachMedia($image, [
-                'asset_folder' => $organisation->id . '/animals/' . $animal->id,
-                'public_id_prefix' =>
-                    $organisation->id . '/animals/' . $animal->id,
-                'width' => 2000,
-                'crop' => 'limit',
-                'format' => 'webp',
-            ]);
-        }
     }
 
     /**
@@ -256,11 +181,7 @@ class AnimalController extends Controller
             return redirect()->route($this->getIndexRouteName());
         }
 
-        $this->authorize('publish', $animal);
-
-        $animal->update(['published_at' => now()]);
-
-        AnimalPublished::dispatch($animal, Auth::user());
+        $this->animalService->publishAnimal($animal, Auth::user());
 
         return $this->redirect($request, $this->getShowRouteName(), [
             'animal' => $animal,
@@ -273,16 +194,18 @@ class AnimalController extends Controller
     public function browse(): Response
     {
         $animals = Animal::whereNotNull('published_at')
-            ->when(
-                tenant(),
-                function (Builder $query) {
-                    return $query->where('organisation_id', tenant()->id);
-                },
-                function (Builder $query) {
-                    return $query->with(['organisation']);
-                },
-            )
-            ->get();
+            ->get()
+            ->makeHidden([
+                'created_at',
+                'updated_at',
+                'published_at',
+                'deleted_at',
+                'animal_family_id',
+                'can_be_viewed',
+                'can_be_deleted',
+                'can_be_updated',
+                'can_be_published',
+            ]);
 
         return AppInertia::render('Animals/Browse', [
             'animals' => $animals,
@@ -293,71 +216,18 @@ class AnimalController extends Controller
      * Display a listing of the resource.
      * @throws AuthorizationException
      */
-    protected function showIndex(
-        Request $request,
-        Collection $animals,
-    ): Response {
+    public function index(Request $request): Response
+    {
         $this->authorize('viewAny', Animal::class);
 
-        foreach ($animals as $animal) {
-            $animal->setPermissions($request->user());
-        }
+        $animals = $this->animalService->loadAnimalsWithPermissions(
+            $this->morphClass,
+            $request->user(),
+        );
 
         return AppInertia::render($this->getIndexView(), [
             'animals' => $animals,
             'permissions' => $this->permissions($request),
-        ]);
-    }
-
-    /**
-     * Store the animal for an animalable resource.
-     *
-     * @throws AuthorizationException
-     * @throws Throwable
-     */
-    protected function storeAnimal(
-        FormRequest $animalRequest,
-        $class,
-    ): RedirectResponse {
-        $this->authorize('create', Animal::class);
-
-        $organisation = tenant();
-
-        $animal = tenancy()->central(function () use (
-            $organisation,
-            $class,
-            $animalRequest,
-        ) {
-            return DB::transaction(function () use (
-                $organisation,
-                $class,
-                $animalRequest,
-            ) {
-                $validated = $animalRequest->validated();
-
-                $animalable = $class::create($validated);
-
-                /** @var Animal $animal */
-                $animal = $animalable->animal()->create(
-                    array_merge($validated, [
-                        'organisation_id' => $organisation->id,
-                    ]),
-                );
-
-                $this->attachMedia(
-                    $animal,
-                    $validated['images'],
-                    $organisation,
-                );
-
-                AnimalCreated::dispatch($animal, Auth::user());
-
-                return $animal;
-            }, 5);
-        });
-
-        return $this->redirect($animalRequest, $this->getShowRouteName(), [
-            'animal' => $animal,
         ]);
     }
 
@@ -369,6 +239,37 @@ class AnimalController extends Controller
     {
         $this->authorize('create', Animal::class);
 
-        return AppInertia::render($this->getCreateView());
+        Animal::$withoutAppends = true;
+
+        $families = AnimalFamily::subtype($this->morphClass)->get();
+
+        $animals = Animal::subtype($this->morphClass)
+            ->asOption()
+            ->get();
+
+        return AppInertia::render($this->getCreateView(), [
+            'families' => $families,
+            'animals' => $animals,
+        ]);
+    }
+
+    /**
+     * Store the animal for an animalable resource.
+     *
+     * @throws AuthorizationException
+     * @throws Throwable
+     */
+    protected function storeAnimal(
+        AnimalService $animalService,
+        CreateAnimalRequest $animalRequest,
+        $class,
+    ): RedirectResponse {
+        $this->authorize('create', Animal::class);
+
+        $animal = $animalService->createAnimal($animalRequest, $class);
+
+        return $this->redirect($animalRequest, $this->getShowRouteName(), [
+            'animal' => $animal,
+        ]);
     }
 }

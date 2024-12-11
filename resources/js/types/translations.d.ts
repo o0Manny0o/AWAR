@@ -331,6 +331,7 @@ type Organisations_Dashboard = {
 type Translations_Animals = {
     dogs: Animals_Dogs
     cats: Animals_Cats
+    form: Animals_Form
 }
 type Animals_Dogs = {
     headers: TitlesOrHeadersOrHeadersOrHeaders
@@ -348,11 +349,18 @@ type FormOrForm = {
     date_of_birth: Form_Set
     bio: Form_Set
     abstract: Form_Set
+    family: FamilyOrFamily
+}
+type FamilyOrFamily = {
+    header: string
 }
 type Animals_Cats = {
     titles: TitlesOrTitles
     headers: TitlesOrHeadersOrHeadersOrHeaders
     form: FormOrForm
+}
+type Animals_Form = {
+    family: FamilyOrFamily
 }
 type Translations_History = {
     changes: History_Changes

@@ -28,6 +28,7 @@ class TrackAnimalChangesSubscriber
             'global_user_id' => $event->user->global_id,
             'public' => true,
         ]);
+
         $history->changes()->createMany(
             array_merge(
                 array_map(
@@ -49,6 +50,14 @@ class TrackAnimalChangesSubscriber
                         $animalable->getTracked(),
                         fn($col) => $animalable[$col],
                     ),
+                ),
+                array_map(
+                    fn($col, $val) => [
+                        'field' => $col,
+                        'value' => $val,
+                    ],
+                    array_keys($event->familyChanges),
+                    $event->familyChanges,
                 ),
             ),
         );

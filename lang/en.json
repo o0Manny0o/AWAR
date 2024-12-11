@@ -390,6 +390,9 @@
                 "abstract": {
                     "placeholder": "Abstract",
                     "label": "Abstract"
+                },
+                "family": {
+                    "header": "Family"
                 }
             }
         },
@@ -423,7 +426,16 @@
                 "abstract": {
                     "placeholder": "Abstract",
                     "label": "Abstract"
+                },
+                "family": {
+                    "header": "Family"
                 }
+            }
+        },
+        "form": {
+            "family": {
+                "placeholder": "Enter Family Name",
+                "label": "Select or create a family"
             }
         }
     },

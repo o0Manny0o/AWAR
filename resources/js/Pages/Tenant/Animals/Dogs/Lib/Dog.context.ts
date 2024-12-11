@@ -5,6 +5,7 @@ type CreateRefContextData = {
     name: RefObject<HTMLInputElement>
     breed: RefObject<HTMLInputElement>
     date_of_birth: RefObject<HTMLInputElement>
+    family: RefObject<HTMLInputElement>
     bio: RefObject<HTMLInputElement>
     abstract: RefObject<HTMLInputElement>
 }
@@ -12,6 +13,7 @@ type CreateRefContextData = {
 export const DogFormWrapper = FormContext<CreateRefContextData>([
     'name',
     'breed',
+    'family',
     'date_of_birth',
     'bio',
     'abstract',

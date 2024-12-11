@@ -94,6 +94,7 @@ declare namespace App.Models {
         id: string
         name: string
         date_of_birth: string
+        sex: 'male' | 'female'
 
         animalable: any
 
@@ -107,6 +108,13 @@ declare namespace App.Models {
         images?: string[]
 
         medially: Media[]
+
+        animal_family_id?: string
+        father?: string
+        mother?: string
+
+        paternal_families?: Family[]
+        maternal_families?: Family[]
 
         published_at?: string
         deleted_at?: string
@@ -133,5 +141,15 @@ declare namespace App.Models {
             field: string
             value: string
         }[]
+    }
+
+    export interface Family {
+        id: string
+        name: string
+        father?: { id: string; name: string }
+        mother?: { id: string; name: string }
+        children_count: number
+        created_at: string
+        updated_at: string
     }
 }

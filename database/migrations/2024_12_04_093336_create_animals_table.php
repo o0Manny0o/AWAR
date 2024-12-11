@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->text('bio')->nullable();
             $table->text('abstract')->nullable();
 
+            $table->enum('sex', ['male', 'female'])->nullable();
+
             $table->timestamp('published_at')->nullable();
 
             $table->morphs('animalable');

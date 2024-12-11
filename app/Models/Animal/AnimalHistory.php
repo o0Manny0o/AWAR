@@ -35,6 +35,10 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder public()
  * @method static \Illuminate\Database\Eloquent\Builder whole()
+ * @property bool $public
+ * @property-read \App\Models\Animal\Animal $animal
+ * @property-read User $changee
+ * @method static Builder<static>|AnimalHistory wherePublic($value)
  * @mixin \Eloquent
  */
 class AnimalHistory extends Model
