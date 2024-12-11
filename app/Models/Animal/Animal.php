@@ -267,4 +267,13 @@ class Animal extends Model implements Trackable
     {
         return $this->belongsTo(AnimalFamily::class, 'animal_family_id');
     }
+
+    public function getFatherAttribute()
+    {
+        return $this->family?->pluck('father_id')->first();
+    }
+    public function getMotherAttribute()
+    {
+        return $this->family?->pluck('mother_id')->first();
+    }
 }

@@ -109,6 +109,13 @@ declare namespace App.Models {
 
         medially: Media[]
 
+        animal_family_id?: string
+        father?: string
+        mother?: string
+
+        paternal_families?: Family[]
+        maternal_families?: Family[]
+
         published_at?: string
         deleted_at?: string
         created_at: string

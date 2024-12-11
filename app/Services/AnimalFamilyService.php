@@ -2,21 +2,26 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalFamily;
 use App\Models\Organisation;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
 class AnimalFamilyService
 {
     public function createOrUpdateFamily(
-        CreateAnimalRequest $request,
+        FormRequest $request,
         Animal $animal,
         Organisation $organisation,
-        $class,
     ): void {
         $validated = $request->validated();
+
+        // Family removed from animal
+        if (!isset($validated['family'])) {
+            $animal->family()->dissociate();
+            return;
+        }
 
         /** $validated['mother'] & $validated['father']
          *
@@ -37,28 +42,31 @@ class AnimalFamilyService
 
         $isParent = $mother === $animal->id || $father === $animal->id;
 
-        $child = !$isParent ? $animal : null;
-
         if (Str::isUuid($validated['family'])) {
-            $this->updateFamily(
+            $family = $this->updateFamily(
                 id: $validated['family'],
                 mother: $mother,
                 father: $father,
-                child: $child,
             );
         } else {
-            $this->createFamily(
+            $family = $this->createFamily(
                 name: $validated['family'],
                 mother: $mother,
                 father: $father,
                 organisation: $organisation,
-                type: $class,
-                child: $child,
+                type: $animal->animalable_type,
             );
         }
+
+        if (!$isParent) {
+            $animal->family()->associate($family);
+        } else {
+            $animal->family()->dissociate();
+        }
+        $animal->save();
     }
 
-    public function updateFamily($id, $mother, $father, $child = null): void
+    public function updateFamily($id, $mother, $father): AnimalFamily
     {
         /** @var AnimalFamily $family */
         $family = AnimalFamily::find($id);
@@ -67,10 +75,7 @@ class AnimalFamilyService
         $family->father()->associate($father);
         $family->save();
 
-        if ($child) {
-            $child->family()->associate($family);
-            $child->save();
-        }
+        return $family;
     }
 
     public function createFamily(
@@ -79,8 +84,7 @@ class AnimalFamilyService
         $father,
         $organisation,
         $type,
-        $child = null,
-    ): void {
+    ): AnimalFamily {
         $values = [
             'name' => $name,
             'organisation_id' => $organisation->id,
@@ -88,11 +92,8 @@ class AnimalFamilyService
             'mother_id' => $mother,
             'father_id' => $father,
         ];
+        /** @var AnimalFamily $family */
         $family = AnimalFamily::create($values);
-
-        if ($child) {
-            $child->family()->associate($family);
-            $child->save();
-        }
+        return $family;
     }
 }

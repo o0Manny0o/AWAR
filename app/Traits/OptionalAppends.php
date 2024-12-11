@@ -9,6 +9,8 @@ trait OptionalAppends
      */
     public static bool $withoutAppends = false;
 
+    public array $forceAppends = [];
+
     /**
      * Check if $withoutAppends is enabled.
      *
@@ -17,8 +19,15 @@ trait OptionalAppends
     protected function getArrayableAppends()
     {
         if (self::$withoutAppends) {
-            return [];
+            return $this->forceAppends;
         }
         return parent::getArrayableAppends();
+    }
+
+    public function setForceAppends(array $appends)
+    {
+        $this->forceAppends = $appends;
+
+        return $this;
     }
 }

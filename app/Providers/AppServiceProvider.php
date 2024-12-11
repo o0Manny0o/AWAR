@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Translation\Translator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,6 +32,12 @@ class AppServiceProvider extends ServiceProvider
             $translator->setFallback($service->getFallback());
 
             return $translator;
+        });
+
+        Collection::macro('setAppends', function ($attributes) {
+            return $this->map(function ($item) use ($attributes) {
+                return $item->setAppends($attributes);
+            });
         });
     }
 }

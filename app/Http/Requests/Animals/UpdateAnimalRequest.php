@@ -22,8 +22,9 @@ class UpdateAnimalRequest extends FormRequest
             'abstract' => AnimalRules::abstractRules(),
             'images' => AnimalRules::imagesRules(),
             'images.*' => AnimalRules::imageRules(),
-            'siblings' => AnimalRules::siblingsRules(),
-            'siblings.*' => AnimalRules::siblingRules(),
+            'father' => AnimalRules::fatherRules(),
+            'mother' => AnimalRules::motherRules(),
+            'family' => AnimalRules::familyRules(),
         ];
     }
 }

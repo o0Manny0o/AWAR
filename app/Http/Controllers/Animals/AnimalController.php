@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Animals;
 
 use App\Events\Animals\AnimalDeleted;
-use App\Events\Animals\AnimalPublished;
-use App\Events\Animals\AnimalUpdated;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Animals\CreateAnimalRequest;
@@ -14,12 +12,9 @@ use App\Models\Animal\AnimalFamily;
 use App\Models\Animal\AnimalHistory;
 use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Inertia\Response;
 use Throwable;
 
@@ -116,13 +111,23 @@ class AnimalController extends Controller
     {
         /** @var Animal|null $animal */
         $animal = Animal::whereId($id)->withMedia()->get()->first();
+
         if (!$animal) {
             return redirect()->route($this->getIndexRouteName());
         }
 
         $this->authorize('update', $animal);
 
+        $animal->load([
+            'paternalFamilies:id,name,mother_id,father_id',
+            'maternalFamilies:id,name,mother_id,father_id',
+        ]);
+
+        $animal->setForceAppends(['father', 'mother']);
+
         $families = AnimalFamily::subtype($this->morphClass)->get();
+
+        Animal::$withoutAppends = true;
 
         $animals = Animal::subtype($this->morphClass)
             ->asOption()
@@ -189,16 +194,18 @@ class AnimalController extends Controller
     public function browse(): Response
     {
         $animals = Animal::whereNotNull('published_at')
-            ->when(
-                tenant(),
-                function (Builder $query) {
-                    return $query->where('organisation_id', tenant()->id);
-                },
-                function (Builder $query) {
-                    return $query->with(['organisation']);
-                },
-            )
-            ->get();
+            ->get()
+            ->makeHidden([
+                'created_at',
+                'updated_at',
+                'published_at',
+                'deleted_at',
+                'animal_family_id',
+                'can_be_viewed',
+                'can_be_deleted',
+                'can_be_updated',
+                'can_be_published',
+            ]);
 
         return AppInertia::render('Animals/Browse', [
             'animals' => $animals,
@@ -225,26 +232,6 @@ class AnimalController extends Controller
     }
 
     /**
-     * Store the animal for an animalable resource.
-     *
-     * @throws AuthorizationException
-     * @throws Throwable
-     */
-    protected function storeAnimal(
-        AnimalService $animalService,
-        CreateAnimalRequest $animalRequest,
-        $class,
-    ): RedirectResponse {
-        $this->authorize('create', Animal::class);
-
-        $animal = $animalService->createAnimal($animalRequest, $class);
-
-        return $this->redirect($animalRequest, $this->getShowRouteName(), [
-            'animal' => $animal,
-        ]);
-    }
-
-    /**
      * Show the form for creating a new animal.
      * @throws AuthorizationException
      */
@@ -263,6 +250,26 @@ class AnimalController extends Controller
         return AppInertia::render($this->getCreateView(), [
             'families' => $families,
             'animals' => $animals,
+        ]);
+    }
+
+    /**
+     * Store the animal for an animalable resource.
+     *
+     * @throws AuthorizationException
+     * @throws Throwable
+     */
+    protected function storeAnimal(
+        AnimalService $animalService,
+        CreateAnimalRequest $animalRequest,
+        $class,
+    ): RedirectResponse {
+        $this->authorize('create', Animal::class);
+
+        $animal = $animalService->createAnimal($animalRequest, $class);
+
+        return $this->redirect($animalRequest, $this->getShowRouteName(), [
+            'animal' => $animal,
         ]);
     }
 }

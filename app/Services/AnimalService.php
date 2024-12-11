@@ -53,7 +53,6 @@ class AnimalService
                         $animalRequest,
                         $animal,
                         $organisation,
-                        $class,
                     );
                 }
 
@@ -133,6 +132,12 @@ class AnimalService
                         $this->attachMedia($animal, $newMedia, $organisation);
                     }
                 }
+
+                $this->animalFamilyService->createOrUpdateFamily(
+                    $animalRequest,
+                    $animal,
+                    $organisation,
+                );
 
                 $animal->update($validated);
 

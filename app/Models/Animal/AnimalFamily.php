@@ -5,6 +5,7 @@ namespace App\Models\Animal;
 use App\Models\Organisation;
 use App\Models\Scopes\TenantScope;
 use App\Models\Scopes\WithAnimalableScope;
+use App\Models\Scopes\WithRelativesScope;
 use App\Traits\HasMorphableScopes;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,7 +45,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|AnimalFamily whereName($value)
  * @mixin \Eloquent
  */
-#[ScopedBy([TenantScope::class])]
+#[ScopedBy([TenantScope::class, WithRelativesScope::class])]
 class AnimalFamily extends Model
 {
     use HasUuids, CentralConnection, HasMorphableScopes;
@@ -67,10 +68,6 @@ class AnimalFamily extends Model
         'father_id',
         'mother_id',
     ];
-
-    protected $with = ['father:id,name', 'mother:id,name'];
-
-    protected $withCount = ['children'];
 
     /**
      * The organisation that the animal family belongs to.
