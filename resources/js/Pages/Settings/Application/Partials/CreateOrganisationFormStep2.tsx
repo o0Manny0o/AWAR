@@ -2,8 +2,8 @@ import PrimaryButton from '@/Components/PrimaryButton'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { AddressInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
-import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { AddressInfoGroup } from '@/Pages/Settings/Application/Lib/OrganisationApplication.components'
+import { ApplicationFormWrapper } from '@/Pages/Settings/Application/Lib/OrganisationApplication.context'
 import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function CreateOrganisationFormStep2({
@@ -26,7 +26,7 @@ export default function CreateOrganisationFormStep2({
         e.preventDefault()
 
         post(
-            route('organisations.applications.store.step', {
+            route('settings.applications.store.step', {
                 application: application.id,
                 step: 2,
             }),

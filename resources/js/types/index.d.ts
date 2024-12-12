@@ -9,6 +9,7 @@ type User = {
 type Organisation = {
     name: string
     domains?: { domain: string }[]
+    dashboard_url: string
 }
 
 type ZiggyConfig = {

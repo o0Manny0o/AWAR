@@ -9,7 +9,6 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Support\Facades\Route;
 use Sentry\Laravel\Integration;
-use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(

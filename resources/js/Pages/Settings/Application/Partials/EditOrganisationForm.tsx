@@ -4,14 +4,14 @@ import { useForm } from '@inertiajs/react'
 import {
     removeTrailingDash,
     transformSubdomain,
-} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
+} from '@/Pages/Settings/Application/Lib/OrganisationApplication.util'
 import {
     AddressInfoGroup,
     GeneralInfoGroup,
     SubdomainInfoGroup,
-} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
+} from '@/Pages/Settings/Application/Lib/OrganisationApplication.components'
 import { Card } from '@/Components/Layout/Card'
-import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Settings/Application/Lib/OrganisationApplication.context'
 import useFormContext from '@/shared/hooks/useFormContext'
 import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
@@ -54,7 +54,7 @@ export default function EditOrganisationForm({
         e.preventDefault()
 
         patch(
-            route('organisations.applications.update', {
+            route('settings.applications.update', {
                 application: application.id,
             }),
             {

@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import usePermission from '@/shared/hooks/usePermission'
@@ -7,8 +6,9 @@ import { Badge } from '@/Components/_Base/Badge'
 import {
     badgeColor,
     badgeLabelKey,
-} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
+} from '@/Pages/Settings/Application/Lib/OrganisationApplication.util'
 import List from '@/Components/Resource/List'
+import { SettingsLayout } from '@/Layouts/SettingsLayout'
 import Application = App.Models.OrganisationApplication
 
 export default function Index({
@@ -18,7 +18,7 @@ export default function Index({
     const { can } = usePermission()
 
     return (
-        <AuthenticatedLayout
+        <SettingsLayout
             title={__('general.your_resource', {
                 resource: 'general.resources.organisation.application',
             })}
@@ -31,7 +31,7 @@ export default function Index({
                                       'general.resources.organisation.application',
                               }),
                               variant: 'primary',
-                              href: route('organisations.applications.create'),
+                              href: route('settings.applications.create'),
                           },
                       ]
                     : []
@@ -52,6 +52,6 @@ export default function Index({
                     resourceLabel={'general.resources.organisation.application'}
                 />
             </Card>
-        </AuthenticatedLayout>
+        </SettingsLayout>
     )
 }

@@ -48,9 +48,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request
-                    ->user()
-                    ?->load(['tenants', 'tenants.domains']),
+                'user' => $request->user()?->load(['tenants:id,name']),
                 'member' => $request->user()?->asMember(),
             ],
             'canLogin' => Route::has('login'),

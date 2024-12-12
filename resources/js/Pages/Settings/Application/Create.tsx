@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react'
-import CreateOrganisationForm from './Partials/CreateOrganisationForm'
+import CreateOrganisationForm from '@/Pages/Settings/Application/Partials/CreateOrganisationForm'
 import FlowLayout from '@/Layouts/FlowLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Button } from '@/Components/_Base/Button'
@@ -23,16 +23,16 @@ export default function Create({
                     page: __('general.navigation.overview'),
                 }),
                 href: application?.id
-                    ? route('organisations.applications.show', {
+                    ? route('settings.applications.show', {
                           application: application.id,
                       })
-                    : route('organisations.applications.index'),
+                    : route('settings.applications.index'),
             }
         } else {
             return {
                 text: __('organisations.applications.form.cancel_create'),
                 label: __('general.button.go_back'),
-                href: route('organisations.applications.index'),
+                href: route('settings.applications.index'),
             }
         }
     }
@@ -51,7 +51,7 @@ export default function Create({
                 <Button
                     color="secondary"
                     className="w-full"
-                    href={route('organisations.applications.create.step', {
+                    href={route('settings.applications.create.step', {
                         application: application.id,
                         step: step - 1,
                     })}

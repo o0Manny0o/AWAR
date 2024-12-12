@@ -1,25 +1,30 @@
-import { PropsWithChildren } from 'react'
 import { PageHeaderProps } from '@/Components/Layout/PageHeader'
+import { PropsWithChildren } from 'react'
 import { SidebarLayout } from '@/Layouts/SidebarLayout'
-import {
-    CentralNavigation,
-    TenantNavigation,
-} from '@/shared/_constants/AuthenticatedNavigation'
 import { usePage } from '@inertiajs/react'
+import {
+    CentralSettingsNavigation,
+    TenantSettingsNavigation,
+} from '@/shared/_constants/SettingsNavigation'
 
-export default function Authenticated({
+export function SettingsLayout({
     children,
     title,
     ...pageHeaderProps
 }: PropsWithChildren<{ title: string } & PageHeaderProps>) {
     const { tenant } = usePage().props
 
-    const navigation = tenant ? TenantNavigation : CentralNavigation
+    // Organisation settings nav or personal settings nav
+    const navigation = tenant
+        ? TenantSettingsNavigation
+        : CentralSettingsNavigation
 
     return (
         <SidebarLayout
             navigation={navigation}
             title={title}
+            showOrganisations={false}
+            isSettings
             {...pageHeaderProps}
         >
             {children}
