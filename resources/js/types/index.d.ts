@@ -63,8 +63,6 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         ziggy: ZiggyConfig
         locale: LanguageKey
         locales: Locale[]
-        translations: Partial<Translations>
-        fallback?: Translations
         centralDomain: string
         previousUrl?: string
         tenant?: Organisation

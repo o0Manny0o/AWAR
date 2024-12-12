@@ -33,18 +33,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $file = lang_path(App::currentLocale() . '.json');
-        if (App::currentLocale() !== 'en') {
-            $fallbackFile = lang_path('en.json');
-            $fallback = File::exists($fallbackFile)
-                ? File::json($fallbackFile)
-                : [];
-        } else {
-            $fallback = null;
-        }
-
-        $translations = File::exists($file) ? File::json($file) : [];
-
         return [
             ...parent::share($request),
             'auth' => [
@@ -59,8 +47,6 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => App::currentLocale(),
             'locales' => config('app.available_locales'),
-            'translations' => $translations,
-            'fallback' => $fallback,
             'centralDomain' => config('tenancy.central_domains')[0],
             'previousUrl' => function () {
                 if (
