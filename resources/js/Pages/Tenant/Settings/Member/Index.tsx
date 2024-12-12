@@ -1,8 +1,8 @@
 import { Head } from '@inertiajs/react'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import List from '@/Components/Resource/List'
+import { SettingsLayout } from '@/Layouts/SettingsLayout'
 import Member = App.Models.Member
 
 export default function Index({
@@ -11,7 +11,7 @@ export default function Index({
     const __ = useTranslate()
 
     return (
-        <AuthenticatedLayout title={__('organisations.members.headers.index')}>
+        <SettingsLayout title={__('organisations.members.headers.index')}>
             <Head title={__('organisations.members.titles.index')} />
 
             <div className="">
@@ -38,6 +38,6 @@ export default function Index({
                     />
                 </Card>
             </div>
-        </AuthenticatedLayout>
+        </SettingsLayout>
     )
 }

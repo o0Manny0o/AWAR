@@ -15,10 +15,10 @@ export function ShowActionButtons(
         }),
         variant: 'primary',
         method: 'patch',
-        href: route('organisations.applications.restore', {
+        href: route('settings.applications.restore', {
             application: application.id,
             redirect: route(
-                'organisations.applications.show',
+                'settings.applications.show',
                 {
                     application: application.id,
                 },
@@ -33,7 +33,7 @@ export function ShowActionButtons(
         }),
         variant: 'danger',
         method: 'delete',
-        href: route('organisations.applications.destroy', {
+        href: route('settings.applications.destroy', {
             application: application.id,
         }),
     }
@@ -44,7 +44,7 @@ export function ShowActionButtons(
         }),
         variant: 'primary',
         method: 'patch',
-        href: route('organisations.applications.submit', {
+        href: route('settings.applications.submit', {
             application: application.id,
         }),
     }
@@ -54,7 +54,7 @@ export function ShowActionButtons(
             resource: '',
         }),
         variant: primary ? 'primary' : 'secondary',
-        href: route('organisations.applications.edit', {
+        href: route('settings.applications.edit', {
             application: application.id,
         }),
     })
@@ -111,7 +111,7 @@ export function EditActionButtons(
             resource: '',
         }),
         variant: 'secondary',
-        href: route('organisations.applications.show', {
+        href: route('settings.applications.show', {
             application: application.id,
         }),
     }

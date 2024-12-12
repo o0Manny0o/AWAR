@@ -12,7 +12,10 @@ declare module 'ziggy-js' {
         about: []
         pricing: []
         dashboard: []
-        'organisations.applications.create.step': [
+        'settings.profile.edit': []
+        'settings.profile.update': []
+        'settings.profile.destroy': []
+        'settings.applications.create.step': [
             {
                 name: 'application'
                 required: true
@@ -22,7 +25,7 @@ declare module 'ziggy-js' {
                 required: true
             },
         ]
-        'organisations.applications.store.step': [
+        'settings.applications.store.step': [
             {
                 name: 'application'
                 required: true
@@ -32,40 +35,40 @@ declare module 'ziggy-js' {
                 required: true
             },
         ]
-        'organisations.applications.restore': [
+        'settings.applications.restore': [
             {
                 name: 'application'
                 required: true
             },
         ]
-        'organisations.applications.submit': [
+        'settings.applications.submit': [
             {
                 name: 'application'
                 required: true
             },
         ]
-        'organisations.applications.index': []
-        'organisations.applications.create': []
-        'organisations.applications.store': []
-        'organisations.applications.show': [
+        'settings.applications.index': []
+        'settings.applications.create': []
+        'settings.applications.store': []
+        'settings.applications.show': [
             {
                 name: 'application'
                 required: true
             },
         ]
-        'organisations.applications.edit': [
+        'settings.applications.edit': [
             {
                 name: 'application'
                 required: true
             },
         ]
-        'organisations.applications.update': [
+        'settings.applications.update': [
             {
                 name: 'application'
                 required: true
             },
         ]
-        'organisations.applications.destroy': [
+        'settings.applications.destroy': [
             {
                 name: 'application'
                 required: true
@@ -79,22 +82,22 @@ declare module 'ziggy-js' {
             },
         ]
         'tenant.dashboard': []
-        'organisation.invitations.resend': [
+        'settings.invitations.resend': [
             {
                 name: 'id'
                 required: true
             },
         ]
-        'organisation.invitations.index': []
-        'organisation.invitations.create': []
-        'organisation.invitations.store': []
-        'organisation.invitations.show': [
+        'settings.invitations.index': []
+        'settings.invitations.create': []
+        'settings.invitations.store': []
+        'settings.invitations.show': [
             {
                 name: 'invitation'
                 required: true
             },
         ]
-        'organisation.members.index': []
+        'settings.members.index': []
         'animals.dogs.publish': [
             {
                 name: 'id'
@@ -161,9 +164,6 @@ declare module 'ziggy-js' {
                 required: true
             },
         ]
-        'profile.edit': []
-        'profile.update': []
-        'profile.destroy': []
         'animals.browse': []
         'animals.show': [
             {

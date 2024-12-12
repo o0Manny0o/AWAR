@@ -1,14 +1,17 @@
 import { Head } from '@inertiajs/react'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
-import { badgeColor, badgeLabelKey } from './Lib/OrganisationApplication.util'
-import { ShowActionButtons } from './Lib/OragnisationApplication.buttons'
+import {
+    badgeColor,
+    badgeLabelKey,
+} from '@/Pages/Settings/Application/Lib/OrganisationApplication.util'
+import { ShowActionButtons } from '@/Pages/Settings/Application/Lib/OrganisationApplication.buttons'
 import { Card } from '@/Components/Layout/Card'
 import {
     AddressInfoShowGroup,
     GeneralInfoShowGroup,
     SubdomainInfoShowGroup,
-} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
+} from '@/Pages/Settings/Application/Lib/OrganisationApplication.components'
+import { SettingsLayout } from '@/Layouts/SettingsLayout'
 import Application = App.Models.OrganisationApplication
 
 export default function Show({
@@ -17,14 +20,14 @@ export default function Show({
     const __ = useTranslate()
 
     return (
-        <AuthenticatedLayout
+        <SettingsLayout
             title={application.name}
             badge={{
                 color: badgeColor(application),
                 label: __(badgeLabelKey(application)),
             }}
             actionButtons={ShowActionButtons(application)}
-            backUrl={route('organisations.applications.index')}
+            backUrl={route('settings.applications.index')}
         >
             <Head title={`${application.name} Application`} />
 
@@ -47,6 +50,6 @@ export default function Show({
                     <SubdomainInfoShowGroup application={application} />
                 </Card>
             </div>
-        </AuthenticatedLayout>
+        </SettingsLayout>
     )
 }

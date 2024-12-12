@@ -5,10 +5,10 @@ import { useContext } from 'react'
 import {
     removeTrailingDash,
     transformSubdomain,
-} from '@/Pages/Organisation/Application/Lib/OrganisationApplication.util'
+} from '@/Pages/Settings/Application/Lib/OrganisationApplication.util'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
 import { usePage } from '@inertiajs/react'
-import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Settings/Application/Lib/OrganisationApplication.context'
 import OrganisationApplication = App.Models.OrganisationApplication
 
 interface GroupProps {

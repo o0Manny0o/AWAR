@@ -1,5 +1,5 @@
 import { FormEventHandler, useContext } from 'react'
-import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Settings/Application/Lib/OrganisationApplication.context'
 import { useForm } from '@inertiajs/react'
 import { CreateGroup } from '@/Pages/Tenant/Organisation/Invitation/Lib/OrganisationInvitation.components'
 import { Button } from '@/Components/_Base/Button'

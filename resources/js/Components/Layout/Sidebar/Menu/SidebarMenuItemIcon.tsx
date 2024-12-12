@@ -1,6 +1,5 @@
 import { twJoin } from 'tailwind-merge'
 import { ComponentType, useContext } from 'react'
-import { PageHeaderButton } from '@/Components/Layout/PageHeader'
 import { SidebarContext } from '@/Components/Layout/Sidebar/Sidebar.context'
 
 type SideMenuIcon = {

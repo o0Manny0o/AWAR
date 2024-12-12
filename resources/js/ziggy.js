@@ -29,65 +29,80 @@ const Ziggy = {
             methods: ['GET', 'HEAD'],
             domain: 'awar.test',
         },
-        'organisations.applications.create.step': {
-            uri: 'organisations\/applications\/create\/{application}\/{step}',
+        'settings.profile.edit': {
+            uri: 'settings\/profile',
+            methods: ['GET', 'HEAD'],
+            domain: 'awar.test',
+        },
+        'settings.profile.update': {
+            uri: 'settings\/profile',
+            methods: ['PATCH'],
+            domain: 'awar.test',
+        },
+        'settings.profile.destroy': {
+            uri: 'settings\/profile',
+            methods: ['DELETE'],
+            domain: 'awar.test',
+        },
+        'settings.applications.create.step': {
+            uri: 'settings\/applications\/create\/{application}\/{step}',
             methods: ['GET', 'HEAD'],
             domain: 'awar.test',
             parameters: ['application', 'step'],
         },
-        'organisations.applications.store.step': {
-            uri: 'organisations\/applications\/{application}\/{step}',
+        'settings.applications.store.step': {
+            uri: 'settings\/applications\/{application}\/{step}',
             methods: ['POST'],
             domain: 'awar.test',
             parameters: ['application', 'step'],
         },
-        'organisations.applications.restore': {
-            uri: 'organisations\/applications\/{application}\/restore',
+        'settings.applications.restore': {
+            uri: 'settings\/applications\/{application}\/restore',
             methods: ['PATCH'],
             domain: 'awar.test',
             parameters: ['application'],
         },
-        'organisations.applications.submit': {
-            uri: 'organisations\/applications\/{application}\/submit',
+        'settings.applications.submit': {
+            uri: 'settings\/applications\/{application}\/submit',
             methods: ['PATCH'],
             domain: 'awar.test',
             parameters: ['application'],
         },
-        'organisations.applications.index': {
-            uri: 'organisations\/applications',
+        'settings.applications.index': {
+            uri: 'settings\/applications',
             methods: ['GET', 'HEAD'],
             domain: 'awar.test',
         },
-        'organisations.applications.create': {
-            uri: 'organisations\/applications\/create',
+        'settings.applications.create': {
+            uri: 'settings\/applications\/create',
             methods: ['GET', 'HEAD'],
             domain: 'awar.test',
         },
-        'organisations.applications.store': {
-            uri: 'organisations\/applications',
+        'settings.applications.store': {
+            uri: 'settings\/applications',
             methods: ['POST'],
             domain: 'awar.test',
         },
-        'organisations.applications.show': {
-            uri: 'organisations\/applications\/{application}',
+        'settings.applications.show': {
+            uri: 'settings\/applications\/{application}',
             methods: ['GET', 'HEAD'],
             domain: 'awar.test',
             parameters: ['application'],
         },
-        'organisations.applications.edit': {
-            uri: 'organisations\/applications\/{application}\/edit',
+        'settings.applications.edit': {
+            uri: 'settings\/applications\/{application}\/edit',
             methods: ['GET', 'HEAD'],
             domain: 'awar.test',
             parameters: ['application'],
         },
-        'organisations.applications.update': {
-            uri: 'organisations\/applications\/{application}',
+        'settings.applications.update': {
+            uri: 'settings\/applications\/{application}',
             methods: ['PUT', 'PATCH'],
             domain: 'awar.test',
             parameters: ['application'],
         },
-        'organisations.applications.destroy': {
-            uri: 'organisations\/applications\/{application}',
+        'settings.applications.destroy': {
+            uri: 'settings\/applications\/{application}',
             methods: ['DELETE'],
             domain: 'awar.test',
             parameters: ['application'],
@@ -99,30 +114,30 @@ const Ziggy = {
             parameters: ['token'],
         },
         'tenant.dashboard': { uri: 'dashboard', methods: ['GET', 'HEAD'] },
-        'organisation.invitations.resend': {
-            uri: 'invitations\/resend\/{id}',
+        'settings.invitations.resend': {
+            uri: 'settings\/invitations\/resend\/{id}',
             methods: ['POST'],
             parameters: ['id'],
         },
-        'organisation.invitations.index': {
-            uri: 'invitations',
+        'settings.invitations.index': {
+            uri: 'settings\/invitations',
             methods: ['GET', 'HEAD'],
         },
-        'organisation.invitations.create': {
-            uri: 'invitations\/create',
+        'settings.invitations.create': {
+            uri: 'settings\/invitations\/create',
             methods: ['GET', 'HEAD'],
         },
-        'organisation.invitations.store': {
-            uri: 'invitations',
+        'settings.invitations.store': {
+            uri: 'settings\/invitations',
             methods: ['POST'],
         },
-        'organisation.invitations.show': {
-            uri: 'invitations\/{invitation}',
+        'settings.invitations.show': {
+            uri: 'settings\/invitations\/{invitation}',
             methods: ['GET', 'HEAD'],
             parameters: ['invitation'],
         },
-        'organisation.members.index': {
-            uri: 'members',
+        'settings.members.index': {
+            uri: 'settings\/members',
             methods: ['GET', 'HEAD'],
         },
         'animals.dogs.publish': {
@@ -193,12 +208,9 @@ const Ziggy = {
             methods: ['DELETE'],
             parameters: ['animal'],
         },
-        'profile.edit': { uri: 'profile', methods: ['GET', 'HEAD'] },
-        'profile.update': { uri: 'profile', methods: ['PATCH'] },
-        'profile.destroy': { uri: 'profile', methods: ['DELETE'] },
         'animals.browse': { uri: 'animals', methods: ['GET', 'HEAD'] },
         'animals.show': {
-            uri: 'animals\/${id}',
+            uri: 'animals\/{id}',
             methods: ['GET', 'HEAD'],
             parameters: ['id'],
         },

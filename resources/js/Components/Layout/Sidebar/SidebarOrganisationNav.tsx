@@ -1,10 +1,11 @@
-import { SidebarMenuItem } from '@/Components/Layout/Sidebar/SidebarMenuItem'
+import { SidebarMenuItem } from '@/Components/Layout/Sidebar/Menu/SidebarMenuItem'
 import useTranslate from '@/shared/hooks/useTranslate'
-import { SidebarMenuItemIcon } from '@/Components/Layout/Sidebar/SidebarMenuItemIcon'
-import { SidebarMenuList } from '@/Components/Layout/Sidebar/SidebarMenuList'
+import { SidebarMenuItemIcon } from '@/Components/Layout/Sidebar/Menu/SidebarMenuItemIcon'
+import { SidebarMenuList } from '@/Components/Layout/Sidebar/Menu/SidebarMenuList'
 import { useContext } from 'react'
 import { SidebarContext } from '@/Components/Layout/Sidebar/Sidebar.context'
 import { usePage } from '@inertiajs/react'
+import { Anchor } from '@/Components/_Base/Anchor'
 
 export function SidebarOrganisationNav() {
     const __ = useTranslate()
@@ -27,32 +28,19 @@ export function SidebarOrganisationNav() {
                 {__('general.navigation.your_organisations')}
             </div>
             <SidebarMenuList>
-                {user.tenants?.map(
-                    (organisation) =>
-                        organisation.domains &&
-                        organisation.domains[0] && (
-                            <SidebarMenuItem
-                                key={organisation.name}
-                                href={`https://${organisation.domains[0].domain}/dashboard`}
-                                active={
-                                    tenant?.domains?.[0].domain ===
-                                    organisation.domains[0].domain
-                                }
-                                element={function Anchor(props) {
-                                    return <a {...props}>{props.children}</a>
-                                }}
-                            >
-                                <SidebarMenuItemIcon
-                                    text={organisation.name
-                                        .charAt(0)
-                                        .toUpperCase()}
-                                />
-                                <span className="truncate">
-                                    {organisation.name}
-                                </span>
-                            </SidebarMenuItem>
-                        ),
-                )}
+                {user.tenants?.map((organisation) => (
+                    <SidebarMenuItem
+                        key={organisation.name}
+                        href={organisation.dashboard_url}
+                        active={tenant?.name === organisation.name}
+                        element={Anchor}
+                    >
+                        <SidebarMenuItemIcon
+                            text={organisation.name.charAt(0).toUpperCase()}
+                        />
+                        <span className="truncate">{organisation.name}</span>
+                    </SidebarMenuItem>
+                ))}
             </SidebarMenuList>
         </>
     )

@@ -2,7 +2,7 @@ import CreateOrganisationFormStep1 from './CreateOrganisationFormStep1'
 import CreateOrganisationFormStep2 from './CreateOrganisationFormStep2'
 import CreateOrganisationFormStep3 from './CreateOrganisationFormStep3'
 import { FormContextProvider } from '@/shared/contexts/Form.context'
-import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { ApplicationFormWrapper } from '@/Pages/Settings/Application/Lib/OrganisationApplication.context'
 import OrganisationApplicationDraft = App.Models.OrganisationApplicationDraft
 
 export default function CreateOrganisationForm({

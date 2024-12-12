@@ -57,25 +57,28 @@ Route::middleware([
             })->name('tenant.dashboard');
 
             Route::middleware([IsTenantAdmin::class])->group(function () {
-                Route::name('organisation.')->group(function () {
-                    Route::name('invitations.')
-                        ->prefix('invitations')
-                        ->group(function () {
-                            Route::post('/resend/{id}', [
-                                OrganisationInvitationController::class,
-                                'resend',
-                            ])->name('resend');
-                        });
+                Route::name('settings.')
+                    ->prefix('settings')
+                    ->group(function () {
+                        Route::name('invitations.')
+                            ->prefix('invitations')
+                            ->group(function () {
+                                Route::post('/resend/{id}', [
+                                    OrganisationInvitationController::class,
+                                    'resend',
+                                ])->name('resend');
+                            });
 
-                    Route::resource(
-                        'invitations',
-                        OrganisationInvitationController::class,
-                    )->except(['edit', 'update', 'destroy']);
+                        Route::resource(
+                            'invitations',
+                            OrganisationInvitationController::class,
+                        )->except(['edit', 'update', 'destroy']);
 
-                    Route::resource('members', MemberController::class)->only([
-                        'index',
-                    ]);
-                });
+                        Route::resource(
+                            'members',
+                            MemberController::class,
+                        )->only(['index']);
+                    });
             });
 
             Route::middleware([

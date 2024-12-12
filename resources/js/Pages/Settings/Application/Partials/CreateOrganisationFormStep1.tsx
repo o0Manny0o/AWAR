@@ -3,8 +3,8 @@ import { FormEventHandler, useContext } from 'react'
 import { twMerge } from 'tailwind-merge'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Button } from '@/Components/_Base/Button'
-import { GeneralInfoGroup } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.components'
-import { ApplicationFormWrapper } from '@/Pages/Organisation/Application/Lib/OrganisationApplication.context'
+import { GeneralInfoGroup } from '@/Pages/Settings/Application/Lib/OrganisationApplication.components'
+import { ApplicationFormWrapper } from '@/Pages/Settings/Application/Lib/OrganisationApplication.context'
 
 export default function CreateOrganisationFormStep1({
     className = '',
@@ -32,12 +32,12 @@ export default function CreateOrganisationFormStep1({
 
         post(
             application?.id
-                ? route('organisations.applications.store.step', {
+                ? route('settings.applications.store.step', {
                       application: application.id,
                       step: 1,
                       ...routeParams,
                   })
-                : route('organisations.applications.store', { ...routeParams }),
+                : route('settings.applications.store', { ...routeParams }),
             {
                 preserveScroll: true,
                 replace: true,

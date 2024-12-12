@@ -12,7 +12,7 @@ use Inertia\Response;
 class MemberController extends Controller
 {
     protected string $baseRouteName = 'organisation.members';
-    protected string $baseViewPath = 'Tenant/Organisation/Member';
+    protected string $baseViewPath = 'Tenant/Settings/Member';
 
     /**
      * Display a listing of the resource.

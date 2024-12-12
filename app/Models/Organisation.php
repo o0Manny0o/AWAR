@@ -39,6 +39,7 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read int|null $members_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Animal> $animals
  * @property-read int|null $animals_count
+ * @property-read mixed $dashboard_url
  * @mixin \Eloquent
  */
 class Organisation extends Tenant implements TenantWithDatabase
@@ -51,6 +52,8 @@ class Organisation extends Tenant implements TenantWithDatabase
 
     protected $hidden = ['pivot', 'data', 'tenancy_db_name', 'id'];
 
+    protected $appends = ['dashboard_url'];
+
     public static function getCustomColumns(): array
     {
         return ['id', 'name'];
@@ -59,6 +62,14 @@ class Organisation extends Tenant implements TenantWithDatabase
     public function getIncrementing(): bool
     {
         return true;
+    }
+
+    public function getDashboardUrlAttribute()
+    {
+        return tenant_route(
+            $this->domains->first()->domain,
+            'tenant.dashboard',
+        );
     }
 
     public function domains(): HasMany

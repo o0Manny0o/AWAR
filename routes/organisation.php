@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\AppInertia;
 
 Route::middleware(['auth', 'verified'])
-    ->prefix('organisations')
-    ->name('organisations.')
+    ->prefix('settings')
+    ->name('settings.')
     ->group(function () {
         Route::name('applications.')
             ->prefix('applications')

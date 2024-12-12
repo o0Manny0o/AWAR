@@ -5,10 +5,11 @@ import { usePage } from '@inertiajs/react'
 import { MenuItemLink } from '@/Components/_Base'
 import { PropsWithChildren } from 'react'
 import { getAbbreviation } from '@/shared/util'
+import { Anchor } from '@/Components/_Base/Anchor'
 
 export default function DesktopMainNav({ children }: PropsWithChildren) {
     const __ = useTranslate()
-    const { auth, centralDomain } = usePage().props
+    const { auth } = usePage().props
 
     return (
         <div className="right-0 flex sm:static sm:pr-0">
@@ -55,19 +56,18 @@ export default function DesktopMainNav({ children }: PropsWithChildren) {
                         >
                             <MenuItem>
                                 <MenuItemLink
-                                    component={function Anchor(props) {
-                                        return (
-                                            <a {...props}>{props.children}</a>
-                                        )
-                                    }}
-                                    href={`https://${centralDomain}/dashboard`}
+                                    href={route('dashboard')}
                                     active={route().current('dashboard')}
+                                    component={Anchor}
                                 >
                                     {__('general.navigation.your_dashboard')}
                                 </MenuItemLink>
                             </MenuItem>
                             <MenuItem>
-                                <MenuItemLink href={route('profile.edit')}>
+                                <MenuItemLink
+                                    href={route('settings.profile.edit')}
+                                    component={Anchor}
+                                >
                                     {__('general.navigation.profile')}
                                 </MenuItemLink>
                             </MenuItem>
