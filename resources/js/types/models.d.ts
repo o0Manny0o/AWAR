@@ -157,4 +157,22 @@ declare namespace App.Models {
         id: string
         name: string
     }
+
+    export interface Address {
+        street_address: string
+        locality: string
+        region: string
+        postal_code: string
+        country: Country
+    }
+
+    export interface Location {
+        id: string
+        name: string
+        public: boolean
+        address: Address
+        created_at: string
+        updated_at: string
+        deleted_at: string
+    }
 }

@@ -59,7 +59,15 @@ class Address extends Model
         'location',
     ];
 
-    protected $visible = ['locality', 'country', 'distance'];
+    protected $visible = [
+        'id',
+        'street_address',
+        'region',
+        'postal_code',
+        'locality',
+        'country',
+        'distance',
+    ];
 
     protected $with = ['country:code,name'];
 

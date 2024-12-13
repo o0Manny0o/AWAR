@@ -4,10 +4,16 @@ import { Card } from '@/Components/Layout/Card'
 import List from '@/Components/Resource/List'
 import { SettingsLayout } from '@/Layouts/SettingsLayout'
 import { IndexActionButtons } from '@/Pages/Tenant/Settings/Location/Lib/Location.buttons'
+import { Badge } from '@/Components/_Base/Badge'
+import {
+    badgeColor,
+    badgeLabelKey,
+} from '@/Pages/Tenant/Settings/Location/Lib/Location.util'
+import Location = App.Models.Location
 
 export default function Index({
     locations,
-}: AppPageProps<{ locations: any[] }>) {
+}: AppPageProps<{ locations: Location[] }>) {
     const __ = useTranslate()
 
     console.log(locations)
@@ -26,9 +32,15 @@ export default function Index({
                 <Card>
                     <List
                         entities={locations}
-                        title={(i) => i.name}
-                        subtitle={(e) => e.email}
-                        secondarySubtitle={(e) => e.roles}
+                        title={(l) => l.name}
+                        subtitle={(l) =>
+                            `${l.address.street_address}, ${l.address.postal_code} ${l.address.locality}, ${l.address.region ?? ''} ${l.address.country.name}`
+                        }
+                        badge={(l) => (
+                            <Badge color={badgeColor(l)}>
+                                {__(badgeLabelKey(l))}
+                            </Badge>
+                        )}
                         resourceUrl={'settings.locations'}
                         resourceLabel={
                             'general.resources.organisation.location'

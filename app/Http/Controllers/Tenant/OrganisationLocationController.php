@@ -29,7 +29,11 @@ class OrganisationLocationController extends Controller
     {
         $this->authorize('viewAny', OrganisationLocation::class);
 
-        $locations = OrganisationLocation::all();
+        $locations = OrganisationLocation::all()->each(
+            fn(OrganisationLocation $location) => $location->setPermissions(
+                $request->user(),
+            ),
+        );
 
         return AppInertia::render($this->getIndexView(), [
             'locations' => $locations,
@@ -124,9 +128,20 @@ class OrganisationLocationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): Response|RedirectResponse
     {
-        //
+        /** @var OrganisationLocation|null $location */
+        $location = OrganisationLocation::find($id);
+        if (!$location) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('view', $location);
+
+        return AppInertia::render($this->getShowView(), [
+            'location' => $location,
+            'permissions' => $this->permissions(request(), $location),
+        ]);
     }
 
     /**

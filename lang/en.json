@@ -217,7 +217,9 @@
             "sent": "Sent",
             "accepted": "Accepted",
             "published": "Published",
-            "unlisted": "Unlisted"
+            "unlisted": "Unlisted",
+            "public": "Public",
+            "internal": "Internal"
         },
         "button": {
             "view": "View :resource",

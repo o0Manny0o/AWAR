@@ -82,7 +82,7 @@ Route::middleware([
                         Route::resource(
                             'locations',
                             OrganisationLocationController::class,
-                        )->only(['index', 'create', 'store']);
+                        );
                     });
             });
 

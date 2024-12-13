@@ -31,6 +31,10 @@ class OrganisationLocation extends Model
 
     protected $fillable = ['name', 'public'];
 
+    protected $with = ['address', 'address.country'];
+
+    protected $appends = ['can_be_deleted', 'can_be_viewed', 'can_be_updated'];
+
     /**
      * Get the organisation that owns the location.
      */
