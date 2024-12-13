@@ -17,7 +17,8 @@
             "organisations": {
                 "applications": "Bewerbungen",
                 "invitations": "Einladungen",
-                "members": "Mitglieder"
+                "members": "Mitglieder",
+                "locations": "Ihre Standorte"
             },
             "overview": "Übersicht",
             "your_organisations": "Deine Organisationen",
@@ -79,7 +80,8 @@
         "resources": {
             "organisation": {
                 "invitation": "Einladung",
-                "application": "Bewerbung"
+                "application": "Bewerbung",
+                "location": "Standort"
             },
             "animals": {
                 "dog": "Hund",
@@ -189,6 +191,14 @@
         },
         "dashboard": {
             "welcome": "Wilkommen bei :organisation, :name"
+        },
+        "location": {
+            "headers": {
+                "index": "Ihre Standorte"
+            },
+            "titles": {
+                "index": "Ihre Standorte"
+            }
         }
     },
     "animals": {

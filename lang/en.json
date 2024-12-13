@@ -180,7 +180,8 @@
             "organisations": {
                 "applications": "Applications",
                 "invitations": "Invitations",
-                "members": "Members"
+                "members": "Members",
+                "locations": "Your Locations"
             },
             "overview": "Overview",
             "your_organisations": "Your Organisations",
@@ -242,7 +243,8 @@
         "resources": {
             "organisation": {
                 "invitation": "Invitation",
-                "application": "Application"
+                "application": "Application",
+                "location": "Location"
             },
             "animals": {
                 "dog": "Dog",
@@ -357,6 +359,14 @@
         },
         "dashboard": {
             "welcome": "Welcome to :organisation, :name"
+        },
+        "location": {
+            "headers": {
+                "index": "Your Locations"
+            },
+            "titles": {
+                "index": "Your Locations"
+            }
         }
     },
     "animals": {

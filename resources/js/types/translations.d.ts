@@ -182,6 +182,7 @@ type Navigation_Organisations = {
     applications: string
     invitations: string
     members: string
+    locations: string
 }
 type Navigation_Animals = {
     dogs: string
@@ -236,6 +237,7 @@ type General_Resources = {
 type Resources_Organisation = {
     invitation: string
     application: string
+    location: string
 }
 type Resources_Animals = {
     dog: string
@@ -261,6 +263,7 @@ type Translations_Organisations = {
     invitations: Organisations_Invitations
     members: Organisations_Members
     dashboard: Organisations_Dashboard
+    location: Organisations_Location
 }
 type Organisations_Applications = {
     form: Applications_Form
@@ -327,6 +330,10 @@ type HeadersOrTitles = {
 }
 type Organisations_Dashboard = {
     welcome: string
+}
+type Organisations_Location = {
+    headers: HeadersOrTitles
+    titles: HeadersOrTitles
 }
 type Translations_Animals = {
     dogs: Animals_Dogs
