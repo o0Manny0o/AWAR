@@ -55,7 +55,9 @@ export function SidebarNav({
                                                 )}
                                             />
                                         )}
-                                        {__(item.label)}
+                                        <span className="truncate">
+                                            {__(item.label)}
+                                        </span>
                                     </SidebarMenuItem>
                                 ))}
                             </SidebarMenuList>

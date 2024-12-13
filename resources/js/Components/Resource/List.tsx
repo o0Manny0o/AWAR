@@ -36,7 +36,7 @@ export default function List<
 
     return (
         <ul role="list" className="divide-y divide-gray-100">
-            {entities.map((entity) => (
+            {entities?.map((entity) => (
                 <li
                     key={entity.id}
                     className="flex items-center justify-between gap-x-6 py-5 first:pt-0 last:pb-0"

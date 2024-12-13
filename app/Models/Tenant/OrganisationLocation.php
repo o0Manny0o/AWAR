@@ -1,10 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Tenant;
 
+use App\Models\Address;
+use App\Models\Organisation;
+use App\Models\Scopes\TenantScope;
+use App\Traits\HasResourcePermissions;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -16,8 +23,11 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property-read \App\Models\Address|null $address
  * @mixin \Eloquent
  */
+#[ScopedBy([TenantScope::class])]
 class OrganisationLocation extends Model
 {
+    use CentralConnection, SoftDeletes, HasResourcePermissions;
+
     /**
      * Get the organisation that owns the location.
      */

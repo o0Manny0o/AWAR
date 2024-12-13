@@ -15,11 +15,15 @@ return new class extends Migration {
 
             $table->string('name');
 
+            $table->boolean('public')->default(false);
+
             $table
-                ->foreignId('organisation_id')
+                ->foreignUuid('organisation_id')
                 ->constrained('organisations')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+
+            $table->softDeletes();
 
             $table->timestamps();
         });

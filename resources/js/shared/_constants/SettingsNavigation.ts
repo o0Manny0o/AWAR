@@ -1,5 +1,9 @@
 import { NavigationItem } from '@/types/navigation'
-import { EnvelopeIcon, UsersIcon } from '@heroicons/react/24/outline'
+import {
+    BuildingOfficeIcon,
+    EnvelopeIcon,
+    UsersIcon,
+} from '@heroicons/react/24/outline'
 
 export const CentralSettingsNavigation: NavigationItem[] = [
     {
@@ -22,5 +26,10 @@ export const TenantSettingsNavigation: NavigationItem[] = [
         name: 'settings.invitations.index',
         label: 'general.navigation.organisations.invitations',
         icon: EnvelopeIcon,
+    },
+    {
+        name: 'settings.locations.index',
+        label: 'general.navigation.organisations.locations',
+        icon: BuildingOfficeIcon,
     },
 ]
