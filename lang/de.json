@@ -1,6 +1,7 @@
 {
     "validation": {
-        "required": "Das Feld {attribute} ist erforderlich."
+        "required": "Das Feld {attribute} ist erforderlich.",
+        "postal_code_with": "Das Feld muss eine valide Postleitzahl sein."
     },
     "general": {
         "languages": {
@@ -192,12 +193,17 @@
         "dashboard": {
             "welcome": "Wilkommen bei :organisation, :name"
         },
-        "location": {
+        "locations": {
             "headers": {
-                "index": "Ihre Standorte"
+                "index": "Ihre Standorte",
+                "create": "Einen neuen Standort anlegen"
             },
             "titles": {
-                "index": "Ihre Standorte"
+                "index": "Ihre Standorte",
+                "create": "Neuer Standort"
+            },
+            "form": {
+                "cancel_create": "Sie möchten keinen neuen Standort erstellen?"
             }
         }
     },

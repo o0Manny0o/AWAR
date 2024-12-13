@@ -8,6 +8,7 @@ type Translations = {
     organisations: Translations_Organisations
     animals: Translations_Animals
     history: Translations_History
+    countries: Translations_Countries
 }
 type Translations_Auth = {
     failed: string
@@ -263,7 +264,7 @@ type Translations_Organisations = {
     invitations: Organisations_Invitations
     members: Organisations_Members
     dashboard: Organisations_Dashboard
-    location: Organisations_Location
+    locations: Organisations_Locations
 }
 type Organisations_Applications = {
     form: Applications_Form
@@ -293,8 +294,8 @@ type RegisteredOrToken = {
 type Organisations_Invitations = {
     mail: Invitations_Mail
     form: Invitations_Form
-    titles: TitlesOrHeaders
-    headers: TitlesOrHeaders
+    titles: Invitations_Set
+    headers: Invitations_Set
     messages: Invitations_Messages
 }
 type Invitations_Mail = {
@@ -310,7 +311,7 @@ type Invitations_Form = {
     token: RegisteredOrToken
     cancel_create: string
 }
-type TitlesOrHeaders = {
+type Invitations_Set = {
     create: string
     index: string
 }
@@ -331,9 +332,13 @@ type HeadersOrTitles = {
 type Organisations_Dashboard = {
     welcome: string
 }
-type Organisations_Location = {
-    headers: HeadersOrTitles
-    titles: HeadersOrTitles
+type Organisations_Locations = {
+    headers: Invitations_Set
+    titles: Invitations_Set
+    form: Locations_Form
+}
+type Locations_Form = {
+    cancel_create: string
 }
 type Translations_Animals = {
     dogs: Animals_Dogs
@@ -341,7 +346,7 @@ type Translations_Animals = {
     form_general: Animals_Form_general
 }
 type Animals_Dogs = {
-    headers: TitlesOrHeaders
+    headers: Invitations_Set
     titles: Titles
     form: Form
 }
@@ -363,7 +368,7 @@ type Family = {
 }
 type Animals_Cats = {
     titles: Titles
-    headers: TitlesOrHeaders
+    headers: Invitations_Set
     form: Form
 }
 type Animals_Form_general = {
@@ -387,4 +392,199 @@ type Changes_Internal = {
 }
 type Changes_Public = {
     initial: string
+}
+type Translations_Countries = {
+    af: string
+    al: string
+    dz: string
+    ad: string
+    ao: string
+    ag: string
+    ar: string
+    am: string
+    au: string
+    at: string
+    az: string
+    bs: string
+    bh: string
+    bd: string
+    bb: string
+    by: string
+    be: string
+    bz: string
+    bj: string
+    bt: string
+    bo: string
+    ba: string
+    bw: string
+    br: string
+    bn: string
+    bg: string
+    bf: string
+    bi: string
+    cv: string
+    kh: string
+    cm: string
+    ca: string
+    cf: string
+    td: string
+    cl: string
+    cn: string
+    co: string
+    km: string
+    cg: string
+    cd: string
+    cr: string
+    ci: string
+    hr: string
+    cu: string
+    cy: string
+    cz: string
+    dk: string
+    dj: string
+    dm: string
+    do: string
+    ec: string
+    eg: string
+    sv: string
+    gq: string
+    er: string
+    ee: string
+    sz: string
+    et: string
+    fj: string
+    fi: string
+    fr: string
+    ga: string
+    gm: string
+    ge: string
+    de: string
+    gh: string
+    gr: string
+    gd: string
+    gt: string
+    gn: string
+    gw: string
+    gy: string
+    ht: string
+    hn: string
+    hu: string
+    is: string
+    in: string
+    id: string
+    ir: string
+    iq: string
+    ie: string
+    il: string
+    it: string
+    jm: string
+    jp: string
+    jo: string
+    kz: string
+    ke: string
+    ki: string
+    kp: string
+    kr: string
+    kw: string
+    kg: string
+    la: string
+    lv: string
+    lb: string
+    ls: string
+    lr: string
+    ly: string
+    li: string
+    lt: string
+    lu: string
+    mg: string
+    mw: string
+    my: string
+    mv: string
+    ml: string
+    mt: string
+    mh: string
+    mr: string
+    mu: string
+    mx: string
+    fm: string
+    md: string
+    mc: string
+    mn: string
+    me: string
+    ma: string
+    mz: string
+    mm: string
+    na: string
+    nr: string
+    np: string
+    nl: string
+    nz: string
+    ni: string
+    ne: string
+    ng: string
+    mk: string
+    no: string
+    om: string
+    pk: string
+    pw: string
+    pa: string
+    pg: string
+    py: string
+    pe: string
+    ph: string
+    pl: string
+    pt: string
+    qa: string
+    ro: string
+    ru: string
+    rw: string
+    kn: string
+    lc: string
+    vc: string
+    ws: string
+    sm: string
+    st: string
+    sa: string
+    sn: string
+    rs: string
+    sc: string
+    sl: string
+    sg: string
+    sk: string
+    si: string
+    sb: string
+    so: string
+    za: string
+    ss: string
+    es: string
+    lk: string
+    sd: string
+    sr: string
+    se: string
+    ch: string
+    sy: string
+    tj: string
+    tz: string
+    th: string
+    tl: string
+    tg: string
+    to: string
+    tt: string
+    tn: string
+    tr: string
+    tm: string
+    tv: string
+    ug: string
+    ua: string
+    ae: string
+    gb: string
+    us: string
+    uy: string
+    uz: string
+    vu: string
+    ve: string
+    vn: string
+    ye: string
+    zm: string
+    zw: string
 }

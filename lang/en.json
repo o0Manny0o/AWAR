@@ -16,6 +16,7 @@
         "user": "We can't find a user with that email address."
     },
     "validation": {
+        "postal_code_with": "The field must be a valid postal code.",
         "accepted": "The {attribute} field must be accepted.",
         "accepted_if": "The {attribute} field must be accepted when {other} is {value}.",
         "active_url": "The {attribute} field must be a valid URL.",
@@ -360,12 +361,17 @@
         "dashboard": {
             "welcome": "Welcome to :organisation, :name"
         },
-        "location": {
+        "locations": {
             "headers": {
-                "index": "Your Locations"
+                "index": "Your Locations",
+                "create": "Create a new location"
             },
             "titles": {
-                "index": "Your Locations"
+                "index": "Your Locations",
+                "create": "New Location"
+            },
+            "form": {
+                "cancel_create": "Don't want to create a new location?"
             }
         }
     },

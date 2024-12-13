@@ -152,4 +152,9 @@ declare namespace App.Models {
         created_at: string
         updated_at: string
     }
+
+    export interface Country {
+        id: string
+        name: string
+    }
 }

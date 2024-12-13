@@ -19848,6 +19848,74 @@ namespace Illuminate\Support\Facades {
     }
 }
 
+namespace Axlon\PostalCodeValidation\Support\Facades {
+    /**
+     *
+     *
+     * @see \Axlon\PostalCodeValidation\PostalCodeValidator
+     */ class PostalCodes
+    {
+        /**
+         * Determine if the given postal code(s) are invalid for the given country.
+         *
+         * @param string $countryCode
+         * @param string|null $postalCodes
+         * @return bool
+         * @static
+         */ public static function fails($countryCode, ...$postalCodes)
+        {
+            /** @var \Axlon\PostalCodeValidation\PostalCodeValidator $instance */
+            return $instance->fails($countryCode, ...$postalCodes);
+        }
+        /**
+         * Override pattern matching for the given country.
+         *
+         * @param array|string $countryCode
+         * @param string|null $pattern
+         * @return void
+         * @static
+         */ public static function override($countryCode, $pattern = null)
+        {
+            /** @var \Axlon\PostalCodeValidation\PostalCodeValidator $instance */
+            $instance->override($countryCode, $pattern);
+        }
+        /**
+         * Determine if the given postal code(s) are valid for the given country.
+         *
+         * @param string $countryCode
+         * @param string|null $postalCodes
+         * @return bool
+         * @static
+         */ public static function passes($countryCode, ...$postalCodes)
+        {
+            /** @var \Axlon\PostalCodeValidation\PostalCodeValidator $instance */
+            return $instance->passes($countryCode, ...$postalCodes);
+        }
+        /**
+         * Get the matching pattern for the given country.
+         *
+         * @param string $countryCode
+         * @return string|null
+         * @static
+         */ public static function patternFor($countryCode)
+        {
+            /** @var \Axlon\PostalCodeValidation\PostalCodeValidator $instance */
+            return $instance->patternFor($countryCode);
+        }
+        /**
+         * Determine if a matching pattern exists for the given country.
+         *
+         * @param string $countryCode
+         * @return bool
+         * @static
+         */ public static function supports($countryCode)
+        {
+            /** @var \Axlon\PostalCodeValidation\PostalCodeValidator $instance */
+            return $instance->supports($countryCode);
+        }
+    }
+}
+
 namespace CloudinaryLabs\CloudinaryLaravel\Facades {
     /**
      * Class Cloudinary
@@ -27247,6 +27315,10 @@ namespace {
     {
     }
     class Vite extends \Illuminate\Support\Facades\Vite
+    {
+    }
+    class PostalCodes extends
+        \Axlon\PostalCodeValidation\Support\Facades\PostalCodes
     {
     }
     class Cloudinary extends

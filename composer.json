@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "axlon/laravel-postal-code-validation": "^3.7",
         "clickbar/laravel-magellan": "^1.6",
         "cloudinary-labs/cloudinary-laravel": "^2.2",
         "geocoder-php/locationiq-provider": "^1.4",

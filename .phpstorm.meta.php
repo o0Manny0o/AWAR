@@ -426,6 +426,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -866,6 +868,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -1306,6 +1310,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -1746,6 +1752,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -2186,6 +2194,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -2626,6 +2636,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -3066,6 +3078,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -3506,6 +3520,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -3946,6 +3962,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -4386,6 +4404,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>
@@ -4826,6 +4846,8 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
+            'postal_codes' =>
+                \Axlon\PostalCodeValidation\PostalCodeValidator::class,
             'queue' => \Illuminate\Queue\QueueManager::class,
             'queue.connection' => \Illuminate\Queue\DatabaseQueue::class,
             'queue.failer' =>

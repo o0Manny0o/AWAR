@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Country extends Model
 {
+    use CentralConnection;
     protected $primaryKey = 'code';
 
     protected $visible = ['alpha', 'name'];

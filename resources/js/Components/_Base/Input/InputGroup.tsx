@@ -3,7 +3,12 @@ import {
     InputLabel,
     TextInput,
 } from '@/Components/_Base/Input/index'
-import { forwardRef, useImperativeHandle, useRef } from 'react'
+import {
+    forwardRef,
+    HTMLInputAutoCompleteAttribute,
+    useImperativeHandle,
+    useRef,
+} from 'react'
 import { twMerge } from 'tailwind-merge'
 
 interface InputGroupProps {
@@ -19,6 +24,7 @@ interface InputGroupProps {
     leading?: string
     className?: string
     readOnly?: boolean
+    autoComplete?: HTMLInputAutoCompleteAttribute
 }
 
 export default forwardRef(function InputGroup(
@@ -35,6 +41,7 @@ export default forwardRef(function InputGroup(
         leading,
         className = '',
         readOnly = false,
+        autoComplete,
     }: InputGroupProps,
     ref,
 ) {
@@ -55,6 +62,7 @@ export default forwardRef(function InputGroup(
                 maxLength={255}
                 append={append}
                 leading={leading}
+                autoComplete={autoComplete}
                 onChange={(e) => onChange?.(e.target.value)}
                 onBlur={(e) => onBlur?.(e)}
                 type={type}

@@ -14,13 +14,13 @@ export default function Index({
 
     return (
         <SettingsLayout
-            title={__('organisations.location.headers.index')}
+            title={__('organisations.locations.headers.index')}
             actionButtons={IndexActionButtons(
                 'general.resources.organisation.location',
                 'settings.locations.create',
             )}
         >
-            <Head title={__('organisations.location.titles.index')} />
+            <Head title={__('organisations.locations.titles.index')} />
 
             <div className="">
                 <Card>

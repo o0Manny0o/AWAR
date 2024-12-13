@@ -7,6 +7,7 @@ use App\Models\Organisation;
 use App\Models\Scopes\TenantScope;
 use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -26,7 +27,9 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
 #[ScopedBy([TenantScope::class])]
 class OrganisationLocation extends Model
 {
-    use CentralConnection, SoftDeletes, HasResourcePermissions;
+    use CentralConnection, SoftDeletes, HasResourcePermissions, HasUuids;
+
+    protected $fillable = ['name', 'public'];
 
     /**
      * Get the organisation that owns the location.
