@@ -39,7 +39,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @property-read \App\Models\Animal\Animal $animal
  * @property-read User $changee
  * @method static Builder<static>|AnimalHistory wherePublic($value)
- * @method static Builder<static>|AnimalHistory public ()
+ * @method static Builder<static>|AnimalHistory publicChanges()
  * @mixin \Eloquent
  */
 class AnimalHistory extends Model
@@ -75,7 +75,7 @@ class AnimalHistory extends Model
 
     public static function publicHistory(Animal $animal): array
     {
-        $history = $animal->histories()->public()->whole()->get();
+        $history = $animal->histories()->publicChanges()->whole()->get();
 
         return $history->map(fn($h) => $h->formattedPublic())->toArray();
     }
@@ -121,7 +121,7 @@ class AnimalHistory extends Model
     /**
      * Scope a query to only include public changes.
      */
-    public function scopePublic(Builder $query): void
+    public function scopePublicChanges(Builder $query): void
     {
         $query->where('public', true);
     }

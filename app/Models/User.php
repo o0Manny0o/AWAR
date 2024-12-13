@@ -184,7 +184,7 @@ class User extends Authenticatable implements
     }
 
     /**
-     * Get all the users' addresses.
+     * Get the users' address.
      */
     public function address(): MorphOne
     {
