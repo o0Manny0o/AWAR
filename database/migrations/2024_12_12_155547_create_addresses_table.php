@@ -11,10 +11,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('countries', function (Blueprint $table) {
-            $table->id();
+            $table->integer('code', 3)->primary();
             $table->string('name');
             $table->string('alpha', 2)->unique();
-            $table->string('code', 3)->unique();
         });
 
         Schema::create('addresses', function (Blueprint $table) {
@@ -24,9 +23,10 @@ return new class extends Migration {
             $table->string('locality');
             $table->string('region')->nullable();
             $table->string('postal_code');
+
             $table
                 ->foreignId('country_id')
-                ->constrained()
+                ->constrained('countries', 'code')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
 

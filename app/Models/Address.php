@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Events\AddressSaved;
 use Clickbar\Magellan\Database\Eloquent\HasPostgisColumns;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  *
@@ -34,6 +35,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereStreetAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereUpdatedAt($value)
  * @property-read Model|\Eloquent $user
+ * @property string $location
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereLocation($value)
+ * @property-read string $address_string
  * @mixin \Eloquent
  */
 class Address extends Model
@@ -52,10 +56,24 @@ class Address extends Model
         'region',
         'postal_code',
         'country_id',
+        'location',
     ];
 
-    public function country(): HasOne
+    protected $visible = ['locality', 'country', 'distance'];
+
+    protected $with = ['country:code,name'];
+
+    protected $dispatchesEvents = [
+        'saved' => AddressSaved::class,
+    ];
+
+    public function country(): BelongsTo
     {
-        return $this->hasOne(Country::class);
+        return $this->belongsTo(Country::class, 'country_id', 'code');
+    }
+
+    public function getAddressStringAttribute(): string
+    {
+        return "{$this->street_address}, {$this->postal_code} {$this->locality}, {$this->region} {$this->country->name}";
     }
 }

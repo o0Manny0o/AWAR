@@ -19,11 +19,11 @@ class CountrySeeder extends Seeder
         foreach ($json as $country) {
             \App\Models\Country::updateOrCreate(
                 [
-                    'alpha' => $country['alpha-2'],
                     'code' => $country['country-code'],
                 ],
                 [
                     'name' => $country['name'],
+                    'alpha' => $country['alpha-2'],
                 ],
             );
         }

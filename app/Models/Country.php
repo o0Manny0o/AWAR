@@ -26,5 +26,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Country extends Model
 {
+    protected $primaryKey = 'code';
+
+    protected $visible = ['alpha', 'name'];
+
+    public $incrementing = false;
     public $timestamps = false;
 }
