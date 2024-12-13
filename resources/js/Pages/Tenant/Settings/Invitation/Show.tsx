@@ -1,10 +1,13 @@
 import { Head } from '@inertiajs/react'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
-import { badgeColor, badgeLabelKey } from './Lib/OrganisationInvitation.util'
+import {
+    badgeColor,
+    badgeLabelKey,
+} from '@/Pages/Tenant/Settings/Invitation/Lib/OrganisationInvitation.util'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
-import { ShowActionButtons } from './Lib/OrganisationInvitation.buttons'
+import { ShowActionButtons } from '@/Pages/Tenant/Settings/Invitation/Lib/OrganisationInvitation.buttons'
+import { SettingsLayout } from '@/Layouts/SettingsLayout'
 import OrganisationInvitation = App.Models.OrganisationInvitation
 
 export default function Show({
@@ -13,14 +16,14 @@ export default function Show({
     const __ = useTranslate()
 
     return (
-        <AuthenticatedLayout
+        <SettingsLayout
             title={invitation.email}
             badge={{
                 color: badgeColor(invitation),
                 label: __(badgeLabelKey(invitation)),
             }}
             actionButtons={ShowActionButtons(invitation)}
-            backUrl={route('organisation.invitations.index')}
+            backUrl={route('settings.invitations.index')}
         >
             <Head title={`Invitation ${invitation.email}`} />
 
@@ -40,6 +43,6 @@ export default function Show({
                     )}
                 />
             </Card>
-        </AuthenticatedLayout>
+        </SettingsLayout>
     )
 }

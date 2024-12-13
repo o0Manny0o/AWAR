@@ -1,5 +1,4 @@
 import { Head } from '@inertiajs/react'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import usePermission from '@/shared/hooks/usePermission'
@@ -7,8 +6,9 @@ import List from '@/Components/Resource/List'
 import {
     badgeColor,
     badgeLabelKey,
-} from '@/Pages/Tenant/Organisation/Invitation/Lib/OrganisationInvitation.util'
+} from '@/Pages/Tenant/Settings/Invitation/Lib/OrganisationInvitation.util'
 import { Badge } from '@/Components/_Base/Badge'
+import { SettingsLayout } from '@/Layouts/SettingsLayout'
 import OrganisationInvitation = App.Models.OrganisationInvitation
 
 export default function Index({
@@ -18,7 +18,7 @@ export default function Index({
     const { can } = usePermission()
 
     return (
-        <AuthenticatedLayout
+        <SettingsLayout
             title={__('organisations.invitations.headers.index')}
             actionButtons={
                 can('organisations.invitations.create')
@@ -29,7 +29,7 @@ export default function Index({
                                       'general.resources.organisation.invitation',
                               }),
                               variant: 'primary',
-                              href: route('organisation.invitations.create'),
+                              href: route('settings.invitations.create'),
                           },
                       ]
                     : []
@@ -61,6 +61,6 @@ export default function Index({
                     />
                 </Card>
             </div>
-        </AuthenticatedLayout>
+        </SettingsLayout>
     )
 }

@@ -20,8 +20,8 @@ use Spatie\Permission\Models\Role;
 
 class OrganisationInvitationController extends Controller
 {
-    protected string $baseRouteName = 'organisation.invitations';
-    protected string $baseViewPath = 'Tenant/Organisation/Invitation';
+    protected string $baseRouteName = 'settings.invitations';
+    protected string $baseViewPath = 'Tenant/Settings/Invitation';
 
     /**
      * Display a listing of the resource.
