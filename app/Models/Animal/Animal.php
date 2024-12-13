@@ -201,6 +201,48 @@ class Animal extends Model implements Trackable
             ->select(['id', 'name', 'sex']);
     }
 
+    public function scopeWithMedia(Builder $builder): void
+    {
+        $builder->with([
+            'medially' => function ($query) {
+                return $query->select(
+                    'id',
+                    'file_url',
+                    'medially_id',
+                    'medially_type',
+                );
+            },
+        ]);
+    }
+
+    public function paternalFamilies()
+    {
+        return $this->hasMany(AnimalFamily::class, 'father_id');
+    }
+
+    public function maternalFamilies()
+    {
+        return $this->hasMany(AnimalFamily::class, 'mother_id');
+    }
+
+    public function getFatherAttribute()
+    {
+        return $this->family()->pluck('father_id')->first();
+    }
+
+    /**
+     * The family that the animal belongs to.
+     */
+    public function family(): BelongsTo
+    {
+        return $this->belongsTo(AnimalFamily::class, 'animal_family_id');
+    }
+
+    public function getMotherAttribute()
+    {
+        return $this->family()->pluck('mother_id')->first();
+    }
+
     /**
      * Get the animal thumbnail
      *
@@ -244,20 +286,6 @@ class Animal extends Model implements Trackable
         });
     }
 
-    public function scopeWithMedia(Builder $builder): void
-    {
-        $builder->with([
-            'medially' => function ($query) {
-                return $query->select(
-                    'id',
-                    'file_url',
-                    'medially_id',
-                    'medially_type',
-                );
-            },
-        ]);
-    }
-
     /**
      * Get the animal thumbnail
      *
@@ -266,31 +294,5 @@ class Animal extends Model implements Trackable
     protected function images(): Attribute
     {
         return Attribute::make(get: fn() => $this->fetchGallery());
-    }
-
-    public function paternalFamilies()
-    {
-        return $this->hasMany(AnimalFamily::class, 'father_id');
-    }
-    public function maternalFamilies()
-    {
-        return $this->hasMany(AnimalFamily::class, 'mother_id');
-    }
-
-    /**
-     * The family that the animal belongs to.
-     */
-    public function family(): BelongsTo
-    {
-        return $this->belongsTo(AnimalFamily::class, 'animal_family_id');
-    }
-
-    public function getFatherAttribute()
-    {
-        return $this->family()->pluck('father_id')->first();
-    }
-    public function getMotherAttribute()
-    {
-        return $this->family()->pluck('mother_id')->first();
     }
 }

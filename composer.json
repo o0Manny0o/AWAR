@@ -9,9 +9,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "clickbar/laravel-magellan": "^1.6",
         "cloudinary-labs/cloudinary-laravel": "^2.2",
         "inertiajs/inertia-laravel": "^1.0",
-        "laravel/framework": "^11.9",
+        "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "predis/predis": "*",
@@ -52,6 +53,9 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [

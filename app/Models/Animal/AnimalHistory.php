@@ -33,12 +33,13 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @property-read int|null $changes_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereGlobalUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AnimalHistory whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder public()
+ * @method static \Illuminate\Database\Eloquent\Builder public ()
  * @method static \Illuminate\Database\Eloquent\Builder whole()
  * @property bool $public
  * @property-read \App\Models\Animal\Animal $animal
  * @property-read User $changee
  * @method static Builder<static>|AnimalHistory wherePublic($value)
+ * @method static Builder<static>|AnimalHistory public ()
  * @mixin \Eloquent
  */
 class AnimalHistory extends Model

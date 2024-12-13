@@ -2,13 +2,13 @@ version: '3.8'
 
 services:
     postgres:
-        image: postgres:alpine
+        image: postgis/postgis
         environment:
             POSTGRES_DB: ${DB_DATABASE}
             POSTGRES_PASSWORD: ${DB_PASSWORD}
             POSTGRES_USER: ${DB_USERNAME}
         ports:
-            - "5432:5432"
+            - '5432:5432'
         restart: on-failure
 
     pgweb:
@@ -18,9 +18,8 @@ services:
         environment:
             PGWEB_DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@postgres:5432/${DB_DATABASE}?sslmode=disable
         ports:
-            - "8081:8081"
+            - '8081:8081'
         restart: on-failure
-
 
     redis:
         image: redis:latest
@@ -29,7 +28,7 @@ services:
             - redis:/var/lib/redis
             - redis-config:/usr/local/etc/redis/redis.conf
         ports:
-            - "6379:6379"
+            - '6379:6379'
         networks:
             - redis-network
         restart: on-failure
@@ -41,7 +40,7 @@ services:
             - HTTP_USER=${REDIS_USER}
             - HTTP_PASSWORD=${REDIS_PASSWORD}
         ports:
-            - "8082:8081"
+            - '8082:8081'
         networks:
             - redis-network
         depends_on:
@@ -51,8 +50,8 @@ services:
     mailhog:
         image: mailhog/mailhog
         ports:
-            - "1025:1025"
-            - "8025:8025"
+            - '1025:1025'
+            - '8025:8025'
         restart: on-failure
 
 volumes:

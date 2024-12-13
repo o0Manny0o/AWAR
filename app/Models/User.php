@@ -65,6 +65,7 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read int|null $animals_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
+ * @property-read \App\Models\Address|null $address
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements

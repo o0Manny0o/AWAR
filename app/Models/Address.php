@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Clickbar\Magellan\Database\Eloquent\HasPostgisColumns;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -37,6 +38,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Address extends Model
 {
+    use HasPostgisColumns;
+
+    protected array $postgisColumns = [
+        'location' => [
+            'type' => 'geometry',
+            'srid' => 4326,
+        ],
+    ];
     protected $fillable = [
         'street_address',
         'locality',
