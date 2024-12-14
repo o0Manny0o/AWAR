@@ -81,7 +81,7 @@ class DevelopmentSeeder extends Seeder
         Artisan::call('app:create-org', [
             'name' => 'foo',
             'subdomain' => 'foo',
-            'user' => $user->id,
+            'user_id' => $user->id,
         ]);
 
         $user->assignRole(CentralUserRole::ADMIN);

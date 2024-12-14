@@ -59,7 +59,7 @@ class AnimalService
                     ]),
                 );
 
-                if (isset($validated['family'])) {
+                if (isset($validated['images'])) {
                     $changes = $this->animalFamilyService->createOrUpdateFamily(
                         $validated,
                         $animal,
@@ -185,7 +185,7 @@ class AnimalService
                 }
 
                 $changes = $this->animalFamilyService->createOrUpdateFamily(
-                    $animalRequest,
+                    $validated,
                     $animal,
                     $organisation,
                 );

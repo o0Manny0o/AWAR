@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -59,7 +58,9 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
             },
-            'tenant' => tenant()?->load('domains'),
+            'tenant' => cache()->remember('domains', 360, function () {
+                return tenant()?->load('domains');
+            }),
         ];
     }
 }

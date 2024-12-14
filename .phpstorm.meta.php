@@ -14,6 +14,10 @@ namespace PHPSTORM_META {
         new \Illuminate\Contracts\Container\Container(),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -382,6 +386,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -456,6 +462,10 @@ namespace PHPSTORM_META {
         \Illuminate\Container\Container::makeWith(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -824,6 +834,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -898,6 +910,10 @@ namespace PHPSTORM_META {
         \Illuminate\Contracts\Container\Container::get(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -1266,6 +1282,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -1340,6 +1358,10 @@ namespace PHPSTORM_META {
         \Illuminate\Contracts\Container\Container::make(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -1708,6 +1730,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -1782,6 +1806,10 @@ namespace PHPSTORM_META {
         \Illuminate\Contracts\Container\Container::makeWith(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -2150,6 +2178,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -2224,6 +2254,10 @@ namespace PHPSTORM_META {
         \App::get(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -2592,6 +2626,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -2666,6 +2702,10 @@ namespace PHPSTORM_META {
         \App::make(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -3034,6 +3074,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -3108,6 +3150,10 @@ namespace PHPSTORM_META {
         \App::makeWith(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -3476,6 +3522,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -3550,6 +3598,10 @@ namespace PHPSTORM_META {
         \app(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -3918,6 +3970,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -3992,6 +4046,10 @@ namespace PHPSTORM_META {
         \resolve(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -4360,6 +4418,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
@@ -4434,6 +4494,10 @@ namespace PHPSTORM_META {
         \Psr\Container\ContainerInterface::get(0),
         map([
             '' => '@',
+            'Barryvdh\Debugbar\LaravelDebugbar' =>
+                \Barryvdh\Debugbar\LaravelDebugbar::class,
+            'Barryvdh\Debugbar\SymfonyHttpDriver' =>
+                \Barryvdh\Debugbar\SymfonyHttpDriver::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -4802,6 +4866,8 @@ namespace PHPSTORM_META {
             'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
             'cache' => \Illuminate\Cache\CacheManager::class,
             'cache.store' => \Illuminate\Cache\Repository::class,
+            'command.debugbar.clear' =>
+                \Barryvdh\Debugbar\Console\ClearCommand::class,
             'command.ide-helper.eloquent' =>
                 \Barryvdh\LaravelIdeHelper\Console\EloquentCommand::class,
             'command.ide-helper.generate' =>
