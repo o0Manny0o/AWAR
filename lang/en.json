@@ -366,14 +366,24 @@
         "locations": {
             "headers": {
                 "index": "Your Locations",
-                "create": "Create a new location"
+                "create": "Create a new location",
+                "update": "Update Location"
             },
             "titles": {
                 "index": "Your Locations",
-                "create": "New Location"
+                "create": "New Location",
+                "update": "Update :name"
             },
             "form": {
-                "cancel_create": "Don't want to create a new location?"
+                "cancel_create": "Don't want to create a new location?",
+                "name": {
+                    "placeholder": "Name",
+                    "label": "Location Name"
+                },
+                "public": {
+                    "description": "The address will be visible to all users",
+                    "label": "Can the address be public?"
+                }
             }
         }
     },
@@ -723,5 +733,28 @@
         "ye": "Yemen",
         "zm": "Zambia",
         "zw": "Zimbabwe"
+    },
+    "addresses": {
+        "form": {
+            "street_address": {
+                "placeholder": "Street address",
+                "label": "Street address"
+            },
+            "postal_code": {
+                "placeholder": "ZIP or postal code",
+                "label": "ZIP or postal code"
+            },
+            "locality": {
+                "placeholder": "City",
+                "label": "City"
+            },
+            "region": {
+                "placeholder": "Region",
+                "label": "Region (optional)"
+            },
+            "country": {
+                "label": "Country"
+            }
+        }
     }
 }

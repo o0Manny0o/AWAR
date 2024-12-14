@@ -25,7 +25,11 @@ export default function Edit({
                     FORM_ID,
                 )}
             >
-                <Head title={__('organisations.locations.titles.update')} />
+                <Head
+                    title={__('organisations.locations.titles.update', {
+                        name: location.name,
+                    })}
+                />
 
                 <Card>
                     <UpdateLocationForm formId={FORM_ID} location={location} />

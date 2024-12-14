@@ -198,14 +198,24 @@
         "locations": {
             "headers": {
                 "index": "Ihre Standorte",
-                "create": "Einen neuen Standort anlegen"
+                "create": "Einen neuen Standort anlegen",
+                "update": "Standort Aktualisieren"
             },
             "titles": {
                 "index": "Ihre Standorte",
-                "create": "Neuer Standort"
+                "create": "Neuer Standort",
+                "update": ":name Aktualisieren"
             },
             "form": {
-                "cancel_create": "Sie möchten keinen neuen Standort erstellen?"
+                "cancel_create": "Sie möchten keinen neuen Standort erstellen?",
+                "name": {
+                    "placeholder": "Name",
+                    "label": "Standortname"
+                },
+                "public": {
+                    "description": "Die Adresse ist für alle Benutzer sichtbar",
+                    "label": "Kann die Adresse öffentlich sein?"
+                }
             }
         }
     },
@@ -555,5 +565,28 @@
         "ye": "Jemen",
         "zm": "Sambia",
         "zw": "Simbabwe"
+    },
+    "addresses": {
+        "form": {
+            "street_address": {
+                "placeholder": "Straße und Hausnummer",
+                "label": "Straße und Hausnummer"
+            },
+            "postal_code": {
+                "placeholder": "Postleitzahl",
+                "label": "Postleitzahl"
+            },
+            "locality": {
+                "placeholder": "Stadt",
+                "label": "Stadt"
+            },
+            "region": {
+                "placeholder": "Bundesland",
+                "label": "Bundesland (Optional)"
+            },
+            "country": {
+                "label": "Land"
+            }
+        }
     }
 }
