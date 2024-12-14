@@ -21,6 +21,7 @@ interface CreatableInputProps<T extends Option> {
     description?: (value: T) => ReactNode
     canCreate?: boolean
     withEmptyOption?: string
+    optionsClassName?: string
 }
 
 export default function AutocompleteInput<T extends Option>({
@@ -32,6 +33,7 @@ export default function AutocompleteInput<T extends Option>({
     description,
     canCreate,
     withEmptyOption,
+    optionsClassName,
     ...props
 }: Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'type'> &
     CreatableInputProps<T>) {
@@ -134,10 +136,13 @@ export default function AutocompleteInput<T extends Option>({
                     <ComboboxOptions
                         anchor="bottom start"
                         transition
-                        className="border empty:invisible w-[var(--input-width)] bg-ceiling mt-1 rounded-md py-1
+                        className={twMerge(
+                            `border empty:invisible w-[var(--input-width)] bg-ceiling mt-1 rounded-md py-1
                             shadow-lg ring-1 ring-black/5 transition focus:outline-none cursor-pointer
                             data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-200
-                            data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                            data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in`,
+                            optionsClassName,
+                        )}
                     >
                         {withEmptyOption && (
                             <AutocompleteInputOption

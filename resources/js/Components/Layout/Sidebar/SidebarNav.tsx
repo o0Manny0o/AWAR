@@ -30,6 +30,17 @@ export function SidebarNav({
         : 'settings.profile.edit'
     const dashboardUrl: RouteName = tenant ? 'tenant.dashboard' : 'dashboard'
 
+    const routeActive = (routeName: RouteName) => {
+        const activeRouteParts = route().current()?.split('.').slice(0, -1)
+        const routeNameParts = routeName.split('.').slice(0, -1)
+
+        if (!activeRouteParts) return false
+
+        return activeRouteParts?.every(
+            (part, index) => part === routeNameParts[index],
+        )
+    }
+
     return (
         <SidebarContext.Provider value={{ colored }}>
             <div
@@ -45,7 +56,7 @@ export function SidebarNav({
                                     <SidebarMenuItem
                                         key={item.name}
                                         href={route(item.name)}
-                                        active={route().current(item.name)}
+                                        active={routeActive(item.name)}
                                     >
                                         {item.icon && (
                                             <SidebarMenuItemIcon
@@ -55,7 +66,9 @@ export function SidebarNav({
                                                 )}
                                             />
                                         )}
-                                        {__(item.label)}
+                                        <span className="truncate">
+                                            {__(item.label)}
+                                        </span>
                                     </SidebarMenuItem>
                                 ))}
                             </SidebarMenuList>

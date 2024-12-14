@@ -1,7 +1,7 @@
 import { FormEventHandler, useContext } from 'react'
 import { ApplicationFormWrapper } from '@/Pages/Settings/Application/Lib/OrganisationApplication.context'
 import { useForm } from '@inertiajs/react'
-import { CreateGroup } from '@/Pages/Tenant/Organisation/Invitation/Lib/OrganisationInvitation.components'
+import { CreateGroup } from '@/Pages/Tenant/Settings/Invitation/Lib/OrganisationInvitation.components'
 import { Button } from '@/Components/_Base/Button'
 import useTranslate from '@/shared/hooks/useTranslate'
 
@@ -21,7 +21,7 @@ export default function CreateInvitationForm({
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        post(route('organisation.invitations.store'), {
+        post(route('settings.invitations.store'), {
             preserveScroll: true,
             replace: true,
             onSuccess: () => reset(),

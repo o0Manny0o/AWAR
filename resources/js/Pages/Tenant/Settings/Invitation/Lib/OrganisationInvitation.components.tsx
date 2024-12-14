@@ -1,7 +1,7 @@
 import InputGroup from '@/Components/_Base/Input/InputGroup'
 import useTranslate, { toTranslationKey } from '@/shared/hooks/useTranslate'
 import { useContext } from 'react'
-import { FormInputRefs } from '@/Pages/Tenant/Organisation/Invitation/Lib/OrganisationInvitation.context'
+import { FormInputRefs } from '@/Pages/Tenant/Settings/Invitation/Lib/OrganisationInvitation.context'
 import SelectGroup from '@/Components/_Base/Input/SelectGroup'
 
 interface GroupProps {

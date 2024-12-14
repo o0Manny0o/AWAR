@@ -15,9 +15,9 @@ export function ShowActionButtons(
         }),
         variant: 'primary',
         method: 'post',
-        href: route('organisation.invitations.resend', {
+        href: route('settings.invitations.resend', {
             id: invitation.id,
-            redirect: route('organisation.invitations.show', invitation.id),
+            redirect: route('settings.invitations.show', invitation.id),
         }),
     }
 

@@ -1,5 +1,5 @@
 import { InputError, InputLabel } from '@/Components/_Base/Input/index'
-import { ReactNode } from 'react'
+import { HTMLInputAutoCompleteAttribute, ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 import AutocompleteInput, {
     Option,
@@ -18,6 +18,8 @@ interface InputGroupProps<T extends Option> {
     description?: (value: T) => ReactNode
     canCreate?: boolean
     withEmptyOption?: string
+    optionsClassName?: string
+    autoComplete?: HTMLInputAutoCompleteAttribute
 }
 
 export default function AutocompleteGroup<T extends Option>({

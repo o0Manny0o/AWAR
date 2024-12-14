@@ -25,6 +25,14 @@ abstract class BasePolicy
         }
     }
 
+    protected function isMember(User $user): bool
+    {
+        if (tenancy()->initialized) {
+            return Member::firstWhere('global_id', $user->global_id)->exists();
+        }
+        return false;
+    }
+
     protected function isAdminOrOwner($user, $entity): bool
     {
         return $this->isAdmin($user) || $this->isOwner($user, $entity);

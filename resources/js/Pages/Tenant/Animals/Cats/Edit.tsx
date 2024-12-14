@@ -7,9 +7,7 @@ import EditCatForm from '@/Pages/Tenant/Animals/Cats/Partials/EditCatForm'
 import { FormActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
 import Cat = App.Models.Cat
 
-export default function Edit({
-    animal,
-}: AppPageProps<{ step: number; animal: Cat }>) {
+export default function Edit({ animal }: AppPageProps<{ animal: Cat }>) {
     const __ = useTranslate()
     const FORM_ID = 'edit-cat'
 

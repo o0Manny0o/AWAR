@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Organisation;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Schema;
 
 class DevResetDatabase extends Command
 {
@@ -28,6 +29,9 @@ class DevResetDatabase extends Command
     {
         $this->components->info('Deleting Database.');
         $this->components->task('Deleting all organisations', function () {
+            if (!Schema::hasTable('organisations')) {
+                return;
+            }
             $organisations = Organisation::all();
             foreach ($organisations as $organisation) {
                 try {

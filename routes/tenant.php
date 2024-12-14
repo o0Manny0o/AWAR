@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 use App\Http\AppInertia;
-use App\Http\Controllers\Animals\AnimalController;
 use App\Http\Controllers\Animals\CatController;
 use App\Http\Controllers\Animals\DogController;
 use App\Http\Controllers\Tenant\MemberController;
 use App\Http\Controllers\Tenant\OrganisationInvitationController;
+use App\Http\Controllers\Tenant\OrganisationLocationController;
 use App\Http\Middleware\IsMember;
 use App\Http\Middleware\IsTenantAdmin;
 use App\Models\Tenant\Member;
@@ -78,6 +78,11 @@ Route::middleware([
                             'members',
                             MemberController::class,
                         )->only(['index']);
+
+                        Route::resource(
+                            'locations',
+                            OrganisationLocationController::class,
+                        );
                     });
             });
 

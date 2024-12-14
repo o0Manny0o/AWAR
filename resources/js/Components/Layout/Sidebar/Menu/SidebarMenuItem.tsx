@@ -32,7 +32,7 @@ export function SidebarMenuItem({
                                   : 'text-basic'
                             }`,
                     `group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold transition-colors
-                    ease-in`,
+                    ease-in truncate`,
                 )}
             >
                 {children}
