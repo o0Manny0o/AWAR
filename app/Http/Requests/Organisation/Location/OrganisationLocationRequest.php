@@ -5,7 +5,7 @@ namespace App\Http\Requests\Organisation\Location;
 use App\Http\Requests\Address\AddressRequest;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class CreateOrganisationLocationRequest extends AddressRequest
+class OrganisationLocationRequest extends AddressRequest
 {
     /**
      * Get the validation rules that apply to the request.

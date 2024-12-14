@@ -16,8 +16,6 @@ export default function Index({
 }: AppPageProps<{ locations: Location[] }>) {
     const __ = useTranslate()
 
-    console.log(locations)
-
     return (
         <SettingsLayout
             title={__('organisations.locations.headers.index')}

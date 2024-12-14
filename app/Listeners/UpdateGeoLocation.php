@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\AddressSaved;
 use Clickbar\Magellan\Data\Geometries\Point;
 use Geocoder\Model\Address;
+use Illuminate\Support\Facades\Log;
 
 class UpdateGeoLocation
 {
@@ -31,6 +32,8 @@ class UpdateGeoLocation
             $geo->getCoordinates()->getLongitude(),
             $geo->getCoordinates()->getLatitude(),
         );
+
+        Log::info("Updating geo location for address {$event->address->id}");
 
         $event->address->updateQuietly([
             'location' => $point,

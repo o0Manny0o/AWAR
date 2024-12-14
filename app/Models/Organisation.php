@@ -41,6 +41,8 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Animal> $animals
  * @property-read int|null $animals_count
  * @property-read mixed $dashboard_url
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, OrganisationLocation> $locations
+ * @property-read int|null $locations_count
  * @mixin \Eloquent
  */
 class Organisation extends Tenant implements TenantWithDatabase

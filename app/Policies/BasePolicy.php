@@ -29,9 +29,8 @@ abstract class BasePolicy
     {
         if (tenancy()->initialized) {
             return Member::firstWhere('global_id', $user->global_id)->exists();
-        } else {
-            return $user->hasRole(CentralUserRole::ADMIN);
         }
+        return false;
     }
 
     protected function isAdminOrOwner($user, $entity): bool

@@ -7,6 +7,7 @@ import {
 import { SettingsLayout } from '@/Layouts/SettingsLayout'
 import { Card } from '@/Components/Layout/Card'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
+import { ShowActionButtons } from '@/Pages/Tenant/Settings/Location/Lib/Location.buttons'
 import Location = App.Models.Location
 
 export default function Show({
@@ -17,6 +18,11 @@ export default function Show({
     return (
         <SettingsLayout
             title={location.name}
+            actionButtons={ShowActionButtons(
+                location,
+                'general.resources.organisation.location',
+                'settings.locations',
+            )}
             badge={{
                 color: badgeColor(location),
                 label: __(badgeLabelKey(location)),

@@ -7,6 +7,13 @@ use App\Models\User;
 
 class OrganisationLocationPolicy extends BasePolicy
 {
+    private function belongsToOrganisation(OrganisationLocation $location)
+    {
+        if (tenancy()->initialized) {
+            return $location->organisation_id === tenant()->id;
+        }
+    }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -22,7 +29,8 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isMember($user);
+        return $this->isMember($user) &&
+            $this->belongsToOrganisation($organisationLocation);
     }
 
     /**
@@ -50,7 +58,8 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) &&
+            $this->belongsToOrganisation($organisationLocation);
     }
 
     /**
@@ -60,7 +69,8 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) &&
+            $this->belongsToOrganisation($organisationLocation);
     }
 
     /**
@@ -70,7 +80,8 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) &&
+            $this->belongsToOrganisation($organisationLocation);
     }
 
     /**
@@ -80,7 +91,8 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user);
+        return $this->isAdmin($user) &&
+            $this->belongsToOrganisation($organisationLocation);
     }
 
     function isOwner(User $user, $entity): bool

@@ -4,17 +4,18 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Organisation\Location\CreateOrganisationLocationRequest;
+use App\Http\Requests\Organisation\Location\OrganisationLocationRequest;
 use App\Models\Country;
 use App\Models\Organisation;
 use App\Models\Tenant\OrganisationLocation;
+use App\Services\OrganisationLocationService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Throwable;
 
 class OrganisationLocationController extends Controller
 {
@@ -62,10 +63,11 @@ class OrganisationLocationController extends Controller
     /**
      * Store a newly created resource in storage.
      * @throws AuthorizationException
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function store(
-        CreateOrganisationLocationRequest $request,
+        OrganisationLocationRequest $request,
+        OrganisationLocationService $service,
     ): RedirectResponse {
         $this->authorize('create', OrganisationLocation::class);
         $validated = $request->validated();
@@ -77,28 +79,7 @@ class OrganisationLocationController extends Controller
             throw new BadRequestException();
         }
 
-        $location = tenancy()->central(function () use (
-            $organisation,
-            $validated,
-        ) {
-            return DB::transaction(function () use ($validated, $organisation) {
-                /** @var OrganisationLocation $location */
-                $location = $organisation->locations()->create($validated);
-
-                $country = Country::where(
-                    'alpha',
-                    $validated['country'],
-                )->first();
-
-                $location->address()->create(
-                    array_merge($validated, [
-                        'country_id' => $country->code,
-                    ]),
-                );
-
-                return $location;
-            }, 3);
-        });
+        $location = $service->createLocation($organisation, $validated);
 
         return $this->redirect($request, $this->getShowRouteName(), [
             'location' => $location,
@@ -127,6 +108,7 @@ class OrganisationLocationController extends Controller
 
     /**
      * Display the specified resource.
+     * @throws AuthorizationException
      */
     public function show(string $id): Response|RedirectResponse
     {
@@ -146,25 +128,81 @@ class OrganisationLocationController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * @throws AuthorizationException
      */
-    public function edit(string $id)
+    public function edit(string $id): Response|RedirectResponse
     {
-        //
+        /** @var OrganisationLocation|null $location */
+        $location = OrganisationLocation::find($id);
+        if (!$location) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('update', $location);
+
+        $countries = Country::all(['alpha', 'code'])->map(
+            fn(Country $country) => [
+                'id' => $country->alpha,
+                'name' => __('countries.' . Str::lower($country->alpha)),
+            ],
+        );
+
+        return AppInertia::render($this->getEditView(), [
+            'location' => $location,
+            'countries' => $countries,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
+     * @throws AuthorizationException
+     * @throws Throwable
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(
+        OrganisationLocationRequest $request,
+        OrganisationLocationService $service,
+        string $id,
+    ): RedirectResponse {
+        /** @var OrganisationLocation|null $location */
+        $location = OrganisationLocation::find($id);
+        if (!$location) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('update', $location);
+
+        /** @var Organisation|null $organisation */
+        $organisation = tenant();
+
+        if (!$organisation) {
+            throw new BadRequestException();
+        }
+
+        $validated = $request->validated();
+
+        $location = $service->updateLocation($location, $validated);
+
+        return $this->redirect($request, $this->getShowRouteName(), [
+            'location' => $location,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
+     * @throws AuthorizationException
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
-        //
+        /** @var OrganisationLocation|null $location */
+        $location = OrganisationLocation::find($id);
+        if (!$location) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('delete', $location);
+
+        $location->delete();
+
+        return redirect()->route($this->getIndexRouteName());
     }
 }
