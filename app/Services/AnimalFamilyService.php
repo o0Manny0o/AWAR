@@ -5,18 +5,15 @@ namespace App\Services;
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalFamily;
 use App\Models\Organisation;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 
 class AnimalFamilyService
 {
     public function createOrUpdateFamily(
-        FormRequest $request,
+        array $validated,
         Animal $animal,
         Organisation $organisation,
     ): array {
-        $validated = $request->validated();
-
         // Family removed from animal (only removes if animal was child)
         // TODO: Add better support for managing parental families with separate form field
         if (!isset($validated['family'])) {

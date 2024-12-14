@@ -266,6 +266,10 @@ type Translations = {
             }
         }
         images: string
+        various: {
+            no_one: string
+            assigned_to: string
+        }
     }
     landing_page: {
         welcome_message: string
@@ -465,6 +469,12 @@ type Translations = {
                 placeholder: string
                 label: string
             }
+            location: {
+                label: string
+            }
+            foster_home: {
+                label: string
+            }
         }
     }
     history: {
@@ -476,6 +486,7 @@ type Translations = {
                 restore: string
                 publish: string
                 unpublish: string
+                handler_assign: string
             }
             public: {
                 initial: string

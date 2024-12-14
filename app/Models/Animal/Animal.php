@@ -6,6 +6,7 @@ use App\Interface\Trackable;
 use App\Models\Organisation;
 use App\Models\Scopes\TenantScope;
 use App\Models\Scopes\WithAnimalableScope;
+use App\Models\Tenant\Member;
 use App\Models\User;
 use App\Traits\HasMorphableScopes;
 use App\Traits\HasResourcePermissions;
@@ -91,6 +92,11 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|Animal dogs()
  * @method static Builder<static>|Animal subtype(string $type)
  * @method static Builder<static>|Animal withMedia()
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $assignedTo
+ * @property-read int|null $assigned_to_count
+ * @property-read Member|null $handler
+ * @property string $handler_id
+ * @method static Builder<static>|Animal whereHandlerId($value)
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class, WithAnimalableScope::class])]
@@ -114,6 +120,7 @@ class Animal extends Model implements Trackable
         'published_at',
         'family_id',
         'animal_family_id',
+        'handler_id',
     ];
 
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
@@ -133,6 +140,7 @@ class Animal extends Model implements Trackable
         'mother_added',
         'father_removed',
         'mother_removed',
+        'handler_id',
     ];
 
     protected $appends = [
@@ -161,7 +169,7 @@ class Animal extends Model implements Trackable
     /**
      * The users that are assigned to the animal.
      */
-    public function users(): BelongsToMany
+    public function assignedTo(): BelongsToMany
     {
         return $this->belongsToMany(
             User::class,
@@ -241,6 +249,18 @@ class Animal extends Model implements Trackable
     public function getMotherAttribute()
     {
         return $this->family()->pluck('mother_id')->first();
+    }
+
+    /**
+     * The handler that is assigned to the animal
+     */
+    public function getHandlerAttribute(): ?Member
+    {
+        return tenant()->run(function () {
+            return Member::whereGlobalId($this->handler_id)
+                ->select(['global_id AS id', 'name'])
+                ->first();
+        });
     }
 
     /**

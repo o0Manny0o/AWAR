@@ -265,7 +265,11 @@
                 "foster_home": "Foster Home"
             }
         },
-        "images": "Images"
+        "images": "Images",
+        "various": {
+            "no_one": "No one",
+            "assigned_to": "Assigned to"
+        }
     },
     "landing_page": {
         "welcome_message": "Welcome to AWAR, :name"
@@ -464,6 +468,12 @@
             "family": {
                 "placeholder": "Enter Family Name",
                 "label": "Select or create a family"
+            },
+            "location": {
+                "label": "Abode"
+            },
+            "foster_home": {
+                "label": "Foster Home"
             }
         }
     },
@@ -475,7 +485,8 @@
                 "delete": ":user deleted :animal :when",
                 "restore": ":user restored :animal :when",
                 "publish": ":user published :animal :when",
-                "unpublish": ":user unpublished :animal :when"
+                "unpublish": ":user unpublished :animal :when",
+                "handler_assign": ":user assigned a new handler :when"
             },
             "public": {
                 "initial": ":animal was found :when"

@@ -3,12 +3,12 @@
 namespace App\Events\Animals;
 
 use App\Models\Animal\Animal;
-use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AnimalCreated
+class AnimalHandlerUpdated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -17,8 +17,7 @@ class AnimalCreated
      */
     public function __construct(
         public Animal $animal,
-        public array $familyChanges,
-        public User $user,
+        public Authenticatable $user,
     ) {
         //
     }

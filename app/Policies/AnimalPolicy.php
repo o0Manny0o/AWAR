@@ -6,7 +6,6 @@ use App\Enum\DefaultTenantUserRole;
 use App\Models\Animal\Animal;
 use App\Models\User;
 
-/** TODO: Set Permissions */
 class AnimalPolicy extends BasePolicy
 {
     public function before(User $user): ?false
@@ -18,6 +17,7 @@ class AnimalPolicy extends BasePolicy
                     DefaultTenantUserRole::ADMIN,
                     DefaultTenantUserRole::ADOPTION_LEAD,
                     DefaultTenantUserRole::ADOPTION_HANDLER,
+                    DefaultTenantUserRole::FOSTER_HOME,
                 )
         ) {
             return false;
@@ -87,6 +87,16 @@ class AnimalPolicy extends BasePolicy
     public function publish(User $user, Animal $animal): bool
     {
         return $animal->published_at === null;
+    }
+
+    /**
+     * Determine whether the user can assign a handler to the animal.
+     */
+    public function assign(User $user, Animal $animal): bool
+    {
+        return $this->isAdmin($user) ||
+            $user->asMember()->hasRole(DefaultTenantUserRole::ADOPTION_LEAD) ||
+            $animal->handler_id === $user->global_id;
     }
 
     function isOwner(User $user, $entity): bool

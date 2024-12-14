@@ -1,15 +1,15 @@
 import { Head } from '@inertiajs/react'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
 import { ShowActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
-import Dog = App.Models.Dog
 import {
     badgeColor,
     badgeLabelKey,
 } from '@/Pages/Tenant/Animals/Lib/Animals.util'
 import { ShowImages } from '@/Components/_Base/Input/Images/ShowImages'
+import { AnimalShowLayout } from '@/Layouts/AnimalShowLayout'
+import Dog = App.Models.Dog
 import History = App.Models.History
 
 export default function Show({
@@ -19,7 +19,9 @@ export default function Show({
     const __ = useTranslate()
 
     return (
-        <AuthenticatedLayout
+        <AnimalShowLayout
+            animal={animal}
+            baseRoute={'animals.dogs'}
             title={animal.name}
             actionButtons={ShowActionButtons(
                 animal,
@@ -72,6 +74,6 @@ export default function Show({
                     </ul>
                 </Card>
             </div>
-        </AuthenticatedLayout>
+        </AnimalShowLayout>
     )
 }

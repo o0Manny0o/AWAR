@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Animals;
 use App\Events\Animals\AnimalDeleted;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Animals\AssignHandlerRequest;
 use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalFamily;
 use App\Models\Animal\AnimalHistory;
+use App\Models\Tenant\Member;
 use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
@@ -40,11 +42,16 @@ class AnimalController extends Controller
 
         $this->authorize('view', $animal);
 
+        $animal->append('handler');
+
         $history = AnimalHistory::internalHistory($animal);
+
+        $handlers = Member::handlers()->get();
 
         return AppInertia::render($this->getShowView(), [
             'animal' => $animal,
             'history' => $history,
+            'handlers' => $handlers,
             'permissions' => $this->permissions(request(), $animal),
         ]);
     }
@@ -266,7 +273,41 @@ class AnimalController extends Controller
     ): RedirectResponse {
         $this->authorize('create', Animal::class);
 
-        $animal = $animalService->createAnimal($animalRequest, $class);
+        $validated = $animalRequest->validated();
+
+        $animal = $animalService->createAnimal(
+            $validated,
+            $class,
+            Auth::user(),
+        );
+
+        return $this->redirect($animalRequest, $this->getShowRouteName(), [
+            'animal' => $animal,
+        ]);
+    }
+
+    /**
+     * Assign an authorised handler to an animal.
+     *
+     * @throws AuthorizationException
+     * @throws Throwable
+     */
+    public function assign(
+        AnimalService $animalService,
+        AssignHandlerRequest $animalRequest,
+        string $id,
+    ): RedirectResponse {
+        /** @var Animal|null $animal */
+        $animal = Animal::find($id);
+        if (!$animal) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('assign', $animal);
+
+        $validated = $animalRequest->validated();
+
+        $animalService->assignHandler($animal, $validated, Auth::user());
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,

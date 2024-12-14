@@ -102,7 +102,11 @@
                 "foster_home": "Pflegestelle"
             }
         },
-        "images": "Bilder"
+        "images": "Bilder",
+        "various": {
+            "no_one": "Niemand",
+            "assigned_to": "Zugewiesen an"
+        }
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"
@@ -296,6 +300,12 @@
             "family": {
                 "placeholder": "Geben Sie den Familiennamen ein",
                 "label": "Wählen oder erstellen Sie eine Familie"
+            },
+            "location": {
+                "label": "Aufenthaltsort"
+            },
+            "foster_home": {
+                "label": "Pflegestelle"
             }
         }
     },
@@ -307,7 +317,8 @@
                 "delete": ":user hat :animal :when gelöscht",
                 "restore": ":user hat :animal :when wiederhergestellt",
                 "publish": ":user hat :animal :when veröffentlicht",
-                "unpublish": ":user hat die Veröffentlichung von :animal :when aufgehoben"
+                "unpublish": ":user hat die Veröffentlichung von :animal :when aufgehoben",
+                "handler_assign": ":user  hat einen :when neuen Bearbeiter zugewiesen"
             },
             "public": {
                 "initial": ":animal wurde :when gefunden"

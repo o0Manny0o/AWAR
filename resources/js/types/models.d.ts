@@ -116,6 +116,11 @@ declare namespace App.Models {
         paternal_families?: Family[]
         maternal_families?: Family[]
 
+        handler?: {
+            id: string
+            name: string
+        }
+
         published_at?: string
         deleted_at?: string
         created_at: string

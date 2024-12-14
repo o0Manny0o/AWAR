@@ -5,6 +5,7 @@ namespace App\Models\Tenant;
 use App\Enum\DefaultTenantUserRole;
 use App\Models\User;
 use App\Traits\HasResourcePermissions;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,14 +46,24 @@ class Member extends Model implements Syncable
 
     protected $guard_name = 'web';
 
-    public function getGlobalIdentifierKeyName(): string
+    public static function scopeHandlers(Builder $builder): void
     {
-        return 'global_id';
+        $builder
+            ->role([
+                DefaultTenantUserRole::ADOPTION_HANDLER,
+                DefaultTenantUserRole::ADOPTION_LEAD,
+            ])
+            ->select(['global_id AS id', 'name']);
     }
 
     public function getGlobalIdentifierKey(): string
     {
         return $this->getAttribute($this->getGlobalIdentifierKeyName());
+    }
+
+    public function getGlobalIdentifierKeyName(): string
+    {
+        return 'global_id';
     }
 
     public function getCentralModelName(): string

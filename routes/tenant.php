@@ -87,7 +87,7 @@ Route::middleware([
             });
 
             Route::middleware([
-                'tenantRole:admin,adoption-lead,adoption-handler',
+                'tenantRole:admin,adoption-lead,adoption-handler,foster-home',
             ])->group(function () {
                 Route::name('animals.')
                     ->prefix('animals')
@@ -95,10 +95,15 @@ Route::middleware([
                         Route::name('dogs.')
                             ->prefix('dogs')
                             ->group(function () {
-                                Route::post('/publish/{id}', [
+                                Route::post('/{id}/publish', [
                                     DogController::class,
                                     'publish',
                                 ])->name('publish');
+
+                                Route::post('/{id}/assign', [
+                                    DogController::class,
+                                    'assign',
+                                ])->name('assign');
                             });
                         Route::resource(
                             'dogs',
@@ -108,10 +113,15 @@ Route::middleware([
                         Route::name('cats.')
                             ->prefix('cats')
                             ->group(function () {
-                                Route::post('/publish/{id}', [
+                                Route::post('/{id}/publish', [
                                     CatController::class,
                                     'publish',
                                 ])->name('publish');
+
+                                Route::post('/{id}/assign', [
+                                    CatController::class,
+                                    'assign',
+                                ])->name('assign');
                             });
                         Route::resource(
                             'cats',

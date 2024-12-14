@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Enum\AnimalHistoryType;
 use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalDeleted;
+use App\Events\Animals\AnimalHandlerUpdated;
 use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUnpublished;
 use App\Events\Animals\AnimalUpdated;
@@ -150,6 +151,24 @@ class TrackAnimalChangesSubscriber
     }
 
     /**
+     * Handle the AnimalUnpublished event.
+     */
+    public function handleAnimalHandlerUpdated(
+        AnimalHandlerUpdated $event,
+    ): void {
+        /** @var AnimalHistory $history */
+        $history = $event->animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'type' => AnimalHistoryType::HANDLER_ASSIGN,
+        ]);
+
+        $history->changes()->create([
+            'field' => 'handler_id',
+            'value' => $event->animal->handler_id,
+        ]);
+    }
+
+    /**
      * Register the listeners for the subscriber.
      */
     public function subscribe(Dispatcher $events): void
@@ -177,6 +196,11 @@ class TrackAnimalChangesSubscriber
         $events->listen(AnimalUnpublished::class, [
             TrackAnimalChangesSubscriber::class,
             'handleAnimalUnpublished',
+        ]);
+
+        $events->listen(AnimalHandlerUpdated::class, [
+            TrackAnimalChangesSubscriber::class,
+            'handleAnimalHandlerUpdated',
         ]);
     }
 }

@@ -14,4 +14,5 @@ enum AnimalHistoryType: string
     case RESTORE = 'restore';
     case PUBLISH = 'publish';
     case UNPUBLISH = 'unpublish';
+    case HANDLER_ASSIGN = 'handler_assign';
 }

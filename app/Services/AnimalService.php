@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
+use App\Enum\DefaultTenantUserRole;
 use App\Events\Animals\AnimalCreated;
+use App\Events\Animals\AnimalHandlerUpdated;
 use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUpdated;
-use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use App\Models\User;
@@ -23,36 +24,44 @@ class AnimalService
     /**
      * @throws Exception|\Throwable
      */
-    public function createAnimal(CreateAnimalRequest $animalRequest, $class)
+    public function createAnimal(array $validated, $class, User $user)
     {
         $organisation = tenant();
 
         return tenancy()->central(function () use (
+            $user,
             $organisation,
             $class,
-            $animalRequest,
+            $validated,
         ) {
             return DB::transaction(function () use (
+                $user,
                 $organisation,
                 $class,
-                $animalRequest,
+                $validated,
             ) {
-                $validated = $animalRequest->validated();
-
                 $animalable = $class::create($validated);
 
                 $changes = [];
+
+                $isHandler = $user
+                    ->asMember()
+                    ?->hasAnyRole([
+                        DefaultTenantUserRole::ADOPTION_HANDLER,
+                        DefaultTenantUserRole::ADOPTION_LEAD,
+                    ]);
 
                 /** @var Animal $animal */
                 $animal = $animalable->animal()->create(
                     array_merge($validated, [
                         'organisation_id' => $organisation->id,
+                        'handler_id' => $isHandler ? $user->global_id : null,
                     ]),
                 );
 
                 if (isset($validated['family'])) {
                     $changes = $this->animalFamilyService->createOrUpdateFamily(
-                        $animalRequest,
+                        $validated,
                         $animal,
                         $organisation,
                     );
@@ -70,14 +79,16 @@ class AnimalService
                     }
                 }
 
-                try {
-                    $this->attachMedia(
-                        $animal,
-                        $validated['images'],
-                        $organisation,
-                    );
-                } catch (Exception $e) {
-                    throw new \Exception('Image upload failed');
+                if (isset($validated['family'])) {
+                    try {
+                        $this->attachMedia(
+                            $animal,
+                            $validated['images'],
+                            $organisation,
+                        );
+                    } catch (Exception $e) {
+                        throw new \Exception('Image upload failed');
+                    }
                 }
 
                 AnimalCreated::dispatch(
@@ -85,12 +96,32 @@ class AnimalService
                     array_key_exists($animal->id, $changes)
                         ? $changes[$animal->id]
                         : [],
-                    Auth::user(),
+                    $user,
                 );
 
                 return $animal;
             }, 5);
         });
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function attachMedia(
+        Animal $animal,
+        array $media,
+        $organisation,
+    ): void {
+        foreach ($media as $image) {
+            $animal->attachMedia($image, [
+                'asset_folder' => $organisation->id . '/animals/' . $animal->id,
+                'public_id_prefix' =>
+                    $organisation->id . '/animals/' . $animal->id,
+                'width' => 2000,
+                'crop' => 'limit',
+                'format' => 'webp',
+            ]);
+        }
     }
 
     /**
@@ -189,26 +220,6 @@ class AnimalService
         AnimalUpdated::dispatch($animal, $changes, $user);
     }
 
-    /**
-     * @throws Exception
-     */
-    private function attachMedia(
-        Animal $animal,
-        array $media,
-        $organisation,
-    ): void {
-        foreach ($media as $image) {
-            $animal->attachMedia($image, [
-                'asset_folder' => $organisation->id . '/animals/' . $animal->id,
-                'public_id_prefix' =>
-                    $organisation->id . '/animals/' . $animal->id,
-                'width' => 2000,
-                'crop' => 'limit',
-                'format' => 'webp',
-            ]);
-        }
-    }
-
     public function loadAnimalsWithPermissions(string $type, User $user)
     {
         $animals = Animal::subtype($type)->get();
@@ -225,5 +236,14 @@ class AnimalService
         $animal->update(['published_at' => now()]);
 
         AnimalPublished::dispatch($animal, $user);
+    }
+
+    public function assignHandler(Animal $animal, mixed $validated, User $user)
+    {
+        $animal->update(['handler_id' => $validated['id']]);
+
+        if (count($animal->getChanges()) > 0) {
+            AnimalHandlerUpdated::dispatch($animal, $user);
+        }
     }
 }
