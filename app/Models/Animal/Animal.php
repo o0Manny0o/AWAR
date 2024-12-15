@@ -164,6 +164,7 @@ class Animal extends Model implements Trackable
         ResourcePermission::PUBLISH,
         ResourcePermission::ASSIGN_HANDLER,
         ResourcePermission::ASSIGN_FOSTER_HOME,
+        ResourcePermission::ASSIGN_LOCATION,
     ];
 
     protected $appends = ['thumbnail', 'gallery', 'images'];

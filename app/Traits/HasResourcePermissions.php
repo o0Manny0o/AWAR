@@ -16,6 +16,7 @@ trait HasResourcePermissions
     private bool $can_be_published = false;
     private bool $can_assign_handler = false;
     private bool $can_assign_foster_home = false;
+    private bool $can_assign_location = false;
 
     public function __call($name, $arguments)
     {
@@ -51,6 +52,7 @@ trait HasResourcePermissions
         $this->can_be_published = $user->can('publish', $this);
         $this->can_assign_handler = $user->can('assign', $this);
         $this->can_assign_foster_home = $user->can('assignFosterHome', $this);
+        $this->can_assign_location = $user->can('assignLocation', $this);
     }
 
     protected function initializeHasResourcePermissions(): void

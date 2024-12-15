@@ -18,6 +18,9 @@ export default function usePermission(base?: ResourcePermissions) {
     const canAssignFosterHome = (e: any): boolean =>
         e.can_assign_foster_home ?? false
 
+    const canAssignLocation = (e: any): boolean =>
+        e.can_assign_location ?? false
+
     return {
         can,
         canDelete,
@@ -29,5 +32,6 @@ export default function usePermission(base?: ResourcePermissions) {
         canPublish,
         canAssignHandler,
         canAssignFosterHome,
+        canAssignLocation,
     }
 }

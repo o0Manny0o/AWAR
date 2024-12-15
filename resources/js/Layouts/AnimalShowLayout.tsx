@@ -19,7 +19,8 @@ export function AnimalShowLayout({
 }: PropsWithChildren<{ animal: Animal; baseRoute: string }> &
     AuthenticatedLayoutProps) {
     const __ = useTranslate()
-    const { canAssignHandler, canAssignFosterHome } = usePermission()
+    const { canAssignHandler, canAssignFosterHome, canAssignLocation } =
+        usePermission()
 
     const { handlers, fosterHomes, locations } = usePage<
         AppPageProps<{
@@ -69,7 +70,7 @@ export function AnimalShowLayout({
                                 prepend={
                                     <span className="bg-gray-300 size-6 rounded-full shrink-0"></span>
                                 }
-                                canEdit={true}
+                                canEdit={canAssignLocation(animal)}
                                 withType={'foster_home'}
                                 emptyOption={
                                     'general.various.unknown_or_external'
