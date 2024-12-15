@@ -18,7 +18,7 @@ class AssignHandlerRequest extends FormRequest
     {
         return [
             'id' => [
-                'required',
+                'nullable',
                 'uuid',
                 Rule::exists(Member::class, 'global_id'),
             ],

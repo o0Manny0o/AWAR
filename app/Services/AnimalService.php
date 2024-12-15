@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enum\DefaultTenantUserRole;
 use App\Events\Animals\AnimalCreated;
+use App\Events\Animals\AnimalFosterHomeUpdated;
 use App\Events\Animals\AnimalHandlerUpdated;
 use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUpdated;
@@ -248,7 +249,7 @@ class AnimalService
         $assignee = Member::firstWhere('global_id', $validated['id']);
 
         if (
-            !$assignee ||
+            $assignee &&
             !$assignee->hasAnyRole(
                 DefaultTenantUserRole::ADOPTION_LEAD,
                 DefaultTenantUserRole::ADOPTION_HANDLER,
@@ -273,7 +274,7 @@ class AnimalService
         $assignee = Member::firstWhere('global_id', $validated['id']);
 
         if (
-            !$assignee ||
+            $assignee &&
             !$assignee->hasRole(DefaultTenantUserRole::FOSTER_HOME)
         ) {
             throw new BadRequestException();
@@ -281,8 +282,8 @@ class AnimalService
 
         $animal->update(['foster_home_id' => $validated['id']]);
 
-        //        if (count($animal->getChanges()) > 0) {
-        //            AnimalHandlerUpdated::dispatch($animal, $user);
-        //        }
+        if (count($animal->getChanges()) > 0) {
+            AnimalFosterHomeUpdated::dispatch($animal, $user);
+        }
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Events\Animals;
 
 use App\Models\Animal\Animal;
+use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -15,10 +15,8 @@ class AnimalDeleted
     /**
      * Create a new event instance.
      */
-    public function __construct(
-        public Animal $animal,
-        public Authenticatable $user,
-    ) {
+    public function __construct(public Animal $animal, public User $user)
+    {
         //
     }
 }

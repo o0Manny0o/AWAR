@@ -80,6 +80,7 @@ export function AssignInput<T extends Option>({
                                 options={options}
                                 value={data.id}
                                 disabled={processing}
+                                withEmptyOption={__('general.various.no_one')}
                                 onChange={(e) => setData('id', e?.id ?? '')}
                             />
                             <button

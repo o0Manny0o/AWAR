@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Enum\AnimalHistoryType;
 use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalDeleted;
+use App\Events\Animals\AnimalFosterHomeUpdated;
 use App\Events\Animals\AnimalHandlerUpdated;
 use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUnpublished;
@@ -169,6 +170,24 @@ class TrackAnimalChangesSubscriber
     }
 
     /**
+     * Handle the AnimalFosterHomeUpdated event.
+     */
+    public function handleAnimalFosterHomeUpdated(
+        AnimalFosterHomeUpdated $event,
+    ): void {
+        /** @var AnimalHistory $history */
+        $history = $event->animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'type' => AnimalHistoryType::FOSTER_HOME_ASSIGN,
+        ]);
+
+        $history->changes()->create([
+            'field' => 'foster_home_id',
+            'value' => $event->animal->foster_home_id,
+        ]);
+    }
+
+    /**
      * Register the listeners for the subscriber.
      */
     public function subscribe(Dispatcher $events): void
@@ -201,6 +220,11 @@ class TrackAnimalChangesSubscriber
         $events->listen(AnimalHandlerUpdated::class, [
             TrackAnimalChangesSubscriber::class,
             'handleAnimalHandlerUpdated',
+        ]);
+
+        $events->listen(AnimalFosterHomeUpdated::class, [
+            TrackAnimalChangesSubscriber::class,
+            'handleAnimalFosterHomeUpdated',
         ]);
     }
 }

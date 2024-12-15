@@ -15,4 +15,5 @@ enum AnimalHistoryType: string
     case PUBLISH = 'publish';
     case UNPUBLISH = 'unpublish';
     case HANDLER_ASSIGN = 'handler_assign';
+    case FOSTER_HOME_ASSIGN = 'foster_home_assign';
 }
