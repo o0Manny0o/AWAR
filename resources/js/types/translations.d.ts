@@ -489,6 +489,11 @@ type Translations = {
                 publish: string
                 unpublish: string
                 handler_assign: string
+                location_assign: string
+                foster_home_assign: string
+                handler_unassign: string
+                location_unassign: string
+                foster_home_unassign: string
             }
             public: {
                 initial: string

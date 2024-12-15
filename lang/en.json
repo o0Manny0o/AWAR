@@ -488,7 +488,12 @@
                 "restore": ":user restored :animal :when",
                 "publish": ":user published :animal :when",
                 "unpublish": ":user unpublished :animal :when",
-                "handler_assign": ":user assigned a new handler :when"
+                "handler_assign": ":user assigned a new handler :when",
+                "location_assign": ":user assigned a new location :when",
+                "foster_home_assign": ":user assigned a new foster home :when",
+                "handler_unassign": ":user unassigned a handler :when",
+                "location_unassign": ":user unassigned a location :when",
+                "foster_home_unassign": ":user unassigned a foster home :when"
             },
             "public": {
                 "initial": ":animal was found :when"

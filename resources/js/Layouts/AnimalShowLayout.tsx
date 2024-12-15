@@ -56,11 +56,11 @@ export function AnimalShowLayout({
                                 )}
                                 routeName={`${baseRoute}.assign.location`}
                                 options={[
-                                    ...locations.map((l) => ({
+                                    ...locations?.map((l) => ({
                                         ...l,
                                         type: 'location',
                                     })),
-                                    ...fosterHomes.map((f) => ({
+                                    ...fosterHomes?.map((f) => ({
                                         ...f,
                                         type: 'foster_home',
                                     })),

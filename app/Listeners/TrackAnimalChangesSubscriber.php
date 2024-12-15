@@ -7,6 +7,7 @@ use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalDeleted;
 use App\Events\Animals\AnimalFosterHomeUpdated;
 use App\Events\Animals\AnimalHandlerUpdated;
+use App\Events\Animals\AnimalLocationUpdated;
 use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUnpublished;
 use App\Events\Animals\AnimalUpdated;
@@ -160,7 +161,9 @@ class TrackAnimalChangesSubscriber
         /** @var AnimalHistory $history */
         $history = $event->animal->histories()->create([
             'global_user_id' => $event->user->global_id,
-            'type' => AnimalHistoryType::HANDLER_ASSIGN,
+            'type' => $event->animal->handler_id
+                ? AnimalHistoryType::HANDLER_ASSIGN
+                : AnimalHistoryType::HANDLER_UNASSIGN,
         ]);
 
         $history->changes()->create([
@@ -178,12 +181,40 @@ class TrackAnimalChangesSubscriber
         /** @var AnimalHistory $history */
         $history = $event->animal->histories()->create([
             'global_user_id' => $event->user->global_id,
-            'type' => AnimalHistoryType::FOSTER_HOME_ASSIGN,
+            'type' => $event->animal->foster_home_id
+                ? AnimalHistoryType::FOSTER_HOME_ASSIGN
+                : AnimalHistoryType::FOSTER_HOME_UNASSIGN,
         ]);
 
         $history->changes()->create([
             'field' => 'foster_home_id',
             'value' => $event->animal->foster_home_id,
+        ]);
+    }
+
+    /**
+     * Handle the AnimalFosterHomeUpdated event.
+     */
+    public function handleAnimalLocationUpdated(
+        AnimalLocationUpdated $event,
+    ): void {
+        /** @var AnimalHistory $history */
+        $history = $event->animal->histories()->create([
+            'global_user_id' => $event->user->global_id,
+            'type' => $event->animal->locationable_id
+                ? AnimalHistoryType::LOCATION_ASSIGN
+                : AnimalHistoryType::LOCATION_UNASSIGN,
+        ]);
+
+        $history->changes()->createMany([
+            [
+                'field' => 'locationable_id',
+                'value' => $event->animal->locationable_id,
+            ],
+            [
+                'field' => 'locationable_type',
+                'value' => $event->animal->locationable_type,
+            ],
         ]);
     }
 
@@ -225,6 +256,11 @@ class TrackAnimalChangesSubscriber
         $events->listen(AnimalFosterHomeUpdated::class, [
             TrackAnimalChangesSubscriber::class,
             'handleAnimalFosterHomeUpdated',
+        ]);
+
+        $events->listen(AnimalLocationUpdated::class, [
+            TrackAnimalChangesSubscriber::class,
+            'handleAnimalLocationUpdated',
         ]);
     }
 }

@@ -6,6 +6,7 @@ use App\Enum\DefaultTenantUserRole;
 use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalFosterHomeUpdated;
 use App\Events\Animals\AnimalHandlerUpdated;
+use App\Events\Animals\AnimalLocationUpdated;
 use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUpdated;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
@@ -317,8 +318,8 @@ class AnimalService
 
         $animal->save();
 
-        //        if (count($animal->getChanges()) > 0) {
-        //            AnimalFosterHomeUpdated::dispatch($animal, $user);
-        //        }
+        if (count($animal->getChanges()) > 0) {
+            AnimalLocationUpdated::dispatch($animal, $user);
+        }
     }
 }
