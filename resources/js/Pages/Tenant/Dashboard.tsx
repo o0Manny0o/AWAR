@@ -7,9 +7,7 @@ import Member = App.Models.Member
 
 export default function Index({
     members,
-    auth: {
-        user: { name },
-    },
+    auth: { user },
     tenant,
 }: AppPageProps<{ members: Member[] }>) {
     const __ = useTranslate()
@@ -21,7 +19,7 @@ export default function Index({
             <div className="space-y-6">
                 <Card>
                     {__('organisations.dashboard.welcome', {
-                        name: name,
+                        name: user!.name,
                         organisation: tenant?.name ?? 'AWAR',
                     })}
                 </Card>
