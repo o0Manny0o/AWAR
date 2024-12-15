@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use App\Enum\CentralUserRole;
 use App\Enum\DefaultTenantUserRole;
+use App\Models\Address;
 use App\Models\Animal\Animal;
 use App\Models\Animal\Cat;
 use App\Models\Organisation;
 use App\Models\Tenant\Member;
+use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
 use App\Services\AnimalService;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -28,6 +30,15 @@ class DevelopmentSeeder extends Seeder
     private function createUsersAndMembers()
     {
         $users = User::factory()->count(5)->create();
+
+        Address::factory()->createManyQuietly(
+            $users->map(function (User $u) {
+                return [
+                    'addressable_id' => $u->global_id,
+                    'addressable_type' => User::class,
+                ];
+            }),
+        );
 
         $organisation = Organisation::first();
 
@@ -78,6 +89,11 @@ class DevelopmentSeeder extends Seeder
             'password' => Hash::make('ZGN7wth1rgw3nuv.rpd'),
         ]);
 
+        Address::factory()->createOneQuietly([
+            'addressable_id' => $user->id,
+            'addressable_type' => User::class,
+        ]);
+
         Artisan::call('app:create-org', [
             'name' => 'foo',
             'subdomain' => 'foo',
@@ -87,6 +103,7 @@ class DevelopmentSeeder extends Seeder
         $user->assignRole(CentralUserRole::ADMIN);
 
         $this->createUsersAndMembers();
+        $this->createOrganisationLocation();
         $this->createCat($user);
     }
 
@@ -122,5 +139,19 @@ class DevelopmentSeeder extends Seeder
             Model::reguard();
             return $this->animalService->createAnimal($data, Cat::class, $user);
         });
+    }
+
+    private function createOrganisationLocation()
+    {
+        $organisation = Organisation::first();
+
+        $location = OrganisationLocation::factory()->createOne([
+            'organisation_id' => $organisation->id,
+        ]);
+
+        Address::factory()->createOneQuietly([
+            'addressable_id' => $location->id,
+            'addressable_type' => OrganisationLocation::class,
+        ]);
     }
 }
