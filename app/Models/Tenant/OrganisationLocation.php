@@ -2,6 +2,7 @@
 
 namespace App\Models\Tenant;
 
+use App\Enum\ResourcePermission;
 use App\Models\Address;
 use App\Models\Organisation;
 use App\Models\Scopes\TenantScope;
@@ -57,7 +58,11 @@ class OrganisationLocation extends Model
 
     protected $with = ['address', 'address.country'];
 
-    protected $appends = ['can_be_deleted', 'can_be_viewed', 'can_be_updated'];
+    protected array $resourcePermissions = [
+        ResourcePermission::DELETE,
+        ResourcePermission::VIEW,
+        ResourcePermission::UPDATE,
+    ];
 
     /**
      * Get the organisation that owns the location.

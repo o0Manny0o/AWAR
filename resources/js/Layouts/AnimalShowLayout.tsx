@@ -6,6 +6,7 @@ import { AssignInput } from '@/Pages/Tenant/Animals/Partials/AssignInput'
 import { usePage } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
+import usePermission from '@/shared/hooks/usePermission'
 import Animal = App.Models.Animal
 import Member = App.Models.Member
 
@@ -17,6 +18,8 @@ export function AnimalShowLayout({
 }: PropsWithChildren<{ animal: Animal; baseRoute: string }> &
     AuthenticatedLayoutProps) {
     const __ = useTranslate()
+    const { canAssignHandler } = usePermission()
+
     const { handlers } =
         usePage<AppPageProps<{ handlers: Pick<Member, 'id' | 'name'>[] }>>()
             .props
@@ -37,6 +40,7 @@ export function AnimalShowLayout({
                                 prepend={
                                     <span className="bg-gray-300 size-6 rounded-full shrink-0"></span>
                                 }
+                                canEdit={canAssignHandler(animal)}
                             />
                         </div>
                         <div className="py-6">
@@ -48,6 +52,7 @@ export function AnimalShowLayout({
                                 routeName={'animals.location'}
                                 options={[]}
                                 value={{ id: '1', name: 'Shelter XYZ' }}
+                                canEdit={true}
                             />
                         </div>
                         <div className="pt-6">
@@ -62,6 +67,7 @@ export function AnimalShowLayout({
                                 prepend={
                                     <span className="bg-gray-300 size-6 rounded-full"></span>
                                 }
+                                canEdit={true}
                             />
                         </div>
                     </Card>

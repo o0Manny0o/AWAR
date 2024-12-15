@@ -2,6 +2,7 @@
 
 namespace App\Models\Animal;
 
+use App\Enum\ResourcePermission;
 use App\Interface\Trackable;
 use App\Models\Organisation;
 use App\Models\Scopes\TenantScope;
@@ -143,15 +144,15 @@ class Animal extends Model implements Trackable
         'handler_id',
     ];
 
-    protected $appends = [
-        'can_be_viewed',
-        'can_be_deleted',
-        'can_be_updated',
-        'can_be_published',
-        'thumbnail',
-        'gallery',
-        'images',
+    protected array $resource_permissions = [
+        ResourcePermission::VIEW,
+        ResourcePermission::DELETE,
+        ResourcePermission::UPDATE,
+        ResourcePermission::PUBLISH,
+        ResourcePermission::ASSIGN_HANDLER,
     ];
+
+    protected $appends = ['thumbnail', 'gallery', 'images'];
 
     /**
      * @return string[]

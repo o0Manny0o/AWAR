@@ -14,6 +14,7 @@ interface AssignInputProps<T extends Option> {
     label: string | TranslationKey
     prepend?: ReactNode
     routeName: string
+    canEdit: boolean
 }
 
 export function AssignInput<T extends Option>({
@@ -23,6 +24,7 @@ export function AssignInput<T extends Option>({
     prepend,
     label,
     routeName,
+    canEdit,
 }: AssignInputProps<T>) {
     const __ = useTranslate()
     const [edit, setEdit] = useState(false)
@@ -59,12 +61,14 @@ export function AssignInput<T extends Option>({
                             __('general.various.no_one')
                         )}
                     </p>
-                    <button
-                        onClick={() => setEdit(true)}
-                        className="text-primary-interactive"
-                    >
-                        <PencilIcon className="size-4" />
-                    </button>
+                    {canEdit && (
+                        <button
+                            onClick={() => setEdit(true)}
+                            className="text-primary-interactive"
+                        >
+                            <PencilIcon className="size-4" />
+                        </button>
+                    )}
                 </div>
             )}
             {edit && (

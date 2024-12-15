@@ -2,94 +2,68 @@
 
 namespace App\Traits;
 
+use App\Enum\ResourcePermission;
+use Illuminate\Support\Str;
+
 trait HasResourcePermissions
 {
-    private bool $deletable = false;
-    private bool $restoreable = false;
-    private bool $updatable = false;
-    private bool $viewable = false;
-    private bool $submittable = false;
-    private bool $resendable = false;
-    private bool $publishable = false;
+    private bool $can_be_deleted = false;
+    private bool $can_be_restored = false;
+    private bool $can_be_updated = false;
+    private bool $can_be_viewed = false;
+    private bool $can_be_submitted = false;
+    private bool $can_be_resend = false;
+    private bool $can_be_published = false;
+    private bool $can_assign_handler = false;
+
+    public function __call($name, $arguments)
+    {
+        if (preg_match('/^get([^;]+)Attribute$/', $name, $match)) {
+            $field = Str::snake($match[1]);
+            if (
+                !!ResourcePermission::tryFrom($field) &&
+                property_exists($this, $field)
+            ) {
+                return $this->{$field};
+            }
+        }
+        if (preg_match('/^can([^;]+)$/', $name, $match)) {
+            $field = Str::snake($match[1]);
+            if (
+                !!ResourcePermission::tryFrom($field) &&
+                property_exists($this, $field)
+            ) {
+                return $this->{$field};
+            }
+        }
+        return parent::__call($name, $arguments);
+    }
 
     public function setPermissions($user): void
     {
-        $this->deletable = $user->can('delete', $this);
-        $this->restoreable = $user->can('restore', $this);
-        $this->viewable = $user->can('view', $this);
-        $this->updatable = $user->can('update', $this);
-        $this->submittable = $user->can('submit', $this);
-        $this->resendable = $user->can('resend', $this);
-        $this->publishable = $user->can('publish', $this);
+        $this->can_be_deleted = $user->can('delete', $this);
+        $this->can_be_restored = $user->can('restore', $this);
+        $this->can_be_viewed = $user->can('view', $this);
+        $this->can_be_updated = $user->can('update', $this);
+        $this->can_be_submitted = $user->can('submit', $this);
+        $this->can_be_resend = $user->can('resend', $this);
+        $this->can_be_published = $user->can('publish', $this);
+        $this->can_assign_handler = $user->can('assign', $this);
     }
 
-    public function isDeletable(): bool
+    protected function initializeHasResourcePermissions(): void
     {
-        return $this->deletable;
+        $this->appends = array_merge($this->appends, $this->permissionsArray());
     }
 
-    public function getCanBeDeletedAttribute(): bool
+    private function permissionsArray()
     {
-        return $this->isDeletable();
-    }
-
-    public function isRestoreable(): bool
-    {
-        return $this->restoreable;
-    }
-
-    public function getCanBeRestoredAttribute(): bool
-    {
-        return $this->isRestoreable();
-    }
-
-    public function isUpdatable(): bool
-    {
-        return $this->updatable;
-    }
-
-    public function getCanBeUpdatedAttribute(): bool
-    {
-        return $this->isUpdatable();
-    }
-
-    public function isViewable(): bool
-    {
-        return $this->viewable;
-    }
-
-    public function getCanBeViewedAttribute(): bool
-    {
-        return $this->isViewable();
-    }
-
-    public function isSubmittable(): bool
-    {
-        return $this->submittable;
-    }
-
-    public function getCanBeSubmittedAttribute(): bool
-    {
-        return $this->isSubmittable();
-    }
-
-    public function isResendable(): bool
-    {
-        return $this->resendable;
-    }
-
-    public function getCanBeResendedAttribute(): bool
-    {
-        return $this->isResendable();
-    }
-
-    public function isPublishable(): bool
-    {
-        return $this->publishable;
-    }
-
-    public function getCanBePublishedAttribute(): bool
-    {
-        return $this->isPublishable();
+        return array_map(
+            fn($permission) => $permission->value,
+            array_filter(
+                $this->resource_permissions ?? [],
+                fn($permission) => $permission instanceof ResourcePermission,
+            ),
+        );
     }
 }
