@@ -58,7 +58,7 @@ class OrganisationLocation extends Model
 
     protected $with = ['address', 'address.country'];
 
-    protected array $resourcePermissions = [
+    protected $resourcePermissions = [
         ResourcePermission::DELETE,
         ResourcePermission::VIEW,
         ResourcePermission::UPDATE,

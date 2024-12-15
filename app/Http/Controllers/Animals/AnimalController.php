@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Animals;
 use App\Events\Animals\AnimalDeleted;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Animals\AssignFosterHomeRequest;
 use App\Http\Requests\Animals\AssignHandlerRequest;
 use App\Http\Requests\Animals\CreateAnimalRequest;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
@@ -43,15 +44,18 @@ class AnimalController extends Controller
         $this->authorize('view', $animal);
 
         $animal->append('handler');
+        $animal->append('fosterHome');
 
         $history = AnimalHistory::internalHistory($animal);
 
         $handlers = Member::handlers()->get();
+        $fosterHomes = Member::fosterHomes()->get();
 
         return AppInertia::render($this->getShowView(), [
             'animal' => $animal,
             'history' => $history,
             'handlers' => $handlers,
+            'fosterHomes' => $fosterHomes,
             'permissions' => $this->permissions(request(), $animal),
         ]);
     }
@@ -308,6 +312,34 @@ class AnimalController extends Controller
         $validated = $animalRequest->validated();
 
         $animalService->assignHandler($animal, $validated, Auth::user());
+
+        return $this->redirect($animalRequest, $this->getShowRouteName(), [
+            'animal' => $animal,
+        ]);
+    }
+
+    /**
+     * Assign a foster home to an animal.
+     *
+     * @throws AuthorizationException
+     * @throws Throwable
+     */
+    public function assignFosterHome(
+        AnimalService $animalService,
+        AssignFosterHomeRequest $animalRequest,
+        string $id,
+    ): RedirectResponse {
+        /** @var Animal|null $animal */
+        $animal = Animal::find($id);
+        if (!$animal) {
+            return redirect()->route($this->getIndexRouteName());
+        }
+
+        $this->authorize('assign', $animal);
+
+        $validated = $animalRequest->validated();
+
+        $animalService->assignFosterHome($animal, $validated, Auth::user());
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,

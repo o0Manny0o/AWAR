@@ -98,6 +98,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @property-read Member|null $handler
  * @property string $handler_id
  * @method static Builder<static>|Animal whereHandlerId($value)
+ * @property-read \App\Models\Tenant\Member|null $foster_home
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class, WithAnimalableScope::class])]
@@ -122,6 +123,7 @@ class Animal extends Model implements Trackable
         'family_id',
         'animal_family_id',
         'handler_id',
+        'foster_home_id',
     ];
 
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
@@ -150,6 +152,7 @@ class Animal extends Model implements Trackable
         ResourcePermission::UPDATE,
         ResourcePermission::PUBLISH,
         ResourcePermission::ASSIGN_HANDLER,
+        ResourcePermission::ASSIGN_FOSTER_HOME,
     ];
 
     protected $appends = ['thumbnail', 'gallery', 'images'];
@@ -259,6 +262,18 @@ class Animal extends Model implements Trackable
     {
         return tenant()->run(function () {
             return Member::whereGlobalId($this->handler_id)
+                ->select(['global_id AS id', 'name'])
+                ->first();
+        });
+    }
+
+    /**
+     * The handler that is assigned to the animal
+     */
+    public function getFosterHomeAttribute(): ?Member
+    {
+        return tenant()->run(function () {
+            return Member::whereGlobalId($this->foster_home_id)
                 ->select(['global_id AS id', 'name'])
                 ->first();
         });

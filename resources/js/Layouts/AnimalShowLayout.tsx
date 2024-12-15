@@ -18,11 +18,14 @@ export function AnimalShowLayout({
 }: PropsWithChildren<{ animal: Animal; baseRoute: string }> &
     AuthenticatedLayoutProps) {
     const __ = useTranslate()
-    const { canAssignHandler } = usePermission()
+    const { canAssignHandler, canAssignFosterHome } = usePermission()
 
-    const { handlers } =
-        usePage<AppPageProps<{ handlers: Pick<Member, 'id' | 'name'>[] }>>()
-            .props
+    const { handlers, fosterHomes } = usePage<
+        AppPageProps<{
+            handlers: Pick<Member, 'id' | 'name'>[]
+            fosterHomes: Pick<Member, 'id' | 'name'>[]
+        }>
+    >().props
 
     return (
         <AuthenticatedLayout {...props}>
@@ -61,13 +64,13 @@ export function AnimalShowLayout({
                                 label={__(
                                     'animals.form_general.foster_home.label',
                                 )}
-                                routeName={'animals.location'}
-                                options={[]}
-                                value={{ id: '1', name: 'Moritz Wach' }}
+                                routeName={`${baseRoute}.assignFosterHome`}
+                                options={fosterHomes}
+                                value={animal.fosterHome}
                                 prepend={
                                     <span className="bg-gray-300 size-6 rounded-full"></span>
                                 }
-                                canEdit={true}
+                                canEdit={canAssignFosterHome(animal)}
                             />
                         </div>
                     </Card>

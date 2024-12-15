@@ -97,6 +97,13 @@ class AnimalPolicy extends BasePolicy
             $animal->handler_id === $user->global_id;
     }
 
+    public function assignFosterHome(User $user, Animal $animal): bool
+    {
+        return $this->isAdmin($user) ||
+            $user->member?->hasRole(DefaultTenantUserRole::ADOPTION_LEAD) ||
+            $animal->handler_id === $user->global_id;
+    }
+
     function isOwner(User $user, $entity): bool
     {
         return false;

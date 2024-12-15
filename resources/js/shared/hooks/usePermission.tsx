@@ -15,6 +15,8 @@ export default function usePermission(base?: ResourcePermissions) {
     const canResend = (e: any): boolean => e.can_be_resended ?? false
     const canPublish = (e: any): boolean => e.can_be_published ?? false
     const canAssignHandler = (e: any): boolean => e.can_assign_handler ?? false
+    const canAssignFosterHome = (e: any): boolean =>
+        e.can_assign_foster_home ?? false
 
     return {
         can,
@@ -26,5 +28,6 @@ export default function usePermission(base?: ResourcePermissions) {
         canResend,
         canPublish,
         canAssignHandler,
+        canAssignFosterHome,
     }
 }

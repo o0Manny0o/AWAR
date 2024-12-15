@@ -9,10 +9,12 @@ use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUpdated;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
+use App\Models\Tenant\Member;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class AnimalService
 {
@@ -237,12 +239,50 @@ class AnimalService
         AnimalPublished::dispatch($animal, $user);
     }
 
-    public function assignHandler(Animal $animal, mixed $validated, User $user)
-    {
+    public function assignHandler(
+        Animal $animal,
+        mixed $validated,
+        User $user,
+    ): void {
+        /** @var Member $assignee */
+        $assignee = Member::firstWhere('global_id', $validated['id']);
+
+        if (
+            !$assignee ||
+            !$assignee->hasAnyRole(
+                DefaultTenantUserRole::ADOPTION_LEAD,
+                DefaultTenantUserRole::ADOPTION_HANDLER,
+            )
+        ) {
+            throw new BadRequestException();
+        }
+
         $animal->update(['handler_id' => $validated['id']]);
 
         if (count($animal->getChanges()) > 0) {
             AnimalHandlerUpdated::dispatch($animal, $user);
         }
+    }
+
+    public function assignFosterHome(
+        Animal $animal,
+        mixed $validated,
+        User $user,
+    ) {
+        /** @var Member $assignee */
+        $assignee = Member::firstWhere('global_id', $validated['id']);
+
+        if (
+            !$assignee ||
+            !$assignee->hasRole(DefaultTenantUserRole::FOSTER_HOME)
+        ) {
+            throw new BadRequestException();
+        }
+
+        $animal->update(['foster_home_id' => $validated['id']]);
+
+        //        if (count($animal->getChanges()) > 0) {
+        //            AnimalHandlerUpdated::dispatch($animal, $user);
+        //        }
     }
 }

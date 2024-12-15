@@ -37,6 +37,7 @@ use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
  * @property-read bool $can_be_viewed
  * @property-read bool $can_be_published
  * @method static Builder<static>|Member handlers()
+ * @method static Builder<static>|Member fosterHomes()
  * @mixin \Eloquent
  */
 class Member extends Model implements Syncable
@@ -54,6 +55,13 @@ class Member extends Model implements Syncable
                 DefaultTenantUserRole::ADOPTION_HANDLER,
                 DefaultTenantUserRole::ADOPTION_LEAD,
             ])
+            ->select(['global_id AS id', 'name']);
+    }
+
+    public static function scopeFosterHomes(Builder $builder): void
+    {
+        $builder
+            ->role([DefaultTenantUserRole::FOSTER_HOME])
             ->select(['global_id AS id', 'name']);
     }
 

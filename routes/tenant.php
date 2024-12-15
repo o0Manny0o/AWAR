@@ -111,6 +111,11 @@ Route::middleware([
                                         $controller,
                                         'assign',
                                     ])->name('assign');
+
+                                    Route::post('/{id}/foster', [
+                                        $controller,
+                                        'assignFosterHome',
+                                    ])->name('assignFosterHome');
                                 });
 
                             Route::resource($name, $controller)->parameters([
