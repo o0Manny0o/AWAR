@@ -11,14 +11,12 @@ class AnimalPolicy extends BasePolicy
     public function before(User $user): ?false
     {
         if (
-            !$user
-                ->asMember()
-                ->hasAnyRole(
-                    DefaultTenantUserRole::ADMIN,
-                    DefaultTenantUserRole::ADOPTION_LEAD,
-                    DefaultTenantUserRole::ADOPTION_HANDLER,
-                    DefaultTenantUserRole::FOSTER_HOME,
-                )
+            !$user->member?->hasAnyRole(
+                DefaultTenantUserRole::ADMIN,
+                DefaultTenantUserRole::ADOPTION_LEAD,
+                DefaultTenantUserRole::ADOPTION_HANDLER,
+                DefaultTenantUserRole::FOSTER_HOME,
+            )
         ) {
             return false;
         }
@@ -95,7 +93,7 @@ class AnimalPolicy extends BasePolicy
     public function assign(User $user, Animal $animal): bool
     {
         return $this->isAdmin($user) ||
-            $user->asMember()->hasRole(DefaultTenantUserRole::ADOPTION_LEAD) ||
+            $user->member?->hasRole(DefaultTenantUserRole::ADOPTION_LEAD) ||
             $animal->handler_id === $user->global_id;
     }
 

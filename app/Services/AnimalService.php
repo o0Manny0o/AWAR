@@ -27,14 +27,20 @@ class AnimalService
     public function createAnimal(array $validated, $class, User $user)
     {
         $organisation = tenant();
+        $isHandler = $user->member?->hasAnyRole([
+            DefaultTenantUserRole::ADOPTION_HANDLER,
+            DefaultTenantUserRole::ADOPTION_LEAD,
+        ]);
 
         return tenancy()->central(function () use (
+            $isHandler,
             $user,
             $organisation,
             $class,
             $validated,
         ) {
             return DB::transaction(function () use (
+                $isHandler,
                 $user,
                 $organisation,
                 $class,
@@ -44,13 +50,6 @@ class AnimalService
 
                 $changes = [];
 
-                $isHandler = $user
-                    ->asMember()
-                    ?->hasAnyRole([
-                        DefaultTenantUserRole::ADOPTION_HANDLER,
-                        DefaultTenantUserRole::ADOPTION_LEAD,
-                    ]);
-
                 /** @var Animal $animal */
                 $animal = $animalable->animal()->create(
                     array_merge($validated, [
@@ -59,7 +58,7 @@ class AnimalService
                     ]),
                 );
 
-                if (isset($validated['images'])) {
+                if (isset($validated['family'])) {
                     $changes = $this->animalFamilyService->createOrUpdateFamily(
                         $validated,
                         $animal,
@@ -79,7 +78,7 @@ class AnimalService
                     }
                 }
 
-                if (isset($validated['family'])) {
+                if (isset($validated['images'])) {
                     try {
                         $this->attachMedia(
                             $animal,

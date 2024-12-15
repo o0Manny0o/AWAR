@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Organisation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -35,8 +36,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user()?->load(['tenants:id,name']),
-                'member' => $request->user()?->asMember(),
+                'user' => $request->user(),
             ],
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -58,9 +58,29 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
             },
-            'tenant' => cache()->remember('domains', 360, function () {
-                return tenant()?->load('domains');
-            }),
+            'tenants' => $request->user()
+                ? global_cache()->remember(
+                    'users:' . $request->user()->id . ':tenants',
+                    18000,
+                    function () use ($request) {
+                        return Organisation::whereHas('members', function (
+                            $query,
+                        ) use ($request) {
+                            $query->where(
+                                'global_id',
+                                $request->user()->global_id,
+                            );
+                        })
+                            ->with('domains')
+                            ->get();
+                    },
+                )
+                : null,
+            'tenant' => tenancy()->initialized
+                ? cache()->remember('tenant', 18000, function () {
+                    return tenancy()->tenant?->load('domains');
+                })
+                : null,
         ];
     }
 }

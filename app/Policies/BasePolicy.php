@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Enum\CentralUserRole;
 use App\Enum\DefaultTenantUserRole;
-use App\Models\Tenant\Member;
 use App\Models\User;
 
 abstract class BasePolicy
@@ -17,9 +16,8 @@ abstract class BasePolicy
         }
 
         if (tenancy()->initialized) {
-            /** @var Member $member */
-            $member = Member::firstWhere('global_id', $user->global_id);
-            return $member?->hasRole(DefaultTenantUserRole::ADMIN) ?? false;
+            return $user->member?->hasRole(DefaultTenantUserRole::ADMIN) ??
+                false;
         } else {
             return $user->hasRole(CentralUserRole::ADMIN);
         }
@@ -28,7 +26,7 @@ abstract class BasePolicy
     protected function isMember(User $user): bool
     {
         if (tenancy()->initialized) {
-            return Member::firstWhere('global_id', $user->global_id)->exists();
+            return !!$user->member;
         }
         return false;
     }

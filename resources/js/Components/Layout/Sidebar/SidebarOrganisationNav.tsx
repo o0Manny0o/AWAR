@@ -10,12 +10,9 @@ import { Anchor } from '@/Components/_Base/Anchor'
 export function SidebarOrganisationNav() {
     const __ = useTranslate()
     const { colored } = useContext(SidebarContext)
-    const {
-        auth: { user },
-        tenant,
-    } = usePage().props
+    const { tenant, tenants } = usePage().props
 
-    if (!user.tenants?.length) {
+    if (!tenants?.length) {
         return null
     }
 
@@ -28,7 +25,7 @@ export function SidebarOrganisationNav() {
                 {__('general.navigation.your_organisations')}
             </div>
             <SidebarMenuList>
-                {user.tenants?.map((organisation) => (
+                {tenants?.map((organisation) => (
                     <SidebarMenuItem
                         key={organisation.name}
                         href={organisation.dashboard_url}

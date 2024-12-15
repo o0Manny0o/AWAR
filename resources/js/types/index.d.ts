@@ -4,6 +4,9 @@ type User = {
     email: string
     email_verified_at?: string
     tenants?: Organisation[]
+    member?: {
+        id: string
+    }
 }
 
 type Organisation = {
@@ -56,8 +59,7 @@ type NestedRecord<K, T> = Record<K, T | NestedRecord<K, T>>
 type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
     T & {
         auth: {
-            user: User
-            member?: any
+            user?: User
         }
         permissions?: NestedRecord<string, boolean>
         ziggy: ZiggyConfig
@@ -66,6 +68,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         centralDomain: string
         previousUrl?: string
         tenant?: Organisation
+        tenants?: Organisation[]
         messages?: AppMessage[]
     }
 

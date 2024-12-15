@@ -36,6 +36,7 @@ use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
  * @property-read bool $can_be_updated
  * @property-read bool $can_be_viewed
  * @property-read bool $can_be_published
+ * @method static Builder<static>|Member handlers()
  * @mixin \Eloquent
  */
 class Member extends Model implements Syncable
