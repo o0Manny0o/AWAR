@@ -92,41 +92,31 @@ Route::middleware([
                 Route::name('animals.')
                     ->prefix('animals')
                     ->group(function () {
-                        Route::name('dogs.')
-                            ->prefix('dogs')
-                            ->group(function () {
-                                Route::post('/{id}/publish', [
-                                    DogController::class,
-                                    'publish',
-                                ])->name('publish');
+                        foreach (
+                            [
+                                'dogs' => DogController::class,
+                                'cats' => CatController::class,
+                            ]
+                            as $name => $controller
+                        ) {
+                            Route::name($name . '.')
+                                ->prefix($name)
+                                ->group(function () use ($controller) {
+                                    Route::post('/{id}/publish', [
+                                        $controller,
+                                        'publish',
+                                    ])->name('publish');
 
-                                Route::post('/{id}/assign', [
-                                    DogController::class,
-                                    'assign',
-                                ])->name('assign');
-                            });
-                        Route::resource(
-                            'dogs',
-                            DogController::class,
-                        )->parameters(['dogs' => 'animal']);
+                                    Route::post('/{id}/assign', [
+                                        $controller,
+                                        'assign',
+                                    ])->name('assign');
+                                });
 
-                        Route::name('cats.')
-                            ->prefix('cats')
-                            ->group(function () {
-                                Route::post('/{id}/publish', [
-                                    CatController::class,
-                                    'publish',
-                                ])->name('publish');
-
-                                Route::post('/{id}/assign', [
-                                    CatController::class,
-                                    'assign',
-                                ])->name('assign');
-                            });
-                        Route::resource(
-                            'cats',
-                            CatController::class,
-                        )->parameters(['cats' => 'animal']);
+                            Route::resource($name, $controller)->parameters([
+                                $name => 'animal',
+                            ]);
+                        }
                     });
             });
         },
