@@ -31,6 +31,11 @@ return new class extends Migration {
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 
+            $table->uuid('handler_id')->nullable();
+            $table->uuid('foster_home_id')->nullable();
+
+            $table->nullableUuidMorphs('locationable');
+
             $table->softDeletes();
             $table->timestamps();
         });

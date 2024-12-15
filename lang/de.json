@@ -102,7 +102,13 @@
                 "foster_home": "Pflegestelle"
             }
         },
-        "images": "Bilder"
+        "images": "Bilder",
+        "various": {
+            "no_one": "Niemand",
+            "assigned_to": "Zugewiesen an",
+            "unknown": "Unbekannt",
+            "unknown_or_external": "Unbekannt oder extern"
+        }
     },
     "landing_page": {
         "welcome_message": "Wilkommen bei AWAR, :name"
@@ -296,6 +302,12 @@
             "family": {
                 "placeholder": "Geben Sie den Familiennamen ein",
                 "label": "Wählen oder erstellen Sie eine Familie"
+            },
+            "location": {
+                "label": "Aufenthaltsort"
+            },
+            "foster_home": {
+                "label": "Pflegestelle"
             }
         }
     },
@@ -307,7 +319,13 @@
                 "delete": ":user hat :animal :when gelöscht",
                 "restore": ":user hat :animal :when wiederhergestellt",
                 "publish": ":user hat :animal :when veröffentlicht",
-                "unpublish": ":user hat die Veröffentlichung von :animal :when aufgehoben"
+                "unpublish": ":user hat die Veröffentlichung von :animal :when aufgehoben",
+                "handler_assign": ":user hat :when einen neuen Bearbeiter zugewiesen",
+                "location_assign": ":user hat :when einen neuen Standort zugewiesen",
+                "foster_home_assign": ":user hat :when eine neue Pflegestelle zugewiesen",
+                "handler_unassign": ":user hat :when die Bearbeiter Zuweisung aufgehoben",
+                "location_unassign": ":user hat :when die Standort Zuweisung aufgehoben",
+                "foster_home_unassign": ":user hat :when die Pflegestellen Zuweisung aufgehoben"
             },
             "public": {
                 "initial": ":animal wurde :when gefunden"

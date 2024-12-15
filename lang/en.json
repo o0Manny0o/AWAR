@@ -265,7 +265,13 @@
                 "foster_home": "Foster Home"
             }
         },
-        "images": "Images"
+        "images": "Images",
+        "various": {
+            "no_one": "No one",
+            "assigned_to": "Assigned to",
+            "unknown": "Unknown",
+            "unknown_or_external": "Unknown or external"
+        }
     },
     "landing_page": {
         "welcome_message": "Welcome to AWAR, :name"
@@ -464,6 +470,12 @@
             "family": {
                 "placeholder": "Enter Family Name",
                 "label": "Select or create a family"
+            },
+            "location": {
+                "label": "Abode"
+            },
+            "foster_home": {
+                "label": "Foster Home"
             }
         }
     },
@@ -475,7 +487,13 @@
                 "delete": ":user deleted :animal :when",
                 "restore": ":user restored :animal :when",
                 "publish": ":user published :animal :when",
-                "unpublish": ":user unpublished :animal :when"
+                "unpublish": ":user unpublished :animal :when",
+                "handler_assign": ":user assigned a new handler :when",
+                "location_assign": ":user assigned a new location :when",
+                "foster_home_assign": ":user assigned a new foster home :when",
+                "handler_unassign": ":user unassigned a handler :when",
+                "location_unassign": ":user unassigned a location :when",
+                "foster_home_unassign": ":user unassigned a foster home :when"
             },
             "public": {
                 "initial": ":animal was found :when"

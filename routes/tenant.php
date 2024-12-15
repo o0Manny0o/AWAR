@@ -87,36 +87,46 @@ Route::middleware([
             });
 
             Route::middleware([
-                'tenantRole:admin,adoption-lead,adoption-handler',
+                'tenantRole:admin,adoption-lead,adoption-handler,foster-home',
             ])->group(function () {
                 Route::name('animals.')
                     ->prefix('animals')
                     ->group(function () {
-                        Route::name('dogs.')
-                            ->prefix('dogs')
-                            ->group(function () {
-                                Route::post('/publish/{id}', [
-                                    DogController::class,
-                                    'publish',
-                                ])->name('publish');
-                            });
-                        Route::resource(
-                            'dogs',
-                            DogController::class,
-                        )->parameters(['dogs' => 'animal']);
+                        foreach (
+                            [
+                                'dogs' => DogController::class,
+                                'cats' => CatController::class,
+                            ]
+                            as $name => $controller
+                        ) {
+                            Route::name($name . '.')
+                                ->prefix($name)
+                                ->group(function () use ($controller) {
+                                    Route::post('/{id}/publish', [
+                                        $controller,
+                                        'publish',
+                                    ])->name('publish');
 
-                        Route::name('cats.')
-                            ->prefix('cats')
-                            ->group(function () {
-                                Route::post('/publish/{id}', [
-                                    CatController::class,
-                                    'publish',
-                                ])->name('publish');
-                            });
-                        Route::resource(
-                            'cats',
-                            CatController::class,
-                        )->parameters(['cats' => 'animal']);
+                                    Route::post('/{id}/assign', [
+                                        $controller,
+                                        'assign',
+                                    ])->name('assign.handler');
+
+                                    Route::post('/{id}/foster', [
+                                        $controller,
+                                        'assignFosterHome',
+                                    ])->name('assign.foster');
+
+                                    Route::post('/{id}/location', [
+                                        $controller,
+                                        'assignLocation',
+                                    ])->name('assign.location');
+                                });
+
+                            Route::resource($name, $controller)->parameters([
+                                $name => 'animal',
+                            ]);
+                        }
                     });
             });
         },

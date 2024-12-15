@@ -15,6 +15,7 @@ use Stancl\Tenancy\Events;
 use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
+use Stancl\Tenancy\Resolvers\DomainTenantResolver;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -120,6 +121,8 @@ class TenancyServiceProvider extends ServiceProvider
     public function boot()
     {
         BelongsToTenant::$tenantIdColumn = 'organisation_id';
+        DomainTenantResolver::$shouldCache = true;
+        DomainTenantResolver::$cacheTTL = 3600;
         $this->bootEvents();
 
         $this->makeTenancyMiddlewareHighestPriority();

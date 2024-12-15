@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use App\Events\AddressSaved;
+use App\Models\Tenant\OrganisationLocation;
 use Clickbar\Magellan\Database\Eloquent\HasPostgisColumns;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -38,11 +43,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $location
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereLocation($value)
  * @property-read string $address_string
+ * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Address tenant()
+ * @property-read Model|\Eloquent $addressable
+ * @method static Builder<static>|Address tenantLocations()
  * @mixin \Eloquent
  */
 class Address extends Model
 {
-    use HasPostgisColumns;
+    use HasPostgisColumns, HasFactory, CentralConnection;
 
     protected array $postgisColumns = [
         'location' => [
@@ -74,6 +83,11 @@ class Address extends Model
     protected $dispatchesEvents = [
         'saved' => AddressSaved::class,
     ];
+
+    public function addressable(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
     public function country(): BelongsTo
     {

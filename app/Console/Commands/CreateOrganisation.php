@@ -16,7 +16,7 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
      *
      * @var string
      */
-    protected $signature = 'app:create-org {name : The name of the organisation} {subdomain : The subdomain of the organisation} {user? : The user to assign to the organisation}';
+    protected $signature = 'app:create-org {name : The name of the organisation} {subdomain : The subdomain of the organisation} {user_id? : The id of the user to assign to the organisation}';
 
     /**
      * The console command description.
@@ -32,7 +32,7 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
     {
         $name = $this->argument('name');
         $subdomain = $this->argument('subdomain');
-        $user = $this->argument('user');
+        $user_id = $this->argument('user_id');
         $centralApp = config('tenancy.central_domains')[0];
 
         $organisation = Organisation::create([
@@ -44,8 +44,8 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
             'domain' => $subdomain . '.' . $centralApp,
         ]);
 
-        if ($user) {
-            $user = User::find($user);
+        if ($user_id) {
+            $user = User::find($user_id);
             $user->tenants()->attach($organisation);
 
             tenancy()

@@ -28,6 +28,13 @@ class UpdateGeoLocation
             ->get()
             ->first();
 
+        if (!$geo) {
+            Log::info(
+                "No geo location found for address {$event->address->id}",
+            );
+            return;
+        }
+
         $point = Point::makeGeodetic(
             $geo->getCoordinates()->getLongitude(),
             $geo->getCoordinates()->getLatitude(),

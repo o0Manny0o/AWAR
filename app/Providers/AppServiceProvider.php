@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Translation\Translator;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -38,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
             return $this->map(function ($item) use ($attributes) {
                 return $item->setAppends($attributes);
             });
+        });
+
+        Auth::provider('member', function (Application $app, array $config) {
+            return new MemberUserProvider($this->app['hash'], $config['model']);
         });
     }
 }

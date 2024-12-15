@@ -2,10 +2,14 @@
 
 namespace App\Models\Animal;
 
+use App\Enum\ResourcePermission;
 use App\Interface\Trackable;
 use App\Models\Organisation;
 use App\Models\Scopes\TenantScope;
+use App\Models\Scopes\WithAddressScope;
 use App\Models\Scopes\WithAnimalableScope;
+use App\Models\Tenant\Member;
+use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
 use App\Traits\HasMorphableScopes;
 use App\Traits\HasResourcePermissions;
@@ -91,6 +95,19 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|Animal dogs()
  * @method static Builder<static>|Animal subtype(string $type)
  * @method static Builder<static>|Animal withMedia()
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $assignedTo
+ * @property-read int|null $assigned_to_count
+ * @property-read Member|null $handler
+ * @property string $handler_id
+ * @method static Builder<static>|Animal whereHandlerId($value)
+ * @property-read \App\Models\Tenant\Member|null $foster_home
+ * @property string|null $foster_home_id
+ * @property string|null $locationable_type
+ * @property string|null $locationable_id
+ * @property-read Model|\Eloquent|null $locationable
+ * @method static Builder<static>|Animal whereFosterHomeId($value)
+ * @method static Builder<static>|Animal whereLocationableId($value)
+ * @method static Builder<static>|Animal whereLocationableType($value)
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class, WithAnimalableScope::class])]
@@ -114,6 +131,10 @@ class Animal extends Model implements Trackable
         'published_at',
         'family_id',
         'animal_family_id',
+        'handler_id',
+        'foster_home_id',
+        'locationable_type',
+        'locationable_id',
     ];
 
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
@@ -133,17 +154,20 @@ class Animal extends Model implements Trackable
         'mother_added',
         'father_removed',
         'mother_removed',
+        'handler_id',
     ];
 
-    protected $appends = [
-        'can_be_viewed',
-        'can_be_deleted',
-        'can_be_updated',
-        'can_be_published',
-        'thumbnail',
-        'gallery',
-        'images',
+    protected array $resource_permissions = [
+        ResourcePermission::VIEW,
+        ResourcePermission::DELETE,
+        ResourcePermission::UPDATE,
+        ResourcePermission::PUBLISH,
+        ResourcePermission::ASSIGN_HANDLER,
+        ResourcePermission::ASSIGN_FOSTER_HOME,
+        ResourcePermission::ASSIGN_LOCATION,
     ];
+
+    protected $appends = ['thumbnail', 'gallery', 'images'];
 
     /**
      * @return string[]
@@ -158,10 +182,15 @@ class Animal extends Model implements Trackable
         return $this->morphTo();
     }
 
+    public function locationable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
     /**
      * The users that are assigned to the animal.
      */
-    public function users(): BelongsToMany
+    public function assignedTo(): BelongsToMany
     {
         return $this->belongsToMany(
             User::class,
@@ -241,6 +270,53 @@ class Animal extends Model implements Trackable
     public function getMotherAttribute()
     {
         return $this->family()->pluck('mother_id')->first();
+    }
+
+    /**
+     * The handler that is assigned to the animal
+     */
+    public function getHandlerAttribute(): ?Member
+    {
+        return tenant()->run(function () {
+            return Member::whereGlobalId($this->handler_id)
+                ->select(['global_id AS id', 'name'])
+                ->first();
+        });
+    }
+
+    /**
+     * The handler that is assigned to the animal
+     */
+    public function getFosterHomeAttribute(): ?Member
+    {
+        return tenant()->run(function () {
+            return Member::whereGlobalId($this->foster_home_id)
+                ->select(['global_id AS id', 'name'])
+                ->first();
+        });
+    }
+
+    /**
+     * The handler that is assigned to the animal
+     */
+    public function getLocationAttribute(): Member|OrganisationLocation|null
+    {
+        if ($this->locationable_type === Member::class) {
+            return tenant()->run(function () {
+                return Member::whereGlobalId($this->locationable_id)
+                    ->select(['global_id AS id', 'name'])
+                    ->first();
+            });
+        } elseif ($this->locationable_type === OrganisationLocation::class) {
+            return OrganisationLocation::withoutGlobalScope(
+                WithAddressScope::class,
+            )
+                ->where('id', $this->locationable_id)
+                ->select(['id', 'name'])
+                ->first();
+        } else {
+            return null;
+        }
     }
 
     /**

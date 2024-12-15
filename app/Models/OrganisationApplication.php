@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\ResourcePermission;
 use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -65,12 +66,12 @@ class OrganisationApplication extends Model
 
     protected $guarded = [];
 
-    protected $appends = [
-        'can_be_deleted',
-        'can_be_restored',
-        'can_be_viewed',
-        'can_be_updated',
-        'can_be_submitted',
+    protected array $resourcePermissions = [
+        ResourcePermission::DELETE,
+        ResourcePermission::VIEW,
+        ResourcePermission::RESTORE,
+        ResourcePermission::UPDATE,
+        ResourcePermission::SUBMIT,
     ];
 
     public function user(): BelongsTo

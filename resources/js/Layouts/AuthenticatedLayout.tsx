@@ -7,11 +7,15 @@ import {
 } from '@/shared/_constants/AuthenticatedNavigation'
 import { usePage } from '@inertiajs/react'
 
-export default function Authenticated({
+export type AuthenticatedLayoutProps = PropsWithChildren<
+    { title: string } & PageHeaderProps
+>
+
+export default function AuthenticatedLayout({
     children,
     title,
     ...pageHeaderProps
-}: PropsWithChildren<{ title: string } & PageHeaderProps>) {
+}: AuthenticatedLayoutProps) {
     const { tenant } = usePage().props
 
     const navigation = tenant ? TenantNavigation : CentralNavigation

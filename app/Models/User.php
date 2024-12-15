@@ -6,6 +6,7 @@ use App\Models\Animal\Animal;
 use App\Models\Tenant\Member;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -66,6 +67,9 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
  * @property-read int|null $addresses_count
  * @property-read \App\Models\Address|null $address
+ * @property-read Member|null $member
+ * @method static Builder<static>|User withTenants()
+ * @method static Builder<static>|User tenant()
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements
@@ -87,13 +91,13 @@ class User extends Authenticatable implements
      * @var array<int, string>
      */
     protected $fillable = ['name', 'email', 'password', 'locale'];
-
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
     protected $hidden = ['password', 'remember_token', 'pivot'];
+    private $cached_members = [];
 
     public function organisationApplications(): HasMany
     {
@@ -118,16 +122,6 @@ class User extends Authenticatable implements
         return Member::class;
     }
 
-    public function getGlobalIdentifierKey()
-    {
-        return $this->getAttribute($this->getGlobalIdentifierKeyName());
-    }
-
-    public function getGlobalIdentifierKeyName(): string
-    {
-        return 'global_id';
-    }
-
     public function getCentralModelName(): string
     {
         return static::class;
@@ -143,22 +137,35 @@ class User extends Authenticatable implements
         return ['global_id', 'name', 'email'];
     }
 
-    public function asMember(string $organisationId = null): Member|null
+    public function getMemberAttribute(): ?Member
     {
-        if ($organisationId) {
-            $organisation = Organisation::find($organisationId);
-            if ($organisation) {
-                tenancy()->initialize($organisation);
-            }
-        }
-
-        if (!tenant()) {
-            // Currently not in organisation context
+        if (!tenancy()->initialized) {
             return null;
         }
-        /** @var Member|null $member */
-        $member = Member::firstWhere('global_id', $this->global_id);
+        if (array_key_exists(tenant()->id, $this->cached_members)) {
+            return $this->cached_members[tenant()->id];
+        }
+        $member = Member::where(
+            (new Member())->getGlobalIdentifierKeyName(),
+            $this->getGlobalIdentifierKey(),
+        )
+            ->select(['id'])
+            ->first();
+        if ($member) {
+            $this->cached_members[tenant()->id] = $member;
+        }
+
         return $member;
+    }
+
+    public function getGlobalIdentifierKeyName(): string
+    {
+        return 'global_id';
+    }
+
+    public function getGlobalIdentifierKey()
+    {
+        return $this->getAttribute($this->getGlobalIdentifierKeyName());
     }
 
     /**
@@ -191,8 +198,8 @@ class User extends Authenticatable implements
         return $this->morphOne(
             Address::class,
             'addressable',
-            'addressable_type',
-            'addressable_id',
+            null,
+            null,
             'global_id',
         );
     }
@@ -208,5 +215,12 @@ class User extends Authenticatable implements
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function scopeTenant(Builder $query)
+    {
+        $query->whereHas('tenants', function (Builder $query) {
+            $query->where('organisations.id', tenant('id'));
+        });
     }
 }

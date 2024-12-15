@@ -78,7 +78,7 @@ export function HeaderBar({
                                 >
                                     {__('general.navigation.dashboard')}
                                 </DesktopNavLink>
-                            ) : auth.member ? (
+                            ) : auth.user?.member ? (
                                 <DesktopNavLink
                                     href={route('tenant.dashboard')}
                                     active={route().current('tenant.dashboard')}

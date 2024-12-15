@@ -18,7 +18,7 @@ export function AutocompleteInputOption({
                 data-[focus]:bg-primary-600 data-[focus]:outline-none data-[focus]:text-white
                 dark:data-[focus]:bg-primary-400/50"
         >
-            <div className="flex">{body}</div>
+            <div className="flex truncate">{body}</div>
 
             <span
                 className="absolute inset-y-0 right-0 hidden items-center pr-4 text-primary-600

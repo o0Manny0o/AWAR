@@ -24,11 +24,8 @@ class IsMember
         Closure $next,
         string $redirectToRoute = null,
     ) {
-        if (tenant() && $request->user()) {
-            $member = $request->user()->asMember();
-            if ($member) {
-                return $next($request);
-            }
+        if (tenant() && $request->user()?->member) {
+            return $next($request);
         }
         return $request->expectsJson()
             ? abort(403, 'You are not allowed to access this page.')

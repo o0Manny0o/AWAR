@@ -26,7 +26,7 @@ trait OptionalAppends
 
     public function setForceAppends(array $appends)
     {
-        $this->forceAppends = $appends;
+        $this->forceAppends = array_merge($this->forceAppends, $appends);
 
         return $this;
     }

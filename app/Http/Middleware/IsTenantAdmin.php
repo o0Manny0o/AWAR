@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Tenant\Member;
 use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,12 +24,8 @@ class IsTenantAdmin
         Closure $next,
         string $redirectToRoute = null,
     ) {
-        if (tenant() && $request->user()) {
-            /** @var Member $member */
-            $member = $request->user()->asMember();
-            if ($member && $member->isAdmin()) {
-                return $next($request);
-            }
+        if (tenant() && $request->user()?->member?->isAdmin()) {
+            return $next($request);
         }
         return $request->expectsJson()
             ? abort(403, 'You are not allowed to access this page.')

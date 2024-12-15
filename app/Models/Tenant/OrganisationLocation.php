@@ -2,12 +2,15 @@
 
 namespace App\Models\Tenant;
 
+use App\Enum\ResourcePermission;
 use App\Models\Address;
 use App\Models\Organisation;
 use App\Models\Scopes\TenantScope;
+use App\Models\Scopes\WithAddressScope;
 use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -48,16 +51,22 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation withoutTrashed()
  * @mixin \Eloquent
  */
-#[ScopedBy([TenantScope::class])]
+#[ScopedBy([TenantScope::class, WithAddressScope::class])]
 class OrganisationLocation extends Model
 {
-    use CentralConnection, SoftDeletes, HasResourcePermissions, HasUuids;
+    use CentralConnection,
+        SoftDeletes,
+        HasResourcePermissions,
+        HasUuids,
+        HasFactory;
 
     protected $fillable = ['name', 'public'];
 
-    protected $with = ['address', 'address.country'];
-
-    protected $appends = ['can_be_deleted', 'can_be_viewed', 'can_be_updated'];
+    protected $resourcePermissions = [
+        ResourcePermission::DELETE,
+        ResourcePermission::VIEW,
+        ResourcePermission::UPDATE,
+    ];
 
     /**
      * Get the organisation that owns the location.

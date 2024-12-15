@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Tenant\Member;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -24,12 +23,8 @@ class HasTenantRole
         Closure $next,
         string ...$roles,
     ): Response {
-        if (tenant() && $request->user()) {
-            /** @var Member $member */
-            $member = $request->user()->asMember();
-            if ($member && $member->hasAnyRole($roles)) {
-                return $next($request);
-            }
+        if (tenant() && $request->user()?->member?->hasAnyRole($roles)) {
+            return $next($request);
         }
         return $request->expectsJson()
             ? abort(403, 'You are not allowed to access this page.')
