@@ -6,8 +6,10 @@ use App\Enum\ResourcePermission;
 use App\Interface\Trackable;
 use App\Models\Organisation;
 use App\Models\Scopes\TenantScope;
+use App\Models\Scopes\WithAddressScope;
 use App\Models\Scopes\WithAnimalableScope;
 use App\Models\Tenant\Member;
+use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
 use App\Traits\HasMorphableScopes;
 use App\Traits\HasResourcePermissions;
@@ -99,6 +101,13 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @property string $handler_id
  * @method static Builder<static>|Animal whereHandlerId($value)
  * @property-read \App\Models\Tenant\Member|null $foster_home
+ * @property string|null $foster_home_id
+ * @property string|null $locationable_type
+ * @property string|null $locationable_id
+ * @property-read Model|\Eloquent|null $locationable
+ * @method static Builder<static>|Animal whereFosterHomeId($value)
+ * @method static Builder<static>|Animal whereLocationableId($value)
+ * @method static Builder<static>|Animal whereLocationableType($value)
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class, WithAnimalableScope::class])]
@@ -124,6 +133,8 @@ class Animal extends Model implements Trackable
         'animal_family_id',
         'handler_id',
         'foster_home_id',
+        'locationable_type',
+        'locationable_id',
     ];
 
     protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
@@ -166,6 +177,11 @@ class Animal extends Model implements Trackable
     }
 
     public function animalable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function locationable(): MorphTo
     {
         return $this->morphTo();
     }
@@ -277,6 +293,29 @@ class Animal extends Model implements Trackable
                 ->select(['global_id AS id', 'name'])
                 ->first();
         });
+    }
+
+    /**
+     * The handler that is assigned to the animal
+     */
+    public function getLocationAttribute(): Member|OrganisationLocation|null
+    {
+        if ($this->locationable_type === Member::class) {
+            return tenant()->run(function () {
+                return Member::whereGlobalId($this->locationable_id)
+                    ->select(['global_id AS id', 'name'])
+                    ->first();
+            });
+        } elseif ($this->locationable_type === OrganisationLocation::class) {
+            return OrganisationLocation::withoutGlobalScope(
+                WithAddressScope::class,
+            )
+                ->where('id', $this->locationable_id)
+                ->select(['id', 'name'])
+                ->first();
+        } else {
+            return null;
+        }
     }
 
     /**

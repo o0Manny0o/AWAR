@@ -105,7 +105,9 @@
         "images": "Bilder",
         "various": {
             "no_one": "Niemand",
-            "assigned_to": "Zugewiesen an"
+            "assigned_to": "Zugewiesen an",
+            "unknown": "Unbekannt",
+            "unknown_or_external": "Unbekannt oder extern"
         }
     },
     "landing_page": {

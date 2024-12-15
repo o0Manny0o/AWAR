@@ -126,6 +126,11 @@ declare namespace App.Models {
             name: string
         }
 
+        location?: {
+            id: string
+            name: string
+        }
+
         published_at?: string
         deleted_at?: string
         created_at: string

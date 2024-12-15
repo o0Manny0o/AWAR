@@ -269,6 +269,8 @@ type Translations = {
         various: {
             no_one: string
             assigned_to: string
+            unknown: string
+            unknown_or_external: string
         }
     }
     landing_page: {

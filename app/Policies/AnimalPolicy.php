@@ -92,6 +92,11 @@ class AnimalPolicy extends BasePolicy
      */
     public function assign(User $user, Animal $animal): bool
     {
+        return $this->isAdminOrLeadOrHandler($user, $animal);
+    }
+
+    function isAdminOrLeadOrHandler(User $user, Animal $animal): bool
+    {
         return $this->isAdmin($user) ||
             $user->member?->hasRole(DefaultTenantUserRole::ADOPTION_LEAD) ||
             $animal->handler_id === $user->global_id;
@@ -99,9 +104,12 @@ class AnimalPolicy extends BasePolicy
 
     public function assignFosterHome(User $user, Animal $animal): bool
     {
-        return $this->isAdmin($user) ||
-            $user->member?->hasRole(DefaultTenantUserRole::ADOPTION_LEAD) ||
-            $animal->handler_id === $user->global_id;
+        return $this->isAdminOrLeadOrHandler($user, $animal);
+    }
+
+    public function assignLocation(User $user, Animal $animal): bool
+    {
+        return $this->isAdminOrLeadOrHandler($user, $animal);
     }
 
     function isOwner(User $user, $entity): bool

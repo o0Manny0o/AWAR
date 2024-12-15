@@ -9,6 +9,7 @@ import { Card } from '@/Components/Layout/Card'
 import usePermission from '@/shared/hooks/usePermission'
 import Animal = App.Models.Animal
 import Member = App.Models.Member
+import Location = App.Models.Location
 
 export function AnimalShowLayout({
     animal,
@@ -20,10 +21,11 @@ export function AnimalShowLayout({
     const __ = useTranslate()
     const { canAssignHandler, canAssignFosterHome } = usePermission()
 
-    const { handlers, fosterHomes } = usePage<
+    const { handlers, fosterHomes, locations } = usePage<
         AppPageProps<{
             handlers: Pick<Member, 'id' | 'name'>[]
             fosterHomes: Pick<Member, 'id' | 'name'>[]
+            locations: Pick<Location, 'id' | 'name'>[]
         }>
     >().props
 
@@ -37,7 +39,7 @@ export function AnimalShowLayout({
                             <AssignInput
                                 animal={animal}
                                 label={__('general.various.assigned_to')}
-                                routeName={`${baseRoute}.assign`}
+                                routeName={`${baseRoute}.assign.handler`}
                                 options={handlers}
                                 value={animal.handler}
                                 prepend={
@@ -52,10 +54,26 @@ export function AnimalShowLayout({
                                 label={__(
                                     'animals.form_general.location.label',
                                 )}
-                                routeName={'animals.location'}
-                                options={[]}
-                                value={{ id: '1', name: 'Shelter XYZ' }}
+                                routeName={`${baseRoute}.assign.location`}
+                                options={[
+                                    ...locations.map((l) => ({
+                                        ...l,
+                                        type: 'location',
+                                    })),
+                                    ...fosterHomes.map((f) => ({
+                                        ...f,
+                                        type: 'foster_home',
+                                    })),
+                                ]}
+                                value={animal.location}
+                                prepend={
+                                    <span className="bg-gray-300 size-6 rounded-full shrink-0"></span>
+                                }
                                 canEdit={true}
+                                withType={'foster_home'}
+                                emptyOption={
+                                    'general.various.unknown_or_external'
+                                }
                             />
                         </div>
                         <div className="pt-6">
@@ -64,7 +82,7 @@ export function AnimalShowLayout({
                                 label={__(
                                     'animals.form_general.foster_home.label',
                                 )}
-                                routeName={`${baseRoute}.assignFosterHome`}
+                                routeName={`${baseRoute}.assign.foster`}
                                 options={fosterHomes}
                                 value={animal.fosterHome}
                                 prepend={

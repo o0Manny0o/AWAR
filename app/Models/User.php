@@ -69,6 +69,7 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read \App\Models\Address|null $address
  * @property-read Member|null $member
  * @method static Builder<static>|User withTenants()
+ * @method static Builder<static>|User tenant()
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements
@@ -197,8 +198,8 @@ class User extends Authenticatable implements
         return $this->morphOne(
             Address::class,
             'addressable',
-            'addressable_type',
-            'addressable_id',
+            null,
+            null,
             'global_id',
         );
     }
@@ -214,5 +215,12 @@ class User extends Authenticatable implements
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function scopeTenant(Builder $query)
+    {
+        $query->whereHas('tenants', function (Builder $query) {
+            $query->where('organisations.id', tenant('id'));
+        });
     }
 }

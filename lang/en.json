@@ -268,7 +268,9 @@
         "images": "Images",
         "various": {
             "no_one": "No one",
-            "assigned_to": "Assigned to"
+            "assigned_to": "Assigned to",
+            "unknown": "Unknown",
+            "unknown_or_external": "Unknown or external"
         }
     },
     "landing_page": {

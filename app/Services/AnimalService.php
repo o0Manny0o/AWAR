@@ -11,6 +11,7 @@ use App\Events\Animals\AnimalUpdated;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use App\Models\Tenant\Member;
+use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -269,7 +270,7 @@ class AnimalService
         Animal $animal,
         mixed $validated,
         User $user,
-    ) {
+    ): void {
         /** @var Member $assignee */
         $assignee = Member::firstWhere('global_id', $validated['id']);
 
@@ -285,5 +286,39 @@ class AnimalService
         if (count($animal->getChanges()) > 0) {
             AnimalFosterHomeUpdated::dispatch($animal, $user);
         }
+    }
+
+    public function assignLocation(
+        Animal $animal,
+        mixed $validated,
+        User $user,
+    ): void {
+        if (isset($validated['other'])) {
+            /** @var Member $foster_home */
+            $foster_home = Member::firstWhere('global_id', $validated['other']);
+
+            if (
+                $foster_home &&
+                !$foster_home->hasRole(DefaultTenantUserRole::FOSTER_HOME)
+            ) {
+                throw new BadRequestException();
+            }
+
+            $animal->update([
+                'locationable_id' => $foster_home->global_id,
+                'locationable_type' => Member::class,
+            ]);
+        } elseif (!$validated['id']) {
+            $animal->locationable()->dissociate();
+        } else {
+            $location = OrganisationLocation::find($validated['id']);
+            $animal->locationable()->associate($location);
+        }
+
+        $animal->save();
+
+        //        if (count($animal->getChanges()) > 0) {
+        //            AnimalFosterHomeUpdated::dispatch($animal, $user);
+        //        }
     }
 }

@@ -110,12 +110,17 @@ Route::middleware([
                                     Route::post('/{id}/assign', [
                                         $controller,
                                         'assign',
-                                    ])->name('assign');
+                                    ])->name('assign.handler');
 
                                     Route::post('/{id}/foster', [
                                         $controller,
                                         'assignFosterHome',
-                                    ])->name('assignFosterHome');
+                                    ])->name('assign.foster');
+
+                                    Route::post('/{id}/location', [
+                                        $controller,
+                                        'assignLocation',
+                                    ])->name('assign.location');
                                 });
 
                             Route::resource($name, $controller)->parameters([

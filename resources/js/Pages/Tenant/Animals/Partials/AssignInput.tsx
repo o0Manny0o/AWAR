@@ -7,7 +7,7 @@ import { FormEventHandler, ReactNode, useState } from 'react'
 import { useForm } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 
-interface AssignInputProps<T extends Option> {
+interface AssignInputProps<T extends Option & { type?: string }> {
     animal: App.Models.Animal
     options: T[]
     value?: T
@@ -15,9 +15,16 @@ interface AssignInputProps<T extends Option> {
     prepend?: ReactNode
     routeName: string
     canEdit: boolean
+    emptyOption?: string | TranslationKey
+    withType?: string
 }
 
-export function AssignInput<T extends Option>({
+type FormData = {
+    id: string
+    other?: null | string
+}
+
+export function AssignInput<T extends Option & { type?: string }>({
     animal,
     options,
     value,
@@ -25,14 +32,28 @@ export function AssignInput<T extends Option>({
     label,
     routeName,
     canEdit,
+    emptyOption = 'general.various.no_one',
+    withType,
 }: AssignInputProps<T>) {
     const __ = useTranslate()
     const [edit, setEdit] = useState(false)
 
-    const { data, setData, post, reset, errors, processing } = useForm<{
-        id: string
-    }>({
-        id: value?.id ?? '',
+    const { data, setData, post, reset, errors, processing, transform } =
+        useForm<FormData>({
+            id: value?.id ?? '',
+            other: null,
+        })
+
+    transform((data) => {
+        if (!data.other) {
+            return {
+                id: data.id,
+            } as FormData
+        } else {
+            return {
+                other: data.other,
+            } as FormData
+        }
     })
 
     const submitHandler: FormEventHandler = (e) => {
@@ -58,7 +79,7 @@ export function AssignInput<T extends Option>({
                                 <span className="truncate">{value?.name}</span>
                             </>
                         ) : (
-                            __('general.various.no_one')
+                            __(emptyOption as TranslationKey)
                         )}
                     </p>
                     {canEdit && (
@@ -80,8 +101,26 @@ export function AssignInput<T extends Option>({
                                 options={options}
                                 value={data.id}
                                 disabled={processing}
-                                withEmptyOption={__('general.various.no_one')}
-                                onChange={(e) => setData('id', e?.id ?? '')}
+                                withEmptyOption={__(
+                                    emptyOption as TranslationKey,
+                                )}
+                                onChange={(e) => {
+                                    if (
+                                        withType &&
+                                        e?.type === withType &&
+                                        e?.id
+                                    ) {
+                                        setData({
+                                            id: e.id,
+                                            other: e.id,
+                                        })
+                                    } else {
+                                        setData({
+                                            id: e?.id ?? '',
+                                            other: null,
+                                        })
+                                    }
+                                }}
                             />
                             <button
                                 type="submit"
