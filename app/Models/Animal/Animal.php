@@ -108,6 +108,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|Animal whereFosterHomeId($value)
  * @method static Builder<static>|Animal whereLocationableId($value)
  * @method static Builder<static>|Animal whereLocationableType($value)
+ * @property-read \App\Models\Tenant\Member|\App\Models\Tenant\OrganisationLocation|null $location
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class, WithAnimalableScope::class])]

@@ -49,6 +49,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation withoutTrashed()
+ * @method static \Database\Factories\Tenant\OrganisationLocationFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class, WithAddressScope::class])]
