@@ -60,7 +60,7 @@ class UserSelfDisclosure extends Model
      */
     public function userFamilyMembers(): HasMany
     {
-        return $this->hasMany(UserFamilyMember::class);
+        return $this->hasMany(UserFamilyMember::class, 'self_disclosure_id');
     }
 
     /**
@@ -68,7 +68,7 @@ class UserSelfDisclosure extends Model
      */
     public function userHome(): HasOne
     {
-        return $this->hasOne(UserHome::class);
+        return $this->hasOne(UserHome::class, 'self_disclosure_id');
     }
 
     /**
@@ -76,7 +76,7 @@ class UserSelfDisclosure extends Model
      */
     public function userSpecialNeeds(): HasOne
     {
-        return $this->hasOne(UserSpecialNeeds::class);
+        return $this->hasOne(UserSpecialNeeds::class, 'self_disclosure_id');
     }
 
     /**
@@ -84,7 +84,7 @@ class UserSelfDisclosure extends Model
      */
     public function userAnimals(): HasOne
     {
-        return $this->hasOne(UserCareEligibility::class);
+        return $this->hasOne(UserCareEligibility::class, 'self_disclosure_id');
     }
 
     /**
@@ -92,7 +92,10 @@ class UserSelfDisclosure extends Model
      */
     public function animalSpecificDisclosures(): HasMany
     {
-        return $this->hasMany(AnimalSpecificDisclosure::class);
+        return $this->hasMany(
+            AnimalSpecificDisclosure::class,
+            'self_disclosure_id',
+        );
     }
 
     /**
@@ -100,6 +103,6 @@ class UserSelfDisclosure extends Model
      */
     public function userExperiences(): HasMany
     {
-        return $this->hasMany(UserExperience::class);
+        return $this->hasMany(UserExperience::class, 'self_disclosure_id');
     }
 }

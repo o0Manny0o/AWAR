@@ -24,6 +24,8 @@ class UserFamilyHuman extends Model
 {
     public $timestamps = false;
 
+    protected $guarded = [];
+
     /**
      * Get the family member.
      */

@@ -32,9 +32,18 @@ return new class extends Migration {
             $table->id();
 
             $table->string('name');
-            $table->integer('age');
+            $table->integer('age')->nullable();
+
+            $table->boolean('is_primary')->default(false);
 
             $table->morphs('familyable');
+
+            $table
+                ->unique(
+                    ['self_disclosure_id', 'is_primary'],
+                    'foreign_key_primary_unique',
+                )
+                ->where('is_active', true);
 
             $table
                 ->foreignId('self_disclosure_id')
@@ -44,7 +53,7 @@ return new class extends Migration {
         Schema::create('user_family_humans', function (Blueprint $table) {
             $table->id();
             $table->string('profession')->nullable();
-            $table->boolean('knows_animals');
+            $table->boolean('knows_animals')->default(false);
         });
         Schema::create('user_family_animals', function (Blueprint $table) {
             $table->id();

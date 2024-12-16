@@ -26,11 +26,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereSelfDisclosureId($value)
+ * @property bool $is_primary
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereIsPrimary($value)
  * @mixin \Eloquent
  */
 class UserFamilyMember extends Model
 {
     public $timestamps = false;
+
+    protected $fillable = ['name', 'age', 'self_disclosure_id'];
 
     /**
      * The self disclosure the family member belongs to
