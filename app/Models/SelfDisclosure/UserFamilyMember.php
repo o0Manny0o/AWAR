@@ -36,6 +36,8 @@ class UserFamilyMember extends Model
 
     protected $fillable = ['name', 'age', 'self_disclosure_id'];
 
+    protected $hidden = ['is_primary', 'familyable_type', 'familyable_id'];
+
     /**
      * The self disclosure the family member belongs to
      */

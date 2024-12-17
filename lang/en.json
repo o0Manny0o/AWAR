@@ -774,5 +774,31 @@
                 "label": "Country"
             }
         }
+    },
+    "self_disclosure": {
+        "wizard": {
+            "steps": {
+                "personal": "About You",
+                "family": "Family",
+                "address": "Address",
+                "home": "Home",
+                "experiences": "Experience",
+                "garden": "Garden",
+                "eligibility": "Eligibility",
+                "complete": "Complete",
+                "specific": "Animals"
+            },
+            "headers": {
+                "personal": "About You",
+                "family": "Your Family",
+                "address": "Your Address",
+                "home": "Your Home",
+                "experiences": "Your Experience",
+                "garden": "Your Garden",
+                "eligibility": "Your Eligibility",
+                "complete": "Complete",
+                "specific": "Animal Specific"
+            }
+        }
     }
 }

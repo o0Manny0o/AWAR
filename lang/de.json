@@ -606,5 +606,31 @@
                 "label": "Land"
             }
         }
+    },
+    "self_disclosure": {
+        "wizard": {
+            "steps": {
+                "personal": "Über Sie",
+                "family": "Familie",
+                "address": "Adresse",
+                "home": "Zuhause",
+                "experiences": "Erfahrung",
+                "garden": "Garten",
+                "eligibility": "Eignung",
+                "complete": "Abschluss",
+                "specific": "Tiere"
+            },
+            "headers": {
+                "personal": "Über Sie",
+                "family": "Ihre Familie",
+                "address": "Ihre Adresse",
+                "home": "Ihr Zuhause",
+                "experiences": "Ihre Erfahrungen",
+                "garden": "Ihr Garten",
+                "eligibility": "Eignung",
+                "complete": "Abschluss",
+                "specific": "Tier Spezifisch"
+            }
+        }
     }
 }

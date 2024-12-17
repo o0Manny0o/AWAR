@@ -775,4 +775,19 @@ type Translations = {
             }
         }
     }
+    self_disclosure: {
+        wizard: {
+            steps: {
+                personal: string
+                family: string
+                address: string
+                home: string
+                experiences: string
+                garden: string
+                eligibility: string
+                complete: string
+                specific: string
+            }
+        }
+    }
 }

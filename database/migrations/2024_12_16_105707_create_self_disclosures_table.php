@@ -31,7 +31,7 @@ return new class extends Migration {
         Schema::create('user_family_members', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->integer('age')->nullable();
 
             $table->boolean('is_primary')->default(false);

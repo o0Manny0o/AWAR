@@ -2,6 +2,7 @@
 
 use App\Http\AppInertia;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SelfDisclosure\SelfDisclosureWizardController;
 
 Route::get('/', function () {
     return AppInertia::render('Welcome');
@@ -36,5 +37,18 @@ Route::middleware('auth')->group(function () {
             ])->name('profile.destroy');
 
             return redirect('settings/profile');
+        });
+
+    Route::prefix('self-disclosure')
+        ->name('self-disclosure.')
+        ->group(function () {
+            foreach (SelfDisclosureWizardController::$steps as $step) {
+                Route::get('/' . $step, [
+                    SelfDisclosureWizardController::class,
+                    'show' . ucfirst($step) . 'Step',
+                ])->name($step);
+            }
+
+            Route::redirect('/', '/self-disclosure/personal');
         });
 });
