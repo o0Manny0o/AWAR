@@ -30,8 +30,8 @@ export function WizardLayout({
                 >
                     <ol
                         role="list"
-                        className="flex flex-col md:flex-1 md:flex-row gap-4 justify-between md:space-y-0 w-full
-                            max-w-8 min-[400px]:max-w-24 md:max-w-none"
+                        className="flex flex-col md:flex-1 md:flex-row max-h-[450px] h-screen md:gap-4 md:h-auto
+                            justify-between md:space-y-0 w-full max-w-8 min-[400px]:max-w-24 md:max-w-none"
                     >
                         {steps.map((step) => (
                             <li key={step.name} className="md:flex-1 min-w-0">
@@ -51,10 +51,16 @@ export function WizardLayout({
                 </nav>
             )}
             <div
-                className="fixed left-8 min-[400px]:left-24 right-0 top-[min(20vh,256px)] px-4 md:left-1/2
-                    md:right-auto md:-translate-x-1/2 md:w-full md:max-w-xl"
+                className="fixed left-8 bottom-0 min-[400px]:left-24 right-0 top-0 md:top-10 px-4
+                    md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-full md:max-w-xl flex
+                    flex-col"
             >
-                <FormStack header={header} footer={footer}>
+                <div className="max-h-64 flex-1"></div>
+                <FormStack
+                    header={header}
+                    footer={footer}
+                    className="pt-8 flex-grow h-auto"
+                >
                     {children}
                 </FormStack>
             </div>

@@ -236,7 +236,8 @@
             "go_back_to": "Back to :page",
             "send": "Send :resource",
             "resend": "Resend :resource",
-            "publish": "Publish :resource"
+            "publish": "Publish :resource",
+            "add": "Add :resource"
         },
         "last_update": "Last Update",
         "options": "Options",
@@ -252,7 +253,8 @@
             "animals": {
                 "dog": "Dog",
                 "cat": "Cat"
-            }
+            },
+            "family_member": "Family Member"
         },
         "roles": {
             "tenant": {
@@ -799,6 +801,13 @@
                 "complete": "Complete",
                 "specific": "Animal Specific"
             }
+        },
+        "family_members": {
+            "dog": "Dog",
+            "cat": "Cat",
+            "other": "Other",
+            "child": "Child",
+            "adult": "Adult"
         }
     }
 }

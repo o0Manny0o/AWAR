@@ -24,7 +24,7 @@ class UserFamilyHuman extends Model
 {
     public $timestamps = false;
 
-    protected $guarded = [];
+    protected $fillable = ['profession', 'knows_animals'];
 
     /**
      * Get the family member.

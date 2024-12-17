@@ -73,7 +73,8 @@
             "go_back_to": "Zurück zur :page",
             "send": ":resource Senden",
             "resend": ":resource Erneut Senden",
-            "publish": ":resource Veröffentlichen"
+            "publish": ":resource Veröffentlichen",
+            "add": ":resource Hinzufügen"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",
@@ -89,7 +90,8 @@
             "animals": {
                 "dog": "Hund",
                 "cat": "Katze"
-            }
+            },
+            "family_member": "Familienmitglied"
         },
         "roles": {
             "tenant": {
@@ -631,6 +633,13 @@
                 "complete": "Abschluss",
                 "specific": "Tier Spezifisch"
             }
+        },
+        "family_members": {
+            "dog": "Hund",
+            "cat": "Katze",
+            "other": "Andere",
+            "child": "Kind",
+            "adult": "Erwachsener"
         }
     }
 }

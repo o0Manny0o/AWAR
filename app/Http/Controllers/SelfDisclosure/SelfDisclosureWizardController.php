@@ -4,21 +4,28 @@ namespace App\Http\Controllers\SelfDisclosure;
 
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberCreateRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
+use App\Models\SelfDisclosure\UserFamilyAnimal;
+use App\Models\SelfDisclosure\UserFamilyHuman;
 use App\Models\SelfDisclosure\UserFamilyMember;
 use App\Models\SelfDisclosure\UserSelfDisclosure;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class SelfDisclosureWizardController extends Controller
 {
     public static array $steps = [
         'personal',
         'family',
-        'experiences',
         'address',
         'home',
         'garden',
+        'experiences',
         'eligibility',
         'specific',
         'complete',
@@ -52,7 +59,7 @@ class SelfDisclosureWizardController extends Controller
         )->first();
     }
 
-    private function renderStep($data, $active = 'personal')
+    private function generateSteps($active = 'personal'): void
     {
         $active_index = array_search($active, self::$steps);
         Inertia::share(
@@ -75,6 +82,11 @@ class SelfDisclosureWizardController extends Controller
                 array_keys(self::$steps),
             ),
         );
+    }
+
+    private function renderStep($data, $active = 'personal')
+    {
+        $this->generateSteps($active);
 
         return AppInertia::render($this->baseViewPath . '/Show', [
             'step' => $active,
@@ -110,7 +122,19 @@ class SelfDisclosureWizardController extends Controller
     public function showFamilyStep()
     {
         $disclosure = $this->getDisclosure();
-        return $this->renderStep([], 'family');
+
+        $members = UserFamilyMember::where([
+            'self_disclosure_id' => $disclosure->id,
+        ])
+            ->with('familyable')
+            ->get();
+
+        return $this->renderStep(
+            [
+                'members' => $members,
+            ],
+            'family',
+        );
     }
 
     public function updateFamily()
@@ -193,5 +217,88 @@ class SelfDisclosureWizardController extends Controller
     public function acceptComplete()
     {
         $disclosure = $this->getDisclosure();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function createFamilyMember()
+    {
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $this->generateSteps('family');
+
+        return AppInertia::render($this->baseViewPath . '/FamilyMembers/Edit');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function storeFamilyMember(FamilyMemberCreateRequest $request)
+    {
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $disclosure = $this->getDisclosure();
+
+        $validated = $request->validated();
+
+        if ($validated['animal']) {
+            /** @var UserFamilyAnimal $humanMember */
+            $familyable = UserFamilyAnimal::create($validated);
+        } else {
+            /** @var UserFamilyHuman $humanMember */
+            $familyable = UserFamilyHuman::create($validated);
+        }
+
+        $familyMember = new UserFamilyMember([
+            'name' => $validated['name'],
+            'age' => $validated['age'],
+        ]);
+
+        $familyMember->familyable()->associate($familyable);
+
+        $disclosure->userFamilyMembers()->save($familyMember);
+
+        return redirect()->route($this->baseRouteName . '.family.show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function editFamilyMember(UserFamilyMember $userFamilyMember)
+    {
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $this->generateSteps('family');
+
+        $userFamilyMember->load('selfDisclosure');
+
+        if (
+            $userFamilyMember->is_primary ||
+            $userFamilyMember->selfDisclosure->global_user_id !==
+                auth()->user()->global_id
+        ) {
+            return redirect()->route($this->baseRouteName . '.family.show');
+        }
+
+        return AppInertia::render($this->baseViewPath . '/FamilyMembers/Edit', [
+            'member' => $userFamilyMember,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, UserFamilyMember $userFamilyMember)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(UserFamilyMember $userFamilyMember)
+    {
+        //
     }
 }

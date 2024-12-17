@@ -105,27 +105,38 @@ Route::middleware([
                                     Route::post('/{id}/publish', [
                                         $controller,
                                         'publish',
-                                    ])->name('publish');
+                                    ])
+                                        ->whereUuid('id')
+                                        ->name('publish');
 
                                     Route::post('/{id}/assign', [
                                         $controller,
                                         'assign',
-                                    ])->name('assign.handler');
+                                    ])
+                                        ->whereUuid('id')
+                                        ->name('assign.handler');
 
                                     Route::post('/{id}/foster', [
                                         $controller,
                                         'assignFosterHome',
-                                    ])->name('assign.foster');
+                                    ])
+                                        ->whereUuid('id')
+                                        ->name('assign.foster');
 
                                     Route::post('/{id}/location', [
                                         $controller,
                                         'assignLocation',
-                                    ])->name('assign.location');
-                                });
+                                    ])
+                                        ->whereUuid('id')
+                                        ->name('assign.location');
+                                })
+                                ->whereUuid('id');
 
-                            Route::resource($name, $controller)->parameters([
-                                $name => 'animal',
-                            ]);
+                            Route::resource($name, $controller)
+                                ->parameters([
+                                    $name => 'animal',
+                                ])
+                                ->whereUuid('animal');
                         }
                     });
             });

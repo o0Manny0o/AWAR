@@ -237,6 +237,7 @@ type Translations = {
             send: string
             resend: string
             publish: string
+            add: string
         }
         last_update: string
         options: string
@@ -253,6 +254,7 @@ type Translations = {
                 dog: string
                 cat: string
             }
+            family_member: string
         }
         roles: {
             tenant: {
@@ -788,6 +790,24 @@ type Translations = {
                 complete: string
                 specific: string
             }
+            headers: {
+                personal: string
+                family: string
+                address: string
+                home: string
+                experiences: string
+                garden: string
+                eligibility: string
+                complete: string
+                specific: string
+            }
+        }
+        family_members: {
+            dog: string
+            cat: string
+            other: string
+            child: string
+            adult: string
         }
     }
 }

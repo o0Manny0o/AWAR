@@ -2,6 +2,7 @@
 
 namespace App\Models\SelfDisclosure;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -32,18 +33,27 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class UserFamilyMember extends Model
 {
+    use HasUuids;
+
     public $timestamps = false;
 
     protected $fillable = ['name', 'age', 'self_disclosure_id'];
 
-    protected $hidden = ['is_primary', 'familyable_type', 'familyable_id'];
+    protected $hidden = [
+        'familyable_type',
+        'familyable_id',
+        'self_disclosure_id',
+    ];
 
     /**
      * The self disclosure the family member belongs to
      */
     public function selfDisclosure(): BelongsTo
     {
-        return $this->belongsTo(UserSelfDisclosure::class);
+        return $this->belongsTo(
+            UserSelfDisclosure::class,
+            'self_disclosure_id',
+        );
     }
 
     public function familyable(): MorphTo

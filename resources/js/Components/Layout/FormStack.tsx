@@ -1,18 +1,28 @@
 import { Logo } from '@/Components/Layout/Logo'
 import { Link } from '@inertiajs/react'
 import { PropsWithChildren } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 export function FormStack({
     header,
     children,
     footer,
+    className,
 }: PropsWithChildren<{
     header: string
     footer?: { href: string; text?: string; label: string }
+    className?: string
 }>) {
     return (
-        <div className="flex flex-col items-center gap-6">
-            <Logo />
+        <div
+            className={twMerge(
+                'flex flex-col items-center gap-6 h-full overflow-y-auto',
+                className,
+            )}
+        >
+            <figure>
+                <Logo />
+            </figure>
             <h1 className="text-xl font-semibold">{header}</h1>
             {children}
             {footer && (

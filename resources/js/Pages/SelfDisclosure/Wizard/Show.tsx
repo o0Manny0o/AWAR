@@ -32,7 +32,6 @@ export default function Show({
     const __ = useTranslate()
 
     const renderStep = () => {
-        console.log(step)
         switch (step) {
             case 'family':
                 return <FamilyForm data={data} />

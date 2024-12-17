@@ -3,6 +3,7 @@
 use App\Http\AppInertia;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SelfDisclosure\SelfDisclosureWizardController;
+use App\Http\Controllers\SelfDisclosure\UserFamilyMemberController;
 
 Route::get('/', function () {
     return AppInertia::render('Welcome');
@@ -48,11 +49,28 @@ Route::middleware('auth')->group(function () {
                     'show' . ucfirst($step) . 'Step',
                 ])->name($step . '.show');
 
-                Route::post('/' . $step, [
+                Route::patch('/' . $step, [
                     SelfDisclosureWizardController::class,
                     'update' . ucfirst($step),
                 ])->name($step . '.update');
             }
+
+            Route::prefix('family-members')
+                ->name('family-members.')
+                ->group(function () {
+                    Route::get('/', [
+                        SelfDisclosureWizardController::class,
+                        'createFamilyMember',
+                    ])->name('create');
+                    Route::post('/', [
+                        SelfDisclosureWizardController::class,
+                        'storeFamilyMember',
+                    ])->name('store');
+                    Route::get('/{userFamilyMember}', [
+                        SelfDisclosureWizardController::class,
+                        'editFamilyMember',
+                    ])->name('edit');
+                });
 
             Route::redirect('/', '/self-disclosure/personal');
         });

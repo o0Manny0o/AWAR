@@ -26,6 +26,8 @@ class UserFamilyAnimal extends Model
 {
     public $timestamps = false;
 
+    protected $fillable = ['type', 'good_with_animals', 'castrated'];
+
     /**
      * Get the family member.
      */

@@ -15,7 +15,7 @@ interface PersonalFormProps {
 export function PersonalForm(props: PersonalFormProps) {
     const __ = useTranslate()
 
-    const { data, errors, setData, post, reset, processing } = useForm<{
+    const { data, errors, setData, patch, reset, processing } = useForm<{
         name: string
         age: number
         profession: string
@@ -35,7 +35,7 @@ export function PersonalForm(props: PersonalFormProps) {
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        post(route('self-disclosure.personal.update'), {
+        patch(route('self-disclosure.personal.update'), {
             onSuccess: () => reset(),
             onError: (errors) => focusError(errors as any),
         })

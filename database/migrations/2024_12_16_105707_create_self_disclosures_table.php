@@ -29,7 +29,7 @@ return new class extends Migration {
             $table->timestamps();
         });
         Schema::create('user_family_members', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
 
             $table->string('name')->nullable();
             $table->integer('age')->nullable();
@@ -37,13 +37,6 @@ return new class extends Migration {
             $table->boolean('is_primary')->default(false);
 
             $table->morphs('familyable');
-
-            $table
-                ->unique(
-                    ['self_disclosure_id', 'is_primary'],
-                    'foreign_key_primary_unique',
-                )
-                ->where('is_active', true);
 
             $table
                 ->foreignId('self_disclosure_id')
