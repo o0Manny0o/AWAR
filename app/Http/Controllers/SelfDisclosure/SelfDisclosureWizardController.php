@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SelfDisclosure;
 
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
 use App\Models\SelfDisclosure\UserFamilyMember;
 use App\Models\SelfDisclosure\UserSelfDisclosure;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -61,7 +62,9 @@ class SelfDisclosureWizardController extends Controller
                     return [
                         'id' => $step,
                         'name' => __('self_disclosure.wizard.steps.' . $step),
-                        'href' => route($this->baseRouteName . '.' . $step),
+                        'href' => route(
+                            $this->baseRouteName . '.' . $step . '.show',
+                        ),
                         'upcoming' =>
                             $index === $active_index
                                 ? null
@@ -74,14 +77,34 @@ class SelfDisclosureWizardController extends Controller
         );
 
         return AppInertia::render($this->baseViewPath . '/Show', [
-            'step' => __('self_disclosure.wizard.headers.' . $active),
+            'step' => $active,
             'data' => $data,
         ]);
     }
 
-    public function updatePersonal()
+    public function updatePersonal(PersonalUpdateRequest $request)
     {
+        $validated = $request->validated();
         $disclosure = $this->getDisclosure();
+
+        $member = UserFamilyMember::where([
+            'is_primary' => true,
+            'self_disclosure_id' => $disclosure->id,
+        ])
+            ->with('familyable')
+            ->first();
+
+        $member->update([
+            'name' => $validated['name'],
+            'age' => $validated['age'],
+        ]);
+
+        $member->familyable->update([
+            'profession' => $validated['profession'],
+            'knows_animals' => $validated['knows'],
+        ]);
+
+        return $this->redirect($request, 'self-disclosure.family.show');
     }
 
     public function showFamilyStep()

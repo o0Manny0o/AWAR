@@ -50,7 +50,10 @@ export function WizardLayout({
                     </ol>
                 </nav>
             )}
-            <div className="fixed left-8 min-[400px]:left-24 right-0 top-[min(20vh,256px)] px-4">
+            <div
+                className="fixed left-8 min-[400px]:left-24 right-0 top-[min(20vh,256px)] px-4 md:left-1/2
+                    md:right-auto md:-translate-x-1/2 md:w-full md:max-w-xl"
+            >
                 <FormStack header={header} footer={footer}>
                     {children}
                 </FormStack>

@@ -46,7 +46,12 @@ Route::middleware('auth')->group(function () {
                 Route::get('/' . $step, [
                     SelfDisclosureWizardController::class,
                     'show' . ucfirst($step) . 'Step',
-                ])->name($step);
+                ])->name($step . '.show');
+
+                Route::post('/' . $step, [
+                    SelfDisclosureWizardController::class,
+                    'update' . ucfirst($step),
+                ])->name($step . '.update');
             }
 
             Route::redirect('/', '/self-disclosure/personal');

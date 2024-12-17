@@ -12,11 +12,11 @@ import {
 import { twMerge } from 'tailwind-merge'
 
 interface InputGroupProps {
-    type?: 'text' | 'email' | 'date'
+    type?: 'text' | 'email' | 'date' | 'number'
     name: string
     label: string
     placeholder?: string
-    value: string
+    value: string | number
     onChange?: (value: string) => void
     onBlur?: (event: React.FocusEvent) => void
     error?: string
@@ -25,6 +25,7 @@ interface InputGroupProps {
     className?: string
     readOnly?: boolean
     autoComplete?: HTMLInputAutoCompleteAttribute
+    containerClassName?: string
 }
 
 export default forwardRef(function InputGroup(
@@ -42,6 +43,7 @@ export default forwardRef(function InputGroup(
         className = '',
         readOnly = false,
         autoComplete,
+        containerClassName,
     }: InputGroupProps,
     ref,
 ) {
@@ -52,7 +54,7 @@ export default forwardRef(function InputGroup(
     }))
 
     return (
-        <div>
+        <div className={containerClassName}>
             <InputLabel htmlFor={name} value={label} />
 
             <TextInput
