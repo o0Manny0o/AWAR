@@ -39,6 +39,8 @@ class UserFamilyMember extends Model
 
     protected $fillable = ['name', 'age', 'self_disclosure_id'];
 
+    protected $with = ['familyable'];
+
     protected $hidden = [
         'familyable_type',
         'familyable_id',

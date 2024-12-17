@@ -4,18 +4,14 @@ namespace App\Http\Controllers\SelfDisclosure;
 
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberCreateRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
 use App\Models\SelfDisclosure\UserFamilyAnimal;
 use App\Models\SelfDisclosure\UserFamilyHuman;
 use App\Models\SelfDisclosure\UserFamilyMember;
 use App\Models\SelfDisclosure\UserSelfDisclosure;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Inertia\Response;
 
 class SelfDisclosureWizardController extends Controller
 {
@@ -59,6 +55,16 @@ class SelfDisclosureWizardController extends Controller
         )->first();
     }
 
+    private function renderStep($data, $active = 'personal')
+    {
+        $this->generateSteps($active);
+
+        return AppInertia::render($this->baseViewPath . '/Show', [
+            'step' => $active,
+            'data' => $data,
+        ]);
+    }
+
     private function generateSteps($active = 'personal'): void
     {
         $active_index = array_search($active, self::$steps);
@@ -82,16 +88,6 @@ class SelfDisclosureWizardController extends Controller
                 array_keys(self::$steps),
             ),
         );
-    }
-
-    private function renderStep($data, $active = 'personal')
-    {
-        $this->generateSteps($active);
-
-        return AppInertia::render($this->baseViewPath . '/Show', [
-            'step' => $active,
-            'data' => $data,
-        ]);
     }
 
     public function updatePersonal(PersonalUpdateRequest $request)
@@ -125,9 +121,7 @@ class SelfDisclosureWizardController extends Controller
 
         $members = UserFamilyMember::where([
             'self_disclosure_id' => $disclosure->id,
-        ])
-            ->with('familyable')
-            ->get();
+        ])->get();
 
         return $this->renderStep(
             [
@@ -225,6 +219,7 @@ class SelfDisclosureWizardController extends Controller
     public function createFamilyMember()
     {
         $this->authorize('useWizard', UserSelfDisclosure::class);
+        $this->authorize('create', UserFamilyMember::class);
 
         $this->generateSteps('family');
 
@@ -234,9 +229,9 @@ class SelfDisclosureWizardController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function storeFamilyMember(FamilyMemberCreateRequest $request)
+    public function storeFamilyMember(FamilyMemberSaveRequest $request)
     {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
+        $this->authorize('create', UserFamilyMember::class);
 
         $disclosure = $this->getDisclosure();
 
@@ -267,6 +262,7 @@ class SelfDisclosureWizardController extends Controller
      */
     public function editFamilyMember(UserFamilyMember $userFamilyMember)
     {
+        $this->authorize('edit', $userFamilyMember);
         $this->authorize('useWizard', UserSelfDisclosure::class);
 
         $this->generateSteps('family');
@@ -289,16 +285,62 @@ class SelfDisclosureWizardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, UserFamilyMember $userFamilyMember)
-    {
-        //
+    public function updateFamilyMember(
+        FamilyMemberSaveRequest $request,
+        UserFamilyMember $userFamilyMember,
+    ) {
+        $this->authorize('edit', $userFamilyMember);
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $validated = $request->validated();
+
+        $userFamilyMember->update([
+            'name' => $validated['name'],
+            'age' => $validated['age'],
+        ]);
+
+        if ($validated['animal']) {
+            if ($userFamilyMember->familyable instanceof UserFamilyAnimal) {
+                $userFamilyMember->familyable()->update([
+                    'type' => $validated['type'],
+                    'good_with_animals' => $validated['good_with_animals'],
+                    'castrated' => $validated['castrated'],
+                ]);
+            } else {
+                $userFamilyMember->familyable()->delete();
+                /** @var UserFamilyAnimal $animalMember */
+                $animalMember = UserFamilyAnimal::create($validated);
+                $userFamilyMember->familyable()->associate($animalMember);
+            }
+        } else {
+            if ($userFamilyMember->familyable instanceof UserFamilyHuman) {
+                $userFamilyMember->familyable()->update([
+                    'profession' => $validated['profession'] ?? null,
+                    'knows_animals' => $validated['knows_animals'],
+                ]);
+            } else {
+                $userFamilyMember->familyable()->delete();
+                /** @var UserFamilyHuman $humanMember */
+                $humanMember = UserFamilyHuman::create($validated);
+                $userFamilyMember->familyable()->associate($humanMember);
+            }
+        }
+
+        $userFamilyMember->save();
+
+        return redirect()->route($this->baseRouteName . '.family.show');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(UserFamilyMember $userFamilyMember)
+    public function destroyFamilyMember(UserFamilyMember $userFamilyMember)
     {
-        //
+        $this->authorize('delete', $userFamilyMember);
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $this->getDisclosure();
+        $userFamilyMember->familyable()->delete();
+        $userFamilyMember->delete();
     }
 }

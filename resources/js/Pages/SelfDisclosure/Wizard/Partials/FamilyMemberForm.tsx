@@ -14,19 +14,19 @@ export function FamilyMemberForm({ member }: { member?: any }) {
         age: number
         animal: boolean
         profession: string
-        knows: boolean
+        knows_animals: boolean
         type: string
         good_with_animals: boolean
         castrated: boolean
     }>({
         name: member?.name ?? '',
         age: member?.age ?? 18,
-        profession: member?.familytable?.profession ?? '',
-        knows: member?.familytable?.knows_animals ?? false,
-        animal: !!member?.familytable?.type,
-        type: member?.familytable?.type ?? '',
-        good_with_animals: member?.familytable?.good_with_animals ?? false,
-        castrated: member?.familytable?.castrated ?? false,
+        profession: member?.familyable?.profession ?? '',
+        knows_animals: member?.familyable?.knows_animals ?? false,
+        animal: !!member?.familyable?.type,
+        type: member?.familyable?.type ?? '',
+        good_with_animals: member?.familyable?.good_with_animals ?? false,
+        castrated: member?.familyable?.castrated ?? false,
     })
 
     const {
@@ -35,7 +35,7 @@ export function FamilyMemberForm({ member }: { member?: any }) {
             name,
             age,
             profession,
-            knows,
+            knows_animals,
             good_with_animals,
             type,
             castrated,
@@ -50,12 +50,12 @@ export function FamilyMemberForm({ member }: { member?: any }) {
                 onSuccess: () => reset(),
                 onError: (errors) => focusError(errors as any),
             })
+        } else {
+            post(route('self-disclosure.family-members.store'), {
+                onSuccess: () => reset(),
+                onError: (errors) => focusError(errors as any),
+            })
         }
-
-        post(route('self-disclosure.family-members.store'), {
-            onSuccess: () => reset(),
-            onError: (errors) => focusError(errors as any),
-        })
     }
 
     return (
@@ -101,12 +101,12 @@ export function FamilyMemberForm({ member }: { member?: any }) {
                         />
                     )}
                     <SwitchInput
-                        name="knows"
-                        checked={data.knows}
-                        ref={knows}
-                        label={__('knows.label')}
-                        error={errors.knows}
-                        onChange={(value) => setData('knows', value)}
+                        name="knows_animals"
+                        checked={data.knows_animals}
+                        ref={knows_animals}
+                        label={__('knows_animals.label')}
+                        error={errors.knows_animals}
+                        onChange={(value) => setData('knows_animals', value)}
                     />
                 </>
             )}

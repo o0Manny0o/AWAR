@@ -5,7 +5,7 @@ namespace App\Http\Requests\SelfDisclosure\Wizard;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class FamilyMemberCreateRequest extends FormRequest
+class FamilyMemberSaveRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,7 +16,7 @@ class FamilyMemberCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'age' => ['required', 'numeric', 'min:12', 'max:120'],
+            'age' => ['required', 'integer', 'min:0', 'max:120'],
             'animal' => ['required', 'boolean'],
             'profession' => [
                 'exclude_unless:animal,0,false',
@@ -27,7 +27,11 @@ class FamilyMemberCreateRequest extends FormRequest
                 'string',
                 'max:255',
             ],
-            'knows' => ['exclude_unless:animal,0,false', 'required', 'boolean'],
+            'knows_animals' => [
+                'exclude_unless:animal,0,false',
+                'required',
+                'boolean',
+            ],
             'good_with_animals' => [
                 'exclude_unless:animal,1,true',
                 'required',

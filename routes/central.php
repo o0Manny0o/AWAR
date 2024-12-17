@@ -3,7 +3,6 @@
 use App\Http\AppInertia;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SelfDisclosure\SelfDisclosureWizardController;
-use App\Http\Controllers\SelfDisclosure\UserFamilyMemberController;
 
 Route::get('/', function () {
     return AppInertia::render('Welcome');
@@ -70,6 +69,14 @@ Route::middleware('auth')->group(function () {
                         SelfDisclosureWizardController::class,
                         'editFamilyMember',
                     ])->name('edit');
+                    Route::patch('/{userFamilyMember}', [
+                        SelfDisclosureWizardController::class,
+                        'updateFamilyMember',
+                    ])->name('update');
+                    Route::delete('/{userFamilyMember}', [
+                        SelfDisclosureWizardController::class,
+                        'destroyFamilyMember',
+                    ])->name('destroy');
                 });
 
             Route::redirect('/', '/self-disclosure/personal');
