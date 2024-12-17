@@ -3,9 +3,13 @@ import { Button } from '@/Components/_Base/Button'
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Link } from '@inertiajs/react'
 import { PencilIcon } from '@heroicons/react/24/solid'
+import UserFamilyMember = App.Models.UserFamilyMember
+import UserFamilyAnimal = App.Models.UserFamilyAnimal
 
 interface FamilyFormProps {
-    data?: any
+    data?: {
+        members: UserFamilyMember[]
+    }
 }
 
 export function FamilyForm(props: FamilyFormProps) {
@@ -19,7 +23,7 @@ export function FamilyForm(props: FamilyFormProps) {
                         <p className="flex justify-between py-2.5 px-3.5 bg-ceiling rounded-md shadow">
                             <span>
                                 {
-                                    props.data.members.find(
+                                    props.data?.members.find(
                                         (m: any) => m.is_primary,
                                     )?.name
                                 }
@@ -27,7 +31,7 @@ export function FamilyForm(props: FamilyFormProps) {
                             <span className="text-gray-500">You</span>
                         </p>
                     </li>
-                    {props.data.members
+                    {props.data?.members
                         .filter((m) => !m.is_primary)
                         .map((m) => (
                             <li key={m.id}>
@@ -37,8 +41,12 @@ export function FamilyForm(props: FamilyFormProps) {
                                         <span className="text-gray-500">
                                             {__(
                                                 ('self_disclosure.family_members.' +
-                                                    (m.familyable.type
-                                                        ? m.familyable.type
+                                                    ((
+                                                        m.familyable as UserFamilyAnimal
+                                                    ).type
+                                                        ? (
+                                                              m.familyable as UserFamilyAnimal
+                                                          ).type
                                                         : m.age < 18
                                                           ? 'child'
                                                           : 'adult')) as TranslationKey,
@@ -53,6 +61,12 @@ export function FamilyForm(props: FamilyFormProps) {
                                                 )}
                                             >
                                                 <PencilIcon className="size-5" />
+                                                <span className="sr-only">
+                                                    {__('general.button.edit', {
+                                                        resource:
+                                                            'general.resources.family_member',
+                                                    })}
+                                                </span>
                                             </Link>
                                             <Link
                                                 method="delete"
@@ -64,6 +78,15 @@ export function FamilyForm(props: FamilyFormProps) {
                                                 )}
                                             >
                                                 <TrashIcon className="size-5" />
+                                                <span className="sr-only">
+                                                    {__(
+                                                        'general.button.delete',
+                                                        {
+                                                            resource:
+                                                                'general.resources.family_member',
+                                                        },
+                                                    )}
+                                                </span>
                                             </Link>
                                         </div>
                                     </div>

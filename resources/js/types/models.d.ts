@@ -190,4 +190,25 @@ declare namespace App.Models {
         updated_at: string
         deleted_at: string
     }
+
+    export interface UserFamilyMember {
+        id: string
+        name: string
+        age: number
+
+        is_primary: boolean
+
+        familyable: UserFamilyHuman | UserFamilyAnimal
+    }
+
+    export interface UserFamilyHuman {
+        profession: string
+        knows_animals: boolean
+    }
+
+    export interface UserFamilyAnimal {
+        type: string
+        good_with_animals: boolean
+        castrated: boolean
+    }
 }

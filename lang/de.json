@@ -74,7 +74,9 @@
             "send": ":resource Senden",
             "resend": ":resource Erneut Senden",
             "publish": ":resource Veröffentlichen",
-            "add": ":resource Hinzufügen"
+            "add": ":resource Hinzufügen",
+            "update": ":resource Aktualisieren",
+            "create": ":resource Erstellen"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",
@@ -631,7 +633,43 @@
                 "garden": "Ihr Garten",
                 "eligibility": "Eignung",
                 "complete": "Abschluss",
-                "specific": "Tier Spezifisch"
+                "specific": "Tier Spezifisch",
+                "family_member": {
+                    "create": "Neues Familienmitglied hinzufügen",
+                    "edit": "Familienmitglied bearbeiten"
+                }
+            },
+            "forms": {
+                "family_member": {
+                    "name": {
+                        "label": "Name",
+                        "placeholder": "Name"
+                    },
+                    "year": {
+                        "placeholder": "Geburtsjahr",
+                        "label": "Geburtsjahr"
+                    },
+                    "profession": {
+                        "label": "Beruf",
+                        "placeholder": "Beruf"
+                    },
+                    "knows_animals": {
+                        "label": "Mit Tieren vertraut"
+                    },
+                    "animal": {
+                        "label": "Ein Tier hinzufügen"
+                    },
+                    "type": {
+                        "label": "Tierart",
+                        "placeholder": "Tierart"
+                    },
+                    "good_with_animals": {
+                        "label": "Mit anderen Tieren verträglich"
+                    },
+                    "castrated": {
+                        "label": "Kastriert"
+                    }
+                }
             }
         },
         "family_members": {

@@ -26,6 +26,8 @@ interface InputGroupProps {
     readOnly?: boolean
     autoComplete?: HTMLInputAutoCompleteAttribute
     containerClassName?: string
+    min?: number
+    max?: number
 }
 
 export default forwardRef(function InputGroup(
@@ -44,6 +46,7 @@ export default forwardRef(function InputGroup(
         readOnly = false,
         autoComplete,
         containerClassName,
+        ...props
     }: InputGroupProps,
     ref,
 ) {
@@ -71,6 +74,7 @@ export default forwardRef(function InputGroup(
                 placeholder={placeholder}
                 className={twMerge('block w-full', className)}
                 readOnly={readOnly}
+                {...props}
             />
 
             <InputError message={error} className="mt-2" />

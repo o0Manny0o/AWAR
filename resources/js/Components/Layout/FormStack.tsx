@@ -16,7 +16,7 @@ export function FormStack({
     return (
         <div
             className={twMerge(
-                'flex flex-col items-center gap-6 h-full overflow-y-auto',
+                'flex flex-col items-center gap-6 h-full overflow-y-auto px-1',
                 className,
             )}
         >

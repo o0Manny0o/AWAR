@@ -238,6 +238,8 @@ type Translations = {
             resend: string
             publish: string
             add: string
+            update: string
+            create: string
         }
         last_update: string
         options: string
@@ -800,6 +802,44 @@ type Translations = {
                 eligibility: string
                 complete: string
                 specific: string
+                family_member: {
+                    create: string
+                    edit: string
+                }
+            }
+            forms: {
+                family_member: {
+                    name: {
+                        label: string
+                        placeholder: string
+                    }
+                    year: {
+                        placeholder: string
+                        label: string
+                    }
+                    profession: {
+                        label: string
+                        placeholder: string
+                    }
+                    knows_animals: {
+                        label: string
+                    }
+                    animal: {
+                        label: string
+                    }
+                    type: {
+                        label: string
+                        placeholder: string
+                    }
+                    good_with_animals: {
+                        label: string
+                        placeholder: string
+                    }
+                    castrated: {
+                        label: string
+                        placeholder: string
+                    }
+                }
             }
         }
         family_members: {

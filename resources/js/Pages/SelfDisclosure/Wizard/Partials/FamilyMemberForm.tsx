@@ -11,7 +11,7 @@ export function FamilyMemberForm({ member }: { member?: any }) {
 
     const { data, errors, setData, patch, post, reset, processing } = useForm<{
         name: string
-        age: number
+        year: number
         animal: boolean
         profession: string
         knows_animals: boolean
@@ -20,7 +20,7 @@ export function FamilyMemberForm({ member }: { member?: any }) {
         castrated: boolean
     }>({
         name: member?.name ?? '',
-        age: member?.age ?? 18,
+        year: member?.year ?? new Date().getFullYear(),
         profession: member?.familyable?.profession ?? '',
         knows_animals: member?.familyable?.knows_animals ?? false,
         animal: !!member?.familyable?.type,
@@ -33,7 +33,7 @@ export function FamilyMemberForm({ member }: { member?: any }) {
         focusError,
         refs: {
             name,
-            age,
+            year,
             profession,
             knows_animals,
             good_with_animals,
@@ -63,39 +63,55 @@ export function FamilyMemberForm({ member }: { member?: any }) {
             <SwitchInput
                 name="animal"
                 checked={data.animal}
-                label={__('animal.label')}
+                label={__(
+                    'self_disclosure.wizard.forms.family_member.animal.label',
+                )}
                 onChange={(value) => setData('animal', value)}
             />
 
             <InputGroup
                 name="name"
-                placeholder={__('name.placeholder')}
+                placeholder={__(
+                    'self_disclosure.wizard.forms.family_member.name.placeholder',
+                )}
                 value={data.name}
                 ref={name}
-                label={__('name.label')}
+                label={__(
+                    'self_disclosure.wizard.forms.family_member.name.label',
+                )}
                 error={errors.name}
                 onChange={(value) => setData('name', value)}
             />
             <InputGroup
-                name="age"
-                placeholder={__('age.placeholder')}
-                value={data.age}
+                name="year"
+                placeholder={__(
+                    'self_disclosure.wizard.forms.family_member.year.placeholder',
+                )}
+                value={data.year}
                 type="number"
-                ref={age}
-                label={__('age.label')}
-                error={errors.age}
-                onChange={(value) => setData('age', +value)}
+                min={new Date().getFullYear() - 100}
+                max={new Date().getFullYear()}
+                ref={year}
+                label={__(
+                    'self_disclosure.wizard.forms.family_member.year.label',
+                )}
+                error={errors.year}
+                onChange={(value) => setData('year', +value)}
             />
 
             {!data.animal && (
                 <>
-                    {data.age >= 18 && (
+                    {data.year + 18 <= new Date().getFullYear() && (
                         <InputGroup
                             name="profession"
-                            placeholder={__('profession.placeholder')}
+                            placeholder={__(
+                                'self_disclosure.wizard.forms.family_member.profession.placeholder',
+                            )}
                             value={data.profession}
                             ref={profession}
-                            label={__('profession.label')}
+                            label={__(
+                                'self_disclosure.wizard.forms.family_member.profession.label',
+                            )}
                             error={errors.profession}
                             onChange={(value) => setData('profession', value)}
                         />
@@ -104,7 +120,9 @@ export function FamilyMemberForm({ member }: { member?: any }) {
                         name="knows_animals"
                         checked={data.knows_animals}
                         ref={knows_animals}
-                        label={__('knows_animals.label')}
+                        label={__(
+                            'self_disclosure.wizard.forms.family_member.knows_animals.label',
+                        )}
                         error={errors.knows_animals}
                         onChange={(value) => setData('knows_animals', value)}
                     />
@@ -115,10 +133,14 @@ export function FamilyMemberForm({ member }: { member?: any }) {
                 <>
                     <InputGroup
                         name="type"
-                        placeholder={__('type.placeholder')}
+                        placeholder={__(
+                            'self_disclosure.wizard.forms.family_member.type.placeholder',
+                        )}
                         value={data.type}
                         ref={type}
-                        label={__('type.label')}
+                        label={__(
+                            'self_disclosure.wizard.forms.family_member.type.label',
+                        )}
                         error={errors.type}
                         onChange={(value) => setData('type', value)}
                     />
@@ -126,7 +148,9 @@ export function FamilyMemberForm({ member }: { member?: any }) {
                         name="good_with_animals"
                         checked={data.good_with_animals}
                         ref={good_with_animals}
-                        label={__('good_with_animals.label')}
+                        label={__(
+                            'self_disclosure.wizard.forms.family_member.good_with_animals.label',
+                        )}
                         error={errors.good_with_animals}
                         onChange={(value) =>
                             setData('good_with_animals', value)
@@ -136,7 +160,9 @@ export function FamilyMemberForm({ member }: { member?: any }) {
                         name="castrated"
                         checked={data.castrated}
                         ref={castrated}
-                        label={__('castrated.label')}
+                        label={__(
+                            'self_disclosure.wizard.forms.family_member.castrated.label',
+                        )}
                         error={errors.castrated}
                         onChange={(value) => setData('castrated', value)}
                     />
@@ -147,7 +173,8 @@ export function FamilyMemberForm({ member }: { member?: any }) {
                 {__(
                     member?.id
                         ? 'general.button.update'
-                        : 'general.button.create',
+                        : 'general.button.save',
+                    { resource: '' },
                 )}
             </Button>
         </form>

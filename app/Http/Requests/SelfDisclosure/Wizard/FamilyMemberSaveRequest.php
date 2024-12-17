@@ -16,12 +16,18 @@ class FamilyMemberSaveRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'age' => ['required', 'integer', 'min:0', 'max:120'],
+            'year' => [
+                'required',
+                'integer',
+                'min:1900',
+                'digits:4',
+                'max:' . (date('Y') + 1),
+            ],
             'animal' => ['required', 'boolean'],
             'profession' => [
                 'exclude_unless:animal,0,false',
                 Rule::excludeIf(function () {
-                    return $this->input('age') < 18;
+                    return $this->input('year') > date('Y') - 18;
                 }),
                 'nullable',
                 'string',

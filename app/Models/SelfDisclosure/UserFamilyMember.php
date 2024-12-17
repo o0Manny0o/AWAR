@@ -37,7 +37,7 @@ class UserFamilyMember extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['name', 'age', 'self_disclosure_id'];
+    protected $fillable = ['name', 'year', 'self_disclosure_id'];
 
     protected $with = ['familyable'];
 

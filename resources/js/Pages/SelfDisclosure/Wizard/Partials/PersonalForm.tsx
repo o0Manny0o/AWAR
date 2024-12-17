@@ -17,19 +17,19 @@ export function PersonalForm(props: PersonalFormProps) {
 
     const { data, errors, setData, patch, reset, processing } = useForm<{
         name: string
-        age: number
+        year: number
         profession: string
-        knows: boolean
+        knows_animals: boolean
     }>({
         name: props.data?.member?.name ?? '',
-        age: props.data?.member?.age ?? 18,
+        year: props.data?.member?.year ?? 18,
         profession: props.data?.member?.familyable.profession ?? '',
-        knows: props.data?.member?.familyable.knows_animals ?? false,
+        knows_animals: props.data?.member?.familyable.knows_animals ?? false,
     })
 
     const {
         focusError,
-        refs: { name, age, profession, knows },
+        refs: { name, year, profession, knows_animals },
     } = useContext(WizardFormWrapper.Context)
 
     const submitHandler: FormEventHandler = (e) => {
@@ -45,39 +45,53 @@ export function PersonalForm(props: PersonalFormProps) {
         <form className="w-full space-y-6" onSubmit={submitHandler}>
             <InputGroup
                 name="name"
-                placeholder={__('name.placeholder')}
+                placeholder={__(
+                    'self_disclosure.wizard.forms.family_member.name.label',
+                )}
                 value={data.name}
                 ref={name}
-                label={__('name.label')}
+                label={__(
+                    'self_disclosure.wizard.forms.family_member.name.label',
+                )}
                 error={errors.name}
                 onChange={(value) => setData('name', value)}
             />
             <InputGroup
-                name="age"
-                placeholder={__('age.placeholder')}
-                value={data.age}
+                name="year"
+                placeholder={__(
+                    'self_disclosure.wizard.forms.family_member.year.placeholder',
+                )}
+                value={data.year}
                 type="number"
-                ref={age}
-                label={__('age.label')}
-                error={errors.age}
-                onChange={(value) => setData('age', +value)}
+                ref={year}
+                label={__(
+                    'self_disclosure.wizard.forms.family_member.year.label',
+                )}
+                error={errors.year}
+                onChange={(value) => setData('year', +value)}
             />
             <InputGroup
                 name="profession"
-                placeholder={__('profession.placeholder')}
+                placeholder={__(
+                    'self_disclosure.wizard.forms.family_member.profession.placeholder',
+                )}
                 value={data.profession}
                 ref={profession}
-                label={__('profession.label')}
+                label={__(
+                    'self_disclosure.wizard.forms.family_member.profession.label',
+                )}
                 error={errors.profession}
                 onChange={(value) => setData('profession', value)}
             />
             <SwitchInput
-                name="knows"
-                checked={data.knows}
-                ref={knows}
-                label={__('knows.label')}
-                error={errors.knows}
-                onChange={(value) => setData('knows', value)}
+                name="knows_animals"
+                checked={data.knows_animals}
+                ref={knows_animals}
+                label={__(
+                    'self_disclosure.wizard.forms.family_member.knows_animals.label',
+                )}
+                error={errors.knows_animals}
+                onChange={(value) => setData('knows_animals', value)}
             />
 
             <Button className="w-full" disabled={processing}>

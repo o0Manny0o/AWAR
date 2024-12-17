@@ -237,7 +237,9 @@
             "send": "Send :resource",
             "resend": "Resend :resource",
             "publish": "Publish :resource",
-            "add": "Add :resource"
+            "add": "Add :resource",
+            "update": "Update :resource",
+            "create": "Create :resource"
         },
         "last_update": "Last Update",
         "options": "Options",
@@ -799,7 +801,43 @@
                 "garden": "Your Garden",
                 "eligibility": "Your Eligibility",
                 "complete": "Complete",
-                "specific": "Animal Specific"
+                "specific": "Animal Specific",
+                "family_member": {
+                    "create": "Add a new Family Member",
+                    "edit": "Edit Family Member"
+                }
+            },
+            "forms": {
+                "family_member": {
+                    "name": {
+                        "label": "Name",
+                        "placeholder": "Name"
+                    },
+                    "year": {
+                        "placeholder": "Year of birth",
+                        "label": "Year of birth"
+                    },
+                    "profession": {
+                        "label": "Profession",
+                        "placeholder": "Profession"
+                    },
+                    "knows_animals": {
+                        "label": "Familiar with Animals"
+                    },
+                    "animal": {
+                        "label": "Add an animal"
+                    },
+                    "type": {
+                        "label": "Animal Species",
+                        "placeholder": "Animal Species"
+                    },
+                    "good_with_animals": {
+                        "label": "Compatible with other animals"
+                    },
+                    "castrated": {
+                        "label": "Castrated"
+                    }
+                }
             }
         },
         "family_members": {

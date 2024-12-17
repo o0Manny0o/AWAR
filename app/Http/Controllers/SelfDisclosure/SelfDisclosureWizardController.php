@@ -104,12 +104,12 @@ class SelfDisclosureWizardController extends Controller
 
         $member->update([
             'name' => $validated['name'],
-            'age' => $validated['age'],
+            'year' => $validated['year'],
         ]);
 
         $member->familyable->update([
             'profession' => $validated['profession'],
-            'knows_animals' => $validated['knows'],
+            'knows_animals' => $validated['knows_animals'],
         ]);
 
         return $this->redirect($request, 'self-disclosure.family.show');
@@ -247,7 +247,7 @@ class SelfDisclosureWizardController extends Controller
 
         $familyMember = new UserFamilyMember([
             'name' => $validated['name'],
-            'age' => $validated['age'],
+            'year' => $validated['year'],
         ]);
 
         $familyMember->familyable()->associate($familyable);
@@ -262,7 +262,7 @@ class SelfDisclosureWizardController extends Controller
      */
     public function editFamilyMember(UserFamilyMember $userFamilyMember)
     {
-        $this->authorize('edit', $userFamilyMember);
+        $this->authorize('update', $userFamilyMember);
         $this->authorize('useWizard', UserSelfDisclosure::class);
 
         $this->generateSteps('family');
@@ -289,14 +289,14 @@ class SelfDisclosureWizardController extends Controller
         FamilyMemberSaveRequest $request,
         UserFamilyMember $userFamilyMember,
     ) {
-        $this->authorize('edit', $userFamilyMember);
+        $this->authorize('update', $userFamilyMember);
         $this->authorize('useWizard', UserSelfDisclosure::class);
 
         $validated = $request->validated();
 
         $userFamilyMember->update([
             'name' => $validated['name'],
-            'age' => $validated['age'],
+            'year' => $validated['year'],
         ]);
 
         if ($validated['animal']) {
