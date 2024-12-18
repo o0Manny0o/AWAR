@@ -1,5 +1,6 @@
 {
     "validation": {
+        "postal_code_with": "Das Feld muss eine valide Postleitzahl sein.",
         "required": "Das Feld {attribute} ist erforderlich."
     },
     "general": {
@@ -17,9 +18,18 @@
             "organisations": {
                 "applications": "Bewerbungen",
                 "invitations": "Einladungen",
-                "members": "Mitglieder"
+                "members": "Mitglieder",
+                "locations": "Ihre Standorte"
             },
-            "overview": "Übersicht"
+            "overview": "Übersicht",
+            "your_organisations": "Deine Organisationen",
+            "your_dashboard": "Ihr Dashboard",
+            "animals": {
+                "dogs": "Ihre Hunde",
+                "cats": "Ihre Katzen"
+            },
+            "browse": "Suchen",
+            "pricing": "Preis"
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
@@ -42,7 +52,11 @@
             "created": "Erstellt",
             "draft": "Entwurf",
             "sent": "Gesendet",
-            "accepted": "Akzeptiert"
+            "accepted": "Akzeptiert",
+            "published": "Veröffentlicht",
+            "unlisted": "Nicht gelistet",
+            "public": "Öffentlich",
+            "internal": "Intern"
         },
         "button": {
             "view": ":resource Öffnen",
@@ -58,7 +72,8 @@
             "go_back": "Zurück",
             "go_back_to": "Zurück zur :page",
             "send": ":resource Senden",
-            "resend": ":resource Erneut Senden"
+            "resend": ":resource Erneut Senden",
+            "publish": ":resource Veröffentlichen"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",
@@ -68,7 +83,12 @@
         "resources": {
             "organisation": {
                 "invitation": "Einladung",
-                "application": "Bewerbung"
+                "application": "Bewerbung",
+                "location": "Standort"
+            },
+            "animals": {
+                "dog": "Hund",
+                "cat": "Katze"
             }
         },
         "roles": {
@@ -81,6 +101,13 @@
                 "foster_home_handler": "Pflegestellen Betreuer",
                 "foster_home": "Pflegestelle"
             }
+        },
+        "images": "Bilder",
+        "various": {
+            "no_one": "Niemand",
+            "assigned_to": "Zugewiesen an",
+            "unknown": "Unbekannt",
+            "unknown_or_external": "Unbekannt oder extern"
         }
     },
     "landing_page": {
@@ -154,6 +181,13 @@
             "headers": {
                 "index": "Ihre Einladungen",
                 "create": "Laden Sie jemanden in Ihre Organisation ein"
+            },
+            "messages": {
+                "sent": "Einladung wurde an :email gesendet",
+                "expired": "Einladung abgelaufen",
+                "accepted": "Sie sind jetzt Mitglied von: organisation",
+                "already_accepted": "Einladung wurde bereits angenommen",
+                "wrong_email": "Einladung kann nicht mit diesem Konto angenommen werden"
             }
         },
         "members": {
@@ -166,6 +200,411 @@
         },
         "dashboard": {
             "welcome": "Wilkommen bei :organisation, :name"
+        },
+        "locations": {
+            "headers": {
+                "index": "Ihre Standorte",
+                "create": "Einen neuen Standort anlegen",
+                "update": "Standort Aktualisieren"
+            },
+            "titles": {
+                "index": "Ihre Standorte",
+                "create": "Neuer Standort",
+                "update": ":name Aktualisieren"
+            },
+            "form": {
+                "cancel_create": "Sie möchten keinen neuen Standort erstellen?",
+                "name": {
+                    "placeholder": "Name",
+                    "label": "Standortname"
+                },
+                "public": {
+                    "description": "Die Adresse ist für alle Benutzer sichtbar",
+                    "label": "Kann die Adresse öffentlich sein?"
+                }
+            }
+        }
+    },
+    "animals": {
+        "dogs": {
+            "headers": {
+                "index": "Ihre Hunde",
+                "create": "Neuen Hund einstellen"
+            },
+            "titles": {
+                "index": "Hunde",
+                "create": "Neuer Hund",
+                "edit": "Hund bearbeiten"
+            },
+            "form": {
+                "name": {
+                    "placeholder": "Name",
+                    "label": "Name vom Hund"
+                },
+                "breed": {
+                    "label": "Rasse",
+                    "placeholder": "Rasse"
+                },
+                "date_of_birth": {
+                    "label": "Geburtstag",
+                    "placeholder": "Geburtstag"
+                },
+                "bio": {
+                    "placeholder": "Biographie",
+                    "label": "Biographie"
+                },
+                "abstract": {
+                    "placeholder": "Kurzbeschreibung",
+                    "label": "Kurzbeschreibung"
+                },
+                "family": {
+                    "header": "Familie"
+                }
+            }
+        },
+        "cats": {
+            "titles": {
+                "index": "Katzen",
+                "create": "Neue Katze",
+                "edit": "Katze bearbeiten"
+            },
+            "headers": {
+                "index": "Katzen",
+                "create": "Neue Katze einstellen"
+            },
+            "form": {
+                "name": {
+                    "label": "Name",
+                    "placeholder": "Name"
+                },
+                "breed": {
+                    "placeholder": "Rasse",
+                    "label": "Rasse"
+                },
+                "date_of_birth": {
+                    "placeholder": "Geburtstag",
+                    "label": "Geburtstag"
+                },
+                "bio": {
+                    "placeholder": "Biography",
+                    "label": "Biography"
+                },
+                "abstract": {
+                    "placeholder": "Abstract",
+                    "label": "Abstract"
+                },
+                "family": {
+                    "header": "Familie"
+                }
+            }
+        },
+        "form_general": {
+            "family": {
+                "placeholder": "Geben Sie den Familiennamen ein",
+                "label": "Wählen oder erstellen Sie eine Familie"
+            },
+            "location": {
+                "label": "Aufenthaltsort"
+            },
+            "foster_home": {
+                "label": "Pflegestelle"
+            }
+        }
+    },
+    "history": {
+        "changes": {
+            "internal": {
+                "initial": ":user hat :animal :when eingestellt",
+                "update": ":user hat :animal :when aktualisiert",
+                "delete": ":user hat :animal :when gelöscht",
+                "restore": ":user hat :animal :when wiederhergestellt",
+                "publish": ":user hat :animal :when veröffentlicht",
+                "unpublish": ":user hat die Veröffentlichung von :animal :when aufgehoben",
+                "handler_assign": ":user hat :when einen neuen Bearbeiter zugewiesen",
+                "location_assign": ":user hat :when einen neuen Standort zugewiesen",
+                "foster_home_assign": ":user hat :when eine neue Pflegestelle zugewiesen",
+                "handler_unassign": ":user hat :when die Bearbeiter Zuweisung aufgehoben",
+                "location_unassign": ":user hat :when die Standort Zuweisung aufgehoben",
+                "foster_home_unassign": ":user hat :when die Pflegestellen Zuweisung aufgehoben"
+            },
+            "public": {
+                "initial": ":animal wurde :when gefunden"
+            }
+        },
+        "title": "Verlauf"
+    },
+    "countries": {
+        "af": "Afghanistan",
+        "ax": "Åland",
+        "al": "Albanien",
+        "dz": "Algerien",
+        "as": "Amerikanisch-Samoa",
+        "ad": "Andorra",
+        "ao": "Angola",
+        "ai": "Anguilla",
+        "aq": "Antarktis (Sonderstatus durch Antarktisvertrag)",
+        "ag": "Antigua und Barbuda",
+        "ar": "Argentinien",
+        "am": "Armenien",
+        "aw": "Aruba",
+        "au": "Australien",
+        "at": "Österreich",
+        "az": "Aserbaidschan",
+        "bs": "Bahamas",
+        "bh": "Bahrain",
+        "bd": "Bangladesch",
+        "bb": "Barbados",
+        "by": "Belarus",
+        "be": "Belgien",
+        "bz": "Belize",
+        "bj": "Benin",
+        "bm": "Bermuda",
+        "bt": "Bhutan",
+        "bo": "Bolivien",
+        "bq": "Bonaire, Saba, Sint Eustatius",
+        "ba": "Bosnien und Herzegowina",
+        "bw": "Botswana",
+        "bv": "Bouvetinsel",
+        "br": "Brasilien",
+        "io": "Britisches Territorium im Indischen Ozean",
+        "bn": "Brunei",
+        "bg": "Bulgarien",
+        "bf": "Burkina Faso",
+        "bi": "Burundi",
+        "cv": "Kap Verde",
+        "kh": "Kambodscha",
+        "cm": "Kamerun",
+        "ca": "Kanada",
+        "ky": "Kaimaninseln",
+        "cf": "Zentralafrikanische Republik",
+        "td": "Tschad",
+        "cl": "Chile",
+        "cn": "China, Volksrepublik",
+        "cx": "Weihnachtsinsel",
+        "cc": "Kokosinseln",
+        "co": "Kolumbien",
+        "km": "Komoren",
+        "cg": "Kongo, Republik",
+        "cd": "Kongo, Demokratische Republik",
+        "ck": "Cookinseln",
+        "cr": "Costa Rica",
+        "ci": "Elfenbeinküste",
+        "hr": "Kroatien",
+        "cu": "Kuba",
+        "cw": "Curaçao",
+        "cy": "Zypern",
+        "cz": "Tschechien",
+        "dk": "Dänemark",
+        "dj": "Dschibuti",
+        "dm": "Dominica",
+        "do": "Dominikanische Republik",
+        "ec": "Ecuador",
+        "eg": "Ägypten",
+        "sv": "El Salvador",
+        "gq": "Äquatorialguinea",
+        "er": "Eritrea",
+        "ee": "Estland",
+        "sz": "Eswatini",
+        "et": "Äthiopien",
+        "fk": "Falklandinseln",
+        "fo": "Färöer",
+        "fj": "Fidschi",
+        "fi": "Finnland",
+        "fr": "Frankreich",
+        "gf": "Französisch-Guayana",
+        "pf": "Französisch-Polynesien",
+        "tf": "Französische Süd- und Antarktisgebiete",
+        "ga": "Gabun",
+        "gm": "Gambia",
+        "ge": "Georgien",
+        "de": "Deutschland",
+        "gh": "Ghana",
+        "gi": "Gibraltar",
+        "gr": "Griechenland",
+        "gl": "Grönland",
+        "gd": "Grenada",
+        "gp": "Guadeloupe",
+        "gu": "Guam",
+        "gt": "Guatemala",
+        "gg": "Guernsey (Kanalinsel)",
+        "gn": "Guinea",
+        "gw": "Guinea-Bissau",
+        "gy": "Guyana",
+        "ht": "Haiti",
+        "hm": "Heard und McDonaldinseln",
+        "va": "Vatikanstadt",
+        "hn": "Honduras",
+        "hk": "Hongkong",
+        "hu": "Ungarn",
+        "is": "Island",
+        "in": "Indien",
+        "id": "Indonesien",
+        "ir": "Iran",
+        "iq": "Irak",
+        "ie": "Irland",
+        "im": "Insel Man",
+        "il": "Israel",
+        "it": "Italien",
+        "jm": "Jamaika",
+        "jp": "Japan",
+        "je": "Jersey (Kanalinsel)",
+        "jo": "Jordanien",
+        "kz": "Kasachstan",
+        "ke": "Kenia",
+        "ki": "Kiribati",
+        "kp": "Korea, Nord (Nordkorea)",
+        "kr": "Korea, Süd (Südkorea)",
+        "kw": "Kuwait",
+        "kg": "Kirgisistan",
+        "la": "Laos",
+        "lv": "Lettland",
+        "lb": "Libanon",
+        "ls": "Lesotho",
+        "lr": "Liberia",
+        "ly": "Libyen",
+        "li": "Liechtenstein",
+        "lt": "Litauen",
+        "lu": "Luxemburg",
+        "mo": "Macau",
+        "mg": "Madagaskar",
+        "mw": "Malawi",
+        "my": "Malaysia",
+        "mv": "Malediven",
+        "ml": "Mali",
+        "mt": "Malta",
+        "mh": "Marshallinseln",
+        "mq": "Martinique",
+        "mr": "Mauretanien",
+        "mu": "Mauritius",
+        "yt": "Mayotte",
+        "mx": "Mexiko",
+        "fm": "Mikronesien",
+        "md": "Moldau",
+        "mc": "Monaco",
+        "mn": "Mongolei",
+        "me": "Montenegro",
+        "ms": "Montserrat",
+        "ma": "Marokko",
+        "mz": "Mosambik",
+        "mm": "Myanmar",
+        "na": "Namibia",
+        "nr": "Nauru",
+        "np": "Nepal",
+        "nl": "Niederlande",
+        "nc": "Neukaledonien",
+        "nz": "Neuseeland",
+        "ni": "Nicaragua",
+        "ne": "Niger",
+        "ng": "Nigeria",
+        "nu": "Niue",
+        "nf": "Norfolkinsel",
+        "mk": "Nordmazedonien",
+        "mp": "Nördliche Marianen",
+        "no": "Norwegen",
+        "om": "Oman",
+        "pk": "Pakistan",
+        "pw": "Palau",
+        "ps": "Palästina",
+        "pa": "Panama",
+        "pg": "Papua-Neuguinea",
+        "py": "Paraguay",
+        "pe": "Peru",
+        "ph": "Philippinen",
+        "pn": "Pitcairninseln",
+        "pl": "Polen",
+        "pt": "Portugal",
+        "pr": "Puerto Rico",
+        "qa": "Katar",
+        "re": "Réunion",
+        "ro": "Rumänien",
+        "ru": "Russland",
+        "rw": "Ruanda",
+        "bl": "Saint-Barthélemy",
+        "sh": "St. Helena, Ascension und Tristan da Cunha",
+        "kn": "St. Kitts und Nevis",
+        "lc": "St. Lucia",
+        "mf": "Saint-Martin (französischer Teil)",
+        "pm": "Saint-Pierre und Miquelon",
+        "vc": "St. Vincent und die Grenadinen",
+        "ws": "Samoa",
+        "sm": "San Marino",
+        "st": "São Tomé und Príncipe",
+        "sa": "Saudi-Arabien",
+        "sn": "Senegal",
+        "rs": "Serbien",
+        "sc": "Seychellen",
+        "sl": "Sierra Leone",
+        "sg": "Singapur",
+        "sx": "Sint Maarten",
+        "sk": "Slowakei",
+        "si": "Slowenien",
+        "sb": "Salomonen",
+        "so": "Somalia",
+        "za": "Südafrika",
+        "gs": "Südgeorgien und die Südlichen Sandwichinseln",
+        "ss": "Südsudan",
+        "es": "Spanien",
+        "lk": "Sri Lanka",
+        "sd": "Sudan",
+        "sr": "Suriname",
+        "sj": "Spitzbergen und Jan Mayen",
+        "se": "Schweden",
+        "ch": "Schweiz",
+        "sy": "Syrien",
+        "tw": "China, Republik",
+        "tj": "Tadschikistan",
+        "tz": "Tansania",
+        "th": "Thailand",
+        "tl": "Osttimor",
+        "tg": "Togo",
+        "tk": "Tokelau",
+        "to": "Tonga",
+        "tt": "Trinidad und Tobago",
+        "tn": "Tunesien",
+        "tr": "Türkei",
+        "tm": "Turkmenistan",
+        "tc": "Turks- und Caicosinseln",
+        "tv": "Tuvalu",
+        "ug": "Uganda",
+        "ua": "Ukraine",
+        "ae": "Vereinigte Arabische Emirate",
+        "gb": "Vereinigtes Königreich",
+        "us": "Vereinigte Staaten",
+        "um": "United States Minor Outlying Islands",
+        "uy": "Uruguay",
+        "uz": "Usbekistan",
+        "vu": "Vanuatu",
+        "ve": "Venezuela",
+        "vn": "Vietnam",
+        "vg": "Britische Jungferninseln",
+        "vi": "Amerikanische Jungferninseln",
+        "wf": "Wallis und Futuna",
+        "eh": "Westsahara",
+        "ye": "Jemen",
+        "zm": "Sambia",
+        "zw": "Simbabwe"
+    },
+    "addresses": {
+        "form": {
+            "street_address": {
+                "placeholder": "Straße und Hausnummer",
+                "label": "Straße und Hausnummer"
+            },
+            "postal_code": {
+                "placeholder": "Postleitzahl",
+                "label": "Postleitzahl"
+            },
+            "locality": {
+                "placeholder": "Stadt",
+                "label": "Stadt"
+            },
+            "region": {
+                "placeholder": "Bundesland",
+                "label": "Bundesland (Optional)"
+            },
+            "country": {
+                "label": "Land"
+            }
         }
     }
 }

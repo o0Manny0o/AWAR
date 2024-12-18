@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Jobs\DeleteMedia;
 use App\Listeners\UpdateSyncedResource;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,7 @@ use Stancl\Tenancy\Events;
 use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
+use Stancl\Tenancy\Resolvers\DomainTenantResolver;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -45,7 +47,10 @@ class TenancyServiceProvider extends ServiceProvider
             Events\TenantUpdated::class => [],
             Events\DeletingTenant::class => [],
             Events\TenantDeleted::class => [
-                JobPipeline::make([Jobs\DeleteDatabase::class])
+                JobPipeline::make([
+                    DeleteMedia::class,
+                    Jobs\DeleteDatabase::class,
+                ])
                     ->send(function (Events\TenantDeleted $event) {
                         return $event->tenant;
                     })
@@ -116,6 +121,8 @@ class TenancyServiceProvider extends ServiceProvider
     public function boot()
     {
         BelongsToTenant::$tenantIdColumn = 'organisation_id';
+        DomainTenantResolver::$shouldCache = true;
+        DomainTenantResolver::$cacheTTL = 3600;
         $this->bootEvents();
 
         $this->makeTenancyMiddlewareHighestPriority();

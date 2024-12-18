@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Events\InvitationAccepted;
 use App\Http\Controllers\Controller;
+use App\Messages\ToastMessage;
 use App\Models\Organisation;
 use App\Models\Tenant\OrganisationInvitation;
 use App\Models\User;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
-use Inertia\Inertia;
+use App\Http\AppInertia;
 use Inertia\Response;
 
 class RegisteredUserController extends Controller
@@ -35,24 +36,24 @@ class RegisteredUserController extends Controller
                     $token,
                 );
                 if (!$invitation || $invitation->isExpired()) {
-                    return Inertia::render('Auth/Register');
+                    return AppInertia::render('Auth/Register');
                 }
 
                 if (User::firstWhere('email', $invitation->email)) {
                     return redirect()->route('login');
                 }
 
-                return Inertia::render('Auth/Register', [
+                return AppInertia::render('Auth/Register', [
                     'email' => $invitation->email,
                     'token' => $token,
                     'organisation' => $organisation,
                 ]);
             } catch (\Exception $e) {
-                return Inertia::render('Auth/Register');
+                return AppInertia::render('Auth/Register');
             }
         }
 
-        return Inertia::render('Auth/Register');
+        return AppInertia::render('Auth/Register');
     }
 
     /**
@@ -77,6 +78,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'locale' => app()->getLocale(),
         ]);
 
         event(new Registered($user));
@@ -87,14 +89,19 @@ class RegisteredUserController extends Controller
             $organisation = Organisation::find($request->organisation);
             if ($organisation) {
                 $user->tenants()->attach($organisation);
+                ToastMessage::success(
+                    __('organisations.invitations.messages.accepted', [
+                        'organisation' => $organisation->name,
+                    ]),
+                );
+                event(
+                    new InvitationAccepted(
+                        $request->token,
+                        $request->organisation,
+                        $user,
+                    ),
+                );
             }
-            event(
-                new InvitationAccepted(
-                    $request->token,
-                    $request->organisation,
-                    $user,
-                ),
-            );
         }
 
         Auth::login($user);

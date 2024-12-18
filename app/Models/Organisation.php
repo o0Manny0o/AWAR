@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Animal\Animal;
+use App\Models\Tenant\OrganisationLocation;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -36,6 +38,11 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read TenantPivot|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $members
  * @property-read int|null $members_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Animal> $animals
+ * @property-read int|null $animals_count
+ * @property-read mixed $dashboard_url
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, OrganisationLocation> $locations
+ * @property-read int|null $locations_count
  * @mixin \Eloquent
  */
 class Organisation extends Tenant implements TenantWithDatabase
@@ -45,6 +52,10 @@ class Organisation extends Tenant implements TenantWithDatabase
     protected $table = 'organisations';
 
     protected $fillable = ['name'];
+
+    protected $hidden = ['pivot', 'data', 'tenancy_db_name', 'id'];
+
+    protected $appends = ['dashboard_url'];
 
     public static function getCustomColumns(): array
     {
@@ -56,6 +67,20 @@ class Organisation extends Tenant implements TenantWithDatabase
         return true;
     }
 
+    /**
+     * Get all the dashboard url for the organisation.
+     */
+    public function getDashboardUrlAttribute()
+    {
+        return tenant_route(
+            $this->domains->first()->domain,
+            'tenant.dashboard',
+        );
+    }
+
+    /**
+     * Get all the organisation domains.
+     */
     public function domains(): HasMany
     {
         return $this->hasMany(
@@ -64,6 +89,9 @@ class Organisation extends Tenant implements TenantWithDatabase
         );
     }
 
+    /**
+     * Get all the organisation members.
+     */
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -76,5 +104,20 @@ class Organisation extends Tenant implements TenantWithDatabase
         )
             ->using(TenantPivot::class)
             ->withTimestamps();
+    }
+    /**
+     * Get all the organisation animals.
+     */
+    public function animals(): HasMany
+    {
+        return $this->hasMany(Animal::class);
+    }
+
+    /**
+     * Get all the organisation locations.
+     */
+    public function locations(): HasMany
+    {
+        return $this->hasMany(OrganisationLocation::class);
     }
 }

@@ -2,8 +2,8 @@ import { forwardRef, OptionHTMLAttributes, SelectHTMLAttributes } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/24/solid'
 import { twMerge } from 'tailwind-merge'
 
-type SelectOption = {
-    value: string
+export type SelectOption = {
+    value: string | undefined
     label: string
     attributes?: OptionHTMLAttributes<HTMLOptionElement>
 }
@@ -11,6 +11,8 @@ type SelectOption = {
 export type SelectInputProps = SelectHTMLAttributes<HTMLSelectElement> & {
     options: SelectOption[]
 }
+
+// TODO: Refactor to custom Select
 
 export default forwardRef<HTMLSelectElement, SelectInputProps>(
     function SelectInput({ options, ...props }: SelectInputProps, ref) {

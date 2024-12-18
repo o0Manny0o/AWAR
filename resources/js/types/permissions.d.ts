@@ -22,6 +22,17 @@ interface Resources {
             update: string
             delete: string
         }
+        locations: {
+            view: string
+            create: string
+            update: string
+        }
+    }
+
+    animals: {
+        create: string
+        update: string
+        delete: string
     }
 }
 

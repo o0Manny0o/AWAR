@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Tenant;
 
 use App\Events\InvitationAccepted;
 use App\Events\InvitationSaved;
+use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\Invitation\CreateOrganisationInvitationRequest;
+use App\Messages\ToastMessage;
 use App\Models\Tenant\OrganisationInvitation;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,14 +15,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
 class OrganisationInvitationController extends Controller
 {
-    protected string $baseRouteName = 'organisation.invitations';
-    protected string $baseViewPath = 'Tenant/Organisation/Invitation';
+    protected string $baseRouteName = 'settings.invitations';
+    protected string $baseViewPath = 'Tenant/Settings/Invitation';
 
     /**
      * Display a listing of the resource.
@@ -36,7 +37,7 @@ class OrganisationInvitationController extends Controller
             $invitation->setPermissions($request->user());
         }
 
-        return Inertia::render($this->getIndexView(), [
+        return AppInertia::render($this->getIndexView(), [
             'invitations' => $invitations,
             'permissions' => $this->permissions($request),
         ]);
@@ -97,7 +98,7 @@ class OrganisationInvitationController extends Controller
     {
         $this->authorize('create', OrganisationInvitation::class);
         $roles = Role::all()->pluck('name', 'id')->toArray();
-        return Inertia::render($this->getCreateView(), [
+        return AppInertia::render($this->getCreateView(), [
             'roleOptions' => $roles,
         ]);
     }
@@ -117,7 +118,7 @@ class OrganisationInvitationController extends Controller
         }
         $this->authorize('view', $invitation);
 
-        return Inertia::render($this->getShowView(), [
+        return AppInertia::render($this->getShowView(), [
             'invitation' => $invitation,
             'permissions' => $this->permissions($request, $invitation),
         ]);
@@ -160,19 +161,14 @@ class OrganisationInvitationController extends Controller
         /** @var OrganisationInvitation $invitation */
         $invitation = OrganisationInvitation::firstWhere('token', $token);
         if (!$invitation || $invitation->isExpired()) {
-            // TODO: Expired/Invalid Page
-            return redirect()->route('tenant.landing-page', [
-                'e' => 'Notfound-expired',
-            ]);
+            ToastMessage::warning(
+                __('organisations.invitations.messages.expired'),
+            );
+            return redirect()->route('tenant.landing-page');
         }
 
         if ($request->user()) {
-            if ($request->user()->email !== $invitation->email) {
-                // TODO: Expired/Invalid Page
-                return redirect()->route('tenant.landing-page', [
-                    'e' => 'wrong-email',
-                ]);
-            } else {
+            if ($request->user()->email === $invitation->email) {
                 if (
                     $request
                         ->user()
@@ -181,12 +177,22 @@ class OrganisationInvitationController extends Controller
                         ->exists()
                 ) {
                     // User already accepted the invitation
+                    ToastMessage::warning(
+                        __(
+                            'organisations.invitations.messages.already_accepted',
+                        ),
+                    );
                     return redirect()->route('tenant.landing-page');
                 }
                 $request
                     ->user()
                     ->tenants()
                     ->attach(tenancy()->tenant);
+                ToastMessage::success(
+                    __('organisations.invitations.messages.accepted', [
+                        'organisation' => tenancy()->tenant->name,
+                    ]),
+                );
                 event(
                     new InvitationAccepted(
                         $request->token,
@@ -194,8 +200,12 @@ class OrganisationInvitationController extends Controller
                         $request->user(),
                     ),
                 );
-                return redirect()->route('tenant.landing-page');
+            } else {
+                ToastMessage::warning(
+                    __('organisations.invitations.messages.wrong_email'),
+                );
             }
+            return redirect()->route('tenant.landing-page');
         } else {
             $user = User::firstWhere('email', $invitation->email);
 

@@ -6,29 +6,28 @@ import {
     TransitionChild,
 } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link, usePage } from '@inertiajs/react'
+import { usePage } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import {
     DesktopMainNav,
     DesktopSecondaryNav,
 } from '@/Components/Layout/Desktop'
-import { Logo } from '@/Components/Layout/Logo'
 import { ReactNode, useState } from 'react'
 import { MobileMainNav } from '@/Components/Layout/Mobile'
-import PublicNavigation from '@/shared/_constants/PublicNavigation'
+import {
+    CentralPublicNavigation,
+    TenantPublicNavigation,
+} from '@/shared/_constants/PublicNavigation'
 import DesktopNavLink from './Desktop/DesktopNavLink'
+import { Branding } from '@/Components/Layout/Branding'
 
 export function HeaderBar({
-    mainNavigation,
     secondaryNavigation,
-    mobileNavigation,
 }: {
-    mainNavigation?: ReactNode
     secondaryNavigation?: ReactNode
-    mobileNavigation?: ReactNode
 }) {
     const __ = useTranslate()
-    const { tenant } = usePage().props
+    const { tenant, auth } = usePage().props
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -58,31 +57,38 @@ export function HeaderBar({
                             </button>
                         </div>
                         <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                            <Link
-                                href="/"
-                                className="hidden shrink-0 items-center hover:text-primary-600 focus:text-primary-600
-                                    sm:flex dark:hover:text-primary-400 dark:focus:text-primary-400"
-                            >
-                                <Logo className="h-8 w-auto" />
-                            </Link>
-                            {mainNavigation ?? (
-                                <DesktopMainNav navigation={PublicNavigation} />
-                            )}
+                            <div className="hidden sm:block">
+                                <Branding />
+                            </div>
+                            <DesktopMainNav
+                                navigation={
+                                    tenant
+                                        ? TenantPublicNavigation
+                                        : CentralPublicNavigation
+                                }
+                            />
                         </div>
-                        {secondaryNavigation ?? (
-                            <DesktopSecondaryNav>
+
+                        <DesktopSecondaryNav>
+                            {secondaryNavigation}
+                            {!tenant ? (
                                 <DesktopNavLink
-                                    href={
-                                        tenant
-                                            ? route('tenant.dashboard')
-                                            : route('dashboard')
-                                    }
+                                    href={route('dashboard')}
                                     active={route().current('dashboard')}
                                 >
                                     {__('general.navigation.dashboard')}
                                 </DesktopNavLink>
-                            </DesktopSecondaryNav>
-                        )}
+                            ) : auth.user?.member ? (
+                                <DesktopNavLink
+                                    href={route('tenant.dashboard')}
+                                    active={route().current('tenant.dashboard')}
+                                >
+                                    {__('general.navigation.dashboard')}
+                                </DesktopNavLink>
+                            ) : (
+                                <></>
+                            )}
+                        </DesktopSecondaryNav>
                     </div>
                 </div>
             </Disclosure>
@@ -123,9 +129,13 @@ export function HeaderBar({
                                 </button>
                             </div>
                         </TransitionChild>
-                        {mobileNavigation ?? (
-                            <MobileMainNav navigation={PublicNavigation} />
-                        )}
+                        <MobileMainNav
+                            navigation={
+                                tenant
+                                    ? TenantPublicNavigation
+                                    : CentralPublicNavigation
+                            }
+                        />
                     </DialogPanel>
                 </div>
             </Dialog>

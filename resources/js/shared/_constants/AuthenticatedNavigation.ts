@@ -1,32 +1,29 @@
 import { NavigationItem } from '@/types/navigation'
+import { HomeIcon } from '@heroicons/react/24/outline'
+import { CatIcon } from '@/shared/icons/CatIcon'
+import { DogIcon } from '@/shared/icons/DogIcon'
 
 export const CentralNavigation: NavigationItem[] = [
     {
         name: 'dashboard',
-        routeName: 'dashboard',
         label: 'general.navigation.dashboard',
-    },
-    {
-        name: 'organisations.applications.index',
-        routeName: 'organisations.applications.index',
-        label: 'general.navigation.organisations.applications',
     },
 ]
 
 export const TenantNavigation: NavigationItem[] = [
     {
         name: 'tenant.dashboard',
-        routeName: 'tenant.dashboard',
         label: 'general.navigation.dashboard',
+        icon: HomeIcon,
     },
     {
-        name: 'organisation.invitations.index',
-        routeName: 'organisation.invitations.index',
-        label: 'general.navigation.organisations.invitations',
+        name: 'animals.dogs.index',
+        label: 'general.navigation.animals.dogs',
+        icon: DogIcon,
     },
     {
-        name: 'organisation.members.index',
-        routeName: 'organisation.members.index',
-        label: 'general.navigation.organisations.members',
+        name: 'animals.cats.index',
+        label: 'general.navigation.animals.cats',
+        icon: CatIcon,
     },
 ]

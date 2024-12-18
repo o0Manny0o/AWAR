@@ -1,3 +1,6 @@
+@import 'react-toastify/dist/ReactToastify.css';
+@import './ToastMessages.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,6 +36,10 @@
 
     .text-interactive {
         @apply text-gray-600 hover:text-gray-800 focus:text-gray-800 data-[focus]:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:text-gray-200 dark:data-[focus]:text-gray-200;
+    }
+
+    .text-primary-interactive {
+        @apply text-primary-600 hover:text-primary-800 focus:text-primary-800 data-[focus]:text-primary-800 dark:text-primary-400 dark:hover:text-primary-200 dark:focus:text-primary-200 dark:data-[focus]:text-primary-200;
     }
 
     .border-base {

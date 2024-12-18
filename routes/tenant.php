@@ -2,12 +2,17 @@
 
 declare(strict_types=1);
 
+use App\Http\AppInertia;
+use App\Http\Controllers\Animals\CatController;
+use App\Http\Controllers\Animals\DogController;
 use App\Http\Controllers\Tenant\MemberController;
 use App\Http\Controllers\Tenant\OrganisationInvitationController;
+use App\Http\Controllers\Tenant\OrganisationLocationController;
+use App\Http\Middleware\IsMember;
+use App\Http\Middleware\IsTenantAdmin;
 use App\Models\Tenant\Member;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
@@ -28,7 +33,7 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
     Route::get('/', function () {
-        return Inertia::render('Welcome', [
+        return AppInertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
             'laravelVersion' => Application::VERSION,
@@ -41,33 +46,89 @@ Route::middleware([
         'accept',
     ])->name('organisation.invitations.accept');
 
-    Route::middleware(['auth', 'verified'])->group(function () {
-        Route::get('/dashboard', function () {
-            Gate::authorize('viewAny', Member::class);
-            $members = Member::with('roles')->get();
-            return Inertia::render('Tenant/Dashboard', [
-                'members' => $members,
-            ]);
-        })->name('tenant.dashboard');
+    Route::middleware(['auth', 'verified', IsMember::class])->group(
+        function () {
+            Route::get('/dashboard', function () {
+                Gate::authorize('viewAny', Member::class);
+                $members = Member::with('roles')->get();
+                return AppInertia::render('Tenant/Dashboard', [
+                    'members' => $members,
+                ]);
+            })->name('tenant.dashboard');
 
-        Route::name('organisation.')->group(function () {
-            Route::name('invitations.')
-                ->prefix('invitations')
-                ->group(function () {
-                    Route::post('/resend/{id}', [
-                        OrganisationInvitationController::class,
-                        'resend',
-                    ])->name('resend');
-                });
+            Route::middleware([IsTenantAdmin::class])->group(function () {
+                Route::name('settings.')
+                    ->prefix('settings')
+                    ->group(function () {
+                        Route::name('invitations.')
+                            ->prefix('invitations')
+                            ->group(function () {
+                                Route::post('/resend/{id}', [
+                                    OrganisationInvitationController::class,
+                                    'resend',
+                                ])->name('resend');
+                            });
 
-            Route::resource(
-                'invitations',
-                OrganisationInvitationController::class,
-            )->except(['edit', 'update', 'destroy']);
+                        Route::resource(
+                            'invitations',
+                            OrganisationInvitationController::class,
+                        )->except(['edit', 'update', 'destroy']);
 
-            Route::resource('members', MemberController::class)->only([
-                'index',
-            ]);
-        });
-    });
+                        Route::resource(
+                            'members',
+                            MemberController::class,
+                        )->only(['index']);
+
+                        Route::resource(
+                            'locations',
+                            OrganisationLocationController::class,
+                        );
+                    });
+            });
+
+            Route::middleware([
+                'tenantRole:admin,adoption-lead,adoption-handler,foster-home',
+            ])->group(function () {
+                Route::name('animals.')
+                    ->prefix('animals')
+                    ->group(function () {
+                        foreach (
+                            [
+                                'dogs' => DogController::class,
+                                'cats' => CatController::class,
+                            ]
+                            as $name => $controller
+                        ) {
+                            Route::name($name . '.')
+                                ->prefix($name)
+                                ->group(function () use ($controller) {
+                                    Route::post('/{id}/publish', [
+                                        $controller,
+                                        'publish',
+                                    ])->name('publish');
+
+                                    Route::post('/{id}/assign', [
+                                        $controller,
+                                        'assign',
+                                    ])->name('assign.handler');
+
+                                    Route::post('/{id}/foster', [
+                                        $controller,
+                                        'assignFosterHome',
+                                    ])->name('assign.foster');
+
+                                    Route::post('/{id}/location', [
+                                        $controller,
+                                        'assignLocation',
+                                    ])->name('assign.location');
+                                });
+
+                            Route::resource($name, $controller)->parameters([
+                                $name => 'animal',
+                            ]);
+                        }
+                    });
+            });
+        },
+    );
 });

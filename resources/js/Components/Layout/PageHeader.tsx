@@ -2,10 +2,13 @@ import { Button, ButtonColorVariants } from '@/Components/_Base/Button'
 import { Method } from '@inertiajs/core'
 import { Badge, BadgeColor } from '@/Components/_Base/Badge'
 import { ChevronLeftIcon } from '@heroicons/react/24/solid'
+import { twMerge } from 'tailwind-merge'
+import { Context, createContext, useContext } from 'react'
 
 type PageHeaderBaseButton = {
     label: string
     variant: ButtonColorVariants
+    disabled?: boolean
 }
 
 type PageHeaderLink = PageHeaderBaseButton & {
@@ -19,11 +22,13 @@ type PageHeaderSubmit = PageHeaderBaseButton & {
 
 export type PageHeaderButton = PageHeaderLink | PageHeaderSubmit
 
+const defaultFormContext = createContext({ processing: false })
+
 function isPageHeaderLink(item: PageHeaderButton): item is PageHeaderLink {
     return !!(item as PageHeaderLink).href
 }
 
-interface PageHeaderProps {
+export interface PageHeaderProps {
     title: string
     badge?: {
         color: BadgeColor
@@ -31,6 +36,8 @@ interface PageHeaderProps {
     }
     actionButtons?: PageHeaderButton[]
     backUrl?: string
+    className?: string
+    formContext?: Context<any>
 }
 
 export default function PageHeader({
@@ -38,9 +45,18 @@ export default function PageHeader({
     badge,
     actionButtons,
     backUrl,
+    className,
+    formContext,
 }: PageHeaderProps) {
+    const { processing } = useContext(formContext ?? defaultFormContext)
+
     return (
-        <div className="flex items-baseline justify-between">
+        <div
+            className={twMerge(
+                'flex items-center mb-4 h-10 justify-between',
+                className,
+            )}
+        >
             <div className="flex items-center gap-2">
                 {/* TODO: Improve style */}
                 {backUrl && (
@@ -62,6 +78,7 @@ export default function PageHeader({
                                 href={button.href}
                                 color={button.variant}
                                 method={button.method}
+                                disabled={button.disabled || processing}
                             >
                                 {button.label}
                             </Button>
@@ -70,6 +87,7 @@ export default function PageHeader({
                                 key={button.label}
                                 color={button.variant}
                                 form={button.form}
+                                disabled={button.disabled || processing}
                             >
                                 {button.label}
                             </Button>

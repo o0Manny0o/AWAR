@@ -84,4 +84,110 @@ declare namespace App.Models {
         created_at: string
         updated_at: string
     }
+
+    export interface Media {
+        id: number
+        file_url: string
+    }
+
+    export interface Animal {
+        id: string
+        name: string
+        date_of_birth: string
+        sex: 'male' | 'female'
+
+        animalable: any
+
+        bio?: string
+        abstract?: string
+
+        organisation?: Organisation
+
+        thumbnail?: string
+        gallery?: string[]
+        images?: string[]
+
+        medially: Media[]
+
+        animal_family_id?: string
+        father?: string
+        mother?: string
+
+        paternal_families?: Family[]
+        maternal_families?: Family[]
+
+        handler?: {
+            id: string
+            name: string
+        }
+
+        fosterHome?: {
+            id: string
+            name: string
+        }
+
+        location?: {
+            id: string
+            name: string
+        }
+
+        published_at?: string
+        deleted_at?: string
+        created_at: string
+        updated_at: string
+    }
+
+    export interface Dog extends Animal {
+        animalable: {
+            breed: string
+        }
+    }
+
+    export interface Cat extends Animal {
+        animalable: {
+            breed: string
+        }
+    }
+
+    export interface History {
+        text: string
+        type: string
+        fields?: {
+            field: string
+            value: string
+        }[]
+    }
+
+    export interface Family {
+        id: string
+        name: string
+        father?: { id: string; name: string }
+        mother?: { id: string; name: string }
+        children_count: number
+        created_at: string
+        updated_at: string
+    }
+
+    export interface Country {
+        id: string
+        name: string
+    }
+
+    export interface Address {
+        street_address: string
+        locality: string
+        region: string
+        postal_code: string
+        country: Country
+    }
+
+    export interface Location {
+        id: string
+        name: string
+        public: boolean
+        address: Address
+        created_at: string
+        updated_at: string
+        deleted_at: string
+    }
 }

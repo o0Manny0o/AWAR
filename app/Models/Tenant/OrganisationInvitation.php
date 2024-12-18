@@ -2,6 +2,7 @@
 
 namespace App\Models\Tenant;
 
+use App\Enum\ResourcePermission;
 use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,7 @@ use Spatie\Permission\Models\Role;
  * @property-read bool $can_be_viewed
  * @property-read bool $can_be_resended
  * @property-read Role|null $role
+ * @property-read bool $can_be_published
  * @mixin \Eloquent
  */
 class OrganisationInvitation extends Model
@@ -39,7 +41,10 @@ class OrganisationInvitation extends Model
         'valid_until',
     ];
 
-    protected $appends = ['can_be_viewed', 'can_be_resended'];
+    protected array $resourcePermissions = [
+        ResourcePermission::VIEW,
+        ResourcePermission::RESEND,
+    ];
 
     protected $casts = [
         'sent_at' => 'datetime',

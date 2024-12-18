@@ -10,7 +10,7 @@ class OrganisationInvitationPolicy extends BasePolicy
 {
     function isOwner(User $user, $entity): bool
     {
-        return $user->asMember()?->id === $entity->member_id;
+        return $user->member?->id === $entity->member_id;
     }
 
     /**

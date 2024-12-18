@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Organisation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -33,18 +33,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $file = lang_path(App::currentLocale() . '.json');
-        if (App::currentLocale() !== 'en') {
-            $fallbackFile = lang_path('en.json');
-            $fallback = File::exists($fallbackFile)
-                ? File::json($fallbackFile)
-                : [];
-        } else {
-            $fallback = null;
-        }
-
-        $translations = File::exists($file) ? File::json($file) : [];
-
         return [
             ...parent::share($request),
             'auth' => [
@@ -58,8 +46,6 @@ class HandleInertiaRequests extends Middleware
             ],
             'locale' => App::currentLocale(),
             'locales' => config('app.available_locales'),
-            'translations' => $translations,
-            'fallback' => $fallback,
             'centralDomain' => config('tenancy.central_domains')[0],
             'previousUrl' => function () {
                 if (
@@ -72,7 +58,29 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
             },
-            'tenant' => tenancy()->tenant?->only('name'),
+            'tenants' => $request->user()
+                ? global_cache()->remember(
+                    'users:' . $request->user()->id . ':tenants',
+                    18000,
+                    function () use ($request) {
+                        return Organisation::whereHas('members', function (
+                            $query,
+                        ) use ($request) {
+                            $query->where(
+                                'global_id',
+                                $request->user()->global_id,
+                            );
+                        })
+                            ->with('domains')
+                            ->get();
+                    },
+                )
+                : null,
+            'tenant' => tenancy()->initialized
+                ? cache()->remember('tenant', 18000, function () {
+                    return tenancy()->tenant?->load('domains');
+                })
+                : null,
         ];
     }
 }

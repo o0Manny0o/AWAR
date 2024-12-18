@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Animal\Animal;
 use App\Models\Tenant\Member;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Translation\HasLocalePreference;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -56,9 +60,22 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
  * @property string $global_id
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereGlobalId($value)
+ * @property string $locale
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLocale($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\Animal> $animals
+ * @property-read int|null $animals_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
+ * @property-read int|null $addresses_count
+ * @property-read \App\Models\Address|null $address
+ * @property-read Member|null $member
+ * @method static Builder<static>|User withTenants()
+ * @method static Builder<static>|User tenant()
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements SyncMaster, MustVerifyEmail
+class User extends Authenticatable implements
+    SyncMaster,
+    MustVerifyEmail,
+    HasLocalePreference
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory,
@@ -73,27 +90,14 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password'];
-
+    protected $fillable = ['name', 'email', 'password', 'locale'];
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = ['password', 'remember_token'];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $hidden = ['password', 'remember_token', 'pivot'];
+    private $cached_members = [];
 
     public function organisationApplications(): HasMany
     {
@@ -118,16 +122,6 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
         return Member::class;
     }
 
-    public function getGlobalIdentifierKeyName(): string
-    {
-        return 'global_id';
-    }
-
-    public function getGlobalIdentifierKey()
-    {
-        return $this->getAttribute($this->getGlobalIdentifierKeyName());
-    }
-
     public function getCentralModelName(): string
     {
         return static::class;
@@ -143,21 +137,90 @@ class User extends Authenticatable implements SyncMaster, MustVerifyEmail
         return ['global_id', 'name', 'email'];
     }
 
-    public function asMember(string $organisationId = null): Member|null
+    public function getMemberAttribute(): ?Member
     {
-        if ($organisationId) {
-            $organisation = Organisation::find($organisationId);
-            if ($organisation) {
-                tenancy()->initialize($organisation);
-            }
-        }
-
-        if (!tenancy()) {
-            // Currently not in organisation context
+        if (!tenancy()->initialized) {
             return null;
         }
-        /** @var Member|null $member */
-        $member = Member::firstWhere('global_id', $this->global_id);
+        if (array_key_exists(tenant()->id, $this->cached_members)) {
+            return $this->cached_members[tenant()->id];
+        }
+        $member = Member::where(
+            (new Member())->getGlobalIdentifierKeyName(),
+            $this->getGlobalIdentifierKey(),
+        )
+            ->select(['id'])
+            ->first();
+        if ($member) {
+            $this->cached_members[tenant()->id] = $member;
+        }
+
         return $member;
+    }
+
+    public function getGlobalIdentifierKeyName(): string
+    {
+        return 'global_id';
+    }
+
+    public function getGlobalIdentifierKey()
+    {
+        return $this->getAttribute($this->getGlobalIdentifierKeyName());
+    }
+
+    /**
+     * Get the user's preferred locale.
+     */
+    public function preferredLocale(): string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * The animals that are assigned to the user.
+     */
+    public function animals(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Animal::class,
+            'animal_users',
+            'global_user_id',
+            'animal_id',
+            'global_id',
+        );
+    }
+
+    /**
+     * Get the users' address.
+     */
+    public function address(): MorphOne
+    {
+        return $this->morphOne(
+            Address::class,
+            'addressable',
+            null,
+            null,
+            'global_id',
+        );
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    public function scopeTenant(Builder $query)
+    {
+        $query->whereHas('tenants', function (Builder $query) {
+            $query->where('organisations.id', tenant('id'));
+        });
     }
 }

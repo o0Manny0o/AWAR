@@ -36,45 +36,56 @@ export default function List<
 
     return (
         <ul role="list" className="divide-y divide-gray-100">
-            {entities.map((entity) => (
+            {entities?.map((entity) => (
                 <li
                     key={entity.id}
-                    className="flex items-center justify-between gap-x-6 py-5"
+                    className="flex items-center justify-between gap-x-6 py-5 first:pt-0 last:pb-0"
                 >
-                    <div className="min-w-0">
-                        <div className="flex items-start gap-x-3">
-                            <p className="text-md/6 font-semibold text-gray-900 dark:text-gray-100">
-                                {title(entity)}
-                            </p>
-                            {badge && badge(entity)}
-                        </div>
-                        <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
-                            <p className="whitespace-nowrap">
-                                {subtitle(entity)}
-                            </p>
-                            <svg
-                                viewBox="0 0 2 2"
-                                className="size-0.5 fill-current"
-                            >
-                                <circle r={1} cx={1} cy={1} />
-                            </svg>
-                            {secondarySubtitle ? (
-                                secondarySubtitle(entity)
-                            ) : (
-                                <>
-                                    {__('general.last_update')}
-                                    <time
-                                        dateTime={new Date(
-                                            entity.updated_at,
-                                        ).toLocaleString(locale)}
-                                    >
-                                        {/* TODO: replace with relative date */}
-                                        {new Date(
-                                            entity.updated_at,
-                                        ).toLocaleString(locale)}
-                                    </time>
-                                </>
-                            )}
+                    <div className="flex items-center gap-x-4">
+                        {entity.thumbnail && (
+                            <div>
+                                <img
+                                    className="h-12 rounded object-cover"
+                                    src={entity.thumbnail} // TODO: Placeholder
+                                    alt="Thumbnail"
+                                />
+                            </div>
+                        )}
+                        <div className="min-w-0">
+                            <div className="flex items-start gap-x-3">
+                                <p className="text-md/6 font-semibold text-gray-900 dark:text-gray-100">
+                                    {title(entity)}
+                                </p>
+                                {badge && badge(entity)}
+                            </div>
+                            <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
+                                <p className="whitespace-nowrap">
+                                    {subtitle(entity)}
+                                </p>
+                                <svg
+                                    viewBox="0 0 2 2"
+                                    className="size-0.5 fill-current"
+                                >
+                                    <circle r={1} cx={1} cy={1} />
+                                </svg>
+                                {secondarySubtitle ? (
+                                    secondarySubtitle(entity)
+                                ) : (
+                                    <>
+                                        {__('general.last_update')}
+                                        <time
+                                            dateTime={new Date(
+                                                entity.updated_at,
+                                            ).toLocaleString(locale)}
+                                        >
+                                            {/* TODO: replace with relative date */}
+                                            {new Date(
+                                                entity.updated_at,
+                                            ).toLocaleString(locale)}
+                                        </time>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="flex flex-none items-center gap-x-4">
