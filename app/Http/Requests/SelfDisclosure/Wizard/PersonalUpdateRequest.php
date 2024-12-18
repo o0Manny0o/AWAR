@@ -15,7 +15,13 @@ class PersonalUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'year' => ['required', 'numeric', 'min:12', 'max:120'],
+            'year' => [
+                'required',
+                'integer',
+                'min:1900',
+                'digits:4',
+                'max:' . (date('Y') + 1),
+            ],
             'profession' => ['nullable', 'string', 'max:255'],
             'knows_animals' => ['required', 'boolean'],
         ];

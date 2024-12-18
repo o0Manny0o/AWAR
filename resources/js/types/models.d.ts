@@ -171,6 +171,7 @@ declare namespace App.Models {
     export interface Country {
         id: string
         name: string
+        alpha?: string
     }
 
     export interface Address {

@@ -63,7 +63,7 @@ class OrganisationLocation extends Model
 
     protected $fillable = ['name', 'public'];
 
-    protected $resourcePermissions = [
+    protected $resource_permissions = [
         ResourcePermission::DELETE,
         ResourcePermission::VIEW,
         ResourcePermission::UPDATE,

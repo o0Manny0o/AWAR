@@ -6,6 +6,12 @@ type WizardFormContextData = {
     year: RefObject<HTMLInputElement>
     profession: RefObject<HTMLInputElement>
     knows_animals: RefObject<HTMLButtonElement>
+
+    street_address: RefObject<HTMLInputElement>
+    locality: RefObject<HTMLInputElement>
+    region: RefObject<HTMLInputElement>
+    postal_code: RefObject<HTMLInputElement>
+    country: RefObject<HTMLInputElement>
 }
 
 export const WizardFormWrapper = FormContext<WizardFormContextData>([
@@ -13,6 +19,11 @@ export const WizardFormWrapper = FormContext<WizardFormContextData>([
     'year',
     'profession',
     'knows_animals',
+    'street_address',
+    'locality',
+    'region',
+    'postal_code',
+    'country',
 ])
 
 type FamilyMemberFormContextData = {

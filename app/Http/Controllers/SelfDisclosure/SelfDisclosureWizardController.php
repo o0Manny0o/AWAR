@@ -4,13 +4,19 @@ namespace App\Http\Controllers\SelfDisclosure;
 
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Address\AddressRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
+use App\Models\Address;
+use App\Models\Country;
 use App\Models\SelfDisclosure\UserFamilyAnimal;
 use App\Models\SelfDisclosure\UserFamilyHuman;
 use App\Models\SelfDisclosure\UserFamilyMember;
+use App\Models\SelfDisclosure\UserHome;
 use App\Models\SelfDisclosure\UserSelfDisclosure;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class SelfDisclosureWizardController extends Controller
@@ -149,13 +155,61 @@ class SelfDisclosureWizardController extends Controller
 
     public function showAddressStep()
     {
-        $disclosure = $this->getDisclosure();
-        return $this->renderStep([], 'address');
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $address = Address::where([
+            'addressable_id' => \Auth::user()->id,
+            'addressable_type' => User::class,
+        ])->first();
+
+        if (!$address) {
+            $this->authorize('create', Address::class);
+        } else {
+            $this->authorize('update', $address);
+        }
+
+        $countries = Country::all(['alpha', 'code'])->map(
+            fn(Country $country) => [
+                'id' => $country->alpha,
+                'name' => __('countries.' . Str::lower($country->alpha)),
+            ],
+        );
+
+        return $this->renderStep(
+            ['countries' => $countries, 'address' => $address],
+            'address',
+        );
     }
 
-    public function updateAddress()
+    public function updateAddress(AddressRequest $request)
     {
-        $disclosure = $this->getDisclosure();
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $validated = $request->validated();
+
+        $address = Address::where([
+            'addressable_id' => \Auth::user()->id,
+            'addressable_type' => User::class,
+        ])->first();
+
+        if (!$address) {
+            $address = new Address();
+            $address->addressable()->associate(\Auth::user());
+        } else {
+            $this->authorize('update', $address);
+        }
+
+        $country = Country::where('alpha', $validated['country'])->first();
+
+        $address->street_address = $validated['street_address'];
+        $address->locality = $validated['locality'];
+        $address->region = $validated['region'];
+        $address->postal_code = $validated['postal_code'];
+        $address->country_id = $country->code;
+
+        $address->save();
+
+        return $this->redirect($request, 'self-disclosure.home.show');
     }
 
     public function showHomeStep()
