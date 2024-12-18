@@ -4,8 +4,8 @@ import {
     AnimalSpecificForm,
     CompleteForm,
     EligibilityForm,
-    ExperienceForm,
-    FamilyForm,
+    ExperienceList,
+    FamilyList,
     GardenForm,
     HomeForm,
     PersonalForm,
@@ -34,9 +34,9 @@ export default function Show({
     const renderStep = () => {
         switch (step) {
             case 'family':
-                return <FamilyForm data={data} />
+                return <FamilyList data={data} />
             case 'experiences':
-                return <ExperienceForm data={data} />
+                return <ExperienceList data={data} />
             case 'address':
                 return <AddressForm data={data} />
             case 'home':

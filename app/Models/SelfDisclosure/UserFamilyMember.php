@@ -2,6 +2,8 @@
 
 namespace App\Models\SelfDisclosure;
 
+use App\Models\Scopes\SelfDisclosureScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,6 +35,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereYear($value)
  * @mixin \Eloquent
  */
+#[ScopedBy([SelfDisclosureScope::class])]
 class UserFamilyMember extends Model
 {
     use HasUuids;

@@ -102,11 +102,12 @@ return new class extends Migration {
                 ->cascadeOnUpdate();
         });
         Schema::create('user_experiences', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
 
-            $table->enum('type', ['work', 'pet', 'other']);
+            $table->enum('type', ['work', 'pet']);
             $table->enum('animal_type', ['dog', 'cat', 'other']);
-            $table->integer('years');
+            $table->integer('years')->nullable();
+            $table->date('since')->nullable();
 
             $table
                 ->foreignId('self_disclosure_id')

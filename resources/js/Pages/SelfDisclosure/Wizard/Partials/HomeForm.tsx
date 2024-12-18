@@ -115,18 +115,19 @@ export function HomeForm(props: PersonalFormProps) {
                     label={__(
                         'self_disclosure.wizard.forms.home.pets_allowed.label',
                     )}
-                    description={__(
-                        'self_disclosure.wizard.forms.home.pets_allowed.unclear',
-                    )}
+                    description={
+                        !data.pets_allowed
+                            ? __(
+                                  'self_disclosure.wizard.forms.home.pets_allowed.description',
+                              )
+                            : undefined
+                    }
                     onChange={(value) => setData('pets_allowed', value)}
                 />
             )}
 
             <InputGroup
                 name="move_in_date"
-                placeholder={__(
-                    'self_disclosure.wizard.forms.home.move_in_date.placeholder',
-                )}
                 value={data.move_in_date}
                 type="date"
                 ref={move_in_date}
@@ -152,9 +153,6 @@ export function HomeForm(props: PersonalFormProps) {
 
             <InputGroup
                 name="level"
-                placeholder={__(
-                    'self_disclosure.wizard.forms.home.level.placeholder',
-                )}
                 value={data.level}
                 type="number"
                 ref={level}

@@ -57,3 +57,17 @@ export const FamilyMemberFormWrapper = FormContext<FamilyMemberFormContextData>(
         'castrated',
     ],
 )
+
+type ExperienceFormContextData = {
+    type: RefObject<HTMLInputElement>
+    animal_type: RefObject<HTMLInputElement>
+    years: RefObject<HTMLInputElement>
+    since: RefObject<HTMLInputElement>
+}
+
+export const ExperienceFormWrapper = FormContext<ExperienceFormContextData>([
+    'type',
+    'animal_type',
+    'years',
+    'since',
+])

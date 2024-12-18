@@ -4,8 +4,9 @@ namespace App\Policies;
 
 use App\Models\SelfDisclosure\UserFamilyMember;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
-class UserFamilyMemberPolicy
+class UserFamilyMemberPolicy extends BasePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -20,8 +21,7 @@ class UserFamilyMemberPolicy
      */
     public function view(User $user, UserFamilyMember $userFamilyMember): bool
     {
-        return $userFamilyMember->selfDisclosure()->first()?->global_user_id ===
-            $user->global_id;
+        return $this->isOwner($user, $userFamilyMember);
     }
 
     /**
@@ -37,8 +37,7 @@ class UserFamilyMemberPolicy
      */
     public function update(User $user, UserFamilyMember $userFamilyMember): bool
     {
-        return $userFamilyMember->selfDisclosure()->first()?->global_user_id ===
-            $user->global_id;
+        return $this->isOwner($user, $userFamilyMember);
     }
 
     /**
@@ -46,8 +45,7 @@ class UserFamilyMemberPolicy
      */
     public function delete(User $user, UserFamilyMember $userFamilyMember): bool
     {
-        return $userFamilyMember->selfDisclosure()->first()?->global_user_id ===
-            $user->global_id;
+        return $this->isOwner($user, $userFamilyMember);
     }
 
     /**
@@ -68,5 +66,11 @@ class UserFamilyMemberPolicy
         UserFamilyMember $userFamilyMember,
     ): bool {
         return false;
+    }
+
+    function isOwner(User $user, UserFamilyMember|Model $entity): bool
+    {
+        return $entity->selfDisclosure()->first()?->global_user_id ===
+            $user->global_id;
     }
 }

@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Address\AddressRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\UserExperienceSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\UserGardenRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\UserHomeRequest;
 use App\Models\Address;
 use App\Models\Country;
+use App\Models\SelfDisclosure\UserExperience;
 use App\Models\SelfDisclosure\UserFamilyAnimal;
 use App\Models\SelfDisclosure\UserFamilyHuman;
 use App\Models\SelfDisclosure\UserFamilyMember;
@@ -18,6 +20,7 @@ use App\Models\SelfDisclosure\UserHome;
 use App\Models\SelfDisclosure\UserSelfDisclosure;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -141,18 +144,33 @@ class SelfDisclosureWizardController extends Controller
 
     public function updateFamily()
     {
-        $disclosure = $this->getDisclosure();
+        return redirect()->route('self-disclosure.family.show');
     }
 
     public function showExperiencesStep()
     {
         $disclosure = $this->getDisclosure();
-        return $this->renderStep([], 'experiences');
+
+        $has_animals = $disclosure
+            ->whereHas('userFamilyMembers', function (Builder $query) {
+                $query->where('familyable_type', UserFamilyAnimal::class);
+            })
+            ->exists();
+
+        $experiences = UserExperience::all();
+
+        return $this->renderStep(
+            [
+                'has_animals' => $has_animals,
+                'experiences' => $experiences,
+            ],
+            'experiences',
+        );
     }
 
     public function updateExperiences()
     {
-        $disclosure = $this->getDisclosure();
+        return redirect()->route('self-disclosure.experiences.show');
     }
 
     public function showAddressStep()
@@ -452,8 +470,87 @@ class SelfDisclosureWizardController extends Controller
         $this->authorize('delete', $userFamilyMember);
         $this->authorize('useWizard', UserSelfDisclosure::class);
 
-        $this->getDisclosure();
         $userFamilyMember->familyable()->delete();
         $userFamilyMember->delete();
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function createExperience()
+    {
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+        $this->authorize('create', UserExperience::class);
+
+        $this->generateSteps('experiences');
+
+        return AppInertia::render($this->baseViewPath . '/Experiences/Edit', [
+            'today' => date('Y-m-d'),
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function storeExperience(UserExperienceSaveRequest $request)
+    {
+        $this->authorize('create', UserExperience::class);
+
+        $disclosure = $this->getDisclosure();
+
+        $validated = $request->validated();
+
+        $disclosure->userExperiences()->create($validated);
+
+        return redirect()->route($this->baseRouteName . '.experiences.show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function editExperience(UserExperience $userExperience)
+    {
+        $this->authorize('update', $userExperience);
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $this->generateSteps('experiences');
+
+        return AppInertia::render($this->baseViewPath . '/Experiences/Edit', [
+            'experience' => $userExperience,
+            'today' => date('Y-m-d'),
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function updateExperience(
+        UserExperienceSaveRequest $request,
+        UserExperience $userExperience,
+    ) {
+        $this->authorize('update', $userExperience);
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $validated = $request->validated();
+
+        $userExperience->update([
+            'type' => $validated['type'],
+            'animal_type' => $validated['animal_type'],
+            'years' => $validated['years'] ?? null,
+            'since' => $validated['since'] ?? null,
+        ]);
+
+        return redirect()->route($this->baseRouteName . '.experiences.show');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroyExperience(UserExperience $userExperience)
+    {
+        $this->authorize('delete', $userExperience);
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $userExperience->delete();
     }
 }

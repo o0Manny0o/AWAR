@@ -93,7 +93,8 @@
                 "dog": "Hund",
                 "cat": "Katze"
             },
-            "family_member": "Familienmitglied"
+            "family_member": "Familienmitglied",
+            "experience": "Erfahrung"
         },
         "roles": {
             "tenant": {
@@ -111,7 +112,10 @@
             "no_one": "Niemand",
             "assigned_to": "Zugewiesen an",
             "unknown": "Unbekannt",
-            "unknown_or_external": "Unbekannt oder extern"
+            "unknown_or_external": "Unbekannt oder extern",
+            "for": "für",
+            "since": "seit",
+            "years": "Jahre"
         }
     },
     "landing_page": {
@@ -629,7 +633,7 @@
                 "family": "Ihre Familie",
                 "address": "Ihre Adresse",
                 "home": "Ihr Zuhause",
-                "experiences": "Ihre Erfahrungen",
+                "experiences": "Ihre Erfahrungen mit Tieren",
                 "garden": "Ihr Garten",
                 "eligibility": "Eignung",
                 "complete": "Abschluss",
@@ -637,6 +641,10 @@
                 "family_member": {
                     "create": "Neues Familienmitglied hinzufügen",
                     "edit": "Familienmitglied bearbeiten"
+                },
+                "experience": {
+                    "create": "Neue Erfahrung ",
+                    "edit": "Erfahrung berarbeiten"
                 }
             },
             "forms": {
@@ -669,6 +677,61 @@
                     "castrated": {
                         "label": "Kastriert"
                     }
+                },
+                "garden": {
+                    "garden": {
+                        "label": "Haben Sie einen Garten?"
+                    },
+                    "garden_size": {
+                        "placeholder": "Größe",
+                        "label": "Größe"
+                    },
+                    "garden_secure": {
+                        "label": "Ist Ihr Garten abgesichert?"
+                    },
+                    "garden_connected": {
+                        "label": "Ist Ihr Garten mit dem Haus verbunden?"
+                    }
+                },
+                "home": {
+                    "type": {
+                        "label": "Was nennen Sie Zuhause?",
+                        "apartment": "Eine Wohnung",
+                        "house": "Ein Haus",
+                        "other": "Etwas anderes"
+                    },
+                    "own": {
+                        "label": "Sind Sie der Eigentümer?"
+                    },
+                    "pets_allowed": {
+                        "label": "Sind Tiere erlaubt?",
+                        "description": "Bitte stellen Sie vor einer Bewerbung sicher, dass Tiere erlaubt sind"
+                    },
+                    "move_in_date": {
+                        "label": "Wann sind Sie eingezogen?"
+                    },
+                    "size": {
+                        "label": "Wie groß ist Ihr Zuhause?",
+                        "placeholder": "Größe"
+                    },
+                    "level": {
+                        "label": "In welcher Etage wohnen Sie?"
+                    },
+                    "location": {
+                        "label": "Wo befindet sich Ihr Zuhause?",
+                        "city": "In der Stadt",
+                        "suburb": "In Stadtnähe",
+                        "rural": "Ländlich"
+                    }
+                },
+                "experience": {
+                    "has_animals": "Ich habe zurzeit Tiere",
+                    "as_string": "I habe :time mit :animal_type :type",
+                    "dog": "Hunden",
+                    "other": "anderen Tieren",
+                    "work": "gearbeitet",
+                    "pet": "gelebt",
+                    "cat": "Katzen"
                 }
             }
         },

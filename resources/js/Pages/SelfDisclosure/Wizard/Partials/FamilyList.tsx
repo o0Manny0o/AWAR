@@ -12,7 +12,7 @@ interface FamilyFormProps {
     }
 }
 
-export function FamilyForm(props: FamilyFormProps) {
+export function FamilyList(props: FamilyFormProps) {
     const __ = useTranslate()
 
     return (

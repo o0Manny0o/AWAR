@@ -71,7 +71,7 @@ export function GardenForm(props: PersonalFormProps) {
                                 m<sup>2</sup>
                             </>
                         }
-                        onChange={(value) => setData('garden_size', value)}
+                        onChange={(value) => setData('garden_size', +value)}
                         ref={garden_size}
                         error={errors.garden_size}
                         type="number"

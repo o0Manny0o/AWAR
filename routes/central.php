@@ -79,6 +79,31 @@ Route::middleware('auth')->group(function () {
                     ])->name('destroy');
                 });
 
+            Route::prefix('experience')
+                ->name('experience.')
+                ->group(function () {
+                    Route::get('/', [
+                        SelfDisclosureWizardController::class,
+                        'createExperience',
+                    ])->name('create');
+                    Route::post('/', [
+                        SelfDisclosureWizardController::class,
+                        'storeExperience',
+                    ])->name('store');
+                    Route::get('/{userExperience}', [
+                        SelfDisclosureWizardController::class,
+                        'editExperience',
+                    ])->name('edit');
+                    Route::patch('/{userExperience}', [
+                        SelfDisclosureWizardController::class,
+                        'updateExperience',
+                    ])->name('update');
+                    Route::delete('/{userExperience}', [
+                        SelfDisclosureWizardController::class,
+                        'destroyExperience',
+                    ])->name('destroy');
+                });
+
             Route::redirect('/', '/self-disclosure/personal');
         });
 });

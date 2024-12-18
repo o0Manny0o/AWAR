@@ -256,7 +256,8 @@
                 "dog": "Dog",
                 "cat": "Cat"
             },
-            "family_member": "Family Member"
+            "family_member": "Family Member",
+            "experience": "Experience"
         },
         "roles": {
             "tenant": {
@@ -274,7 +275,10 @@
             "no_one": "No one",
             "assigned_to": "Assigned to",
             "unknown": "Unknown",
-            "unknown_or_external": "Unknown or external"
+            "unknown_or_external": "Unknown or external",
+            "for": "for",
+            "since": "since",
+            "years": "years"
         }
     },
     "landing_page": {
@@ -797,7 +801,7 @@
                 "family": "Your Family",
                 "address": "Your Address",
                 "home": "Your Home",
-                "experiences": "Your Experience",
+                "experiences": "Your Experience with Animals",
                 "garden": "Your Garden",
                 "eligibility": "Your Eligibility",
                 "complete": "Complete",
@@ -805,6 +809,10 @@
                 "family_member": {
                     "create": "Add a new Family Member",
                     "edit": "Edit Family Member"
+                },
+                "experience": {
+                    "create": "New Experience",
+                    "edit": "Edit Experience"
                 }
             },
             "forms": {
@@ -837,6 +845,61 @@
                     "castrated": {
                         "label": "Castrated"
                     }
+                },
+                "garden": {
+                    "garden": {
+                        "label": "Do you have a garden?"
+                    },
+                    "garden_size": {
+                        "placeholder": "Size",
+                        "label": "Size"
+                    },
+                    "garden_secure": {
+                        "label": "Is your garden secure?"
+                    },
+                    "garden_connected": {
+                        "label": "Is your garden connected to the house?"
+                    }
+                },
+                "home": {
+                    "type": {
+                        "label": "What do you call home?",
+                        "apartment": "An Apartment",
+                        "house": "A House",
+                        "other": "Something else"
+                    },
+                    "own": {
+                        "label": "Are you the owner?"
+                    },
+                    "pets_allowed": {
+                        "label": "Are pets allowed?",
+                        "description": "Please make sure that pets are allowed before applying"
+                    },
+                    "move_in_date": {
+                        "label": "When did your move in?"
+                    },
+                    "size": {
+                        "label": "How big is your Home?",
+                        "placeholder": "Size"
+                    },
+                    "level": {
+                        "label": "What floor do you live on?"
+                    },
+                    "location": {
+                        "label": "Where is your Home located?",
+                        "city": "In the city",
+                        "suburb": "In the suburbs",
+                        "rural": "Rural"
+                    }
+                },
+                "experience": {
+                    "has_animals": "I currently have animals",
+                    "as_string": "I :type with :animal_type :time",
+                    "dog": "dogs",
+                    "other": "other animals",
+                    "work": "worked",
+                    "pet": "lived",
+                    "cat": "cats"
                 }
             }
         },

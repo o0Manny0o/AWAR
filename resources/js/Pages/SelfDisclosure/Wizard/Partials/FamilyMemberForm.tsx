@@ -5,6 +5,7 @@ import { FamilyMemberFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizar
 import { Button } from '@/Components/_Base/Button'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
 import { SwitchInput } from '@/Components/_Base/Input'
+import AutocompleteGroup from '@/Components/_Base/Input/AutocompleteGroup'
 
 export function FamilyMemberForm({ member }: { member?: any }) {
     const __ = useTranslate()
@@ -15,7 +16,7 @@ export function FamilyMemberForm({ member }: { member?: any }) {
         animal: boolean
         profession: string
         knows_animals: boolean
-        type: string
+        type: 'dog' | 'cat' | 'other'
         good_with_animals: boolean
         castrated: boolean
     }>({
@@ -24,7 +25,7 @@ export function FamilyMemberForm({ member }: { member?: any }) {
         profession: member?.familyable?.profession ?? '',
         knows_animals: member?.familyable?.knows_animals ?? false,
         animal: !!member?.familyable?.type,
-        type: member?.familyable?.type ?? '',
+        type: member?.familyable?.type ?? 'dog',
         good_with_animals: member?.familyable?.good_with_animals ?? false,
         castrated: member?.familyable?.castrated ?? false,
     })
@@ -131,18 +132,30 @@ export function FamilyMemberForm({ member }: { member?: any }) {
 
             {data.animal && (
                 <>
-                    <InputGroup
+                    <AutocompleteGroup
                         name="type"
-                        placeholder={__(
-                            'self_disclosure.wizard.forms.family_member.type.placeholder',
-                        )}
                         value={data.type}
-                        ref={type}
                         label={__(
                             'self_disclosure.wizard.forms.family_member.type.label',
                         )}
                         error={errors.type}
-                        onChange={(value) => setData('type', value)}
+                        onChange={(value) => setData('type', value?.id as any)}
+                        options={[
+                            {
+                                id: 'dog',
+                                name: __('self_disclosure.family_members.dog'),
+                            },
+                            {
+                                id: 'cat',
+                                name: __('self_disclosure.family_members.cat'),
+                            },
+                            {
+                                id: 'other',
+                                name: __(
+                                    'self_disclosure.family_members.other',
+                                ),
+                            },
+                        ]}
                     />
                     <SwitchInput
                         name="good_with_animals"

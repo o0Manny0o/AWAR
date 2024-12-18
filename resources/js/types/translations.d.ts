@@ -257,6 +257,7 @@ type Translations = {
                 cat: string
             }
             family_member: string
+            experience: string
         }
         roles: {
             tenant: {
@@ -275,6 +276,9 @@ type Translations = {
             assigned_to: string
             unknown: string
             unknown_or_external: string
+            for: string
+            since: string
+            years: string
         }
     }
     landing_page: {
@@ -806,6 +810,10 @@ type Translations = {
                     create: string
                     edit: string
                 }
+                experience: {
+                    create: string
+                    edit: string
+                }
             }
             forms: {
                 family_member: {
@@ -833,12 +841,65 @@ type Translations = {
                     }
                     good_with_animals: {
                         label: string
-                        placeholder: string
                     }
                     castrated: {
                         label: string
+                    }
+                }
+                garden: {
+                    garden: {
+                        label: string
+                    }
+                    garden_size: {
+                        placeholder: string
+                        label: string
+                    }
+                    garden_secure: {
+                        label: string
+                    }
+                    garden_connected: {
+                        label: string
+                    }
+                }
+                home: {
+                    type: {
+                        label: string
+                        apartment: string
+                        house: string
+                        other: string
+                    }
+                    own: {
+                        label: string
+                    }
+                    pets_allowed: {
+                        label: string
+                        description: string
+                    }
+                    move_in_date: {
+                        label: string
+                    }
+                    size: {
+                        label: string
                         placeholder: string
                     }
+                    level: {
+                        label: string
+                    }
+                    location: {
+                        label: string
+                        city: string
+                        suburb: string
+                        rural: string
+                    }
+                }
+                experience: {
+                    has_animals: string
+                    as_string: string
+                    dog: string
+                    other: string
+                    work: string
+                    pet: string
+                    cat: string
                 }
             }
         }
