@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereSelfDisclosureId($value)
  * @property bool $is_primary
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereIsPrimary($value)
+ * @property int|null $year
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereYear($value)
  * @mixin \Eloquent
  */
 class UserFamilyMember extends Model

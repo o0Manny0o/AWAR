@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Address\AddressRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\UserGardenRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\UserHomeRequest;
 use App\Models\Address;
 use App\Models\Country;
@@ -215,9 +216,9 @@ class SelfDisclosureWizardController extends Controller
 
     public function showHomeStep()
     {
-        $disclosure = $this->getDisclosure();
+        $this->authorize('useWizard', UserSelfDisclosure::class);
 
-        $home = UserHome::whereSelfDisclosureId($disclosure->id)->first();
+        $home = UserHome::home()->first();
 
         return $this->renderStep(
             [
@@ -231,7 +232,7 @@ class SelfDisclosureWizardController extends Controller
     {
         $disclosure = $this->getDisclosure();
 
-        $home = UserHome::whereSelfDisclosureId($disclosure->id)->first();
+        $home = UserHome::first();
 
         $validated = $request->validated();
 
@@ -248,13 +249,48 @@ class SelfDisclosureWizardController extends Controller
 
     public function showGardenStep()
     {
-        $disclosure = $this->getDisclosure();
-        return $this->renderStep([], 'garden');
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $garden = UserHome::garden()->first();
+
+        if (!$garden) {
+            return redirect()->route('self-disclosure.home.show');
+        }
+
+        return $this->renderStep(
+            [
+                'garden' => $garden,
+            ],
+            'garden',
+        );
     }
 
-    public function updateGarden()
+    public function updateGarden(UserGardenRequest $request)
     {
-        $disclosure = $this->getDisclosure();
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $validated = $request->validated();
+
+        $garden = UserHome::first();
+
+        if (!$garden) {
+            return redirect()->route('self-disclosure.home.show');
+        } else {
+            $garden->update([
+                'garden' => $validated['garden'],
+                'garden_size' => $validated['garden']
+                    ? $validated['garden_size']
+                    : null,
+                'garden_secure' => $validated['garden']
+                    ? $validated['garden_secure']
+                    : null,
+                'garden_connected' => $validated['garden']
+                    ? $validated['garden_connected']
+                    : null,
+            ]);
+        }
+
+        return $this->redirect($request, 'self-disclosure.experiences.show');
     }
 
     public function showEligibilityStep()

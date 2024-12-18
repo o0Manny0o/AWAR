@@ -2,6 +2,9 @@
 
 namespace App\Models\SelfDisclosure;
 
+use App\Models\Scopes\SelfDisclosureScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -38,8 +41,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserHome whereSelfDisclosureId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserHome whereSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserHome whereType($value)
+ * @method static Builder<static>|UserHome home()
+ * @method static Builder<static>|UserHome garden()
  * @mixin \Eloquent
  */
+#[ScopedBy([SelfDisclosureScope::class])]
 class UserHome extends Model
 {
     public $timestamps = false;
@@ -52,5 +58,30 @@ class UserHome extends Model
     public function selfDisclosure(): BelongsTo
     {
         return $this->belongsTo(UserSelfDisclosure::class);
+    }
+
+    public function scopeHome(Builder $query): void
+    {
+        $query->select([
+            'id',
+            'type',
+            'own',
+            'pets_allowed',
+            'move_in_date',
+            'size',
+            'level',
+            'location',
+        ]);
+    }
+
+    public function scopeGarden(Builder $query): void
+    {
+        $query->select([
+            'id',
+            'garden',
+            'garden_size',
+            'garden_secure',
+            'garden_connected',
+        ]);
     }
 }

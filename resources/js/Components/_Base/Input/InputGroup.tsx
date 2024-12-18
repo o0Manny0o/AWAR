@@ -6,6 +6,7 @@ import {
 import {
     forwardRef,
     HTMLInputAutoCompleteAttribute,
+    ReactNode,
     useImperativeHandle,
     useRef,
 } from 'react'
@@ -20,7 +21,7 @@ interface InputGroupProps {
     onChange?: (value: string) => void
     onBlur?: (event: React.FocusEvent) => void
     error?: string
-    append?: string
+    append?: string | ReactNode
     leading?: string
     className?: string
     readOnly?: boolean

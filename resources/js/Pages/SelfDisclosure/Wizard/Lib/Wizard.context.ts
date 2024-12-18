@@ -16,6 +16,8 @@ type WizardFormContextData = {
     move_in_date: RefObject<HTMLInputElement>
     size: RefObject<HTMLInputElement>
     level: RefObject<HTMLInputElement>
+
+    garden_size: RefObject<HTMLInputElement>
 }
 
 export const WizardFormWrapper = FormContext<WizardFormContextData>([
@@ -28,6 +30,10 @@ export const WizardFormWrapper = FormContext<WizardFormContextData>([
     'region',
     'postal_code',
     'country',
+    'move_in_date',
+    'size',
+    'level',
+    'garden_size',
 ])
 
 type FamilyMemberFormContextData = {
