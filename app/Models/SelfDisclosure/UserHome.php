@@ -44,6 +44,8 @@ class UserHome extends Model
 {
     public $timestamps = false;
 
+    protected $guarded = ['id', 'self_disclosure_id'];
+
     /**
      * The self disclosure the home belongs to
      */

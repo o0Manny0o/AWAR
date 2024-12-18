@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Address\AddressRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\UserHomeRequest;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\SelfDisclosure\UserFamilyAnimal;
@@ -215,12 +216,34 @@ class SelfDisclosureWizardController extends Controller
     public function showHomeStep()
     {
         $disclosure = $this->getDisclosure();
-        return $this->renderStep([], 'home');
+
+        $home = UserHome::whereSelfDisclosureId($disclosure->id)->first();
+
+        return $this->renderStep(
+            [
+                'home' => $home,
+            ],
+            'home',
+        );
     }
 
-    public function updateHome()
+    public function updateHome(UserHomeRequest $request)
     {
         $disclosure = $this->getDisclosure();
+
+        $home = UserHome::whereSelfDisclosureId($disclosure->id)->first();
+
+        $validated = $request->validated();
+
+        if (!$home) {
+            $disclosure
+                ->userHome()
+                ->create(array_merge(['garden' => false], $validated));
+        } else {
+            $home->update($validated);
+        }
+
+        return $this->redirect($request, 'self-disclosure.garden.show');
     }
 
     public function showGardenStep()

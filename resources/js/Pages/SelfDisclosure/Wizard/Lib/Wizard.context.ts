@@ -12,6 +12,10 @@ type WizardFormContextData = {
     region: RefObject<HTMLInputElement>
     postal_code: RefObject<HTMLInputElement>
     country: RefObject<HTMLInputElement>
+
+    move_in_date: RefObject<HTMLInputElement>
+    size: RefObject<HTMLInputElement>
+    level: RefObject<HTMLInputElement>
 }
 
 export const WizardFormWrapper = FormContext<WizardFormContextData>([
