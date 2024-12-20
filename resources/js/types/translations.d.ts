@@ -930,6 +930,61 @@ type Translations = {
                         label: string
                     }
                 }
+                specific: {
+                    dogs: {
+                        select: {
+                            label: string
+                        }
+                        habitat: {
+                            label: string
+                            options: {
+                                home: string
+                                garden: string
+                                other: string
+                            }
+                        }
+                        purpose: {
+                            label: string
+                            options: {
+                                pet: string
+                                work: string
+                                other: string
+                            }
+                        }
+                        dog_school: {
+                            label: string
+                        }
+                        time_to_occupy: {
+                            label: string
+                        }
+                    }
+                    cats: {
+                        select: {
+                            label: string
+                        }
+                        habitat: {
+                            label: string
+                            options: {
+                                indoor: string
+                                outdoor: string
+                                both: string
+                            }
+                        }
+                        sleeping_place: {
+                            label: string
+                            placeholder: string
+                        }
+                        streets_safe: {
+                            label: string
+                        }
+                        flap_available: {
+                            label: string
+                        }
+                        house_secure: {
+                            label: string
+                        }
+                    }
+                }
             }
         }
         family_members: {

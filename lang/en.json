@@ -929,6 +929,61 @@
                     "time_alone_daily": {
                         "label": "How many hours are you out of the house every day?"
                     }
+                },
+                "specific": {
+                    "dogs": {
+                        "select": {
+                            "label": "Are you interested in adopting dogs? "
+                        },
+                        "habitat": {
+                            "label": "Where would a dog mainly live?",
+                            "options": {
+                                "home": "At home",
+                                "garden": "In the garden",
+                                "other": "Somewhere else"
+                            }
+                        },
+                        "purpose": {
+                            "label": "What would be the purpose of the dog?",
+                            "options": {
+                                "pet": "Family member",
+                                "work": "Work",
+                                "other": "Something else"
+                            }
+                        },
+                        "dog_school": {
+                            "label": "Would you go to a dog school?"
+                        },
+                        "time_to_occupy": {
+                            "label": "Do you have enough time to keep a dog sufficiently occupied?"
+                        }
+                    },
+                    "cats": {
+                        "select": {
+                            "label": "Are you interested in adopting cats? "
+                        },
+                        "habitat": {
+                            "label": "Where would the cat live?",
+                            "options": {
+                                "indoor": "Indoor ",
+                                "outdoor": "Outdoor",
+                                "both": "Both"
+                            }
+                        },
+                        "sleeping_place": {
+                            "label": "Where would the cat sleep?",
+                            "placeholder": "Place to sleep"
+                        },
+                        "streets_safe": {
+                            "label": "Are the nearby streets safe for a cat?"
+                        },
+                        "flap_available": {
+                            "label": "Do you have a cat flap?"
+                        },
+                        "house_secure": {
+                            "label": "Is your home secure for a cat?"
+                        }
+                    }
                 }
             }
         },

@@ -114,14 +114,21 @@ return new class extends Migration {
                 ->constrained('user_self_disclosures')
                 ->cascadeOnUpdate();
         });
-        Schema::create('animal_specific_disclosures', function (
+        Schema::create('user_animal_specific_disclosures', function (
             Blueprint $table,
         ) {
             $table->id();
 
             $table->morphs('specifiable');
+
+            $table
+                ->foreignId('self_disclosure_id')
+                ->constrained('user_self_disclosures')
+                ->cascadeOnUpdate();
         });
-        Schema::create('dog_specific_disclosures', function (Blueprint $table) {
+        Schema::create('user_dog_specific_disclosures', function (
+            Blueprint $table,
+        ) {
             $table->id();
 
             $table->enum('habitat', ['home', 'garden', 'other']);
@@ -130,7 +137,9 @@ return new class extends Migration {
             $table->boolean('time_to_occupy');
             $table->enum('purpose', ['work', 'pet', 'breeding', 'other']);
         });
-        Schema::create('cat_specific_disclosures', function (Blueprint $table) {
+        Schema::create('user_cat_specific_disclosures', function (
+            Blueprint $table,
+        ) {
             $table->id();
 
             $table->enum('habitat', ['indoor', 'outdoor', 'both']);

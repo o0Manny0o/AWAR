@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SelfDisclosure;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Address\AddressRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\AnimalSpecificSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\UserEligibilitySaveRequest;
@@ -13,6 +14,9 @@ use App\Http\Requests\SelfDisclosure\Wizard\UserGardenSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\UserHomeSaveRequest;
 use App\Models\Address;
 use App\Models\Country;
+use App\Models\SelfDisclosure\UserAnimalSpecificDisclosure;
+use App\Models\SelfDisclosure\UserCatSpecificDisclosure;
+use App\Models\SelfDisclosure\UserDogSpecificDisclosure;
 use App\Models\SelfDisclosure\UserExperience;
 use App\Models\SelfDisclosure\UserFamilyAnimal;
 use App\Models\SelfDisclosure\UserFamilyHuman;
@@ -350,13 +354,92 @@ class SelfDisclosureWizardController extends Controller
 
     public function showSpecificStep()
     {
-        $disclosure = $this->getDisclosure();
-        return $this->renderStep([], 'specific');
+        $this->authorize('useWizard', UserSelfDisclosure::class);
+
+        $dogSpecific = UserAnimalSpecificDisclosure::dog()->first()
+            ?->specifiable;
+
+        $catSpecific = UserAnimalSpecificDisclosure::cat()->first()
+            ?->specifiable;
+
+        return $this->renderStep(
+            [
+                'dogSpecific' => $dogSpecific,
+                'catSpecific' => $catSpecific,
+            ],
+            'specific',
+        );
     }
 
-    public function updateSpecific()
+    public function updateSpecific(AnimalSpecificSaveRequest $request)
     {
         $disclosure = $this->getDisclosure();
+
+        $dogSpecific = UserAnimalSpecificDisclosure::dog()->first();
+
+        $catSpecific = UserAnimalSpecificDisclosure::cat()->first();
+
+        $validated = $request->validated();
+
+        if (!$validated['dogs']) {
+            $dogSpecific?->specifiable()->delete();
+            $dogSpecific?->delete();
+        } else {
+            if (!$dogSpecific) {
+                /** @var UserDogSpecificDisclosure $dogSpecific */
+                $dogSpecific = UserDogSpecificDisclosure::create([
+                    'habitat' => $validated['dog_habitat'],
+                    'dog_school' => $validated['dog_school'],
+                    'time_to_occupy' => $validated['dog_time_to_occupy'],
+                    'purpose' => $validated['dog_purpose'],
+                ]);
+
+                $dogSpecific->animalDisclosure()->create([
+                    'self_disclosure_id' => $disclosure->id,
+                ]);
+            } else {
+                $dogSpecific->specifiable()->update([
+                    'habitat' => $validated['dog_habitat'],
+                    'dog_school' => $validated['dog_school'],
+                    'time_to_occupy' => $validated['dog_time_to_occupy'],
+                    'purpose' => $validated['dog_purpose'],
+                ]);
+            }
+        }
+
+        if (!$validated['cats']) {
+            $catSpecific?->specifiable()->delete();
+            $catSpecific?->delete();
+        } else {
+            if (!$catSpecific) {
+                /** @var UserCatSpecificDisclosure $catSpecific */
+                $catSpecific = UserCatSpecificDisclosure::create([
+                    'habitat' => $validated['cat_habitat'],
+                    'house_secure' => $validated['cat_house_secure'] ?? null,
+                    'sleeping_place' =>
+                        $validated['cat_sleeping_place'] ?? null,
+                    'streets_safe' => $validated['cat_streets_safe'] ?? null,
+                    'cat_flap_available' =>
+                        $validated['cat_cat_flap_available'] ?? null,
+                ]);
+
+                $catSpecific->animalDisclosure()->create([
+                    'self_disclosure_id' => $disclosure->id,
+                ]);
+            } else {
+                $catSpecific->specifiable()->update([
+                    'habitat' => $validated['cat_habitat'],
+                    'house_secure' => $validated['cat_house_secure'] ?? null,
+                    'sleeping_place' =>
+                        $validated['cat_sleeping_place'] ?? null,
+                    'streets_safe' => $validated['cat_streets_safe'] ?? null,
+                    'cat_flap_available' =>
+                        $validated['cat_flap_available'] ?? null,
+                ]);
+            }
+        }
+
+        return $this->redirect($request, 'self-disclosure.complete.show');
     }
 
     public function showCompleteStep()

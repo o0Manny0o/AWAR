@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSelfDisclosure whereNotBanned($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSelfDisclosure whereNotes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSelfDisclosure whereUpdatedAt($value)
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SelfDisclosure\AnimalSpecificDisclosure> $animalSpecificDisclosures
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SelfDisclosure\UserAnimalSpecificDisclosure> $animalSpecificDisclosures
  * @property-read int|null $animal_specific_disclosures_count
  * @property-read \App\Models\SelfDisclosure\UserCareEligibility|null $userAnimals
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\SelfDisclosure\UserExperience> $userExperiences
@@ -42,6 +42,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read int|null $user_family_members_count
  * @property-read \App\Models\SelfDisclosure\UserHome|null $userHome
  * @property-read \App\Models\SelfDisclosure\UserSpecialNeeds|null $userSpecialNeeds
+ * @property-read \App\Models\SelfDisclosure\UserCareEligibility|null $userCareEligibility
  * @mixin \Eloquent
  */
 class UserSelfDisclosure extends Model
@@ -93,7 +94,7 @@ class UserSelfDisclosure extends Model
     public function animalSpecificDisclosures(): HasMany
     {
         return $this->hasMany(
-            AnimalSpecificDisclosure::class,
+            UserAnimalSpecificDisclosure::class,
             'self_disclosure_id',
         );
     }

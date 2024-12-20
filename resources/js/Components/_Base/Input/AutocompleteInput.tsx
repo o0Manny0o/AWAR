@@ -1,5 +1,12 @@
 import { twMerge } from 'tailwind-merge'
-import { InputHTMLAttributes, ReactNode, useEffect, useState } from 'react'
+import {
+    ForwardedRef,
+    forwardRef,
+    InputHTMLAttributes,
+    ReactNode,
+    useEffect,
+    useState,
+} from 'react'
 import {
     Combobox,
     ComboboxButton,
@@ -25,20 +32,26 @@ interface CreatableInputProps<T extends Option> {
     containerClassName?: string
 }
 
-export default function AutocompleteInput<T extends Option>({
-    className = '',
-    options,
-    onChange,
-    value,
-    name,
-    description,
-    canCreate,
-    withEmptyOption,
-    optionsClassName,
-    containerClassName,
-    ...props
-}: Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'type'> &
-    CreatableInputProps<T>) {
+export default forwardRef(function AutocompleteInput<T extends Option>(
+    {
+        className = '',
+        options,
+        onChange,
+        value,
+        name,
+        description,
+        canCreate,
+        withEmptyOption,
+        optionsClassName,
+        containerClassName,
+        ...props
+    }: Omit<
+        InputHTMLAttributes<HTMLInputElement>,
+        'onChange' | 'value' | 'type'
+    > &
+        CreatableInputProps<T>,
+    ref: ForwardedRef<HTMLInputElement>,
+) {
     const findOptionById = (id?: string | null) => {
         return (
             options.find((option) => option.id === id || (!id && !option.id)) ??
@@ -99,6 +112,7 @@ export default function AutocompleteInput<T extends Option>({
                     displayValue={(option) =>
                         (option as unknown as T | null)?.name ?? ''
                     }
+                    ref={ref}
                     onChange={(event) => setQuery(event.target.value)}
                     onBlur={(event) => {
                         if (canCreate) {
@@ -194,4 +208,4 @@ export default function AutocompleteInput<T extends Option>({
             </div>
         </Combobox>
     )
-}
+})

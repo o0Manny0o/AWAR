@@ -761,6 +761,61 @@
                     "time_alone_daily": {
                         "label": "Wie viele Stunden sind Sie täglich außer Haus?"
                     }
+                },
+                "specific": {
+                    "dogs": {
+                        "select": {
+                            "label": "Möchten sie Hunde adoptieren?"
+                        },
+                        "habitat": {
+                            "label": "Wo würde ein Hund hauptsächlich leben?",
+                            "options": {
+                                "home": "Zu Hause",
+                                "garden": "Im Garten",
+                                "other": "Woanders"
+                            }
+                        },
+                        "purpose": {
+                            "label": "Was wäre der Zweck des Hundes?",
+                            "options": {
+                                "pet": "Familienmitgleid",
+                                "work": "Arbeit",
+                                "other": "Etwas anderes"
+                            }
+                        },
+                        "dog_school": {
+                            "label": "Würdest Sie in eine Hundeschule gehen?"
+                        },
+                        "time_to_occupy": {
+                            "label": "Haben Sie genügend Zeit, einen Hund ausreichend zu beschäftigen?"
+                        }
+                    },
+                    "cats": {
+                        "select": {
+                            "label": "Möchten sie Katzen adoptieren?"
+                        },
+                        "habitat": {
+                            "label": "Wo würde die Katze leben?",
+                            "options": {
+                                "indoor": "Hauskatze",
+                                "outdoor": "Im Freien",
+                                "both": "Beides"
+                            }
+                        },
+                        "sleeping_place": {
+                            "label": "Wo würde die Katze schlafen?",
+                            "placeholder": "Schlafplatz"
+                        },
+                        "streets_safe": {
+                            "label": "Sind die Straßen in der Nähe für eine Katze sicher?"
+                        },
+                        "flap_available": {
+                            "label": "Hast Sie eine Katzenklappe?"
+                        },
+                        "house_secure": {
+                            "label": "Ist Ihr Zuhause sicher für eine Katze?"
+                        }
+                    }
                 }
             }
         },

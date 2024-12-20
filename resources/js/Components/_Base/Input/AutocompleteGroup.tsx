@@ -1,36 +1,45 @@
 import { InputError, InputLabel } from '@/Components/_Base/Input/index'
-import { HTMLInputAutoCompleteAttribute, ReactNode } from 'react'
+import {
+    ForwardedRef,
+    forwardRef,
+    HTMLInputAutoCompleteAttribute,
+    ReactNode,
+} from 'react'
 import { twMerge } from 'tailwind-merge'
 import AutocompleteInput, {
     Option,
 } from '@/Components/_Base/Input/AutocompleteInput'
 
-interface InputGroupProps<T extends Option> {
+interface InputGroupProps {
     name: string
     label: string
     placeholder?: string
     value?: string | null
-    options: T[]
-    onChange?: (value: T | null) => void
+    options: Option[]
+    onChange?: (value: Option | null) => void
     error?: string
     className?: string
     readOnly?: boolean
-    description?: (value: T) => ReactNode
+    description?: (value: Option) => ReactNode
     canCreate?: boolean
     withEmptyOption?: string
     optionsClassName?: string
     autoComplete?: HTMLInputAutoCompleteAttribute
+    ref?: any
 }
 
-export default function AutocompleteGroup<T extends Option>({
-    name,
-    label,
-    onChange,
-    error,
-    className = '',
-    readOnly = false,
-    ...props
-}: InputGroupProps<T>) {
+export default forwardRef(function AutocompleteGroup(
+    {
+        name,
+        label,
+        onChange,
+        error,
+        className = '',
+        readOnly = false,
+        ...props
+    }: InputGroupProps,
+    ref: ForwardedRef<HTMLInputElement>,
+) {
     return (
         <div>
             <InputLabel htmlFor={name} value={label} />
@@ -39,6 +48,7 @@ export default function AutocompleteGroup<T extends Option>({
                 {...props}
                 id={name}
                 name={name}
+                ref={ref}
                 maxLength={255}
                 onChange={(value) => onChange?.(value)}
                 className={twMerge('block w-full', className)}
@@ -48,4 +58,4 @@ export default function AutocompleteGroup<T extends Option>({
             <InputError message={error} className="mt-2" />
         </div>
     )
-}
+})

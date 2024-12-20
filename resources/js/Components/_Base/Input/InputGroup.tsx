@@ -3,13 +3,7 @@ import {
     InputLabel,
     TextInput,
 } from '@/Components/_Base/Input/index'
-import {
-    forwardRef,
-    HTMLInputAutoCompleteAttribute,
-    ReactNode,
-    useImperativeHandle,
-    useRef,
-} from 'react'
+import { forwardRef, HTMLInputAutoCompleteAttribute, ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 interface InputGroupProps {
@@ -51,19 +45,13 @@ export default forwardRef(function InputGroup(
     }: InputGroupProps,
     ref,
 ) {
-    const localRef = useRef<HTMLInputElement>(null)
-
-    useImperativeHandle(ref, () => ({
-        focus: () => localRef.current?.focus(),
-    }))
-
     return (
         <div className={containerClassName}>
             <InputLabel htmlFor={name} value={label} />
 
             <TextInput
                 id={name}
-                ref={localRef}
+                ref={ref}
                 value={value}
                 maxLength={255}
                 append={append}
