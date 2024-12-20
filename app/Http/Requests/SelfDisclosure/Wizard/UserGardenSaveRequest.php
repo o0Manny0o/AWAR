@@ -4,7 +4,7 @@ namespace App\Http\Requests\SelfDisclosure\Wizard;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserGardenRequest extends FormRequest
+class UserGardenSaveRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

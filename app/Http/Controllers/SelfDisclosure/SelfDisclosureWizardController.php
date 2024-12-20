@@ -7,9 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Address\AddressRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\UserEligibilitySaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\UserExperienceSaveRequest;
-use App\Http\Requests\SelfDisclosure\Wizard\UserGardenRequest;
-use App\Http\Requests\SelfDisclosure\Wizard\UserHomeRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\UserGardenSaveRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\UserHomeSaveRequest;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\SelfDisclosure\UserExperience;
@@ -64,7 +65,7 @@ class SelfDisclosureWizardController extends Controller
         return $this->renderStep(['member' => $member]);
     }
 
-    private function getDisclosure()
+    private function getDisclosure(): UserSelfDisclosure
     {
         $this->authorize('useWizard', UserSelfDisclosure::class);
 
@@ -253,7 +254,7 @@ class SelfDisclosureWizardController extends Controller
         );
     }
 
-    public function updateHome(UserHomeRequest $request)
+    public function updateHome(UserHomeSaveRequest $request)
     {
         $disclosure = $this->getDisclosure();
 
@@ -290,7 +291,7 @@ class SelfDisclosureWizardController extends Controller
         );
     }
 
-    public function updateGarden(UserGardenRequest $request)
+    public function updateGarden(UserGardenSaveRequest $request)
     {
         $this->authorize('useWizard', UserSelfDisclosure::class);
 
@@ -321,12 +322,30 @@ class SelfDisclosureWizardController extends Controller
     public function showEligibilityStep()
     {
         $disclosure = $this->getDisclosure();
-        return $this->renderStep([], 'eligibility');
+
+        $eligibility = $disclosure->userCareEligibility()->first();
+
+        return $this->renderStep(
+            [
+                'eligibility' => $eligibility,
+            ],
+            'eligibility',
+        );
     }
 
-    public function updateEligibility()
+    public function updateEligibility(UserEligibilitySaveRequest $request)
     {
         $disclosure = $this->getDisclosure();
+
+        $eligibility = $disclosure->userCareEligibility()->first();
+
+        if (!$eligibility) {
+            $disclosure->userCareEligibility()->create($request->validated());
+        } else {
+            $eligibility->update($request->validated());
+        }
+
+        return $this->redirect($request, 'self-disclosure.specific.show');
     }
 
     public function showSpecificStep()

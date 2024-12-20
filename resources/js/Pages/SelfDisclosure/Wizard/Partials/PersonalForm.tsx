@@ -22,7 +22,7 @@ export function PersonalForm(props: PersonalFormProps) {
         knows_animals: boolean
     }>({
         name: props.data?.member?.name ?? '',
-        year: props.data?.member?.year ?? 18,
+        year: props.data?.member?.year ?? 1990,
         profession: props.data?.member?.familyable.profession ?? '',
         knows_animals: props.data?.member?.familyable.knows_animals ?? false,
     })

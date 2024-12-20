@@ -735,6 +735,32 @@
                     "work": "gearbeitet",
                     "pet": "gelebt",
                     "cat": "Katzen"
+                },
+                "eligibility": {
+                    "animal_protection_experience": {
+                        "label": "Haben Sie Erfahrung mit Tieren aus dem Tierschutz?"
+                    },
+                    "can_afford_insurance": {
+                        "label": "Könnten Sie sich eine Tierversicherung leisten?"
+                    },
+                    "can_cover_emergencies": {
+                        "label": "Könnten Sie sich außergewöhnliche Kosten leisten?",
+                        "description": "Notfälle, Operationen usw."
+                    },
+                    "can_cover_expenses": {
+                        "label": "Können Sie die laufenden Kosten decken?",
+                        "description": "Tierarzt, Futter usw"
+                    },
+                    "can_afford_castration": {
+                        "label": "Könnten Sie sich ggf. die Kosten einer Kastration leisten?"
+                    },
+                    "substitute": {
+                        "placeholder": "Vertretung",
+                        "label": "Wer versorgt ihre Tiere bei Krankheit, Urlaub etc.?"
+                    },
+                    "time_alone_daily": {
+                        "label": "Wie viele Stunden sind Sie täglich außer Haus?"
+                    }
                 }
             }
         },

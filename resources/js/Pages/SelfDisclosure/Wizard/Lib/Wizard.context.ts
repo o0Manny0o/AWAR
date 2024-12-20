@@ -18,6 +18,9 @@ type WizardFormContextData = {
     level: RefObject<HTMLInputElement>
 
     garden_size: RefObject<HTMLInputElement>
+
+    substitute: RefObject<HTMLInputElement>
+    time_alone_daily: RefObject<HTMLInputElement>
 }
 
 export const WizardFormWrapper = FormContext<WizardFormContextData>([
@@ -34,6 +37,8 @@ export const WizardFormWrapper = FormContext<WizardFormContextData>([
     'size',
     'level',
     'garden_size',
+    'substitute',
+    'time_alone_daily',
 ])
 
 type FamilyMemberFormContextData = {

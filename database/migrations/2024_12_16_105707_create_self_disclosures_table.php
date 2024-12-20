@@ -65,7 +65,7 @@ return new class extends Migration {
                 ->constrained('user_self_disclosures')
                 ->cascadeOnUpdate();
         });
-        Schema::create('user_care_eligibility', function (Blueprint $table) {
+        Schema::create('user_care_eligibilities', function (Blueprint $table) {
             $table->id();
             $table->boolean('animal_protection_experience');
             $table->boolean('can_cover_expenses');

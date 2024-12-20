@@ -904,6 +904,32 @@ type Translations = {
                     pet: string
                     cat: string
                 }
+                eligibility: {
+                    animal_protection_experience: {
+                        label: string
+                    }
+                    can_afford_insurance: {
+                        label: string
+                    }
+                    can_cover_emergencies: {
+                        label: string
+                        description: string
+                    }
+                    can_cover_expenses: {
+                        label: string
+                        description: string
+                    }
+                    can_afford_castration: {
+                        label: string
+                    }
+                    substitute: {
+                        placeholder: string
+                        label: string
+                    }
+                    time_alone_daily: {
+                        label: string
+                    }
+                }
             }
         }
         family_members: {

@@ -35,7 +35,7 @@ export function WizardProgressStep({
         state,
     })
 
-    return state === 'active' ? (
+    return state === 'active' || state === 'upcoming' ? (
         <p className={border()}>
             <span className={text()}>{step.name}</span>
         </p>

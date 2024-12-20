@@ -13,6 +13,7 @@ import {
 import useTranslate from '@/shared/hooks/useTranslate'
 import { FormContextProvider } from '@/shared/contexts/Form.context'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
+import { Head } from '@inertiajs/react'
 
 type StepName =
     | 'personal'
@@ -60,6 +61,12 @@ export default function Show({
                 ('self_disclosure.wizard.headers.' + step) as TranslationKey,
             )}
         >
+            <Head
+                title={__(
+                    ('self_disclosure.wizard.headers.' +
+                        step) as TranslationKey,
+                )}
+            />
             <FormContextProvider context={WizardFormWrapper}>
                 {renderStep()}
             </FormContextProvider>

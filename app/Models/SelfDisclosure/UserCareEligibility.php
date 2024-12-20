@@ -18,6 +18,16 @@ class UserCareEligibility extends Model
 {
     public $timestamps = false;
 
+    protected $fillable = [
+        'animal_protection_experience',
+        'can_cover_expenses',
+        'can_cover_emergencies',
+        'can_afford_insurance',
+        'can_afford_castration',
+        'substitute',
+        'time_alone_daily',
+    ];
+
     /**
      * The self disclosure the eligibility belongs to
      */

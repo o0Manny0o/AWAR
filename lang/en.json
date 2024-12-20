@@ -903,6 +903,32 @@
                     "work": "worked",
                     "pet": "lived",
                     "cat": "cats"
+                },
+                "eligibility": {
+                    "animal_protection_experience": {
+                        "label": "Do you have experience with animals from animal protection?"
+                    },
+                    "can_afford_insurance": {
+                        "label": "Could you afford animal insurance?"
+                    },
+                    "can_cover_emergencies": {
+                        "label": "Could you afford extraordinary costs?",
+                        "description": "Emergencies, Operations, etc."
+                    },
+                    "can_cover_expenses": {
+                        "label": "Are you able to cover running costs?",
+                        "description": "Vet visists, food etc"
+                    },
+                    "can_afford_castration": {
+                        "label": "Could you afford castration costs if necessary?"
+                    },
+                    "substitute": {
+                        "placeholder": "Substitute",
+                        "label": "Who takes care of your animals when you are sick, on vacation, etc.?"
+                    },
+                    "time_alone_daily": {
+                        "label": "How many hours are you out of the house every day?"
+                    }
                 }
             }
         },

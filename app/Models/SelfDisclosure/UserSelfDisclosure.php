@@ -105,4 +105,12 @@ class UserSelfDisclosure extends Model
     {
         return $this->hasMany(UserExperience::class, 'self_disclosure_id');
     }
+
+    /**
+     * The user eligibility attached to the self disclosure
+     */
+    public function userCareEligibility(): HasOne
+    {
+        return $this->hasOne(UserCareEligibility::class, 'self_disclosure_id');
+    }
 }
