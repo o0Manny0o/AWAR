@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\SelfDisclosure\SelfDisclosureStep;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,11 @@ return new class extends Migration {
             $table->boolean('everyone_agrees')->default(false);
 
             $table->text('notes')->nullable();
+
+            $table
+                ->enum('furthest_step', SelfDisclosureStep::values())
+                ->default(SelfDisclosureStep::PERSONAL)
+                ->nullable();
 
             $table
                 ->foreignUuid('global_user_id')

@@ -6,7 +6,7 @@ export function WizardProgressStep({
     state,
 }: {
     step: { name: string; href: string }
-    state: 'completed' | 'active' | 'upcoming'
+    state: 'active' | 'selectable' | 'disabled'
 }) {
     const styles = tv({
         slots: {
@@ -15,17 +15,17 @@ export function WizardProgressStep({
         },
         variants: {
             state: {
-                completed: {
-                    border: 'border-primary-600 hover:border-primary-800 dark:border-primary-400 dark:hover:border-primary-200 focus:border-primary-800 dark:focus:border-primary-200',
-                    text: 'text-primary-interactive group-hover:text-primary-800 dark:group-hover:text-primary-200 group-focus:text-primary-800 dark:group-focus:text-primary-200',
+                selectable: {
+                    border: 'border-gray-700 hover:border-gray-800 dark:border-gray-400 dark:hover:border-gray-200 focus:border-gray-800 dark:focus:border-gray-200',
+                    text: 'text-gray-700 dark:text-gray-400 group-hover:text-gray-800 dark:group-hover:text-gray-200 group-focus:text-gray-800 dark:group-focus:text-gray-200',
                 },
                 active: {
-                    border: 'border-primary-600 dark:border-primary-400',
-                    text: 'text-primary-600 dark:text-primary-400',
+                    border: 'border-primary-800 dark:border-primary-400',
+                    text: 'text-primary-800 dark:text-primary-400',
                 },
-                upcoming: {
-                    border: 'border-gray-600 dark:border-gray-400 hover:border-gray-800 dark:hover:border-gray-200 focus:border-gray-800 dark:focus:border-gray-200',
-                    text: 'text-interactive group-hover:text-gray-800 dark:group-hover:text-gray-200 group-focus:text-gray-800 dark:group-focus:text-gray-200',
+                disabled: {
+                    border: 'border-gray-700/50 dark:border-gray-400/50',
+                    text: 'text-gray-700/50 dark:text-gray-400/50',
                 },
             },
         },
@@ -35,7 +35,7 @@ export function WizardProgressStep({
         state,
     })
 
-    return state === 'active' || state === 'upcoming' ? (
+    return state !== 'selectable' ? (
         <p className={border()}>
             <span className={text()}>{step.name}</span>
         </p>

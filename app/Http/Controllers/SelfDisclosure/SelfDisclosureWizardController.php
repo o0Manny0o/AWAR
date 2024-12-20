@@ -38,48 +38,46 @@ class SelfDisclosureWizardController extends Controller
     protected string $baseViewPath = 'SelfDisclosure/Wizard';
     protected string $baseRouteName = 'self-disclosure';
 
-    public function currentStep(): RedirectResponse
-    {
-        // TODO: Implement step finished logic
-        return redirect()->route($this->baseRouteName . '.personal.show');
-    }
-
     /**
-     * Show the personal form step of the self disclosure
-     * @throws AuthorizationException
+     * Show the current step of the self disclosure
      */
-    public function showPersonalStep(): Response
+    public function showCurrentStep(): RedirectResponse
     {
-        $disclosure = $this->getDisclosure();
-
-        $member = UserFamilyMember::where([
-            'is_primary' => true,
-            'self_disclosure_id' => $disclosure->id,
-        ])
-            ->with('familyable')
-            ->first();
-
-        return $this->renderStep(['member' => $member]);
+        $current = SelfDisclosureStep::from(
+            $this->getDisclosure()->furthest_step ??
+                SelfDisclosureStep::PERSONAL->value,
+        );
+        return redirect()->route($current->route());
     }
 
     /** Authorize and get the user's self disclosure
-     * @throws AuthorizationException
      */
     private function getDisclosure(): UserSelfDisclosure
     {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
-
         return UserSelfDisclosure::whereGlobalUserId(
             Auth::user()->global_id,
         )->first();
     }
 
+    /**
+     * Show the personal form step of the self disclosure
+     */
+    public function showPersonalStep(): Response
+    {
+        $disclosure = $this->getDisclosure();
+
+        $member = UserFamilyMember::primary()->first();
+
+        return $this->renderStep(['member' => $member], $disclosure);
+    }
+
     /** Render the self disclosure wizard step */
     private function renderStep(
         $data,
+        UserSelfDisclosure $disclosure,
         SelfDisclosureStep $active = SelfDisclosureStep::PERSONAL,
     ): Response {
-        $this->generateSteps($active);
+        $this->generateStepNavigation($disclosure, $active);
 
         return AppInertia::render($this->baseViewPath . '/Show', [
             'step' => $active->value,
@@ -89,25 +87,29 @@ class SelfDisclosureWizardController extends Controller
     }
 
     /** Generate the step navigation for the self disclosure wizard */
-    private function generateSteps(
-        SelfDisclosureStep $active = SelfDisclosureStep::PERSONAL,
+    private function generateStepNavigation(
+        UserSelfDisclosure $disclosure,
+        SelfDisclosureStep $activeStep = SelfDisclosureStep::PERSONAL,
     ): void {
-        $steps = SelfDisclosureStep::values();
-        $active_index = array_search($active->value, $steps);
+        $steps = SelfDisclosureStep::formSteps();
+        $furthestStep = SelfDisclosureStep::from(
+            $disclosure->furthest_step ?? SelfDisclosureStep::PERSONAL->value,
+        );
+        $active_index = array_search($activeStep, $steps);
+        $furthest_index = array_search($furthestStep, $steps);
         Inertia::share(
             'steps',
             array_map(
-                function ($step, $index) use ($active_index) {
+                function ($step, $index) use ($furthest_index, $active_index) {
                     return [
-                        'id' => $step,
-                        'name' => __('self_disclosure.wizard.steps.' . $step),
-                        'href' => route(
-                            $this->baseRouteName . '.' . $step . '.show',
+                        'id' => $step->value,
+                        'name' => __(
+                            'self_disclosure.wizard.steps.' . $step->value,
                         ),
-                        'upcoming' =>
-                            $index === $active_index
-                                ? null
-                                : $index > $active_index,
+                        'href' => route($step->route()),
+                        'completed' => $index < $furthest_index,
+                        'active' => $index === $active_index,
+                        'next' => $index === $furthest_index,
                     ];
                 },
                 $steps,
@@ -117,20 +119,13 @@ class SelfDisclosureWizardController extends Controller
     }
 
     /** Update the personal information of the user in the self disclosure
-     * @throws AuthorizationException
      */
     public function updatePersonal(
         PersonalUpdateRequest $request,
     ): RedirectResponse {
         $validated = $request->validated();
-        $disclosure = $this->getDisclosure();
 
-        $member = UserFamilyMember::where([
-            'is_primary' => true,
-            'self_disclosure_id' => $disclosure->id,
-        ])
-            ->with('familyable')
-            ->first();
+        $member = UserFamilyMember::primary()->first();
 
         $member->update([
             'name' => $validated['name'],
@@ -146,20 +141,18 @@ class SelfDisclosureWizardController extends Controller
     }
 
     /** Show the family form
-     * @throws AuthorizationException
      */
     public function showFamilyStep(): Response
     {
         $disclosure = $this->getDisclosure();
 
-        $members = UserFamilyMember::where([
-            'self_disclosure_id' => $disclosure->id,
-        ])->get();
+        $members = UserFamilyMember::all();
 
         return $this->renderStep(
             [
                 'members' => $members,
             ],
+            $disclosure,
             SelfDisclosureStep::FAMILY,
         );
     }
@@ -172,7 +165,6 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Show the experience form step
-     * @throws AuthorizationException
      */
     public function showExperiencesStep(): Response
     {
@@ -191,6 +183,7 @@ class SelfDisclosureWizardController extends Controller
                 'has_animals' => $has_animals,
                 'experiences' => $experiences,
             ],
+            $disclosure,
             SelfDisclosureStep::EXPERIENCES,
         );
     }
@@ -207,7 +200,7 @@ class SelfDisclosureWizardController extends Controller
      */
     public function showAddressStep(): Response
     {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
+        $disclosure = $this->getDisclosure();
 
         $address = Address::where([
             'addressable_id' => \Auth::user()->id,
@@ -222,6 +215,7 @@ class SelfDisclosureWizardController extends Controller
 
         return $this->renderStep(
             ['countries' => Country::asOptions(), 'address' => $address],
+            $disclosure,
             SelfDisclosureStep::ADDRESS,
         );
     }
@@ -232,8 +226,6 @@ class SelfDisclosureWizardController extends Controller
      */
     public function updateAddress(AddressRequest $request): RedirectResponse
     {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
-
         $validated = $request->validated();
 
         $address = Address::where([
@@ -263,11 +255,10 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Show the home form step
-     * @throws AuthorizationException
      */
     public function showHomeStep(): Response
     {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
+        $disclosure = $this->getDisclosure();
 
         $home = UserHome::home()->first();
 
@@ -275,13 +266,13 @@ class SelfDisclosureWizardController extends Controller
             [
                 'home' => $home,
             ],
+            $disclosure,
             SelfDisclosureStep::HOME,
         );
     }
 
     /**
      * Update the home of the user in the self disclosure
-     * @throws AuthorizationException
      */
     public function updateHome(UserHomeSaveRequest $request): RedirectResponse
     {
@@ -304,11 +295,10 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Show the garden form step
-     * @throws AuthorizationException
      */
     public function showGardenStep(): Response|RedirectResponse
     {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
+        $disclosure = $this->getDisclosure();
 
         $garden = UserHome::garden()->first();
 
@@ -320,19 +310,17 @@ class SelfDisclosureWizardController extends Controller
             [
                 'garden' => $garden,
             ],
+            $disclosure,
             SelfDisclosureStep::GARDEN,
         );
     }
 
     /**
      * Update the garden of the user in the self disclosure
-     * @throws AuthorizationException
      */
     public function updateGarden(
         UserGardenSaveRequest $request,
     ): RedirectResponse {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
-
         $garden = UserHome::first();
 
         if (!$garden) {
@@ -349,7 +337,6 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Show the eligibility form step
-     * @throws AuthorizationException
      */
     public function showEligibilityStep(): Response
     {
@@ -361,13 +348,13 @@ class SelfDisclosureWizardController extends Controller
             [
                 'eligibility' => $eligibility,
             ],
+            $disclosure,
             SelfDisclosureStep::ELIGIBILITY,
         );
     }
 
     /**
      * Update the eligibility of the user in the self disclosure
-     * @throws AuthorizationException
      */
     public function updateEligibility(
         UserEligibilitySaveRequest $request,
@@ -387,11 +374,10 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Show the animal specific form step
-     * @throws AuthorizationException
      */
     public function showSpecificStep(): Response
     {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
+        $disclosure = $this->getDisclosure();
 
         $dogSpecific = UserAnimalSpecificDisclosure::dog()->first()
             ?->specifiable;
@@ -404,13 +390,13 @@ class SelfDisclosureWizardController extends Controller
                 'dogSpecific' => $dogSpecific,
                 'catSpecific' => $catSpecific,
             ],
+            $disclosure,
             SelfDisclosureStep::SPECIFIC,
         );
     }
 
     /**
      * Update the animal specific disclosures of the user in the self disclosure
-     * @throws AuthorizationException
      */
     public function updateSpecific(
         AnimalSpecificSaveRequest $request,
@@ -489,20 +475,19 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Show the confirmation form step
-     * @throws AuthorizationException
      */
     public function showConfirmationStep(): Response
     {
         $disclosure = $this->getDisclosure();
         return $this->renderStep(
             ['disclosure' => $disclosure],
+            $disclosure,
             SelfDisclosureStep::CONFIRMATION,
         );
     }
 
     /**
      * Update the confirmations of the user in the self disclosure
-     * @throws AuthorizationException
      */
     public function updateConfirmation(
         ConfirmationSaveRequest $request,
@@ -516,27 +501,22 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Show the form for creating a new family member.
-     * @throws AuthorizationException
      */
     public function createFamilyMember(): Response
     {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
-        $this->authorize('create', UserFamilyMember::class);
+        $disclosure = $this->getDisclosure();
 
-        $this->generateSteps(SelfDisclosureStep::FAMILY);
+        $this->generateStepNavigation($disclosure, SelfDisclosureStep::FAMILY);
 
         return AppInertia::render($this->baseViewPath . '/FamilyMembers/Edit');
     }
 
     /**
      * Store a newly created family member in storage.
-     * @throws AuthorizationException
      */
     public function storeFamilyMember(
         FamilyMemberSaveRequest $request,
     ): RedirectResponse {
-        $this->authorize('create', UserFamilyMember::class);
-
         $disclosure = $this->getDisclosure();
 
         $validated = $request->validated();
@@ -563,15 +543,13 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Show the form for editing the family member resource.
-     * @throws AuthorizationException
      */
     public function editFamilyMember(
         UserFamilyMember $userFamilyMember,
     ): Response|RedirectResponse {
-        $this->authorize('update', $userFamilyMember);
-        $this->authorize('useWizard', UserSelfDisclosure::class);
+        $disclosure = $this->getDisclosure();
 
-        $this->generateSteps(SelfDisclosureStep::FAMILY);
+        $this->generateStepNavigation($disclosure, SelfDisclosureStep::FAMILY);
 
         $userFamilyMember->load('selfDisclosure');
 
@@ -590,15 +568,11 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Update the specified family member in storage.
-     * @throws AuthorizationException
      */
     public function updateFamilyMember(
         FamilyMemberSaveRequest $request,
         UserFamilyMember $userFamilyMember,
     ): RedirectResponse {
-        $this->authorize('update', $userFamilyMember);
-        $this->authorize('useWizard', UserSelfDisclosure::class);
-
         $validated = $request->validated();
 
         $userFamilyMember->update([
@@ -640,28 +614,25 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Remove the specified family member from storage.
-     * @throws AuthorizationException
      */
     public function destroyFamilyMember(
         UserFamilyMember $userFamilyMember,
     ): void {
-        $this->authorize('delete', $userFamilyMember);
-        $this->authorize('useWizard', UserSelfDisclosure::class);
-
         $userFamilyMember->familyable()->delete();
         $userFamilyMember->delete();
     }
 
     /**
      * Show the form for creating a new experience.
-     * @throws AuthorizationException
      */
     public function createExperience(): Response
     {
-        $this->authorize('useWizard', UserSelfDisclosure::class);
-        $this->authorize('create', UserExperience::class);
+        $disclosure = $this->getDisclosure();
 
-        $this->generateSteps(SelfDisclosureStep::EXPERIENCES);
+        $this->generateStepNavigation(
+            $disclosure,
+            SelfDisclosureStep::EXPERIENCES,
+        );
 
         return AppInertia::render($this->baseViewPath . '/Experiences/Edit', [
             'today' => date('Y-m-d'),
@@ -670,13 +641,10 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Store a newly created experience in storage.
-     * @throws AuthorizationException
      */
     public function storeExperience(
         UserExperienceSaveRequest $request,
     ): RedirectResponse {
-        $this->authorize('create', UserExperience::class);
-
         $disclosure = $this->getDisclosure();
 
         $validated = $request->validated();
@@ -688,14 +656,15 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Show the form for editing the specified experience.
-     * @throws AuthorizationException
      */
     public function editExperience(UserExperience $userExperience): Response
     {
-        $this->authorize('update', $userExperience);
-        $this->authorize('useWizard', UserSelfDisclosure::class);
+        $disclosure = $this->getDisclosure();
 
-        $this->generateSteps(SelfDisclosureStep::EXPERIENCES);
+        $this->generateStepNavigation(
+            $disclosure,
+            SelfDisclosureStep::EXPERIENCES,
+        );
 
         return AppInertia::render($this->baseViewPath . '/Experiences/Edit', [
             'experience' => $userExperience,
@@ -705,15 +674,11 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Update the specified experience in storage.
-     * @throws AuthorizationException
      */
     public function updateExperience(
         UserExperienceSaveRequest $request,
         UserExperience $userExperience,
     ): RedirectResponse {
-        $this->authorize('update', $userExperience);
-        $this->authorize('useWizard', UserSelfDisclosure::class);
-
         $validated = $request->validated();
 
         $userExperience->update([
@@ -728,14 +693,10 @@ class SelfDisclosureWizardController extends Controller
 
     /**
      * Remove the specified experience from storage.
-     * @throws AuthorizationException
      */
     public function destroyExperience(
         UserExperience $userExperience,
     ): RedirectResponse {
-        $this->authorize('delete', $userExperience);
-        $this->authorize('useWizard', UserSelfDisclosure::class);
-
         $userExperience->delete();
 
         return redirect()->route(SelfDisclosureStep::EXPERIENCES->route());

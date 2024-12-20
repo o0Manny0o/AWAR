@@ -7,7 +7,9 @@ import { FormStack } from '@/Components/Layout/FormStack'
 type WizardStep = {
     name: string
     href: string
-    upcoming?: boolean
+    active?: boolean
+    completed?: boolean
+    next?: boolean
 }
 
 export function WizardLayout({
@@ -19,6 +21,16 @@ export function WizardLayout({
     footer?: { href: string; text?: string; label: string }
 }>) {
     const { steps } = usePage<AppPageProps<{ steps?: WizardStep[] }>>().props
+
+    const stepState = (step: WizardStep) => {
+        if (step.active) {
+            return 'active'
+        }
+        if (step.next || step.completed) {
+            return 'selectable'
+        }
+        return 'disabled'
+    }
 
     return (
         <BaseLayout>
@@ -37,13 +49,7 @@ export function WizardLayout({
                             <li key={step.name} className="md:flex-1 min-w-0">
                                 <WizardProgressStep
                                     step={step}
-                                    state={
-                                        step.upcoming
-                                            ? 'upcoming'
-                                            : step.upcoming === null
-                                              ? 'active'
-                                              : 'completed'
-                                    }
+                                    state={stepState(step)}
                                 />
                             </li>
                         ))}

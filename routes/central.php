@@ -4,6 +4,9 @@ use App\Enum\SelfDisclosure\SelfDisclosureStep;
 use App\Http\AppInertia;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SelfDisclosure\SelfDisclosureWizardController;
+use App\Http\Middleware\SelfDisclosure\PreventAccessToFutureSteps;
+use App\Models\SelfDisclosure\UserExperience;
+use App\Models\SelfDisclosure\UserSelfDisclosure;
 
 Route::get('/', function () {
     return AppInertia::render('Welcome');
@@ -41,79 +44,125 @@ Route::middleware('auth')->group(function () {
         });
 
     // TODO: Only allow when self disclosure is complete
-    Route::prefix('self-disclosure')->group(function () {
-        Route::get('/', [
-            SelfDisclosureWizardController::class,
-            'currentStep',
-        ])->name('self-disclosure');
-
-        Route::name('self-disclosure.')->group(function () {
-            Route::get('/complete', [
+    Route::prefix('self-disclosure')
+        ->middleware(['can:useWizard,' . UserSelfDisclosure::class])
+        ->group(function () {
+            Route::get('/', [
                 SelfDisclosureWizardController::class,
-                'showComplete',
-            ])->name('complete');
+                'showCurrentStep',
+            ])->name('self-disclosure');
 
-            foreach (SelfDisclosureStep::values() as $step) {
-                Route::get('/' . $step, [
+            Route::name('self-disclosure.')->group(function () {
+                Route::get('/complete', [
                     SelfDisclosureWizardController::class,
-                    'show' . ucfirst($step) . 'Step',
-                ])->name($step . '.show');
+                    'showComplete',
+                ])
+                    ->name('complete')
+                    ->middleware(
+                        PreventAccessToFutureSteps::class .
+                            ':' .
+                            SelfDisclosureStep::COMPLETE->value,
+                    );
 
-                Route::patch('/' . $step, [
-                    SelfDisclosureWizardController::class,
-                    'update' . ucfirst($step),
-                ])->name($step . '.update');
-            }
+                foreach (SelfDisclosureStep::formStepValues() as $step) {
+                    Route::get('/' . $step, [
+                        SelfDisclosureWizardController::class,
+                        'show' . ucfirst($step) . 'Step',
+                    ])
+                        ->name($step . '.show')
+                        ->middleware(
+                            PreventAccessToFutureSteps::class . ':' . $step,
+                        );
 
-            Route::prefix('family-members')
-                ->name('family-members.')
-                ->group(function () {
-                    Route::get('/', [
+                    Route::patch('/' . $step, [
                         SelfDisclosureWizardController::class,
-                        'createFamilyMember',
-                    ])->name('create');
-                    Route::post('/', [
-                        SelfDisclosureWizardController::class,
-                        'storeFamilyMember',
-                    ])->name('store');
-                    Route::get('/{userFamilyMember}', [
-                        SelfDisclosureWizardController::class,
-                        'editFamilyMember',
-                    ])->name('edit');
-                    Route::patch('/{userFamilyMember}', [
-                        SelfDisclosureWizardController::class,
-                        'updateFamilyMember',
-                    ])->name('update');
-                    Route::delete('/{userFamilyMember}', [
-                        SelfDisclosureWizardController::class,
-                        'destroyFamilyMember',
-                    ])->name('destroy');
-                });
+                        'update' . ucfirst($step),
+                    ])
+                        ->name($step . '.update')
+                        ->middleware(
+                            PreventAccessToFutureSteps::class . ':' . $step,
+                        );
+                }
 
-            Route::prefix('experience')
-                ->name('experience.')
-                ->group(function () {
-                    Route::get('/', [
-                        SelfDisclosureWizardController::class,
-                        'createExperience',
-                    ])->name('create');
-                    Route::post('/', [
-                        SelfDisclosureWizardController::class,
-                        'storeExperience',
-                    ])->name('store');
-                    Route::get('/{userExperience}', [
-                        SelfDisclosureWizardController::class,
-                        'editExperience',
-                    ])->name('edit');
-                    Route::patch('/{userExperience}', [
-                        SelfDisclosureWizardController::class,
-                        'updateExperience',
-                    ])->name('update');
-                    Route::delete('/{userExperience}', [
-                        SelfDisclosureWizardController::class,
-                        'destroyExperience',
-                    ])->name('destroy');
-                });
+                Route::prefix('family-members')
+                    ->name('family-members.')
+                    ->middleware(
+                        PreventAccessToFutureSteps::class .
+                            ':' .
+                            SelfDisclosureStep::FAMILY->value,
+                    )
+                    ->group(function () {
+                        Route::get('/', [
+                            SelfDisclosureWizardController::class,
+                            'createFamilyMember',
+                        ])
+                            ->can('create', 'userFamilyMember')
+                            ->name('create');
+                        Route::post('/', [
+                            SelfDisclosureWizardController::class,
+                            'storeFamilyMember',
+                        ])
+                            ->can('create', 'userFamilyMember')
+                            ->name('store');
+                        Route::get('/{userFamilyMember}', [
+                            SelfDisclosureWizardController::class,
+                            'editFamilyMember',
+                        ])
+                            ->can('update', 'userFamilyMember')
+                            ->name('edit');
+                        Route::patch('/{userFamilyMember}', [
+                            SelfDisclosureWizardController::class,
+                            'updateFamilyMember',
+                        ])
+                            ->can('update', 'userFamilyMember')
+                            ->name('update');
+                        Route::delete('/{userFamilyMember}', [
+                            SelfDisclosureWizardController::class,
+                            'destroyFamilyMember',
+                        ])
+                            ->can('delete', 'userFamilyMember')
+                            ->name('destroy');
+                    });
+
+                Route::prefix('experience')
+                    ->name('experience.')
+                    ->middleware(
+                        PreventAccessToFutureSteps::class .
+                            ':' .
+                            SelfDisclosureStep::EXPERIENCES->value,
+                    )
+                    ->group(function () {
+                        Route::get('/', [
+                            SelfDisclosureWizardController::class,
+                            'createExperience',
+                        ])
+                            ->can('create', UserExperience::class)
+                            ->name('create');
+                        Route::post('/', [
+                            SelfDisclosureWizardController::class,
+                            'storeExperience',
+                        ])
+                            ->can('create', UserExperience::class)
+                            ->name('store');
+                        Route::get('/{userExperience}', [
+                            SelfDisclosureWizardController::class,
+                            'editExperience',
+                        ])
+                            ->can('update', 'userExperience')
+                            ->name('edit');
+                        Route::patch('/{userExperience}', [
+                            SelfDisclosureWizardController::class,
+                            'updateExperience',
+                        ])
+                            ->can('update', 'userExperience')
+                            ->name('update');
+                        Route::delete('/{userExperience}', [
+                            SelfDisclosureWizardController::class,
+                            'destroyExperience',
+                        ])
+                            ->can('delete', 'userExperience')
+                            ->name('destroy');
+                    });
+            });
         });
-    });
 });

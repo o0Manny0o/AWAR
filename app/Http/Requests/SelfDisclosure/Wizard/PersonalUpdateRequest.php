@@ -20,7 +20,7 @@ class PersonalUpdateRequest extends FormRequest
                 'integer',
                 'min:1900',
                 'digits:4',
-                'max:' . (date('Y') + 1),
+                'max:' . date('Y'),
             ],
             'profession' => ['nullable', 'string', 'max:255'],
             'knows_animals' => ['required', 'boolean'],

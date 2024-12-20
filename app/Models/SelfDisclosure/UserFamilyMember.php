@@ -4,6 +4,7 @@ namespace App\Models\SelfDisclosure;
 
 use App\Models\Scopes\SelfDisclosureScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereIsPrimary($value)
  * @property int|null $year
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserFamilyMember whereYear($value)
+ * @method static Builder<static>|UserFamilyMember primary()
  * @mixin \Eloquent
  */
 #[ScopedBy([SelfDisclosureScope::class])]
@@ -66,5 +68,11 @@ class UserFamilyMember extends Model
     public function familyable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /** Scope a query to only include primary family members */
+    public function scopePrimary(Builder $query): void
+    {
+        $query->where('is_primary', true)->with('familyable');
     }
 }

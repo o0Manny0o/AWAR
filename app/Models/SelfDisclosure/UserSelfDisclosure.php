@@ -43,6 +43,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property-read \App\Models\SelfDisclosure\UserHome|null $userHome
  * @property-read \App\Models\SelfDisclosure\UserSpecialNeeds|null $userSpecialNeeds
  * @property-read \App\Models\SelfDisclosure\UserCareEligibility|null $userCareEligibility
+ * @property string|null $current_step
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSelfDisclosure whereCurrentStep($value)
+ * @property string|null $furthest_step
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSelfDisclosure whereFurthestStep($value)
  * @mixin \Eloquent
  */
 class UserSelfDisclosure extends Model

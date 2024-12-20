@@ -2,18 +2,23 @@
 
 namespace App\Policies;
 
+use App\Models\SelfDisclosure\UserSelfDisclosure;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class UserSelfDisclosurePolicy extends BasePolicy
 {
-    function isOwner(User $user, $entity): bool
+    function isOwner(User $user, UserSelfDisclosure|Model $entity): bool
     {
         return $entity->global_user_id === $user->global_id;
     }
 
-    function useWizard(User $user): true
+    function useWizard(User $user): bool
     {
-        // TODO: Only allow wizard if not completely filled out yet
-        return true;
+        $disclosure = UserSelfDisclosure::where(
+            'global_user_id',
+            $user->global_id,
+        )->first();
+        return $disclosure->furthest_step !== null;
     }
 }

@@ -17,6 +17,7 @@ enum SelfDisclosureStep: string
     case ELIGIBILITY = 'eligibility';
     case SPECIFIC = 'specific';
     case CONFIRMATION = 'confirmation';
+    case COMPLETE = 'complete';
 
     function previous(): ?SelfDisclosureStep
     {
@@ -44,6 +45,7 @@ enum SelfDisclosureStep: string
             self::EXPERIENCES => self::ELIGIBILITY,
             self::ELIGIBILITY => self::SPECIFIC,
             self::SPECIFIC => self::CONFIRMATION,
+            self::CONFIRMATION => self::COMPLETE,
             default => null,
         };
     }
@@ -60,6 +62,53 @@ enum SelfDisclosureStep: string
             self::ELIGIBILITY => 'self-disclosure.eligibility.show',
             self::SPECIFIC => 'self-disclosure.specific.show',
             self::CONFIRMATION => 'self-disclosure.confirmation.show',
+            self::COMPLETE => 'self-disclosure.complete',
         };
+    }
+
+    function index(): int
+    {
+        return match ($this) {
+            self::PERSONAL => 0,
+            self::FAMILY => 1,
+            self::ADDRESS => 2,
+            self::HOME => 3,
+            self::GARDEN => 4,
+            self::EXPERIENCES => 5,
+            self::ELIGIBILITY => 6,
+            self::SPECIFIC => 7,
+            self::CONFIRMATION => 8,
+            self::COMPLETE => 9,
+        };
+    }
+
+    static function formSteps(): array
+    {
+        return [
+            self::PERSONAL,
+            self::FAMILY,
+            self::ADDRESS,
+            self::HOME,
+            self::GARDEN,
+            self::EXPERIENCES,
+            self::ELIGIBILITY,
+            self::SPECIFIC,
+            self::CONFIRMATION,
+        ];
+    }
+
+    static function formStepValues(): array
+    {
+        return [
+            self::PERSONAL->value,
+            self::FAMILY->value,
+            self::ADDRESS->value,
+            self::HOME->value,
+            self::GARDEN->value,
+            self::EXPERIENCES->value,
+            self::ELIGIBILITY->value,
+            self::SPECIFIC->value,
+            self::CONFIRMATION->value,
+        ];
     }
 }
