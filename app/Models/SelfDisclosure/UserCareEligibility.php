@@ -2,6 +2,8 @@
 
 namespace App\Models\SelfDisclosure;
 
+use App\Models\Scopes\SelfDisclosureScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -32,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserCareEligibility whereTimeAloneDaily($value)
  * @mixin \Eloquent
  */
+#[ScopedBy(SelfDisclosureScope::class)]
 class UserCareEligibility extends Model
 {
     public $timestamps = false;

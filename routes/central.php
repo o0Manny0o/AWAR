@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/', [
                 SelfDisclosureWizardController::class,
-                'showCurrentStep',
+                'redirectToCurrentStep',
             ])->name('self-disclosure');
 
             Route::name('self-disclosure.')->group(function () {
