@@ -3,6 +3,7 @@
 namespace App\Models\SelfDisclosure;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -47,6 +48,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSelfDisclosure whereCurrentStep($value)
  * @property string|null $furthest_step
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSelfDisclosure whereFurthestStep($value)
+ * @method static Builder<static>|UserSelfDisclosure ofUser(\App\Models\User $user)
  * @mixin \Eloquent
  */
 class UserSelfDisclosure extends Model
@@ -125,5 +127,10 @@ class UserSelfDisclosure extends Model
     public function userCareEligibility(): HasOne
     {
         return $this->hasOne(UserCareEligibility::class, 'self_disclosure_id');
+    }
+
+    public function scopeOfUser(Builder $query, User $user)
+    {
+        $query->where('global_user_id', $user->global_id);
     }
 }

@@ -15,10 +15,7 @@ class UserSelfDisclosurePolicy extends BasePolicy
 
     function useWizard(User $user): bool
     {
-        $disclosure = UserSelfDisclosure::where(
-            'global_user_id',
-            $user->global_id,
-        )->first();
+        $disclosure = UserSelfDisclosure::ofUser($user)->first();
         return $disclosure->furthest_step !== null;
     }
 }

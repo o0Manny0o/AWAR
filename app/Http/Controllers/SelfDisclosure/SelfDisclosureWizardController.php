@@ -54,9 +54,7 @@ class SelfDisclosureWizardController extends Controller
      */
     private function getDisclosure(): UserSelfDisclosure
     {
-        return UserSelfDisclosure::whereGlobalUserId(
-            Auth::user()->global_id,
-        )->first();
+        return UserSelfDisclosure::ofUser(Auth::user())->first();
     }
 
     /**
@@ -553,11 +551,7 @@ class SelfDisclosureWizardController extends Controller
 
         $userFamilyMember->load('selfDisclosure');
 
-        if (
-            $userFamilyMember->is_primary ||
-            $userFamilyMember->selfDisclosure->global_user_id !==
-                Auth::user()->global_id
-        ) {
+        if ($userFamilyMember->is_primary) {
             return redirect()->route(SelfDisclosureStep::FAMILY->route());
         }
 
