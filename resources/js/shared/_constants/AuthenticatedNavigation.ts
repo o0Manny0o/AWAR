@@ -1,9 +1,32 @@
 import { NavigationItem } from '@/types/navigation'
-import { HomeIcon } from '@heroicons/react/24/outline'
+import { DocumentIcon, HomeIcon } from '@heroicons/react/24/outline'
 import { CatIcon } from '@/shared/icons/CatIcon'
 import { DogIcon } from '@/shared/icons/DogIcon'
 
-export const CentralNavigation: NavigationItem[] = [
+export class NextStep {
+    static readonly FINISH_DISCLOSURE: NextStep = new NextStep(
+        'FINISH_DISCLOSURE',
+        {
+            name: 'self-disclosure',
+            label: 'general.navigation.self_disclosure.finish',
+            icon: DocumentIcon,
+        },
+    )
+
+    private constructor(
+        private readonly key: string,
+        public readonly value: NavigationItem,
+    ) {}
+
+    toString() {
+        return this.key
+    }
+}
+
+export const CentralNavigation: (
+    nextSteps?: NavigationItem[],
+) => NavigationItem[] = (nextSteps) => [
+    ...(nextSteps ?? []),
     {
         name: 'dashboard',
         label: 'general.navigation.dashboard',

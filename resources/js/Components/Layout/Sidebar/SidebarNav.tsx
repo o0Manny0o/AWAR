@@ -11,17 +11,19 @@ import { usePage } from '@inertiajs/react'
 import { HomeIcon } from '@heroicons/react/24/outline'
 import { RouteName } from 'ziggy-js'
 
+export interface SidebarNavProps {
+    colored?: boolean
+    navigation: NavigationItem[]
+    showOrganisation?: boolean
+    isSettings?: boolean
+}
+
 export function SidebarNav({
     colored,
     navigation,
     showOrganisation = true,
     isSettings = false,
-}: {
-    colored?: boolean
-    navigation: NavigationItem[]
-    showOrganisation?: boolean
-    isSettings?: boolean
-}) {
+}: SidebarNavProps) {
     const __ = useTranslate()
     const { tenant } = usePage().props
 
@@ -34,7 +36,9 @@ export function SidebarNav({
         const activeRouteParts = route().current()?.split('.').slice(0, -1)
         const routeNameParts = routeName.split('.').slice(0, -1)
 
-        if (!activeRouteParts) return false
+        if (!activeRouteParts?.length) {
+            return route().current(routeName)
+        }
 
         return activeRouteParts?.every(
             (part, index) => part === routeNameParts[index],

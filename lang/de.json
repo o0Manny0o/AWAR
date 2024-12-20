@@ -29,7 +29,10 @@
                 "cats": "Ihre Katzen"
             },
             "browse": "Suchen",
-            "pricing": "Preis"
+            "pricing": "Preis",
+            "self_disclosure": {
+                "finish": "Selbstauskunft vervollständigen"
+            }
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",

@@ -21,6 +21,7 @@ use App\Models\SelfDisclosure\UserSelfDisclosure;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -39,6 +40,12 @@ class SelfDisclosureWizardController extends Controller
     ];
     protected string $baseViewPath = 'SelfDisclosure/Wizard';
     protected string $baseRouteName = 'self-disclosure';
+
+    public function currentStep(): RedirectResponse
+    {
+        // TODO: Implement step finished logic
+        return redirect()->route($this->baseRouteName . '.personal.show');
+    }
 
     /**
      * @throws AuthorizationException

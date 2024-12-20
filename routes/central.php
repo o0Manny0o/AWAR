@@ -18,7 +18,7 @@ Route::get('/pricing', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return AppInertia::render('Dashboard');
+        return AppInertia::render('Public/Dashboard');
     })->name('dashboard');
 
     Route::prefix('settings')
@@ -39,9 +39,13 @@ Route::middleware('auth')->group(function () {
             return redirect('settings/profile');
         });
 
-    Route::prefix('self-disclosure')
-        ->name('self-disclosure.')
-        ->group(function () {
+    Route::prefix('self-disclosure')->group(function () {
+        Route::get('/', [
+            SelfDisclosureWizardController::class,
+            'currentStep',
+        ])->name('self-disclosure');
+
+        Route::name('self-disclosure.')->group(function () {
             foreach (SelfDisclosureWizardController::$steps as $step) {
                 Route::get('/' . $step, [
                     SelfDisclosureWizardController::class,
@@ -103,7 +107,6 @@ Route::middleware('auth')->group(function () {
                         'destroyExperience',
                     ])->name('destroy');
                 });
-
-            Route::redirect('/', '/self-disclosure/personal');
         });
+    });
 });

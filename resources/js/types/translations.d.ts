@@ -193,6 +193,9 @@ type Translations = {
             }
             browse: string
             pricing: string
+            self_disclosure: {
+                finish: string
+            }
         }
         newsletter: {
             description: string
