@@ -59,7 +59,7 @@ export function WizardLayout({
                 <FormStack
                     header={header}
                     footer={footer}
-                    className="py-8 flex-grow h-auto min-h-96"
+                    className="p-8 flex-grow h-auto min-h-96"
                 >
                     {children}
                 </FormStack>

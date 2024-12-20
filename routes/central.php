@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\SelfDisclosure\SelfDisclosureStep;
 use App\Http\AppInertia;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SelfDisclosure\SelfDisclosureWizardController;
@@ -52,7 +53,7 @@ Route::middleware('auth')->group(function () {
                 'showComplete',
             ])->name('complete');
 
-            foreach (SelfDisclosureWizardController::$steps as $step) {
+            foreach (SelfDisclosureStep::values() as $step) {
                 Route::get('/' . $step, [
                     SelfDisclosureWizardController::class,
                     'show' . ucfirst($step) . 'Step',

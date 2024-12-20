@@ -181,7 +181,7 @@ export function AnimalSpecificForm(props: PersonalFormProps) {
                 )}
             </div>
 
-            <div className="space-y-6 pt-6">
+            <div className="space-y-6 py-6">
                 <SwitchInput
                     name="cats"
                     checked={data.cats}
