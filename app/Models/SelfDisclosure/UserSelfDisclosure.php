@@ -47,6 +47,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class UserSelfDisclosure extends Model
 {
+    protected $fillable = [
+        'not_banned',
+        'accepted_inaccuracy',
+        'has_proof_of_identity',
+        'everyone_agrees',
+        'notes',
+    ];
+
     /**
      * The user the self disclosure belongs to
      *

@@ -628,8 +628,8 @@
                 "experiences": "Erfahrung",
                 "garden": "Garten",
                 "eligibility": "Eignung",
-                "complete": "Abschluss",
-                "specific": "Tiere"
+                "specific": "Tiere",
+                "confirmation": "Bestätigungen"
             },
             "headers": {
                 "personal": "Über Sie",
@@ -639,7 +639,6 @@
                 "experiences": "Ihre Erfahrungen mit Tieren",
                 "garden": "Ihr Garten",
                 "eligibility": "Eignung",
-                "complete": "Abschluss",
                 "specific": "Tier Spezifisch",
                 "family_member": {
                     "create": "Neues Familienmitglied hinzufügen",
@@ -648,7 +647,9 @@
                 "experience": {
                     "create": "Neue Erfahrung ",
                     "edit": "Erfahrung berarbeiten"
-                }
+                },
+                "confirmation": "Bestätigungen",
+                "complete": "Selbstauskunft Abgeschlossen"
             },
             "forms": {
                 "family_member": {
@@ -816,7 +817,29 @@
                             "label": "Ist Ihr Zuhause sicher für eine Katze?"
                         }
                     }
+                },
+                "confirmation": {
+                    "everyone_agrees": {
+                        "label": "Hiermit bestätige ich, dass alle Personen in meinem Haushalt mit der Adoption eines Tieres einverstanden sind."
+                    },
+                    "not_banned": {
+                        "label": "Hiermit bestätige ich, dass gegen mich kein Tierhaltungsverbot besteht."
+                    },
+                    "accepted_inaccuracy": {
+                        "label": "Ich nehme hiermit zur Kenntnis, dass die auf dieser Website bereitgestellten Informationen über Tiere möglicherweise nicht ganz zutreffend sind. Aussagen können ausschließlich auf Schätzungen und Eindrücken beruhen."
+                    },
+                    "has_proof_of_identity": {
+                        "label": "Ich bestätige hiermit, dass ich im Besitz eines gültigen, in meinem Wohnsitzland anerkannten Identitätsnachweises bin."
+                    },
+                    "notes": {
+                        "label": "Weitere Anmerkungen"
+                    }
                 }
+            },
+            "complete": {
+                "thank_you": "Vielen Dank, dass Sie sich die Zeit genommen haben, das Selbstauskunftsformular auszufüllen. Mit diesem Schritt abgeschlossen, können Sie nun Ihr Interesse an zur Adoption freigegebenen Tieren bekunden.  ",
+                "changes": "Bitte beachten Sie, dass die von Ihnen bereitgestellten Informationen jederzeit aktualisiert werden können. Wenn sich Ihre Umstände oder Angaben ändern, können Sie Ihre Antworten ganz einfach in den Einstellungen ändern. Dadurch wird sichergestellt, dass Ihr Profil korrekt und aktuell bleibt, sodass wir Ihnen die bestmögliche Unterstützung und Empfehlungen bieten können. Wir freuen uns, Sie auf dieser Reise zu begleiten und schätzen Ihr Engagement, einem Tier ein liebevolles Zuhause zu geben!",
+                "return_home": "Zum Dashboard"
             }
         },
         "family_members": {
@@ -825,6 +848,9 @@
             "other": "Andere",
             "child": "Kind",
             "adult": "Erwachsener"
+        },
+        "button": {
+            "complete": "Selbstauskunft Abschließen"
         }
     }
 }

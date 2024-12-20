@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SelfDisclosure;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Address\AddressRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\ConfirmationSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\AnimalSpecificSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
@@ -41,7 +42,7 @@ class SelfDisclosureWizardController extends Controller
         'experiences',
         'eligibility',
         'specific',
-        'complete',
+        'confirmation',
     ];
     protected string $baseViewPath = 'SelfDisclosure/Wizard';
     protected string $baseRouteName = 'self-disclosure';
@@ -439,18 +440,22 @@ class SelfDisclosureWizardController extends Controller
             }
         }
 
-        return $this->redirect($request, 'self-disclosure.complete.show');
+        return $this->redirect($request, 'self-disclosure.confirmation.show');
     }
 
-    public function showCompleteStep()
+    public function showConfirmationStep()
     {
         $disclosure = $this->getDisclosure();
-        return $this->renderStep([], 'complete');
+        return $this->renderStep(['disclosure' => $disclosure], 'confirmation');
     }
 
-    public function acceptComplete()
+    public function updateConfirmation(ConfirmationSaveRequest $request)
     {
         $disclosure = $this->getDisclosure();
+
+        $disclosure->update($request->validated());
+
+        return $this->redirect($request, 'self-disclosure.complete');
     }
 
     /**
@@ -661,5 +666,10 @@ class SelfDisclosureWizardController extends Controller
         $this->authorize('useWizard', UserSelfDisclosure::class);
 
         $userExperience->delete();
+    }
+
+    public function showComplete()
+    {
+        return AppInertia::render($this->baseViewPath . '/Complete');
     }
 }

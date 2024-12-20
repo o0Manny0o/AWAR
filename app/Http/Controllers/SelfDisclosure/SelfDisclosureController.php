@@ -15,14 +15,14 @@ class SelfDisclosureController extends Controller
         // TODO: Settings View for editing general self disclosure information
     }
 
-    public function showAcknowledgements()
+    public function showConfirmations()
     {
-        // TODO: Route handler for updating self disclosure acknowledgements
+        // TODO: Route handler for updating self disclosure confirmations
     }
 
-    public function acceptAcknowledgements()
+    public function acceptConfirmations()
     {
-        // TODO: Route handler for updating self disclosure acknowledgements
+        // TODO: Route handler for updating self disclosure confirmations
     }
 
     public function editFamily()

@@ -796,8 +796,8 @@ type Translations = {
                 experiences: string
                 garden: string
                 eligibility: string
-                complete: string
                 specific: string
+                confirmation: string
             }
             headers: {
                 personal: string
@@ -807,7 +807,6 @@ type Translations = {
                 experiences: string
                 garden: string
                 eligibility: string
-                complete: string
                 specific: string
                 family_member: {
                     create: string
@@ -817,6 +816,8 @@ type Translations = {
                     create: string
                     edit: string
                 }
+                confirmation: string
+                complete: string
             }
             forms: {
                 family_member: {
@@ -985,6 +986,28 @@ type Translations = {
                         }
                     }
                 }
+                confirmation: {
+                    everyone_agrees: {
+                        label: string
+                    }
+                    not_banned: {
+                        label: string
+                    }
+                    accepted_inaccuracy: {
+                        label: string
+                    }
+                    has_proof_of_identity: {
+                        label: string
+                    }
+                    notes: {
+                        label: string
+                    }
+                }
+            }
+            complete: {
+                thank_you: string
+                changes: string
+                return_home: string
             }
         }
         family_members: {
@@ -993,6 +1016,9 @@ type Translations = {
             other: string
             child: string
             adult: string
+        }
+        button: {
+            complete: string
         }
     }
 }

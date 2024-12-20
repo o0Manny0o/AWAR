@@ -2,7 +2,7 @@ import { WizardLayout } from '@/Pages/SelfDisclosure/Wizard/Layouts/WizardLayout
 import {
     AddressForm,
     AnimalSpecificForm,
-    CompleteForm,
+    ConfirmationForm,
     EligibilityForm,
     ExperienceList,
     FamilyList,
@@ -24,7 +24,7 @@ type StepName =
     | 'garden'
     | 'eligibility'
     | 'specific'
-    | 'complete'
+    | 'confirmation'
 
 export default function Show({
     step,
@@ -48,8 +48,8 @@ export default function Show({
                 return <EligibilityForm data={data} />
             case 'specific':
                 return <AnimalSpecificForm data={data} />
-            case 'complete':
-                return <CompleteForm data={data} />
+            case 'confirmation':
+                return <ConfirmationForm data={data} />
             case 'personal':
                 return <PersonalForm data={data} />
         }

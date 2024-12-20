@@ -796,8 +796,8 @@
                 "experiences": "Experience",
                 "garden": "Garden",
                 "eligibility": "Eligibility",
-                "complete": "Complete",
-                "specific": "Animals"
+                "specific": "Animals",
+                "confirmation": "Confirmations"
             },
             "headers": {
                 "personal": "About You",
@@ -807,7 +807,6 @@
                 "experiences": "Your Experience with Animals",
                 "garden": "Your Garden",
                 "eligibility": "Your Eligibility",
-                "complete": "Complete",
                 "specific": "Animal Specific",
                 "family_member": {
                     "create": "Add a new Family Member",
@@ -816,7 +815,9 @@
                 "experience": {
                     "create": "New Experience",
                     "edit": "Edit Experience"
-                }
+                },
+                "confirmation": "Confirmations",
+                "complete": "Self Disclosure Completed"
             },
             "forms": {
                 "family_member": {
@@ -984,7 +985,29 @@
                             "label": "Is your home secure for a cat?"
                         }
                     }
+                },
+                "confirmation": {
+                    "everyone_agrees": {
+                        "label": "I hereby confirm that everyone in my household has agreed to adopt an animal."
+                    },
+                    "not_banned": {
+                        "label": "I hereby confirm that I am not banned from keeping animals."
+                    },
+                    "accepted_inaccuracy": {
+                        "label": "I hereby acknowledge that the information provided about animals on this website may not be entirely accurate. Statements may be based solely on estimates and impressions."
+                    },
+                    "has_proof_of_identity": {
+                        "label": "I hereby confirm that I possess valid proof of identity recognized in my country of residence."
+                    },
+                    "notes": {
+                        "label": "Further notes"
+                    }
                 }
+            },
+            "complete": {
+                "thank_you": "Thank you for taking the time to complete the self-disclosure form. With this step completed, you’re now ready to express your interest in animals available for adoption. ",
+                "changes": "Please note that the information you’ve provided can be updated at any time. If your circumstances or details change, you can easily modify your responses in the settings. This ensures that your profile remains accurate and up to date, helping us offer you the best possible support and recommendations. We’re excited to accompany you on this journey and appreciate your commitment to giving an animal a loving home!",
+                "return_home": "Go to Dashboard"
             }
         },
         "family_members": {
@@ -993,6 +1016,9 @@
             "other": "Other",
             "child": "Child",
             "adult": "Adult"
+        },
+        "button": {
+            "complete": "Complete Self-Disclosure"
         }
     }
 }

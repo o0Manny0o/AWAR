@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
             return redirect('settings/profile');
         });
 
+    // TODO: Only allow when self disclosure is complete
     Route::prefix('self-disclosure')->group(function () {
         Route::get('/', [
             SelfDisclosureWizardController::class,
@@ -46,6 +47,11 @@ Route::middleware('auth')->group(function () {
         ])->name('self-disclosure');
 
         Route::name('self-disclosure.')->group(function () {
+            Route::get('/complete', [
+                SelfDisclosureWizardController::class,
+                'showComplete',
+            ])->name('complete');
+
             foreach (SelfDisclosureWizardController::$steps as $step) {
                 Route::get('/' . $step, [
                     SelfDisclosureWizardController::class,

@@ -47,3 +47,11 @@ export interface CatSpecificData {
     streets_safe?: boolean
     cat_flap_available?: boolean
 }
+
+export interface AcknowledgementFormData {
+    not_banned: boolean
+    accepted_inaccuracy: boolean
+    has_proof_of_identity: boolean
+    everyone_agrees: boolean
+    notes: string
+}
