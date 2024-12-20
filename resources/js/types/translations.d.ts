@@ -1009,6 +1009,8 @@ type Translations = {
                 changes: string
                 return_home: string
             }
+            cancel_message: string
+            close_message: string
         }
         family_members: {
             dog: string

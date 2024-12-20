@@ -2,8 +2,8 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { Button } from '@/Components/_Base/Button'
 import { InputGroup, SwitchInput } from '@/Components/_Base/Input'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 interface PersonalFormProps {
     data?: {
@@ -97,9 +97,7 @@ export function GardenForm(props: PersonalFormProps) {
                 </>
             )}
 
-            <Button className="w-full" disabled={processing}>
-                {__('general.button.continue')}
-            </Button>
+            <SubmitButton processing={processing} />
         </form>
     )
 }

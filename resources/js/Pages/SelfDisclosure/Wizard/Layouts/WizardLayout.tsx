@@ -55,11 +55,11 @@ export function WizardLayout({
                     md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-full md:max-w-xl flex
                     flex-col"
             >
-                <div className="max-h-64 flex-1"></div>
+                <div className="max-h-56 flex-1"></div>
                 <FormStack
                     header={header}
                     footer={footer}
-                    className="pt-8 flex-grow h-auto min-h-96"
+                    className="py-8 flex-grow h-auto min-h-96"
                 >
                     {children}
                 </FormStack>

@@ -2,7 +2,6 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { Button } from '@/Components/_Base/Button'
 import SwitchInput from '@/Components/_Base/Input/SwitchInput'
 import AutocompleteGroup from '@/Components/_Base/Input/AutocompleteGroup'
 import {
@@ -11,6 +10,7 @@ import {
     DogSpecificData,
 } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.types'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 interface PersonalFormProps {
     data?: {
@@ -291,9 +291,7 @@ export function AnimalSpecificForm(props: PersonalFormProps) {
                 )}
             </div>
 
-            <Button className="w-full mt-6" disabled={processing}>
-                {__('general.button.continue')}
-            </Button>
+            <SubmitButton processing={processing} />
         </form>
     )
 }

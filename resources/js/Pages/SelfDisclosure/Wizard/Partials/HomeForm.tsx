@@ -2,9 +2,10 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { Button } from '@/Components/_Base/Button'
 import AutocompleteGroup from '@/Components/_Base/Input/AutocompleteGroup'
 import { InputGroup, SwitchInput } from '@/Components/_Base/Input'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
+import { Option } from '@/Components/_Base/Input/AutocompleteInput'
 
 interface PersonalFormProps {
     data?: {
@@ -75,8 +76,11 @@ export function HomeForm(props: PersonalFormProps) {
                 label={__('self_disclosure.wizard.forms.home.type.label')}
                 optionsClassName="[--anchor-max-height:15rem]"
                 value={data.type}
-                onChange={(v: HomeTypeOption | null) =>
-                    setData('type', v?.id ?? 'apartment')
+                onChange={(v: Option | null) =>
+                    setData(
+                        'type',
+                        (v?.id as HomeTypeOption['id']) ?? 'apartment',
+                    )
                 }
                 error={errors.type}
                 options={[
@@ -166,8 +170,11 @@ export function HomeForm(props: PersonalFormProps) {
                 label={__('self_disclosure.wizard.forms.home.location.label')}
                 optionsClassName="[--anchor-max-height:15rem]"
                 value={data.location}
-                onChange={(v: HomeLocationOption | null) =>
-                    setData('location', v?.id ?? 'city')
+                onChange={(v: Option | null) =>
+                    setData(
+                        'location',
+                        (v?.id as HomeLocationOption['id']) ?? 'city',
+                    )
                 }
                 options={[
                     {
@@ -191,9 +198,7 @@ export function HomeForm(props: PersonalFormProps) {
                 ]}
             />
 
-            <Button className="w-full" disabled={processing}>
-                {__('general.button.continue')}
-            </Button>
+            <SubmitButton processing={processing} />
         </form>
     )
 }

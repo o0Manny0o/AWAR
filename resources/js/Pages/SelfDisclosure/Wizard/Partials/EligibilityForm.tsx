@@ -2,10 +2,10 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { Button } from '@/Components/_Base/Button'
 import { EligibilityFormData } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.types'
 import { SwitchInput } from '@/Components/_Base/Input'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 interface PersonalFormProps {
     data?: {
@@ -124,9 +124,7 @@ export function EligibilityForm(props: PersonalFormProps) {
                 onChange={(v) => setData('time_alone_daily', +v)}
             />
 
-            <Button className="w-full" disabled={processing}>
-                {__('general.button.continue')}
-            </Button>
+            <SubmitButton processing={processing} />
         </form>
     )
 }

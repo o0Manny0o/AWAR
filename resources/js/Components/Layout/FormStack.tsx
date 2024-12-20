@@ -26,7 +26,7 @@ export function FormStack({
             <h1 className="text-xl font-semibold">{header}</h1>
             {children}
             {footer && (
-                <div className="mt-8 flex w-full flex-col items-center">
+                <div className="flex w-full flex-col items-center">
                     <div
                         aria-hidden="true"
                         className="w-full max-w-48 border-t border-gray-300"

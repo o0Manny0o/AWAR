@@ -840,7 +840,8 @@
                 "thank_you": "Vielen Dank, dass Sie sich die Zeit genommen haben, das Selbstauskunftsformular auszufüllen. Mit diesem Schritt abgeschlossen, können Sie nun Ihr Interesse an zur Adoption freigegebenen Tieren bekunden.  ",
                 "changes": "Bitte beachten Sie, dass die von Ihnen bereitgestellten Informationen jederzeit aktualisiert werden können. Wenn sich Ihre Umstände oder Angaben ändern, können Sie Ihre Antworten ganz einfach in den Einstellungen ändern. Dadurch wird sichergestellt, dass Ihr Profil korrekt und aktuell bleibt, sodass wir Ihnen die bestmögliche Unterstützung und Empfehlungen bieten können. Wir freuen uns, Sie auf dieser Reise zu begleiten und schätzen Ihr Engagement, einem Tier ein liebevolles Zuhause zu geben!",
                 "return_home": "Zum Dashboard"
-            }
+            },
+            "close_message": "Brauchen Sie eine Pause? Keine Sorge, Ihr Fortschritt ist sicher für später gespeichert."
         },
         "family_members": {
             "dog": "Hund",

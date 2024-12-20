@@ -3,6 +3,7 @@ import { Button } from '@/Components/_Base/Button'
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Link } from '@inertiajs/react'
 import { PencilIcon } from '@heroicons/react/24/solid'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 import UserFamilyMember = App.Models.UserFamilyMember
 import UserFamilyAnimal = App.Models.UserFamilyAnimal
 
@@ -16,7 +17,7 @@ export function FamilyList(props: FamilyFormProps) {
     const __ = useTranslate()
 
     return (
-        <div className="w-full gap-8 flex flex-col mb-8">
+        <div className="w-full gap-8 flex flex-col">
             <div className="space-y-4 flex flex-col h-full flex-1 min-h-0">
                 <ol className="space-y-4 flex-1 pt-2 overflow-y-auto">
                     <li key="primary">
@@ -111,12 +112,10 @@ export function FamilyList(props: FamilyFormProps) {
                 </Button>
             </div>
 
-            <Button
-                className="w-full"
+            <SubmitButton
+                processing={false}
                 href={route('self-disclosure.address.show')}
-            >
-                {__('general.button.continue')}
-            </Button>
+            />
         </div>
     )
 }

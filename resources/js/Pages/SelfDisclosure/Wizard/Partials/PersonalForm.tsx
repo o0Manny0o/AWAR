@@ -4,7 +4,7 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { FormEventHandler, useContext } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
 import { SwitchInput } from '@/Components/_Base/Input'
-import { Button } from '@/Components/_Base/Button'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 interface PersonalFormProps {
     data: {
@@ -94,9 +94,7 @@ export function PersonalForm(props: PersonalFormProps) {
                 onChange={(value) => setData('knows_animals', value)}
             />
 
-            <Button className="w-full" disabled={processing}>
-                {__('general.button.continue')}
-            </Button>
+            <SubmitButton processing={processing} />
         </form>
     )
 }

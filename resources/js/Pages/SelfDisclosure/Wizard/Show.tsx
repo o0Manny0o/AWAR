@@ -14,6 +14,7 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { FormContextProvider } from '@/shared/contexts/Form.context'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
 import { Head } from '@inertiajs/react'
+import { Button } from '@/Components/_Base/Button'
 
 type StepName =
     | 'personal'
@@ -28,8 +29,9 @@ type StepName =
 
 export default function Show({
     step,
+    previousStep,
     data,
-}: AppPageProps<{ step: StepName; data: any }>) {
+}: AppPageProps<{ step: StepName; data: any; previousStep?: string }>) {
     const __ = useTranslate()
 
     const renderStep = () => {
@@ -60,6 +62,17 @@ export default function Show({
             header={__(
                 ('self_disclosure.wizard.headers.' + step) as TranslationKey,
             )}
+            footer={
+                step !== 'personal'
+                    ? {
+                          href: route('dashboard'),
+                          label: __('general.button.go_back_to', {
+                              page: 'general.navigation.dashboard',
+                          }),
+                          text: __('self_disclosure.wizard.close_message'),
+                      }
+                    : undefined
+            }
         >
             <Head
                 title={__(
@@ -68,7 +81,18 @@ export default function Show({
                 )}
             />
             <FormContextProvider context={WizardFormWrapper}>
-                {renderStep()}
+                <div className="w-full">
+                    {renderStep()}
+                    {previousStep && step !== 'personal' && (
+                        <Button
+                            color="secondary"
+                            className="w-full max-w-xs mx-auto flex mt-4"
+                            href={route(previousStep)}
+                        >
+                            {__('general.button.go_back')}
+                        </Button>
+                    )}
+                </div>
             </FormContextProvider>
         </WizardLayout>
     )

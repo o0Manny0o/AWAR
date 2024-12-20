@@ -1008,7 +1008,9 @@
                 "thank_you": "Thank you for taking the time to complete the self-disclosure form. With this step completed, you’re now ready to express your interest in animals available for adoption. ",
                 "changes": "Please note that the information you’ve provided can be updated at any time. If your circumstances or details change, you can easily modify your responses in the settings. This ensures that your profile remains accurate and up to date, helping us offer you the best possible support and recommendations. We’re excited to accompany you on this journey and appreciate your commitment to giving an animal a loving home!",
                 "return_home": "Go to Dashboard"
-            }
+            },
+            "cancel_message": "self_disclosure.wizard.cancel_message",
+            "close_message": "Need a break? Don’t worry, your progress is safely stored for later."
         },
         "family_members": {
             "dog": "Dog",

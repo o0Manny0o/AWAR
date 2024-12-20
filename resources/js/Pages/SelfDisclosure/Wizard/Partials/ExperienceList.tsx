@@ -1,10 +1,9 @@
 import useTranslate from '@/shared/hooks/useTranslate'
-import { Link, useForm, usePage } from '@inertiajs/react'
-import { FormEventHandler, useContext } from 'react'
-import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
+import { Link, usePage } from '@inertiajs/react'
 import { Button } from '@/Components/_Base/Button'
 import { PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { PencilIcon } from '@heroicons/react/24/solid'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 interface PersonalFormProps {
     data?: {
@@ -17,24 +16,8 @@ export function ExperienceList(props: PersonalFormProps) {
     const __ = useTranslate()
     const { locale } = usePage().props
 
-    const { data, errors, setData, post, reset, processing } = useForm<{}>({})
-
-    const {
-        focusError,
-        refs: {},
-    } = useContext(WizardFormWrapper.Context)
-
-    const submitHandler: FormEventHandler = (e) => {
-        e.preventDefault()
-
-        post(route('self-disclosure.personal.update'), {
-            onSuccess: () => reset(),
-            onError: (errors) => focusError(errors as any),
-        })
-    }
-
     return (
-        <div className="w-full gap-8 flex flex-col mb-8">
+        <div className="w-full gap-8 flex flex-col">
             <div className="space-y-4 flex flex-col h-full flex-1 min-h-0">
                 <ol className="space-y-4 flex-1 pt-2 overflow-y-auto">
                     {props.data?.has_animals && (
@@ -131,12 +114,10 @@ export function ExperienceList(props: PersonalFormProps) {
                     ))}
             </div>
 
-            <Button
-                className="w-full"
+            <SubmitButton
+                processing={false}
                 href={route('self-disclosure.eligibility.show')}
-            >
-                {__('general.button.continue')}
-            </Button>
+            />
         </div>
     )
 }

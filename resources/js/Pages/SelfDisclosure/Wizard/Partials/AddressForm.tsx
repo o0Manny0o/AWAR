@@ -2,10 +2,10 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { useForm, usePage } from '@inertiajs/react'
 import { FormEventHandler, useContext, useMemo } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { Button } from '@/Components/_Base/Button'
 import { getCountry } from '@/shared/utils/getUserCountry'
 import { InputGroup } from '@/Components/_Base/Input'
 import AutocompleteGroup from '@/Components/_Base/Input/AutocompleteGroup'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 import Country = App.Models.Country
 
 interface PersonalFormProps {
@@ -100,9 +100,8 @@ export function AddressForm(props: PersonalFormProps) {
                 onChange={(v) => setData('country', v?.id ?? '')}
                 options={countries}
             />
-            <Button className="w-full" disabled={processing}>
-                {__('general.button.continue')}
-            </Button>
+
+            <SubmitButton processing={processing} />
         </form>
     )
 }

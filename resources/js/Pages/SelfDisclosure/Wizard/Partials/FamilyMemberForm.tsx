@@ -2,10 +2,10 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { FamilyMemberFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { Button } from '@/Components/_Base/Button'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
 import { SwitchInput } from '@/Components/_Base/Input'
 import AutocompleteGroup from '@/Components/_Base/Input/AutocompleteGroup'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 export function FamilyMemberForm({ member }: { member?: any }) {
     const __ = useTranslate()
@@ -182,14 +182,15 @@ export function FamilyMemberForm({ member }: { member?: any }) {
                 </>
             )}
 
-            <Button className="w-full" disabled={processing}>
-                {__(
+            <SubmitButton
+                processing={processing}
+                label={__(
                     member?.id
                         ? 'general.button.update'
                         : 'general.button.save',
                     { resource: '' },
                 )}
-            </Button>
+            />
         </form>
     )
 }

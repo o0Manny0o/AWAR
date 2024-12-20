@@ -2,10 +2,10 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { Button } from '@/Components/_Base/Button'
 import { AcknowledgementFormData } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.types'
 import SwitchInput from '@/Components/_Base/Input/SwitchInput'
 import TextAreaGroup from '@/Components/_Base/Input/TextAreaGroup'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 interface AcknowledgementFormProps {
     data?: {
@@ -97,9 +97,7 @@ export function ConfirmationForm(props: AcknowledgementFormProps) {
                 />
             </div>
 
-            <Button className="w-full" disabled={processing}>
-                {__('self_disclosure.button.complete')}
-            </Button>
+            <SubmitButton processing={processing} />
         </form>
     )
 }

@@ -2,8 +2,8 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { useForm, usePage } from '@inertiajs/react'
 import { FormEventHandler, ReactNode, useContext } from 'react'
 import { ExperienceFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { Button } from '@/Components/_Base/Button'
 import { ExperienceFormData } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.types'
+import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 export function ExperienceForm({ experience }: { experience?: any }) {
     const __ = useTranslate()
@@ -148,14 +148,15 @@ export function ExperienceForm({ experience }: { experience?: any }) {
         <form className="w-full space-y-6" onSubmit={submitHandler}>
             <p className="flex gap-2 flex-wrap items-baseline">{...sentence}</p>
 
-            <Button className="w-full" disabled={processing}>
-                {__(
+            <SubmitButton
+                processing={processing}
+                label={__(
                     experience?.id
                         ? 'general.button.update'
                         : 'general.button.save',
                     { resource: '' },
                 )}
-            </Button>
+            />
         </form>
     )
 }

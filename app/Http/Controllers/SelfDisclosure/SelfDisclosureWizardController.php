@@ -5,8 +5,8 @@ namespace App\Http\Controllers\SelfDisclosure;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Address\AddressRequest;
-use App\Http\Requests\SelfDisclosure\Wizard\ConfirmationSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\AnimalSpecificSaveRequest;
+use App\Http\Requests\SelfDisclosure\Wizard\ConfirmationSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\FamilyMemberSaveRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\PersonalUpdateRequest;
 use App\Http\Requests\SelfDisclosure\Wizard\UserEligibilitySaveRequest;
@@ -79,13 +79,18 @@ class SelfDisclosureWizardController extends Controller
         )->first();
     }
 
-    private function renderStep($data, $active = 'personal')
-    {
+    private function renderStep(
+        $data,
+        $active = 'personal',
+        $previousStep = null,
+    ) {
         $this->generateSteps($active);
 
         return AppInertia::render($this->baseViewPath . '/Show', [
             'step' => $active,
             'data' => $data,
+            'previousStep' =>
+                $this->baseRouteName . '.' . $previousStep . '.show',
         ]);
     }
 
@@ -152,12 +157,13 @@ class SelfDisclosureWizardController extends Controller
                 'members' => $members,
             ],
             'family',
+            'personal',
         );
     }
 
     public function updateFamily()
     {
-        return redirect()->route('self-disclosure.family.show');
+        return redirect()->route($this->baseRouteName . '.family.show');
     }
 
     public function showExperiencesStep()
@@ -178,6 +184,7 @@ class SelfDisclosureWizardController extends Controller
                 'experiences' => $experiences,
             ],
             'experiences',
+            'garden',
         );
     }
 
@@ -211,6 +218,7 @@ class SelfDisclosureWizardController extends Controller
         return $this->renderStep(
             ['countries' => $countries, 'address' => $address],
             'address',
+            'family',
         );
     }
 
@@ -256,6 +264,7 @@ class SelfDisclosureWizardController extends Controller
                 'home' => $home,
             ],
             'home',
+            'address',
         );
     }
 
@@ -293,6 +302,7 @@ class SelfDisclosureWizardController extends Controller
                 'garden' => $garden,
             ],
             'garden',
+            'home',
         );
     }
 
@@ -335,6 +345,7 @@ class SelfDisclosureWizardController extends Controller
                 'eligibility' => $eligibility,
             ],
             'eligibility',
+            'experiences',
         );
     }
 
@@ -369,6 +380,7 @@ class SelfDisclosureWizardController extends Controller
                 'catSpecific' => $catSpecific,
             ],
             'specific',
+            'eligibility',
         );
     }
 
@@ -446,7 +458,11 @@ class SelfDisclosureWizardController extends Controller
     public function showConfirmationStep()
     {
         $disclosure = $this->getDisclosure();
-        return $this->renderStep(['disclosure' => $disclosure], 'confirmation');
+        return $this->renderStep(
+            ['disclosure' => $disclosure],
+            'confirmation',
+            'specific',
+        );
     }
 
     public function updateConfirmation(ConfirmationSaveRequest $request)
