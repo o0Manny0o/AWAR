@@ -4,15 +4,15 @@ import { FormEventHandler, useContext } from 'react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { CatFormWrapper } from '@/Pages/Tenant/Animals/Cats/Lib/Cat.context'
 import { CatFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
-import { ImageInput } from '@/Components/_Base/Input/Images/ImageInput'
+import { ImagesInput } from '@/Components/_Base/Input/Images/ImagesInput'
 import { getArrayErrors } from '@/shared/util'
 import SelectGroup from '@/Components/_Base/Input/SelectGroup'
 import useAnimalOptions from '@/shared/hooks/useAnimalOptions'
 import { usePage } from '@inertiajs/react'
+import { FamilyGroup } from '@/Components/_Base/Input/FamilyGroup'
 import Media = App.Models.Media
 import Family = App.Models.Family
 import Animal = App.Models.Animal
-import { FamilyGroup } from '@/Components/_Base/Input/FamilyGroup'
 
 interface CatFormProps {
     formId: string
@@ -118,7 +118,7 @@ export function CatForm({
                 </Card>
 
                 <Card header={__('general.images')}>
-                    <ImageInput
+                    <ImagesInput
                         images={images ?? []}
                         onChange={(e) => {
                             setData('images', e)

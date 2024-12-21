@@ -16,8 +16,8 @@ import {
     useSensors,
 } from '@dnd-kit/core'
 import { ImagePreview } from '@/Components/_Base/Input/Images/ImagePreview'
-import Media = App.Models.Media
 import { InputError } from '@/Components/_Base/Input'
+import Media = App.Models.Media
 
 interface ImageInputProps {
     images: File[] | Media[]
@@ -29,7 +29,7 @@ function isMedia(item: Media | File): item is Media {
     return !!(item as Media).file_url
 }
 
-export function ImageInput({ onChange, images, errors }: ImageInputProps) {
+export function ImagesInput({ onChange, images, errors }: ImageInputProps) {
     const [selectedImages, setSelectedImages] = useState<
         { id: string; file: File | string }[]
     >(
