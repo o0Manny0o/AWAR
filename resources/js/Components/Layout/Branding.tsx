@@ -40,8 +40,10 @@ export function Branding({
         >
             <Logo className="shrink-0" />
             <p className="truncate text-4xl/9 font-semibold tracking-wider min-w-0">
-                {getAbbreviation(tenant?.name ?? 'AWAR')}
-                <span className="sr-only">{tenant?.name ?? 'AWAR'}</span>
+                {getAbbreviation(tenant?.public_settings?.name ?? 'AWAR')}
+                <span className="sr-only">
+                    {tenant?.public_settings?.name ?? 'AWAR'}
+                </span>
             </p>
         </Link>
     )

@@ -13,6 +13,10 @@ type Organisation = {
     name: string
     domains?: { domain: string }[]
     dashboard_url: string
+    public_settings?: {
+        name: string
+        favicon: string
+    }
 }
 
 type ZiggyConfig = {

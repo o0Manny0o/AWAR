@@ -60,6 +60,8 @@ class OrganisationSettingsController extends Controller
 
         $settings->update($request->validated());
 
+        cache()->forget('tenant');
+
         return $this->redirect($request, $this->baseRouteName . '.show');
     }
 }
