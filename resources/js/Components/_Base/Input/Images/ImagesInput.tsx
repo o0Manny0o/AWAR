@@ -131,13 +131,14 @@ export function ImagesInput({ onChange, images, errors }: ImageInputProps) {
                         {selectedImages.map((image, idx) => (
                             <ImagePreview
                                 key={image.id}
-                                image={image}
+                                id={image.id}
+                                file={image.file}
                                 error={
                                     Object.entries(errors ?? {}).find(([key]) =>
                                         key.endsWith(String(idx)),
                                     )?.[1]
                                 }
-                                onDeleteClick={(e) =>
+                                onButtonClick={(e) =>
                                     setSelectedImages((images) =>
                                         images.filter((f) => f.id !== e),
                                     )

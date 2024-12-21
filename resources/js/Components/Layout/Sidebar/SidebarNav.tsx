@@ -28,7 +28,7 @@ export function SidebarNav({
     const { tenant } = usePage().props
 
     const settingsUrl: RouteName = tenant
-        ? 'settings.members.index'
+        ? 'settings.public.show'
         : 'settings.profile.edit'
     const dashboardUrl: RouteName = tenant ? 'tenant.dashboard' : 'dashboard'
 

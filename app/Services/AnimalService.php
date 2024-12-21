@@ -119,8 +119,7 @@ class AnimalService
         foreach ($media as $image) {
             $animal->attachMedia($image, [
                 'asset_folder' => $organisation->id . '/animals/' . $animal->id,
-                'public_id_prefix' =>
-                    $organisation->id . '/animals/' . $animal->id,
+                'public_id_prefix' => $organisation->id,
                 'width' => 2000,
                 'crop' => 'limit',
                 'format' => 'webp',

@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Tenant\Settings;
 
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Organisation\Settings\UpdateFaviconRequest;
 use App\Http\Requests\Organisation\Settings\UpdateOrganisationSettingsRequest;
 use App\Models\Tenant\OrganisationPublicSettings;
+use Cloudinary\Api\Exception\ApiError;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class OrganisationSettingsController extends Controller
 {
     protected string $baseViewPath = 'Tenant/Settings/PublicSettings';
     protected string $baseRouteName = 'settings.public';
+
     /**
      * Display the specified resource.
      * @throws AuthorizationException
@@ -62,6 +65,56 @@ class OrganisationSettingsController extends Controller
 
         cache()->forget('tenant');
 
+        return $this->redirect($request, $this->baseRouteName . '.show');
+    }
+
+    /**
+     * Show the form for editing the organisation favicon.
+     * @throws AuthorizationException
+     */
+    public function editFavicon(): \Inertia\Response
+    {
+        /** @var OrganisationPublicSettings $settings */
+        $settings = OrganisationPublicSettings::first();
+
+        $this->authorize('update', $settings);
+
+        return AppInertia::render($this->baseViewPath . '/Favicon/Edit', [
+            'settings' => $settings,
+        ]);
+    }
+
+    /**
+     * Update the favicon of the organisation.
+     * @throws AuthorizationException
+     * @throws ApiError
+     */
+    public function updateFavicon(
+        UpdateFaviconRequest $request,
+    ): \Illuminate\Http\RedirectResponse {
+        /** @var OrganisationPublicSettings $settings */
+        $settings = OrganisationPublicSettings::first();
+
+        $this->authorize('update', $settings);
+
+        $validated = $request->validated();
+
+        $uploadedFileUrl = cloudinary()
+            ->upload($validated['favicon'], [
+                'asset_folder' => tenant()->id,
+                'public_id' => 'favicon',
+                'public_id_prefix' => tenant()->id,
+                'format' => 'png',
+                'crop' => 'lfill',
+                'width' => 192,
+                'height' => 192,
+            ])
+            ->getSecurePath();
+
+        $settings->favicon = $uploadedFileUrl;
+        $settings->save();
+
+        cache()->forget('tenant');
         return $this->redirect($request, $this->baseRouteName . '.show');
     }
 }

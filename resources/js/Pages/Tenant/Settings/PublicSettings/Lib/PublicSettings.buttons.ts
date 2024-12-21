@@ -31,6 +31,7 @@ export function ShowActionButtons(
 export function FormActionButtons(
     cancelRoute: string,
     formId: string,
+    disabled: boolean,
 ): PageHeaderButton[] {
     const __ = useTranslate()
 
@@ -40,6 +41,7 @@ export function FormActionButtons(
         }),
         variant: 'primary',
         form: formId,
+        disabled,
     }
 
     const CANCEL_BUTTON: PageHeaderButton = {
@@ -48,6 +50,7 @@ export function FormActionButtons(
         }),
         variant: 'secondary',
         href: cancelRoute,
+        disabled,
     }
 
     return [SAVE_BUTTON, CANCEL_BUTTON]

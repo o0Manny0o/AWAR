@@ -85,6 +85,19 @@ Route::middleware([
                             OrganisationLocationController::class,
                         );
 
+                        Route::name('favicon.')
+                            ->prefix('favicon')
+                            ->group(function () {
+                                Route::get('/edit', [
+                                    OrganisationSettingsController::class,
+                                    'editFavicon',
+                                ])->name('edit');
+                                Route::post('/update', [
+                                    OrganisationSettingsController::class,
+                                    'updateFavicon',
+                                ])->name('update');
+                            });
+
                         Route::name('public.')
                             ->prefix('public')
                             ->group(function () {

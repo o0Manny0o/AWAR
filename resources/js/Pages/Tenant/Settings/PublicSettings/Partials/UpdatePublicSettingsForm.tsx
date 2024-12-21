@@ -28,7 +28,7 @@ export default function UpdatePublicSettingsForm({
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        patch(route('settings.public.update', settings.id), {
+        patch(route('settings.public.update'), {
             preserveScroll: true,
             replace: true,
             onSuccess: () => reset(),
