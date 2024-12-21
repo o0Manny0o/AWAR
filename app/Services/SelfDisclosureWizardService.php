@@ -11,32 +11,41 @@ use App\Models\SelfDisclosure\UserFamilyAnimal;
 use App\Models\SelfDisclosure\UserFamilyHuman;
 use App\Models\SelfDisclosure\UserFamilyMember;
 use App\Models\SelfDisclosure\UserHome;
-use App\Models\SelfDisclosure\UserSelfDisclosure;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 
 class SelfDisclosureWizardService
 {
+    public function __construct(private readonly SelfDisclosureService $service)
+    {
+    }
+
     public function getCurrentStep(): SelfDisclosureStep
     {
         return SelfDisclosureStep::from(
-            $this->getDisclosure()->furthest_step ??
+            $this->service->getDisclosure()->furthest_step ??
                 SelfDisclosureStep::PERSONAL->value,
         );
     }
 
-    /** Get the user's self disclosure
-     */
-    public function getDisclosure(): UserSelfDisclosure
-    {
-        return UserSelfDisclosure::ofUser(Auth::user())->first();
-    }
-
     public function updateConfirmations($validated): void
     {
-        $disclosure = $this->getDisclosure();
+        $disclosure = $this->service->getDisclosure();
 
         $disclosure->update($validated);
+    }
+
+    public function updateFurthestStep(SelfDisclosureStep $step): void
+    {
+        $disclosure = $this->service->getDisclosure();
+        if (!$disclosure->furthest_step) {
+            return;
+        }
+        $savedStep = SelfDisclosureStep::from($disclosure->furthest_step);
+        if ($step->index() <= $savedStep->index()) {
+            return;
+        }
+        $disclosure->furthest_step = $step->value;
+        $disclosure->save();
     }
 
     public function getPrimaryFamilyMember()
@@ -46,7 +55,7 @@ class SelfDisclosureWizardService
 
     public function hasAnimalFamilyMember(): bool
     {
-        $disclosure = $this->getDisclosure();
+        $disclosure = $this->service->getDisclosure();
 
         return $disclosure
             ->whereHas('userFamilyMembers', function (Builder $query) {
@@ -72,7 +81,7 @@ class SelfDisclosureWizardService
 
     public function updateUserHome($validated): void
     {
-        $disclosure = $this->getDisclosure();
+        $disclosure = $this->service->getDisclosure();
 
         $home = UserHome::first();
 
@@ -87,7 +96,7 @@ class SelfDisclosureWizardService
 
     public function updateUserEligibility($validated): void
     {
-        $disclosure = $this->getDisclosure();
+        $disclosure = $this->service->getDisclosure();
 
         $eligibility = $disclosure->userCareEligibility()->first();
 
@@ -100,7 +109,7 @@ class SelfDisclosureWizardService
 
     public function storeExperience($validated): void
     {
-        $disclosure = $this->getDisclosure();
+        $disclosure = $this->service->getDisclosure();
         $disclosure->userExperiences()->create($validated);
     }
 
@@ -118,7 +127,7 @@ class SelfDisclosureWizardService
 
     public function storeFamilyMember($validated): void
     {
-        $disclosure = $this->getDisclosure();
+        $disclosure = $this->service->getDisclosure();
 
         if ($validated['animal']) {
             /** @var UserFamilyAnimal $humanMember */
@@ -179,7 +188,7 @@ class SelfDisclosureWizardService
 
     public function updateAnimalSpecificDisclosure($validated): void
     {
-        $disclosure = $this->getDisclosure();
+        $disclosure = $this->service->getDisclosure();
 
         $dogSpecific = UserAnimalSpecificDisclosure::dog()->first();
 

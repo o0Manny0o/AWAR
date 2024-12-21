@@ -3,13 +3,17 @@
 namespace App\Http\Middleware\SelfDisclosure;
 
 use App\Enum\SelfDisclosure\SelfDisclosureStep;
-use App\Models\SelfDisclosure\UserSelfDisclosure;
+use App\Services\SelfDisclosureService;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PreventAccessToFutureSteps
 {
+    public function __construct(private readonly SelfDisclosureService $service)
+    {
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -20,12 +24,9 @@ class PreventAccessToFutureSteps
         Closure $next,
         string $step,
     ): Response {
-        $disclosure = UserSelfDisclosure::where(
-            'global_user_id',
-            $request->user()->global_id,
-        )->first();
+        $disclosure = $this->service->getDisclosure($request->user());
 
-        if ($disclosure && $disclosure->furthest_step) {
+        if ($disclosure->furthest_step) {
             $furthestStep = SelfDisclosureStep::from(
                 $disclosure->furthest_step,
             );

@@ -2,8 +2,10 @@
 
 namespace App\Policies;
 
+use App\Enum\SelfDisclosure\SelfDisclosureStep;
 use App\Models\SelfDisclosure\UserSelfDisclosure;
 use App\Models\User;
+use App\Services\SelfDisclosureService;
 use Illuminate\Database\Eloquent\Model;
 
 class UserSelfDisclosurePolicy extends BasePolicy
@@ -15,7 +17,9 @@ class UserSelfDisclosurePolicy extends BasePolicy
 
     function useWizard(User $user): bool
     {
-        $disclosure = UserSelfDisclosure::ofUser($user)->first();
-        return $disclosure->furthest_step !== null;
+        $service = app(SelfDisclosureService::class);
+        $disclosure = $service->getDisclosure($user);
+        return $disclosure->furthest_step !==
+            SelfDisclosureStep::COMPLETE->value;
     }
 }

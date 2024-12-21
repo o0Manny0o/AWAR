@@ -22,6 +22,7 @@ use App\Models\SelfDisclosure\UserExperience;
 use App\Models\SelfDisclosure\UserFamilyMember;
 use App\Models\SelfDisclosure\UserHome;
 use App\Models\User;
+use App\Services\SelfDisclosureService;
 use App\Services\SelfDisclosureWizardService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
@@ -35,6 +36,7 @@ class SelfDisclosureWizardController extends Controller
 
     public function __construct(
         private readonly SelfDisclosureWizardService $service,
+        private readonly SelfDisclosureService $disclosureService,
     ) {
     }
 
@@ -75,7 +77,7 @@ class SelfDisclosureWizardController extends Controller
     private function generateStepNavigation(
         SelfDisclosureStep $activeStep = SelfDisclosureStep::PERSONAL,
     ): void {
-        $disclosure = $this->service->getDisclosure();
+        $disclosure = $this->disclosureService->getDisclosure();
         $steps = SelfDisclosureStep::formSteps();
         $furthestStep = SelfDisclosureStep::from(
             $disclosure->furthest_step ?? SelfDisclosureStep::PERSONAL->value,
@@ -109,6 +111,7 @@ class SelfDisclosureWizardController extends Controller
         PersonalUpdateRequest $request,
     ): RedirectResponse {
         $this->service->updatePrimaryFamilyMember($request->validated());
+        $this->service->updateFurthestStep(SelfDisclosureStep::FAMILY);
         return $this->redirect($request, SelfDisclosureStep::FAMILY->route());
     }
 
@@ -127,7 +130,8 @@ class SelfDisclosureWizardController extends Controller
     /** Redirects to the family form step */
     public function updateFamily(): RedirectResponse
     {
-        return redirect()->route(SelfDisclosureStep::FAMILY->route());
+        $this->service->updateFurthestStep(SelfDisclosureStep::ADDRESS);
+        return redirect()->route(SelfDisclosureStep::ADDRESS->route());
     }
 
     /**
@@ -147,6 +151,7 @@ class SelfDisclosureWizardController extends Controller
     /** Redirects to the eligibility form step  */
     public function updateExperiences(): RedirectResponse
     {
+        $this->service->updateFurthestStep(SelfDisclosureStep::ELIGIBILITY);
         return redirect()->route(SelfDisclosureStep::ELIGIBILITY->route());
     }
 
@@ -203,6 +208,8 @@ class SelfDisclosureWizardController extends Controller
 
         $address->save();
 
+        $this->service->updateFurthestStep(SelfDisclosureStep::HOME);
+
         return $this->redirect($request, SelfDisclosureStep::HOME->route());
     }
 
@@ -225,6 +232,8 @@ class SelfDisclosureWizardController extends Controller
     public function updateHome(UserHomeSaveRequest $request): RedirectResponse
     {
         $this->service->updateUserHome($request->validated());
+
+        $this->service->updateFurthestStep(SelfDisclosureStep::GARDEN);
 
         return $this->redirect($request, SelfDisclosureStep::GARDEN->route());
     }
@@ -262,6 +271,8 @@ class SelfDisclosureWizardController extends Controller
             $garden->update($request->validated());
         }
 
+        $this->service->updateFurthestStep(SelfDisclosureStep::EXPERIENCES);
+
         return $this->redirect(
             $request,
             SelfDisclosureStep::EXPERIENCES->route(),
@@ -288,6 +299,7 @@ class SelfDisclosureWizardController extends Controller
         UserEligibilitySaveRequest $request,
     ): RedirectResponse {
         $this->service->updateUserEligibility($request->validated());
+        $this->service->updateFurthestStep(SelfDisclosureStep::SPECIFIC);
         return $this->redirect($request, SelfDisclosureStep::SPECIFIC->route());
     }
 
@@ -314,6 +326,7 @@ class SelfDisclosureWizardController extends Controller
         AnimalSpecificSaveRequest $request,
     ): RedirectResponse {
         $this->service->updateAnimalSpecificDisclosure($request->validated());
+        $this->service->updateFurthestStep(SelfDisclosureStep::CONFIRMATION);
 
         return $this->redirect(
             $request,
@@ -327,7 +340,7 @@ class SelfDisclosureWizardController extends Controller
     public function showConfirmationStep(): Response
     {
         return $this->renderStep(
-            ['disclosure' => $this->service->getDisclosure()],
+            ['disclosure' => $this->disclosureService->getDisclosure()],
             SelfDisclosureStep::CONFIRMATION,
         );
     }
@@ -339,6 +352,7 @@ class SelfDisclosureWizardController extends Controller
         ConfirmationSaveRequest $request,
     ): RedirectResponse {
         $this->service->updateConfirmations($request->validated());
+        $this->service->updateFurthestStep(SelfDisclosureStep::COMPLETE);
         return $this->redirect($request, 'self-disclosure.complete');
     }
 
@@ -359,6 +373,7 @@ class SelfDisclosureWizardController extends Controller
         FamilyMemberSaveRequest $request,
     ): RedirectResponse {
         $this->service->storeFamilyMember($request->validated());
+        $this->service->updateFurthestStep(SelfDisclosureStep::ADDRESS);
 
         return redirect()->route(SelfDisclosureStep::FAMILY->route());
     }

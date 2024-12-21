@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Enum\SelfDisclosure\SelfDisclosureStep;
 use App\Models\Organisation;
+use App\Services\SelfDisclosureService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +19,11 @@ class HandleInertiaRequests extends Middleware
      * @var string
      */
     protected $rootView = 'app';
+
+    public function __construct(
+        private readonly SelfDisclosureService $disclosureService,
+    ) {
+    }
 
     /**
      * Determine the current asset version.
@@ -81,6 +88,14 @@ class HandleInertiaRequests extends Middleware
                     return tenancy()->tenant?->load('domains');
                 })
                 : null,
+            'nextSteps' => [
+                ...!tenancy()->initialized &&
+                \Auth::check() &&
+                $this->disclosureService->getDisclosure()->furthest_step !==
+                    SelfDisclosureStep::COMPLETE->value
+                    ? ['selfDisclosure']
+                    : [],
+            ],
         ];
     }
 }

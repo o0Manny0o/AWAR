@@ -7,11 +7,12 @@ use App\Models\User;
 
 class OrganisationLocationPolicy extends BasePolicy
 {
-    private function belongsToOrganisation(OrganisationLocation $location)
+    private function belongsToOrganisation(OrganisationLocation $location): bool
     {
         if (tenancy()->initialized) {
             return $location->organisation_id === tenant()->id;
         }
+        return false;
     }
 
     /**

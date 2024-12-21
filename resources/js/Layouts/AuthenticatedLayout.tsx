@@ -17,11 +17,16 @@ export default function AuthenticatedLayout({
     title,
     ...pageHeaderProps
 }: AuthenticatedLayoutProps) {
-    const { tenant } = usePage().props
+    const { tenant, nextSteps } = usePage().props
 
+    // TODO: Refactor to get started page
     const navigation = tenant
         ? TenantNavigation
-        : CentralNavigation([NextStep.FINISH_DISCLOSURE.value])
+        : CentralNavigation([
+              ...(nextSteps?.includes('selfDisclosure')
+                  ? [NextStep.FINISH_DISCLOSURE.value]
+                  : []),
+          ])
 
     return (
         <SidebarLayout

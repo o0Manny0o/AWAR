@@ -114,7 +114,8 @@ export function FamilyList(props: FamilyFormProps) {
 
             <SubmitButton
                 processing={false}
-                href={route('self-disclosure.address.show')}
+                method="patch"
+                href={route('self-disclosure.family.update')}
             />
         </div>
     )

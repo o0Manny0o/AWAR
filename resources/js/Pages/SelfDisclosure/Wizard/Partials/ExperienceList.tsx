@@ -116,7 +116,8 @@ export function ExperienceList(props: PersonalFormProps) {
 
             <SubmitButton
                 processing={false}
-                href={route('self-disclosure.eligibility.show')}
+                method="patch"
+                href={route('self-disclosure.experiences.update')}
             />
         </div>
     )

@@ -1,5 +1,6 @@
 import { Button } from '@/Components/_Base/Button'
 import useTranslate from '@/shared/hooks/useTranslate'
+import { Method } from '@inertiajs/core'
 
 export function SubmitButton({
     processing,
@@ -9,6 +10,7 @@ export function SubmitButton({
     processing: boolean
     label?: string
     href?: string
+    method?: Method
 }) {
     const __ = useTranslate()
     return (

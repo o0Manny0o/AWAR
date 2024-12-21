@@ -70,6 +70,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         tenant?: Organisation
         tenants?: Organisation[]
         messages?: AppMessage[]
+        nextSteps?: string[]
     }
 
 type TranslationKey = Paths<Translations, 10>

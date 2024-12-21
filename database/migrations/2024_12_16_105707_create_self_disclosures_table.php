@@ -23,8 +23,7 @@ return new class extends Migration {
 
             $table
                 ->enum('furthest_step', SelfDisclosureStep::values())
-                ->default(SelfDisclosureStep::PERSONAL)
-                ->nullable();
+                ->default(SelfDisclosureStep::PERSONAL);
 
             $table
                 ->foreignUuid('global_user_id')

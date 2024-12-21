@@ -43,27 +43,26 @@ Route::middleware('auth')->group(function () {
             return redirect('settings/profile');
         });
 
-    // TODO: Only allow when self disclosure is complete
-    Route::prefix('self-disclosure')
-        ->middleware(['can:useWizard,' . UserSelfDisclosure::class])
-        ->group(function () {
-            Route::get('/', [
-                SelfDisclosureWizardController::class,
-                'redirectToCurrentStep',
-            ])->name('self-disclosure');
+    Route::prefix('self-disclosure')->group(function () {
+        Route::get('/', [
+            SelfDisclosureWizardController::class,
+            'redirectToCurrentStep',
+        ])->name('self-disclosure');
 
-            Route::name('self-disclosure.')->group(function () {
-                Route::get('/complete', [
-                    SelfDisclosureWizardController::class,
-                    'showComplete',
-                ])
-                    ->name('complete')
-                    ->middleware(
-                        PreventAccessToFutureSteps::class .
-                            ':' .
-                            SelfDisclosureStep::COMPLETE->value,
-                    );
+        Route::get('/complete', [
+            SelfDisclosureWizardController::class,
+            'showComplete',
+        ])
+            ->name('self-disclosure.complete')
+            ->middleware(
+                PreventAccessToFutureSteps::class .
+                    ':' .
+                    SelfDisclosureStep::COMPLETE->value,
+            );
 
+        Route::name('self-disclosure.')
+            ->middleware(['can:useWizard,' . UserSelfDisclosure::class])
+            ->group(function () {
                 foreach (SelfDisclosureStep::formStepValues() as $step) {
                     Route::get('/' . $step, [
                         SelfDisclosureWizardController::class,
@@ -164,5 +163,5 @@ Route::middleware('auth')->group(function () {
                             ->name('destroy');
                     });
             });
-        });
+    });
 });

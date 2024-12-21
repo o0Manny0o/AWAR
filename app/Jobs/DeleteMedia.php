@@ -26,8 +26,12 @@ class DeleteMedia implements ShouldQueue
     {
         $tenantAnimals = $this->tenant->animals()->get();
 
-        Log::info($tenantAnimals);
-        Log::info(count($tenantAnimals));
+        Log::info(
+            'Deleting ' .
+                count($tenantAnimals) .
+                ' images for tenant ' .
+                $this->tenant->getKey(),
+        );
 
         foreach ($tenantAnimals as $animal) {
             $animal->detachMedia();
