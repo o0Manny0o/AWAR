@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Events\AddressSaved;
-use App\Models\Tenant\OrganisationLocation;
 use Clickbar\Magellan\Database\Eloquent\HasPostgisColumns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -78,7 +77,7 @@ class Address extends Model
         'distance',
     ];
 
-    protected $with = ['country:code,name'];
+    protected $with = ['country:code,name,alpha'];
 
     protected $dispatchesEvents = [
         'saved' => AddressSaved::class,

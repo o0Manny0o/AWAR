@@ -171,6 +171,7 @@ declare namespace App.Models {
     export interface Country {
         id: string
         name: string
+        alpha?: string
     }
 
     export interface Address {
@@ -189,5 +190,26 @@ declare namespace App.Models {
         created_at: string
         updated_at: string
         deleted_at: string
+    }
+
+    export interface UserFamilyMember {
+        id: string
+        name: string
+        age: number
+
+        is_primary: boolean
+
+        familyable: UserFamilyHuman | UserFamilyAnimal
+    }
+
+    export interface UserFamilyHuman {
+        profession: string
+        knows_animals: boolean
+    }
+
+    export interface UserFamilyAnimal {
+        type: string
+        good_with_animals: boolean
+        castrated: boolean
     }
 }

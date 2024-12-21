@@ -41,7 +41,7 @@ class OrganisationInvitation extends Model
         'valid_until',
     ];
 
-    protected array $resourcePermissions = [
+    protected array $resource_permissions = [
         ResourcePermission::VIEW,
         ResourcePermission::RESEND,
     ];

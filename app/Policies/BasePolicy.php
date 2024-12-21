@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Enum\CentralUserRole;
 use App\Enum\DefaultTenantUserRole;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class BasePolicy
 {
@@ -36,7 +37,7 @@ abstract class BasePolicy
         return $this->isAdmin($user) || $this->isOwner($user, $entity);
     }
 
-    abstract function isOwner(User $user, $entity): bool;
+    abstract function isOwner(User $user, Model $entity): bool;
 
     public function viewAny(User $user): bool
     {

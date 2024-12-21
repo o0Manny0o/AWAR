@@ -3,6 +3,7 @@ import { PageHeaderProps } from '@/Components/Layout/PageHeader'
 import { SidebarLayout } from '@/Layouts/SidebarLayout'
 import {
     CentralNavigation,
+    NextStep,
     TenantNavigation,
 } from '@/shared/_constants/AuthenticatedNavigation'
 import { usePage } from '@inertiajs/react'
@@ -18,7 +19,9 @@ export default function AuthenticatedLayout({
 }: AuthenticatedLayoutProps) {
     const { tenant } = usePage().props
 
-    const navigation = tenant ? TenantNavigation : CentralNavigation
+    const navigation = tenant
+        ? TenantNavigation
+        : CentralNavigation([NextStep.FINISH_DISCLOSURE.value])
 
     return (
         <SidebarLayout

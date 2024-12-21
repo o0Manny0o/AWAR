@@ -31,7 +31,7 @@ export default function UpdateLocationForm({
             postal_code: location.address.postal_code ?? '',
             locality: location.address.locality ?? '',
             region: location.address.region ?? '',
-            country: location.address.country.id ?? country?.id ?? '',
+            country: location.address.country.alpha ?? country?.id ?? '',
         })
 
     const submitHandler: FormEventHandler = (e) => {

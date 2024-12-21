@@ -66,7 +66,7 @@ class OrganisationApplication extends Model
 
     protected $guarded = [];
 
-    protected array $resourcePermissions = [
+    protected array $resource_permissions = [
         ResourcePermission::DELETE,
         ResourcePermission::VIEW,
         ResourcePermission::RESTORE,

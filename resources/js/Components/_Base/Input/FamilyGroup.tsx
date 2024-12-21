@@ -1,8 +1,8 @@
 import AutocompleteGroup from '@/Components/_Base/Input/AutocompleteGroup'
 import useTranslate from '@/shared/hooks/useTranslate'
+import { usePage } from '@inertiajs/react'
 import Family = App.Models.Family
 import Animal = App.Models.Animal
-import { usePage } from '@inertiajs/react'
 
 interface FamilyGroupProps<TForm> {
     families: Family[]
@@ -38,12 +38,12 @@ export function FamilyGroup<TForm extends Record<string, any>>({
                     setData((prev) => ({
                         ...prev,
                         family: value?.id ?? null,
-                        mother: value?.mother?.id ?? null,
-                        father: value?.father?.id ?? null,
+                        mother: (value as Family)?.mother?.id ?? null,
+                        father: (value as Family)?.father?.id ?? null,
                     }))
                 }}
-                description={(value: Family) =>
-                    `Created ${new Date(value.updated_at).toLocaleDateString(locale)} ${value.mother ? 'Mother: ' + value.mother.name : ''}`
+                description={(value) =>
+                    `Created ${new Date((value as Family).updated_at).toLocaleDateString(locale)} ${(value as Family).mother ? 'Mother: ' + (value as Family)?.mother?.name : ''}`
                 }
             />
 

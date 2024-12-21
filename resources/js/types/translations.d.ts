@@ -193,6 +193,9 @@ type Translations = {
             }
             browse: string
             pricing: string
+            self_disclosure: {
+                finish: string
+            }
         }
         newsletter: {
             description: string
@@ -237,6 +240,9 @@ type Translations = {
             send: string
             resend: string
             publish: string
+            add: string
+            update: string
+            create: string
         }
         last_update: string
         options: string
@@ -253,6 +259,8 @@ type Translations = {
                 dog: string
                 cat: string
             }
+            family_member: string
+            experience: string
         }
         roles: {
             tenant: {
@@ -271,6 +279,9 @@ type Translations = {
             assigned_to: string
             unknown: string
             unknown_or_external: string
+            for: string
+            since: string
+            years: string
         }
     }
     landing_page: {
@@ -773,6 +784,243 @@ type Translations = {
             country: {
                 label: string
             }
+        }
+    }
+    self_disclosure: {
+        wizard: {
+            steps: {
+                personal: string
+                family: string
+                address: string
+                home: string
+                experiences: string
+                garden: string
+                eligibility: string
+                specific: string
+                confirmation: string
+            }
+            headers: {
+                personal: string
+                family: string
+                address: string
+                home: string
+                experiences: string
+                garden: string
+                eligibility: string
+                specific: string
+                family_member: {
+                    create: string
+                    edit: string
+                }
+                experience: {
+                    create: string
+                    edit: string
+                }
+                confirmation: string
+                complete: string
+            }
+            forms: {
+                family_member: {
+                    name: {
+                        label: string
+                        placeholder: string
+                    }
+                    year: {
+                        placeholder: string
+                        label: string
+                    }
+                    profession: {
+                        label: string
+                        placeholder: string
+                    }
+                    knows_animals: {
+                        label: string
+                    }
+                    animal: {
+                        label: string
+                    }
+                    type: {
+                        label: string
+                        placeholder: string
+                    }
+                    good_with_animals: {
+                        label: string
+                    }
+                    castrated: {
+                        label: string
+                    }
+                }
+                garden: {
+                    garden: {
+                        label: string
+                    }
+                    garden_size: {
+                        placeholder: string
+                        label: string
+                    }
+                    garden_secure: {
+                        label: string
+                    }
+                    garden_connected: {
+                        label: string
+                    }
+                }
+                home: {
+                    type: {
+                        label: string
+                        apartment: string
+                        house: string
+                        other: string
+                    }
+                    own: {
+                        label: string
+                    }
+                    pets_allowed: {
+                        label: string
+                        description: string
+                    }
+                    move_in_date: {
+                        label: string
+                    }
+                    size: {
+                        label: string
+                        placeholder: string
+                    }
+                    level: {
+                        label: string
+                    }
+                    location: {
+                        label: string
+                        city: string
+                        suburb: string
+                        rural: string
+                    }
+                }
+                experience: {
+                    has_animals: string
+                    as_string: string
+                    dog: string
+                    other: string
+                    work: string
+                    pet: string
+                    cat: string
+                }
+                eligibility: {
+                    animal_protection_experience: {
+                        label: string
+                    }
+                    can_afford_insurance: {
+                        label: string
+                    }
+                    can_cover_emergencies: {
+                        label: string
+                        description: string
+                    }
+                    can_cover_expenses: {
+                        label: string
+                        description: string
+                    }
+                    can_afford_castration: {
+                        label: string
+                    }
+                    substitute: {
+                        placeholder: string
+                        label: string
+                    }
+                    time_alone_daily: {
+                        label: string
+                    }
+                }
+                specific: {
+                    dogs: {
+                        select: {
+                            label: string
+                        }
+                        habitat: {
+                            label: string
+                            options: {
+                                home: string
+                                garden: string
+                                other: string
+                            }
+                        }
+                        purpose: {
+                            label: string
+                            options: {
+                                pet: string
+                                work: string
+                                other: string
+                            }
+                        }
+                        dog_school: {
+                            label: string
+                        }
+                        time_to_occupy: {
+                            label: string
+                        }
+                    }
+                    cats: {
+                        select: {
+                            label: string
+                        }
+                        habitat: {
+                            label: string
+                            options: {
+                                indoor: string
+                                outdoor: string
+                                both: string
+                            }
+                        }
+                        sleeping_place: {
+                            label: string
+                            placeholder: string
+                        }
+                        streets_safe: {
+                            label: string
+                        }
+                        flap_available: {
+                            label: string
+                        }
+                        house_secure: {
+                            label: string
+                        }
+                    }
+                }
+                confirmation: {
+                    everyone_agrees: {
+                        label: string
+                    }
+                    not_banned: {
+                        label: string
+                    }
+                    accepted_inaccuracy: {
+                        label: string
+                    }
+                    has_proof_of_identity: {
+                        label: string
+                    }
+                    notes: {
+                        label: string
+                    }
+                }
+            }
+            complete: {
+                thank_you: string
+                changes: string
+                return_home: string
+            }
+            cancel_message: string
+            close_message: string
+        }
+        family_members: {
+            dog: string
+            cat: string
+            other: string
+            child: string
+            adult: string
+        }
+        button: {
+            complete: string
         }
     }
 }

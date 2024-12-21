@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Events\UserCreated;
 use App\Models\Animal\Animal;
+use App\Models\SelfDisclosure\UserSelfDisclosure;
 use App\Models\Tenant\Member;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Translation\HasLocalePreference;
@@ -11,6 +13,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -70,6 +73,7 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read Member|null $member
  * @method static Builder<static>|User withTenants()
  * @method static Builder<static>|User tenant()
+ * @property-read UserSelfDisclosure|null $selfDisclosure
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements
@@ -98,6 +102,10 @@ class User extends Authenticatable implements
      */
     protected $hidden = ['password', 'remember_token', 'pivot'];
     private $cached_members = [];
+
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
+    ];
 
     public function organisationApplications(): HasMany
     {
@@ -222,5 +230,14 @@ class User extends Authenticatable implements
         $query->whereHas('tenants', function (Builder $query) {
             $query->where('organisations.id', tenant('id'));
         });
+    }
+
+    public function selfDisclosure(): HasOne
+    {
+        return $this->hasOne(
+            UserSelfDisclosure::class,
+            'global_user_id',
+            'global_id',
+        );
     }
 }
