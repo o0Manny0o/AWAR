@@ -19,7 +19,8 @@
                 "applications": "Bewerbungen",
                 "invitations": "Einladungen",
                 "members": "Mitglieder",
-                "locations": "Ihre Standorte"
+                "locations": "Ihre Standorte",
+                "settings": "Organisation"
             },
             "overview": "Übersicht",
             "your_organisations": "Deine Organisationen",
@@ -232,6 +233,21 @@
                 "public": {
                     "description": "Die Adresse ist für alle Benutzer sichtbar",
                     "label": "Kann die Adresse öffentlich sein?"
+                }
+            }
+        },
+        "settings": {
+            "public": {
+                "headers": {
+                    "update": "Organisation Aktualisieren"
+                },
+                "titles": {
+                    "update": "Organisationseinstellungen"
+                },
+                "form": {
+                    "name": {
+                        "label": "Wie ist der Name Ihrer Organisation?"
+                    }
                 }
             }
         }

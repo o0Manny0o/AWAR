@@ -8,6 +8,7 @@ use App\Http\Controllers\Animals\DogController;
 use App\Http\Controllers\Tenant\MemberController;
 use App\Http\Controllers\Tenant\OrganisationInvitationController;
 use App\Http\Controllers\Tenant\OrganisationLocationController;
+use App\Http\Controllers\Tenant\Settings\OrganisationSettingsController;
 use App\Http\Middleware\IsMember;
 use App\Http\Middleware\IsTenantAdmin;
 use App\Models\Tenant\Member;
@@ -83,6 +84,23 @@ Route::middleware([
                             'locations',
                             OrganisationLocationController::class,
                         );
+
+                        Route::name('public.')
+                            ->prefix('public')
+                            ->group(function () {
+                                Route::get('/', [
+                                    OrganisationSettingsController::class,
+                                    'show',
+                                ])->name('show');
+                                Route::get('/edit', [
+                                    OrganisationSettingsController::class,
+                                    'edit',
+                                ])->name('edit');
+                                Route::patch('/update', [
+                                    OrganisationSettingsController::class,
+                                    'update',
+                                ])->name('update');
+                            });
                     });
             });
 

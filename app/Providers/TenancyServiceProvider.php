@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Jobs\CreatePublicSettings;
 use App\Jobs\DeleteMedia;
 use App\Listeners\UpdateSyncedResource;
 use Illuminate\Support\Facades\Event;
@@ -32,6 +33,7 @@ class TenancyServiceProvider extends ServiceProvider
                     Jobs\CreateDatabase::class,
                     Jobs\MigrateDatabase::class,
                     Jobs\SeedDatabase::class,
+                    CreatePublicSettings::class,
 
                     // Your own jobs to prepare the tenant.
                     // Provision API keys, create S3 buckets, anything you want!

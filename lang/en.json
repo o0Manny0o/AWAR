@@ -182,7 +182,8 @@
                 "applications": "Applications",
                 "invitations": "Invitations",
                 "members": "Members",
-                "locations": "Your Locations"
+                "locations": "Your Locations",
+                "settings": "Organisation"
             },
             "overview": "Overview",
             "your_organisations": "Your Organisations",
@@ -400,6 +401,21 @@
                 "public": {
                     "description": "The address will be visible to all users",
                     "label": "Can the address be public?"
+                }
+            }
+        },
+        "settings": {
+            "public": {
+                "headers": {
+                    "update": "Update Organisation"
+                },
+                "titles": {
+                    "update": "Organisation Settings"
+                },
+                "form": {
+                    "name": {
+                        "label": "What is the name of your organisation?"
+                    }
                 }
             }
         }

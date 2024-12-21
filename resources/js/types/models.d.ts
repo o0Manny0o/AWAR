@@ -212,4 +212,11 @@ declare namespace App.Models {
         good_with_animals: boolean
         castrated: boolean
     }
+
+    declare namespace Organisation {
+        export interface PublicSettings {
+            name: string
+            favicon: string
+        }
+    }
 }
