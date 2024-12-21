@@ -36,6 +36,7 @@ export default forwardRef(function AutocompleteGroup(
         error,
         className = '',
         readOnly = false,
+        options,
         ...props
     }: InputGroupProps,
     ref: ForwardedRef<HTMLInputElement>,
@@ -48,6 +49,7 @@ export default forwardRef(function AutocompleteGroup(
                 {...props}
                 id={name}
                 name={name}
+                options={options}
                 ref={ref}
                 maxLength={255}
                 onChange={(value) => onChange?.(value)}

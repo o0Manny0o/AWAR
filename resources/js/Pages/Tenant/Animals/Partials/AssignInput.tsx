@@ -107,7 +107,8 @@ export function AssignInput<T extends Option & { type?: string }>({
                                 onChange={(e) => {
                                     if (
                                         withType &&
-                                        e?.type === withType &&
+                                        (e as { type?: string })?.type ===
+                                            withType &&
                                         e?.id
                                     ) {
                                         setData({
