@@ -17,6 +17,7 @@ return new class extends Migration {
 
             $table->string('name');
             $table->string('favicon')->nullable();
+            $table->string('logo')->nullable();
 
             $table
                 ->foreignUuid('organisation_id')

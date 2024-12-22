@@ -31,7 +31,7 @@ export function ShowActionButtons(
 export function FormActionButtons(
     cancelRoute: string,
     formId: string,
-    disabled: boolean,
+    disabled?: boolean,
 ): PageHeaderButton[] {
     const __ = useTranslate()
 

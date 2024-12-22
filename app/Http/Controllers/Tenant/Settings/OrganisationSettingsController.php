@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Tenant\Settings;
 use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\Settings\UpdateFaviconRequest;
+use App\Http\Requests\Organisation\Settings\UpdateLogoRequest;
 use App\Http\Requests\Organisation\Settings\UpdateOrganisationSettingsRequest;
 use App\Models\Tenant\OrganisationPublicSettings;
 use Cloudinary\Api\Exception\ApiError;
@@ -112,6 +113,55 @@ class OrganisationSettingsController extends Controller
             ->getSecurePath();
 
         $settings->favicon = $uploadedFileUrl;
+        $settings->save();
+
+        cache()->forget('tenant');
+        return $this->redirect($request, $this->baseRouteName . '.show');
+    }
+
+    /**
+     * Show the form for editing the organisation favicon.
+     * @throws AuthorizationException
+     */
+    public function editLogo(): \Inertia\Response
+    {
+        /** @var OrganisationPublicSettings $settings */
+        $settings = OrganisationPublicSettings::first();
+
+        $this->authorize('update', $settings);
+
+        return AppInertia::render($this->baseViewPath . '/Logo/Edit', [
+            'settings' => $settings,
+        ]);
+    }
+
+    /**
+     * Update the favicon of the organisation.
+     * @throws AuthorizationException
+     * @throws ApiError
+     */
+    public function updateLogo(
+        UpdateLogoRequest $request,
+    ): \Illuminate\Http\RedirectResponse {
+        /** @var OrganisationPublicSettings $settings */
+        $settings = OrganisationPublicSettings::first();
+
+        $this->authorize('update', $settings);
+
+        $validated = $request->validated();
+
+        $uploadedFileUrl = cloudinary()
+            ->upload($validated['logo'], [
+                'asset_folder' => tenant()->id,
+                'public_id' => 'logo',
+                'public_id_prefix' => tenant()->id,
+                'format' => 'png',
+                'crop' => 'lfill',
+                'width' => 480,
+            ])
+            ->getSecurePath();
+
+        $settings->logo = $uploadedFileUrl;
         $settings->save();
 
         cache()->forget('tenant');

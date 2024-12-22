@@ -38,13 +38,25 @@ export function Branding({
                 className,
             )}
         >
-            <Logo className="shrink-0" />
-            <p className="truncate text-4xl/9 font-semibold tracking-wider min-w-0">
-                {getAbbreviation(tenant?.public_settings?.name ?? 'AWAR')}
-                <span className="sr-only">
-                    {tenant?.public_settings?.name ?? 'AWAR'}
-                </span>
-            </p>
+            {tenant?.public_settings?.logo ? (
+                <img
+                    src={tenant?.public_settings?.logo}
+                    alt={`${tenant?.public_settings?.name} logo`}
+                    className="h-14 object-contain rounded-sm"
+                />
+            ) : (
+                <>
+                    <Logo className="shrink-0" />
+                    <p className="truncate text-4xl/9 font-semibold tracking-wider min-w-0">
+                        {getAbbreviation(
+                            tenant?.public_settings?.name ?? 'AWAR',
+                        )}
+                        <span className="sr-only">
+                            {tenant?.public_settings?.name ?? 'AWAR'}
+                        </span>
+                    </p>
+                </>
+            )}
         </Link>
     )
 }

@@ -28,6 +28,8 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationPublicSettings whereOrganisationId($value)
  * @property string|null $name
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationPublicSettings whereName($value)
+ * @property string|null $logo
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationPublicSettings whereLogo($value)
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class])]

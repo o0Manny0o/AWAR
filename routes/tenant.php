@@ -98,6 +98,19 @@ Route::middleware([
                                 ])->name('update');
                             });
 
+                        Route::name('logo.')
+                            ->prefix('logo')
+                            ->group(function () {
+                                Route::get('/edit', [
+                                    OrganisationSettingsController::class,
+                                    'editLogo',
+                                ])->name('edit');
+                                Route::post('/update', [
+                                    OrganisationSettingsController::class,
+                                    'updateLogo',
+                                ])->name('update');
+                            });
+
                         Route::name('public.')
                             ->prefix('public')
                             ->group(function () {

@@ -418,6 +418,22 @@ type Translations = {
                     }
                 }
             }
+            logo: {
+                headers: {
+                    update: string
+                }
+                titles: {
+                    update: string
+                }
+            }
+            favicon: {
+                headers: {
+                    update: string
+                }
+                titles: {
+                    update: string
+                }
+            }
         }
     }
     animals: {

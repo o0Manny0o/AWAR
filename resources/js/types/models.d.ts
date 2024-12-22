@@ -217,6 +217,7 @@ declare namespace App.Models {
         export interface PublicSettings {
             name: string
             favicon: string
+            logo: string
         }
     }
 }

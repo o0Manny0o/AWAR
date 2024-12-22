@@ -48,7 +48,7 @@ export function SidebarNav({
     return (
         <SidebarContext.Provider value={{ colored }}>
             <div
-                className={`flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4
+                className={`flex grow flex-col gap-y-5 overflow-y-auto px-6 py-4
                     ${colored ? 'bg-primary-200 dark:bg-primary-950' : 'bg-ceiling'}`}
             >
                 <Branding />

@@ -417,6 +417,22 @@
                         "label": "What is the name of your organisation?"
                     }
                 }
+            },
+            "logo": {
+                "headers": {
+                    "update": "Update Logo"
+                },
+                "titles": {
+                    "update": "Update Logo"
+                }
+            },
+            "favicon": {
+                "headers": {
+                    "update": "Update Favicon"
+                },
+                "titles": {
+                    "update": "Update Favicon"
+                }
             }
         }
     },

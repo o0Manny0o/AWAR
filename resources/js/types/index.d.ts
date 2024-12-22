@@ -16,6 +16,7 @@ type Organisation = {
     public_settings?: {
         name: string
         favicon: string
+        logo: string
     }
 }
 

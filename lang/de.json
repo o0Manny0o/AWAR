@@ -249,6 +249,22 @@
                         "label": "Wie ist der Name Ihrer Organisation?"
                     }
                 }
+            },
+            "logo": {
+                "headers": {
+                    "update": "Logo Aktualisieren"
+                },
+                "titles": {
+                    "update": "Logo Aktualisieren"
+                }
+            },
+            "favicon": {
+                "headers": {
+                    "update": "Favicon Aktualisieren"
+                },
+                "titles": {
+                    "update": "Favicon Aktualisieren"
+                }
             }
         }
     },
