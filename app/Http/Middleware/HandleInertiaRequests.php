@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Enum\SelfDisclosure\SelfDisclosureStep;
 use App\Models\Organisation;
 use App\Services\SelfDisclosureService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -71,12 +72,9 @@ class HandleInertiaRequests extends Middleware
                     18000,
                     function () use ($request) {
                         return Organisation::whereHas('members', function (
-                            $query,
+                            Builder $query,
                         ) use ($request) {
-                            $query->where(
-                                'global_id',
-                                $request->user()->global_id,
-                            );
+                            $query->where('users.id', $request->user()->id);
                         })
                             ->with('domains')
                             ->get();

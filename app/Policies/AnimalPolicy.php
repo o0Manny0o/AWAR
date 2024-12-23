@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enum\DefaultTenantUserRole;
+use App\Authorisation\Enum\OrganisationRole;
 use App\Models\Animal\Animal;
 use App\Models\User;
 
@@ -11,11 +11,11 @@ class AnimalPolicy extends BasePolicy
     public function before(User $user): ?false
     {
         if (
-            !$user->member?->hasAnyRole(
-                DefaultTenantUserRole::ADMIN,
-                DefaultTenantUserRole::ADOPTION_LEAD,
-                DefaultTenantUserRole::ADOPTION_HANDLER,
-                DefaultTenantUserRole::FOSTER_HOME,
+            !$user->hasAnyRole(
+                OrganisationRole::ADMIN,
+                OrganisationRole::ANIMAL_LEAD,
+                OrganisationRole::ANIMAL_HANDLER,
+                OrganisationRole::FOSTER_HOME,
             )
         ) {
             return false;
@@ -97,8 +97,8 @@ class AnimalPolicy extends BasePolicy
 
     function isAdminOrLeadOrHandler(User $user, Animal $animal): bool
     {
-        return $this->isAdmin($user) ||
-            $user->member?->hasRole(DefaultTenantUserRole::ADOPTION_LEAD) ||
+        return $this->isOrganisationAdmin($user) ||
+            $user->hasRole(OrganisationRole::ANIMAL_LEAD) ||
             $animal->handler_id === $user->global_id;
     }
 

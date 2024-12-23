@@ -49,7 +49,7 @@ class OrganisationLocationPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $this->isOrganisationAdmin($user);
     }
 
     /**
@@ -59,7 +59,7 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user) &&
+        return $this->isOrganisationAdmin($user) &&
             $this->belongsToOrganisation($organisationLocation);
     }
 
@@ -70,7 +70,7 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user) &&
+        return $this->isOrganisationAdmin($user) &&
             $this->belongsToOrganisation($organisationLocation);
     }
 
@@ -81,7 +81,7 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user) &&
+        return $this->isOrganisationAdmin($user) &&
             $this->belongsToOrganisation($organisationLocation);
     }
 
@@ -92,12 +92,12 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user) &&
+        return $this->isOrganisationAdmin($user) &&
             $this->belongsToOrganisation($organisationLocation);
     }
 
     function isOwner(User $user, $entity): bool
     {
-        return $this->isAdmin($user);
+        return $this->isOrganisationAdmin($user);
     }
 }

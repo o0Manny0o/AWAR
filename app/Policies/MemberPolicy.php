@@ -25,7 +25,7 @@ class MemberPolicy extends BasePolicy
      */
     public function view(User $user, Member $member): bool
     {
-        return $this->isAdmin($user);
+        return $this->isOrganisationAdmin($user);
     }
 
     /**
@@ -49,7 +49,7 @@ class MemberPolicy extends BasePolicy
      */
     public function delete(User $user, Member $member): bool
     {
-        return $this->isAdmin($user);
+        return $this->isOrganisationAdmin($user);
     }
 
     /**

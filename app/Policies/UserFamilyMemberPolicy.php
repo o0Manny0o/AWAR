@@ -70,7 +70,6 @@ class UserFamilyMemberPolicy extends BasePolicy
 
     function isOwner(User $user, UserFamilyMember|Model $entity): bool
     {
-        return $entity->selfDisclosure()->first()?->global_user_id ===
-            $user->global_id;
+        return $entity->selfDisclosure()->first()?->user_id === $user->id;
     }
 }

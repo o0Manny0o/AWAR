@@ -13,8 +13,8 @@ use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalFamily;
 use App\Models\Animal\AnimalHistory;
-use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationLocation;
+use App\Models\User;
 use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
@@ -51,8 +51,8 @@ class AnimalController extends Controller
 
         $history = AnimalHistory::internalHistory($animal);
 
-        $handlers = Member::handlers()->get();
-        $fosterHomes = Member::fosterHomes()->get();
+        $handlers = User::handlers()->get();
+        $fosterHomes = User::fosterHomes()->get();
         $locations = OrganisationLocation::select(['id', 'name'])->get();
 
         return AppInertia::render($this->getShowView(), [

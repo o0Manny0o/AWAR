@@ -24,15 +24,15 @@ class OrganisationPublicSettingsPolicy extends BasePolicy
         OrganisationPublicSettings $organisationSettings,
     ): bool {
         return $this->isMember($user) &&
-            $this->isAdmin($user) &&
+            $this->isOrganisationAdmin($user) &&
             $this->belongsToOrganisation($organisationSettings);
     }
 
     private function belongsToOrganisation(
-        OrganisationPublicSettings $location,
+        OrganisationPublicSettings $settings,
     ): bool {
         if (tenancy()->initialized) {
-            return $location->organisation_id === tenant()->id;
+            return $settings->organisation_id === tenant()->id;
         }
         return false;
     }
@@ -53,7 +53,7 @@ class OrganisationPublicSettingsPolicy extends BasePolicy
         OrganisationPublicSettings $organisationSettings,
     ): bool {
         return $this->isMember($user) &&
-            $this->isAdmin($user) &&
+            $this->isOrganisationAdmin($user) &&
             $this->belongsToOrganisation($organisationSettings);
     }
 

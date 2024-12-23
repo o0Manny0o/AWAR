@@ -2,16 +2,16 @@
 
 namespace App\Models\Animal;
 
+use App\Authorisation\Enum\OrganisationRole;
 use App\Enum\ResourcePermission;
-use App\Enum\TenantPermission;
 use App\Interface\Trackable;
 use App\Models\Organisation;
-use App\Models\Scopes\TenantScope;
 use App\Models\Scopes\WithAddressScope;
 use App\Models\Scopes\WithAnimalableScope;
 use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
+use App\Traits\BelongsToOrganisation;
 use App\Traits\HasMorphableScopes;
 use App\Traits\HasResourcePermissions;
 use App\Traits\OptionalAppends;
@@ -28,7 +28,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\UnauthorizedException;
 use Psr\Http\Message\UriInterface;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -114,16 +113,16 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|Animal byRole(\App\Models\User $user)
  * @mixin \Eloquent
  */
-#[ScopedBy([TenantScope::class, WithAnimalableScope::class])]
+#[ScopedBy([WithAnimalableScope::class])]
 class Animal extends Model implements Trackable
 {
-    use CentralConnection,
-        HasResourcePermissions,
+    use HasResourcePermissions,
         HasUuids,
         SoftDeletes,
         MediaAlly,
         HasMorphableScopes,
-        OptionalAppends;
+        OptionalAppends,
+        BelongsToOrganisation;
 
     protected $fillable = [
         'name',
@@ -200,16 +199,8 @@ class Animal extends Model implements Trackable
             User::class,
             'animal_users',
             'animal_id',
-            'global_user_id',
+            'id',
         );
-    }
-
-    /**
-     * The organisation that the animal belongs to.
-     */
-    public function organisation(): BelongsTo
-    {
-        return $this->belongsTo(Organisation::class);
     }
 
     public function histories(): HasMany
@@ -279,11 +270,11 @@ class Animal extends Model implements Trackable
     /**
      * The handler that is assigned to the animal
      */
-    public function getHandlerAttribute(): ?Member
+    public function getHandlerAttribute(): ?User
     {
         return tenant()->run(function () {
-            return Member::whereGlobalId($this->handler_id)
-                ->select(['global_id AS id', 'name'])
+            return User::whereId($this->handler_id)
+                ->select(['id', 'name'])
                 ->first();
         });
     }
@@ -291,11 +282,11 @@ class Animal extends Model implements Trackable
     /**
      * The handler that is assigned to the animal
      */
-    public function getFosterHomeAttribute(): ?Member
+    public function getFosterHomeAttribute(): ?User
     {
         return tenant()->run(function () {
-            return Member::whereGlobalId($this->foster_home_id)
-                ->select(['global_id AS id', 'name'])
+            return User::whereId($this->foster_home_id)
+                ->select(['id', 'name'])
                 ->first();
         });
     }
@@ -303,14 +294,12 @@ class Animal extends Model implements Trackable
     /**
      * The handler that is assigned to the animal
      */
-    public function getLocationAttribute(): Member|OrganisationLocation|null
+    public function getLocationAttribute(): User|OrganisationLocation|null
     {
-        if ($this->locationable_type === Member::class) {
-            return tenant()->run(function () {
-                return Member::whereGlobalId($this->locationable_id)
-                    ->select(['global_id AS id', 'name'])
-                    ->first();
-            });
+        if ($this->locationable_type === User::class) {
+            return User::find($this->locationable_id)
+                ->select(['id', 'name'])
+                ->first();
         } elseif ($this->locationable_type === OrganisationLocation::class) {
             return OrganisationLocation::withoutGlobalScope(
                 WithAddressScope::class,
@@ -326,35 +315,18 @@ class Animal extends Model implements Trackable
     public function scopeByRole(Builder $builder, User $user): void
     {
         if (
-            !$user->member->hasAnyPermission([
-                TenantPermission::SEE_ALL_ANIMALS,
-                TenantPermission::SEE_FOSTERED_ANIMALS,
-                TenantPermission::SEE_ASSIGNED_ANIMALS,
+            $user->hasAnyRole([
+                OrganisationRole::ADMIN,
+                OrganisationRole::ANIMAL_LEAD,
             ])
         ) {
+            return;
+        } elseif ($user->hasRole(OrganisationRole::FOSTER_HOME)) {
+            $builder->where('foster_home_id', $user->id);
+        } elseif ($user->hasRole(OrganisationRole::ANIMAL_HANDLER)) {
+            $builder->where('handler_id', $user->id);
+        } else {
             throw new UnauthorizedException();
-        } elseif (
-            !$user->member->hasPermissionTo(TenantPermission::SEE_ALL_ANIMALS)
-        ) {
-            $builder
-                ->when(
-                    $user->member->hasPermissionTo(
-                        TenantPermission::SEE_FOSTERED_ANIMALS,
-                    ),
-                    fn(Builder $builder) => $builder->where(
-                        'foster_home_id',
-                        $user->id,
-                    ),
-                )
-                ->when(
-                    $user->member->hasPermissionTo(
-                        TenantPermission::SEE_ASSIGNED_ANIMALS,
-                    ),
-                    fn(Builder $builder) => $builder->where(
-                        'handler_id',
-                        $user->id,
-                    ),
-                );
         }
     }
 

@@ -12,7 +12,7 @@ class UserSelfDisclosurePolicy extends BasePolicy
 {
     function isOwner(User $user, UserSelfDisclosure|Model $entity): bool
     {
-        return $entity->global_user_id === $user->global_id;
+        return $entity->user_id === $user->id;
     }
 
     function useWizard(User $user): bool

@@ -8,19 +8,22 @@ use Illuminate\Database\Eloquent\Scope;
 
 class TenantScope implements Scope
 {
-    /**
-     * Apply the scope to a given Eloquent query builder.
-     */
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->when(
-            tenant(),
-            function (Builder $query) {
-                return $query->where('organisation_id', tenant()->id);
-            },
-            function (Builder $query) {
-                return $query->with(['organisation']);
-            },
+        if (!tenancy()->initialized) {
+            return;
+        }
+
+        $builder->where(
+            $model->qualifyColumn('organisation_id'),
+            tenant()->getTenantKey(),
         );
+    }
+
+    public function extend(Builder $builder): void
+    {
+        $builder->macro('withoutTenancy', function (Builder $builder) {
+            return $builder->withoutGlobalScope($this);
+        });
     }
 }

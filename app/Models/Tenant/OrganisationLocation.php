@@ -3,19 +3,13 @@
 namespace App\Models\Tenant;
 
 use App\Enum\ResourcePermission;
-use App\Models\Address;
-use App\Models\Organisation;
-use App\Models\Scopes\TenantScope;
-use App\Models\Scopes\WithAddressScope;
+use App\Traits\BelongsToOrganisation;
+use App\Traits\HasAddress;
 use App\Traits\HasResourcePermissions;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -52,14 +46,14 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Database\Factories\Tenant\OrganisationLocationFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
-#[ScopedBy([TenantScope::class, WithAddressScope::class])]
 class OrganisationLocation extends Model
 {
-    use CentralConnection,
-        SoftDeletes,
+    use SoftDeletes,
         HasResourcePermissions,
         HasUuids,
-        HasFactory;
+        HasFactory,
+        BelongsToOrganisation,
+        HasAddress;
 
     protected $fillable = ['name', 'public'];
 
@@ -68,20 +62,4 @@ class OrganisationLocation extends Model
         ResourcePermission::VIEW,
         ResourcePermission::UPDATE,
     ];
-
-    /**
-     * Get the organisation that owns the location.
-     */
-    public function organisation(): BelongsTo
-    {
-        return $this->belongsTo(Organisation::class);
-    }
-
-    /**
-     * Get the location address.
-     */
-    public function address(): MorphOne
-    {
-        return $this->morphOne(Address::class, 'addressable');
-    }
 }

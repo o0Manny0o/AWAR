@@ -48,7 +48,7 @@ export default function Index({
                             {__(badgeLabelKey(a))}
                         </Badge>
                     )}
-                    resourceUrl={'organisations.applications'}
+                    resourceUrl={'settings.applications'}
                     resourceLabel={'general.resources.organisation.application'}
                 />
             </Card>

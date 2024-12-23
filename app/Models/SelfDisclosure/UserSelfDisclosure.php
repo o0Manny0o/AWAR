@@ -49,6 +49,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string|null $furthest_step
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserSelfDisclosure whereFurthestStep($value)
  * @method static Builder<static>|UserSelfDisclosure ofUser(\App\Models\User $user)
+ * @property string $user_id
+ * @method static Builder<static>|UserSelfDisclosure whereUserId($value)
  * @mixin \Eloquent
  */
 class UserSelfDisclosure extends Model
@@ -67,7 +69,7 @@ class UserSelfDisclosure extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'global_user_id', 'global_id');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -131,6 +133,6 @@ class UserSelfDisclosure extends Model
 
     public function scopeOfUser(Builder $query, User $user)
     {
-        $query->where('global_user_id', $user->global_id);
+        $query->where('user_id', $user->id);
     }
 }

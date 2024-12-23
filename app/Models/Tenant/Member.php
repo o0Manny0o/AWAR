@@ -2,13 +2,12 @@
 
 namespace App\Models\Tenant;
 
-use App\Enum\DefaultTenantUserRole;
+use App\Authorisation\Enum\OrganisationRole;
 use App\Models\User;
 use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
 use Stancl\Tenancy\Contracts\Syncable;
 use Stancl\Tenancy\Database\Concerns\ResourceSyncing;
@@ -52,8 +51,8 @@ class Member extends Model implements Syncable
     {
         $builder
             ->role([
-                DefaultTenantUserRole::ADOPTION_HANDLER,
-                DefaultTenantUserRole::ADOPTION_LEAD,
+                OrganisationRole::ANIMAL_HANDLER,
+                OrganisationRole::ANIMAL_LEAD,
             ])
             ->select(['global_id AS id', 'name']);
     }
@@ -61,7 +60,7 @@ class Member extends Model implements Syncable
     public static function scopeFosterHomes(Builder $builder): void
     {
         $builder
-            ->role([DefaultTenantUserRole::FOSTER_HOME])
+            ->role([OrganisationRole::FOSTER_HOME])
             ->select(['global_id AS id', 'name']);
     }
 
@@ -90,16 +89,8 @@ class Member extends Model implements Syncable
         return ['global_id', 'name', 'email'];
     }
 
-    /**
-     * Get the invitation for the member.
-     */
-    public function invitations(): HasMany
-    {
-        return $this->hasMany(OrganisationInvitation::class);
-    }
-
     public function isAdmin(): bool
     {
-        return $this->hasRole(DefaultTenantUserRole::ADMIN);
+        return $this->hasRole(OrganisationRole::ADMIN);
     }
 }

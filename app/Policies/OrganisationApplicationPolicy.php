@@ -27,7 +27,8 @@ class OrganisationApplicationPolicy extends BasePolicy
         User $user,
         OrganisationApplication $organisationApplication,
     ): bool {
-        return $this->isAdminOrOwner($user, $organisationApplication);
+        return $this->isCentralAdmin($user) ||
+            $this->isOwner($user, $organisationApplication);
     }
 
     /**
@@ -46,7 +47,8 @@ class OrganisationApplicationPolicy extends BasePolicy
         User $user,
         OrganisationApplication $organisationApplication,
     ): bool {
-        return $this->isAdminOrOwner($user, $organisationApplication) &&
+        return ($this->isCentralAdmin($user) ||
+            $this->isOwner($user, $organisationApplication)) &&
             !$organisationApplication->isLocked();
     }
 
@@ -57,7 +59,8 @@ class OrganisationApplicationPolicy extends BasePolicy
         User $user,
         OrganisationApplication $organisationApplication,
     ): bool {
-        return $this->isAdminOrOwner($user, $organisationApplication) &&
+        return ($this->isCentralAdmin($user) ||
+            $this->isOwner($user, $organisationApplication)) &&
             !$organisationApplication->isLocked() &&
             $organisationApplication->deleted_at == null;
     }
@@ -69,7 +72,8 @@ class OrganisationApplicationPolicy extends BasePolicy
         User $user,
         OrganisationApplication $organisationApplication,
     ): bool {
-        return $this->isAdminOrOwner($user, $organisationApplication) &&
+        return ($this->isCentralAdmin($user) ||
+            $this->isOwner($user, $organisationApplication)) &&
             !$organisationApplication->isLocked() &&
             $organisationApplication->deleted_at !== null;
     }
@@ -81,7 +85,8 @@ class OrganisationApplicationPolicy extends BasePolicy
         User $user,
         OrganisationApplication $organisationApplication,
     ): bool {
-        return $this->isAdminOrOwner($user, $organisationApplication) &&
+        return ($this->isCentralAdmin($user) ||
+            $this->isOwner($user, $organisationApplication)) &&
             !$organisationApplication->isLocked();
     }
 
@@ -92,8 +97,9 @@ class OrganisationApplicationPolicy extends BasePolicy
         User $user,
         OrganisationApplication $organisationApplication,
     ): bool {
-        return $this->isAdminOrOwner($user, $organisationApplication) &&
-            $organisationApplication->isComplete() &&
-            !$organisationApplication->isLocked();
+        return ($this->isCentralAdmin($user) ||
+            $this->isOwner($user, $organisationApplication)) &&
+            !$organisationApplication->isLocked() &&
+            $organisationApplication->isComplete();
     }
 }

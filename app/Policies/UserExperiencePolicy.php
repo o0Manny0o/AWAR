@@ -26,8 +26,7 @@ class UserExperiencePolicy
 
     function isOwner(User $user, UserExperience|Model $entity): bool
     {
-        return $entity->selfDisclosure()->first()?->global_user_id ===
-            $user->global_id;
+        return $entity->selfDisclosure()->first()?->user_id === $user->id;
     }
 
     /**

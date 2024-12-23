@@ -36,22 +36,17 @@ class ImageOrDatabaseEntry implements ValidationRule
         Closure $fail,
     ): void {
         if (is_numeric($value)) {
-            tenancy()->central(function () use ($fail, $value, $attribute) {
-                $validator = Validator::make(
-                    [$attribute => $value],
-                    [
-                        str_replace('.', '\.', $attribute) => [
-                            Rule::exists($this->table, $this->column)->where(
-                                'medially_id',
-                                request()->route($this->idParameter),
-                            ),
-                        ],
+            $validator = Validator::make(
+                [$attribute => $value],
+                [
+                    str_replace('.', '\.', $attribute) => [
+                        Rule::exists($this->table, $this->column)->where(
+                            'medially_id',
+                            request()->route($this->idParameter),
+                        ),
                     ],
-                );
-                if ($validator->fails()) {
-                    $fail($validator->errors()->first());
-                }
-            });
+                ],
+            );
         } else {
             $validator = Validator::make(
                 [$attribute => $value],
@@ -65,9 +60,9 @@ class ImageOrDatabaseEntry implements ValidationRule
                     $attribute => 'file',
                 ],
             );
-            if ($validator->fails()) {
-                $fail($validator->errors()->first());
-            }
+        }
+        if ($validator->fails()) {
+            $fail($validator->errors()->first());
         }
     }
 }

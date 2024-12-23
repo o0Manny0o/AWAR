@@ -301,9 +301,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -360,8 +360,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -421,6 +419,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -749,9 +748,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -808,8 +807,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -869,6 +866,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -1197,9 +1195,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -1256,8 +1254,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -1317,6 +1313,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -1645,9 +1642,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -1704,8 +1701,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -1765,6 +1760,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -2093,9 +2089,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -2152,8 +2148,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -2213,6 +2207,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -2541,9 +2536,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -2600,8 +2595,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -2661,6 +2654,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -2989,9 +2983,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -3048,8 +3042,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -3109,6 +3101,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -3437,9 +3430,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -3496,8 +3489,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -3557,6 +3548,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -3885,9 +3877,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -3944,8 +3936,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -4005,6 +3995,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -4333,9 +4324,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -4392,8 +4383,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -4453,6 +4442,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -4781,9 +4771,9 @@ namespace PHPSTORM_META {
             'Illuminate\Routing\Console\MiddlewareMakeCommand' =>
                 \Illuminate\Routing\Console\MiddlewareMakeCommand::class,
             'Illuminate\Routing\Contracts\CallableDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingCallableDispatcherTracing::class,
+                \Illuminate\Routing\CallableDispatcher::class,
             'Illuminate\Routing\Contracts\ControllerDispatcher' =>
-                \Sentry\Laravel\Tracing\Routing\TracingControllerDispatcherTracing::class,
+                \Illuminate\Routing\ControllerDispatcher::class,
             'Illuminate\Session\Console\SessionTableCommand' =>
                 \Illuminate\Session\Console\SessionTableCommand::class,
             'Illuminate\Session\Middleware\StartSession' =>
@@ -4840,8 +4830,6 @@ namespace PHPSTORM_META {
                 \Spatie\Permission\PermissionRegistrar::class,
             'Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
-            'Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper' =>
-                \Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper' =>
                 \Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
             'Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper' =>
@@ -4901,6 +4889,7 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
+            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,

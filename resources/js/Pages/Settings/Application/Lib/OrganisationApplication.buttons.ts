@@ -49,15 +49,15 @@ export function ShowActionButtons(
         }),
     }
 
-    const editButton = (primary: boolean): PageHeaderButton => ({
+    const EDIT_BUTTON = {
         label: __('general.button.edit', {
             resource: '',
         }),
-        variant: primary ? 'primary' : 'secondary',
+        variant: 'secondary',
         href: route('settings.applications.edit', {
             application: application.id,
         }),
-    })
+    }
 
     if (application.is_locked) {
         return []
@@ -68,28 +68,11 @@ export function ShowActionButtons(
         }
         return []
     }
-    if (application.is_complete) {
-        return [
-            ...(can('organisations.applications.submit')
-                ? [SUBMIT_BUTTON]
-                : []),
-            ...(can('organisations.applications.update')
-                ? [editButton(false)]
-                : []),
-            ...(can('organisations.applications.delete')
-                ? [DELETE_BUTTON]
-                : []),
-        ]
-    } else {
-        return [
-            ...(can('organisations.applications.update')
-                ? [editButton(true)]
-                : []),
-            ...(can('organisations.applications.delete')
-                ? [DELETE_BUTTON]
-                : []),
-        ]
-    }
+    return [
+        ...(can('organisations.applications.submit') ? [SUBMIT_BUTTON] : []),
+        ...(can('organisations.applications.update') ? [EDIT_BUTTON] : []),
+        ...(can('organisations.applications.delete') ? [DELETE_BUTTON] : []),
+    ]
 }
 
 export function EditActionButtons(

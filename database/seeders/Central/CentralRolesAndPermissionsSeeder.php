@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Seeders\central;
+namespace Database\Seeders\Central;
 
-use App\Enum\CentralUserRole;
+use App\Authorisation\Enum\CentralRole;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -15,16 +15,14 @@ class CentralRolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        app()[
-            \Spatie\Permission\PermissionRegistrar::class
-        ]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Permission::create(['name' => 'edit articles']);
 
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        Role::create(['name' => CentralUserRole::SUPER_ADMIN]);
-        $adminRole = Role::create(['name' => CentralUserRole::ADMIN]);
+        $superAdminRole = Role::findOrCreate(CentralRole::SUPER_ADMIN->value);
+        $adminRole = Role::findOrCreate(CentralRole::ADMIN->value);
 
         $adminRole->givePermissionTo(Permission::all());
     }

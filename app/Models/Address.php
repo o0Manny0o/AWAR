@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -50,7 +49,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  */
 class Address extends Model
 {
-    use HasPostgisColumns, HasFactory, CentralConnection;
+    use HasPostgisColumns, HasFactory;
 
     protected array $postgisColumns = [
         'location' => [

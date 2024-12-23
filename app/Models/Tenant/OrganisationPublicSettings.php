@@ -3,14 +3,10 @@
 namespace App\Models\Tenant;
 
 use App\Enum\ResourcePermission;
-use App\Models\Organisation;
-use App\Models\Scopes\TenantScope;
+use App\Traits\BelongsToOrganisation;
 use App\Traits\HasResourcePermissions;
-use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -32,11 +28,9 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationPublicSettings whereLogo($value)
  * @mixin \Eloquent
  */
-#[ScopedBy([TenantScope::class])]
 class OrganisationPublicSettings extends Model
 {
-    /** @use HasFactory<\Database\Factories\OrganisationSettingsFactory> */
-    use HasFactory, CentralConnection, HasResourcePermissions;
+    use HasFactory, HasResourcePermissions, BelongsToOrganisation;
 
     protected $fillable = ['name', 'favicon'];
 
@@ -48,9 +42,4 @@ class OrganisationPublicSettings extends Model
     ];
 
     public $timestamps = false;
-
-    public function organisation(): BelongsTo
-    {
-        return $this->belongsTo(Organisation::class);
-    }
 }

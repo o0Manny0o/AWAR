@@ -2,13 +2,16 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
+/** TODO: Caching */
 class IsMember
 {
     /**
@@ -24,7 +27,16 @@ class IsMember
         Closure $next,
         string $redirectToRoute = null,
     ) {
-        if (tenant() && $request->user()?->member) {
+        /** @var User|null $user */
+        $user = $request->user();
+        if (
+            tenant() &&
+            $user
+                ?->whereHas('tenants', function (Builder $query) {
+                    $query->where('organisations.id', tenant('id'));
+                })
+                ->exists()
+        ) {
             return $next($request);
         }
         return $request->expectsJson()

@@ -26,8 +26,8 @@ return new class extends Migration {
                 ->default(SelfDisclosureStep::PERSONAL);
 
             $table
-                ->foreignUuid('global_user_id')
-                ->constrained('users', 'global_id')
+                ->foreignUuid('user_id')
+                ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
 

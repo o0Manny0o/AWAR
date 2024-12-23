@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware\HandleInertiaRequests;
-use App\Http\Middleware\HasTenantRole;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -12,7 +11,6 @@ use Sentry\Laravel\Integration;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        // web: __DIR__ . '/../routes/web.php',
         commands: __DIR__ . '/../routes/console.php',
         health: '/up',
         then: function () {
@@ -24,7 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     ->group(base_path('routes/central.php'));
                 Route::middleware('web')
                     ->domain($domain)
-                    ->group(base_path('routes/organisation.php'));
+                    ->group(base_path('routes/central/settings.php'));
             }
 
             Route::middleware('web')->group(base_path('routes/tenant.php'));
@@ -43,10 +41,6 @@ return Application::configure(basePath: dirname(__DIR__))
         );
 
         $middleware->trustProxies();
-
-        $middleware->alias([
-            'tenantRole' => HasTenantRole::class,
-        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         Integration::handles($exceptions);

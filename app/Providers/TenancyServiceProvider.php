@@ -13,7 +13,6 @@ use Illuminate\Support\ServiceProvider;
 use Stancl\JobPipeline\JobPipeline;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Stancl\Tenancy\Events;
-use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
 use Stancl\Tenancy\Resolvers\DomainTenantResolver;
@@ -30,9 +29,9 @@ class TenancyServiceProvider extends ServiceProvider
             Events\CreatingTenant::class => [],
             Events\TenantCreated::class => [
                 JobPipeline::make([
-                    Jobs\CreateDatabase::class,
-                    Jobs\MigrateDatabase::class,
-                    Jobs\SeedDatabase::class,
+                    // Jobs\CreateDatabase::class,
+                    // Jobs\MigrateDatabase::class,
+                    // Jobs\SeedDatabase::class,
                     CreatePublicSettings::class,
 
                     // Your own jobs to prepare the tenant.
@@ -51,7 +50,7 @@ class TenancyServiceProvider extends ServiceProvider
             Events\TenantDeleted::class => [
                 JobPipeline::make([
                     DeleteMedia::class,
-                    Jobs\DeleteDatabase::class,
+                    // Jobs\DeleteDatabase::class,
                 ])
                     ->send(function (Events\TenantDeleted $event) {
                         return $event->tenant;

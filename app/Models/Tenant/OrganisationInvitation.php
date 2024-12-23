@@ -3,6 +3,8 @@
 namespace App\Models\Tenant;
 
 use App\Enum\ResourcePermission;
+use App\Models\User;
+use App\Traits\BelongsToOrganisation;
 use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -24,11 +26,34 @@ use Spatie\Permission\Models\Role;
  * @property-read bool $can_be_resended
  * @property-read Role|null $role
  * @property-read bool $can_be_published
+ * @property string $id
+ * @property string $email
+ * @property string $token
+ * @property string $status
+ * @property \Illuminate\Support\Carbon|null $sent_at
+ * @property \Illuminate\Support\Carbon|null $accepted_at
+ * @property \Illuminate\Support\Carbon|null $valid_until
+ * @property string $user_id
+ * @property string $organisation_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Organisation $organisation
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereAcceptedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereOrganisationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereSentAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereValidUntil($value)
  * @mixin \Eloquent
  */
 class OrganisationInvitation extends Model
 {
-    use HasUuids, HasResourcePermissions;
+    use HasUuids, HasResourcePermissions, BelongsToOrganisation;
 
     protected $fillable = [
         'email',
@@ -59,7 +84,7 @@ class OrganisationInvitation extends Model
 
     public function inviter(): BelongsTo
     {
-        return $this->belongsTo(Member::class);
+        return $this->belongsTo(User::class);
     }
 
     public function isExpired(): bool

@@ -4,7 +4,7 @@ namespace App\Enum;
 
 use App\Traits\HasValues;
 
-enum TenantPermission: string
+enum OrganisationPermission: string
 {
     use HasValues;
 

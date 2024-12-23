@@ -46,9 +46,7 @@ return new class extends Migration {
             $table->bigIncrements('id'); // role id
             if ($teams || config('permission.testing')) {
                 // permission.testing is a fix for sqlite testing
-                $table
-                    ->unsignedBigInteger($columnNames['team_foreign_key'])
-                    ->nullable();
+                $table->uuid($columnNames['team_foreign_key'])->nullable();
                 $table->index(
                     $columnNames['team_foreign_key'],
                     'roles_team_foreign_key_index',
@@ -86,7 +84,7 @@ return new class extends Migration {
                 ->on($tableNames['permissions'])
                 ->onDelete('cascade');
             if ($teams) {
-                $table->unsignedBigInteger($columnNames['team_foreign_key']);
+                $table->uuid($columnNames['team_foreign_key']);
                 $table->index(
                     $columnNames['team_foreign_key'],
                     'model_has_permissions_team_foreign_key_index',
@@ -131,7 +129,7 @@ return new class extends Migration {
                 ->on($tableNames['roles'])
                 ->onDelete('cascade');
             if ($teams) {
-                $table->unsignedBigInteger($columnNames['team_foreign_key']);
+                $table->uuid($columnNames['team_foreign_key']);
                 $table->index(
                     $columnNames['team_foreign_key'],
                     'model_has_roles_team_foreign_key_index',
