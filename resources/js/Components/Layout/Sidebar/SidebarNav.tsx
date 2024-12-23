@@ -28,7 +28,7 @@ export function SidebarNav({
     const { tenant } = usePage().props
 
     const settingsUrl: RouteName = tenant
-        ? 'settings.members.index'
+        ? 'settings.public.show'
         : 'settings.profile.edit'
     const dashboardUrl: RouteName = tenant ? 'tenant.dashboard' : 'dashboard'
 
@@ -48,7 +48,7 @@ export function SidebarNav({
     return (
         <SidebarContext.Provider value={{ colored }}>
             <div
-                className={`flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4
+                className={`flex grow flex-col gap-y-5 overflow-y-auto px-6 py-4
                     ${colored ? 'bg-primary-200 dark:bg-primary-950' : 'bg-ceiling'}`}
             >
                 <Branding />

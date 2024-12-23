@@ -85,7 +85,9 @@ class HandleInertiaRequests extends Middleware
                 : null,
             'tenant' => tenancy()->initialized
                 ? cache()->remember('tenant', 18000, function () {
-                    return tenancy()->tenant?->load('domains');
+                    $tenant = tenancy()->tenant;
+                    $tenant?->load(['domains', 'publicSettings']);
+                    return $tenant;
                 })
                 : null,
             'nextSteps' => [

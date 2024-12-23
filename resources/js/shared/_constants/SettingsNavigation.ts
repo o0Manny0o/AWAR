@@ -1,6 +1,7 @@
 import { NavigationItem } from '@/types/navigation'
 import {
     BuildingOfficeIcon,
+    CogIcon,
     EnvelopeIcon,
     UsersIcon,
 } from '@heroicons/react/24/outline'
@@ -17,6 +18,11 @@ export const CentralSettingsNavigation: NavigationItem[] = [
 ]
 
 export const TenantSettingsNavigation: NavigationItem[] = [
+    {
+        name: 'settings.public.show',
+        label: 'general.navigation.organisations.settings',
+        icon: CogIcon,
+    },
     {
         name: 'settings.members.index',
         label: 'general.navigation.organisations.members',

@@ -183,6 +183,7 @@ type Translations = {
                 invitations: string
                 members: string
                 locations: string
+                settings: string
             }
             overview: string
             your_organisations: string
@@ -400,6 +401,37 @@ type Translations = {
                 public: {
                     description: string
                     label: string
+                }
+            }
+        }
+        settings: {
+            public: {
+                headers: {
+                    update: string
+                }
+                titles: {
+                    update: string
+                }
+                form: {
+                    name: {
+                        label: string
+                    }
+                }
+            }
+            logo: {
+                headers: {
+                    update: string
+                }
+                titles: {
+                    update: string
+                }
+            }
+            favicon: {
+                headers: {
+                    update: string
+                }
+                titles: {
+                    update: string
                 }
             }
         }

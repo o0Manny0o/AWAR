@@ -1,10 +1,10 @@
 import { Card } from '@/Components/Layout/Card'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
 import useTranslate from '@/shared/hooks/useTranslate'
-import { Dispatch, FormEventHandler, useContext } from 'react'
+import { FormEventHandler, useContext } from 'react'
 import { DogFormData } from '@/Pages/Tenant/Animals/Lib/Animals.types'
 import { DogFormWrapper } from '@/Pages/Tenant/Animals/Dogs/Lib/Dog.context'
-import { ImageInput } from '@/Components/_Base/Input/Images/ImageInput'
+import { ImagesInput } from '@/Components/_Base/Input/Images/ImagesInput'
 import { getArrayErrors } from '@/shared/util'
 import { usePage } from '@inertiajs/react'
 import useAnimalOptions from '@/shared/hooks/useAnimalOptions'
@@ -117,7 +117,7 @@ export function DogForm({
                 </Card>
 
                 <Card header={__('general.images')}>
-                    <ImageInput
+                    <ImagesInput
                         images={images ?? []}
                         onChange={(e) => {
                             setData('images', e)

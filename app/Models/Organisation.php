@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Models\Animal\Animal;
 use App\Models\Tenant\OrganisationLocation;
+use App\Models\Tenant\OrganisationPublicSettings;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
@@ -43,6 +45,7 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read mixed $dashboard_url
  * @property-read \Illuminate\Database\Eloquent\Collection<int, OrganisationLocation> $locations
  * @property-read int|null $locations_count
+ * @property-read OrganisationPublicSettings|null $publicSettings
  * @mixin \Eloquent
  */
 class Organisation extends Tenant implements TenantWithDatabase
@@ -119,5 +122,13 @@ class Organisation extends Tenant implements TenantWithDatabase
     public function locations(): HasMany
     {
         return $this->hasMany(OrganisationLocation::class);
+    }
+
+    /**
+     * Get the organisation public settings.
+     */
+    public function publicSettings(): HasOne
+    {
+        return $this->hasOne(OrganisationPublicSettings::class);
     }
 }

@@ -1,21 +1,25 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { InputError } from '@/Components/_Base/Input'
 
 interface ImagePreviewProps {
-    image: { id: string; file: File | string }
-    onDeleteClick: (id: string) => void
+    id: string
+    file?: File | string
+    onButtonClick?: (id: string) => void
     first?: boolean
     error?: string
+    buttonIcon?: ReactNode
 }
 
 export function ImagePreview({
-    onDeleteClick,
-    image: { id, file },
+    onButtonClick,
+    id,
+    file,
     error,
+    buttonIcon = <XMarkIcon />,
 }: ImagePreviewProps) {
     const { attributes, listeners, setNodeRef, transition, transform } =
         useSortable({
@@ -28,33 +32,48 @@ export function ImagePreview({
     }
 
     const url = useMemo(() => {
-        return typeof file === 'string' ? file : URL.createObjectURL(file)
+        return file
+            ? typeof file === 'string'
+                ? file
+                : URL.createObjectURL(file)
+            : null
     }, [file])
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-min">
             <div ref={setNodeRef} style={style} className="relative">
-                <button
-                    type="button"
-                    className="absolute end-2 top-2 size-8 p-2 rounded-full bg-gray-100 hover:bg-gray-300
-                        text-gray-700"
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        onDeleteClick(id)
-                    }}
-                >
-                    <XMarkIcon />
-                </button>
-                <img
+                {onButtonClick && (
+                    <button
+                        type="button"
+                        className="absolute end-2 top-2 size-8 p-2 rounded-full bg-gray-100 hover:bg-gray-300
+                            text-gray-700"
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            onButtonClick(id)
+                        }}
+                    >
+                        {buttonIcon}
+                    </button>
+                )}
+                <div
                     className={twMerge(
-                        'size-44 object-cover rounded-md border-2 border-transparent',
+                        `size-44 rounded-md bg-gray-600 border-2 border-transparent flex items-center
+                        justify-center overflow-hidden`,
                         error && 'border-red-500',
                     )}
-                    src={url}
-                    {...attributes}
-                    {...listeners}
-                    alt={'Selected image'}
-                />
+                >
+                    {url ? (
+                        <img
+                            className="object-cover w-full h-full"
+                            src={url}
+                            {...attributes}
+                            {...listeners}
+                            alt={'Selected image'}
+                        />
+                    ) : (
+                        <span>No Image selected</span>
+                    )}
+                </div>
             </div>
             {error && <InputError className="w-44" message={error} />}
         </div>
