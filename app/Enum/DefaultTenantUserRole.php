@@ -20,14 +20,18 @@ enum DefaultTenantUserRole: string
         return match ($this) {
             self::ADMIN => TenantPermission::values(),
             self::ADOPTION_LEAD => [
-                TenantPermission::EDIT_ANIMALS->value,
+                TenantPermission::SEE_ALL_ANIMALS->value,
+                TenantPermission::EDIT_ALL_ANIMALS->value,
                 TenantPermission::DELETE_ANIMALS->value,
-                TenantPermission::DELETE_ANIMALS->value,
-                TenantPermission::DELETE_ANIMALS->value,
+                TenantPermission::PUBLISH_ANIMALS->value,
+                TenantPermission::UNPUBLISH_ANIMALS->value,
             ],
             self::ADOPTION_HANDLER => [
-                TenantPermission::EDIT_OWN_ANIMALS->value,
-                TenantPermission::DELETE_OWN_ANIMALS->value,
+                TenantPermission::SEE_ASSIGNED_ANIMALS->value,
+                TenantPermission::EDIT_ASSIGNED_ANIMALS->value,
+            ],
+            self::FOSTER_HOME => [
+                TenantPermission::SEE_FOSTERED_ANIMALS->value,
             ],
             default => [],
         };

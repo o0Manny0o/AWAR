@@ -8,10 +8,12 @@ enum TenantPermission: string
 {
     use HasValues;
 
-    case EDIT_ANIMALS = 'edit animals';
-    case EDIT_OWN_ANIMALS = 'edit own animals';
+    case EDIT_ALL_ANIMALS = 'edit animals';
+    case EDIT_ASSIGNED_ANIMALS = 'edit assigned animals';
     case DELETE_ANIMALS = 'delete animals';
-    case DELETE_OWN_ANIMALS = 'delete own animals';
     case PUBLISH_ANIMALS = 'publish animals';
     case UNPUBLISH_ANIMALS = 'unpublish animals';
+    case SEE_ALL_ANIMALS = 'see all animals';
+    case SEE_ASSIGNED_ANIMALS = 'see assigned animals';
+    case SEE_FOSTERED_ANIMALS = 'see fostered animals';
 }

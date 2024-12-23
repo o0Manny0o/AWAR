@@ -225,7 +225,7 @@ class AnimalService
 
     public function loadAnimalsWithPermissions(string $type, User $user)
     {
-        $animals = Animal::subtype($type)->get();
+        $animals = Animal::subtype($type)->byRole($user)->get();
 
         foreach ($animals as $animal) {
             $animal->setPermissions($user);

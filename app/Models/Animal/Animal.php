@@ -3,6 +3,7 @@
 namespace App\Models\Animal;
 
 use App\Enum\ResourcePermission;
+use App\Enum\TenantPermission;
 use App\Interface\Trackable;
 use App\Models\Organisation;
 use App\Models\Scopes\TenantScope;
@@ -25,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\UnauthorizedException;
 use Psr\Http\Message\UriInterface;
 use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
@@ -109,6 +111,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|Animal whereLocationableId($value)
  * @method static Builder<static>|Animal whereLocationableType($value)
  * @property-read \App\Models\Tenant\Member|\App\Models\Tenant\OrganisationLocation|null $location
+ * @method static Builder<static>|Animal byRole(\App\Models\User $user)
  * @mixin \Eloquent
  */
 #[ScopedBy([TenantScope::class, WithAnimalableScope::class])]
@@ -317,6 +320,41 @@ class Animal extends Model implements Trackable
                 ->first();
         } else {
             return null;
+        }
+    }
+
+    public function scopeByRole(Builder $builder, User $user): void
+    {
+        if (
+            !$user->member->hasAnyPermission([
+                TenantPermission::SEE_ALL_ANIMALS,
+                TenantPermission::SEE_FOSTERED_ANIMALS,
+                TenantPermission::SEE_ASSIGNED_ANIMALS,
+            ])
+        ) {
+            throw new UnauthorizedException();
+        } elseif (
+            !$user->member->hasPermissionTo(TenantPermission::SEE_ALL_ANIMALS)
+        ) {
+            $builder
+                ->when(
+                    $user->member->hasPermissionTo(
+                        TenantPermission::SEE_FOSTERED_ANIMALS,
+                    ),
+                    fn(Builder $builder) => $builder->where(
+                        'foster_home_id',
+                        $user->id,
+                    ),
+                )
+                ->when(
+                    $user->member->hasPermissionTo(
+                        TenantPermission::SEE_ASSIGNED_ANIMALS,
+                    ),
+                    fn(Builder $builder) => $builder->where(
+                        'handler_id',
+                        $user->id,
+                    ),
+                );
         }
     }
 
