@@ -18,7 +18,6 @@ use App\Traits\OptionalAppends;
 use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,7 +26,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\UnauthorizedException;
-use Psr\Http\Message\UriInterface;
 
 /**
  *
@@ -131,7 +129,12 @@ class Animal extends Model implements Trackable
         'locationable_id',
     ];
 
-    protected $hidden = ['animalable_type', 'animalable_id', 'organisation_id'];
+    protected $hidden = [
+        'animalable_type',
+        'animalable_id',
+        'organisation_id',
+        'medially',
+    ];
 
     protected $tracked = [
         'name',
@@ -162,6 +165,8 @@ class Animal extends Model implements Trackable
     ];
 
     protected $appends = ['thumbnail', 'gallery', 'images'];
+
+    protected $with = ['medially'];
 
     /**
      * @return string[]
@@ -328,40 +333,24 @@ class Animal extends Model implements Trackable
 
     /**
      * Get the animal thumbnail
-     *
-     * @return Attribute
      */
-    protected function thumbnail(): Attribute
+    protected function getThumbnailAttribute()
     {
-        return Attribute::make(get: fn() => $this->fetchThumbnail());
-    }
-
-    public function fetchThumbnail(): UriInterface|string|null
-    {
-        $image = $this->fetchFirstMedia();
-        if ($image) {
+        if ($this->medially?->first()) {
             return cloudinary()
-                ->getImage($image->file_name)
+                ->getImage($this->medially?->first()->file_name)
                 ->namedTransformation('thumbnail')
                 ->toUrl();
         }
-
         return null;
     }
 
     /**
-     * Get the animal thumbnail
-     *
-     * @return Attribute
+     * Get the animal gallery
      */
-    protected function gallery(): Attribute
+    protected function getGalleryAttribute()
     {
-        return Attribute::make(get: fn() => $this->fetchGallery());
-    }
-
-    public function fetchGallery()
-    {
-        return $this->fetchAllMedia()->map(function ($image) {
+        return $this->medially?->map(function ($image) {
             return cloudinary()
                 ->getImage($image->file_name)
                 ->namedTransformation('gallery')
@@ -370,12 +359,16 @@ class Animal extends Model implements Trackable
     }
 
     /**
-     * Get the animal thumbnail
-     *
-     * @return Attribute
+     * Get the animal images
      */
-    protected function images(): Attribute
+    protected function getImagesAttribute()
     {
-        return Attribute::make(get: fn() => $this->fetchGallery());
+        // TODO: Change the transformation
+        return $this->medially?->map(function ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->namedTransformation('gallery')
+                ->toUrl();
+        });
     }
 }
