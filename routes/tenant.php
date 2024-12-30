@@ -24,8 +24,9 @@ Route::middleware([
         'accept',
     ])->name('organisation.invitations.accept');
 
-    Route::middleware(['auth', 'verified', IsMember::class])->group(
-        function () {
+    Route::middleware(['auth', 'verified', IsMember::class])
+        ->prefix('/admin')
+        ->group(function () {
             Route::get('/dashboard', function () {
                 Gate::authorize('viewAny', Member::class);
                 $members = tenant()->members()->with('roles')->get();
@@ -36,6 +37,5 @@ Route::middleware([
 
             require __DIR__ . '/tenant/admin.php';
             require __DIR__ . '/tenant/animals.php';
-        },
-    );
+        });
 });
