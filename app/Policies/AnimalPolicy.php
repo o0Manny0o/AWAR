@@ -67,13 +67,13 @@ class AnimalPolicy extends BasePolicy
                 ),
             )
         ) {
-            return $this->isOwner($user, $animal);
+            return $this->isAssigned($user, $animal);
         } else {
             return false;
         }
     }
 
-    function isOwner(User $user, $entity): bool
+    function isAssigned(User $user, $entity): bool
     {
         return $entity->handler_id === $user->id ||
             $entity->foster_home_id === $user->id;
@@ -97,7 +97,7 @@ class AnimalPolicy extends BasePolicy
                 ),
             )
         ) {
-            return $this->isOwner($user, $animal);
+            return $this->isAssigned($user, $animal);
         } else {
             return false;
         }
@@ -169,7 +169,7 @@ class AnimalPolicy extends BasePolicy
                 ),
             )
         ) {
-            return $this->isOwner($user, $animal);
+            return $this->isAssigned($user, $animal);
         } else {
             return false;
         }
@@ -193,7 +193,7 @@ class AnimalPolicy extends BasePolicy
                 ),
             )
         ) {
-            return $this->isOwner($user, $animal);
+            return $this->isAssigned($user, $animal);
         } else {
             return false;
         }

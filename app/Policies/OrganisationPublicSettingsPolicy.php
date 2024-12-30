@@ -6,7 +6,6 @@ use App\Authorisation\Enum\OrganisationModule;
 use App\Authorisation\Enum\PermissionType;
 use App\Models\Tenant\OrganisationPublicSettings;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 
 class OrganisationPublicSettingsPolicy extends BasePolicy
 {
@@ -90,11 +89,6 @@ class OrganisationPublicSettingsPolicy extends BasePolicy
         User $user,
         OrganisationPublicSettings $organisationSettings,
     ): bool {
-        return false;
-    }
-
-    function isOwner(User $user, Model $entity): bool
-    {
         return false;
     }
 }

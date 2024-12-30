@@ -131,6 +131,32 @@ class User extends Authenticatable implements
             ->withTimestamps();
     }
 
+    public function cachedTenants()
+    {
+        return global_cache()->remember(
+            'users:' . $this->id . ':tenants',
+            18000,
+            function () {
+                return Organisation::whereHas('members', function (
+                    Builder $query,
+                ) {
+                    $query->where('users.id', $this->id);
+                })
+                    ->with('domains')
+                    ->get();
+            },
+        );
+    }
+
+    public function isMember(string $organisation = null): bool
+    {
+        return $this->cachedTenants()?->contains(function (
+            Organisation $tenant,
+        ) use ($organisation) {
+            return $tenant->id === ($organisation ?? tenant('id'));
+        });
+    }
+
     /**
      * Get the user's preferred locale.
      */

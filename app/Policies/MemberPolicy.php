@@ -9,11 +9,6 @@ use App\Models\User;
 
 class MemberPolicy extends BasePolicy
 {
-    function isOwner(User $user, $entity): bool
-    {
-        return true;
-    }
-
     /**
      * Determine whether the user can view any models.
      */
