@@ -8,11 +8,14 @@ use App\Models\User;
 
 class AnimalPolicy extends BasePolicy
 {
-    public function before(User $user): ?false
+    public function before(User $user): ?bool
     {
+        if ($this->isOrganisationAdmin($user)) {
+            return true;
+        }
+
         if (
             !$user->hasAnyRole(
-                OrganisationRole::ADMIN,
                 OrganisationRole::ANIMAL_LEAD,
                 OrganisationRole::ANIMAL_HANDLER,
                 OrganisationRole::FOSTER_HOME,
@@ -92,24 +95,23 @@ class AnimalPolicy extends BasePolicy
      */
     public function assign(User $user, Animal $animal): bool
     {
-        return $this->isAdminOrLeadOrHandler($user, $animal);
+        return $this->isLeadOrHandler($user, $animal);
     }
 
-    function isAdminOrLeadOrHandler(User $user, Animal $animal): bool
+    function isLeadOrHandler(User $user, Animal $animal): bool
     {
-        return $this->isOrganisationAdmin($user) ||
-            $user->hasRole(OrganisationRole::ANIMAL_LEAD) ||
+        return $user->hasRole(OrganisationRole::ANIMAL_LEAD) ||
             $animal->handler_id === $user->global_id;
     }
 
     public function assignFosterHome(User $user, Animal $animal): bool
     {
-        return $this->isAdminOrLeadOrHandler($user, $animal);
+        return $this->isLeadOrHandler($user, $animal);
     }
 
     public function assignLocation(User $user, Animal $animal): bool
     {
-        return $this->isAdminOrLeadOrHandler($user, $animal);
+        return $this->isLeadOrHandler($user, $animal);
     }
 
     function isOwner(User $user, $entity): bool

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Animals;
 
-use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -17,7 +16,15 @@ class AssignHandlerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['nullable', 'uuid', Rule::exists(User::class, 'id')],
+            'id' => [
+                'nullable',
+                'uuid',
+                Rule::exists('organisation_users', 'user_id')->where(function (
+                    $query,
+                ) {
+                    $query->where('tenant_id', tenant('id'));
+                }),
+            ],
         ];
     }
 }

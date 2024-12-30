@@ -45,6 +45,14 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'isMember' =>
+                    tenant() &&
+                    $request
+                        ->user()
+                        ?->whereHas('tenants', function (Builder $query) {
+                            $query->where('organisations.id', tenant('id'));
+                        })
+                        ->exists(),
             ],
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),

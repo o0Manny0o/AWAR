@@ -14,6 +14,7 @@ use App\Models\Animal\Animal;
 use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
+use App\Permission;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -226,15 +227,18 @@ class AnimalService
         /** @var User $assignee */
         $assignee = User::find($validated['id']);
 
-        //        if (
-        //            $assignee &&
-        //            !$assignee->hasAnyRole(
-        //                DefaultTenantUserRole::ADOPTION_LEAD,
-        //                DefaultTenantUserRole::ADOPTION_HANDLER,
-        //            )
-        //        ) {
-        //            throw new BadRequestException();
-        //        }
+        if ($assignee) {
+            if (
+                !Permission::tenant($assignee, function ($user) {
+                    return $user->hasAnyRole(
+                        OrganisationRole::ANIMAL_LEAD,
+                        OrganisationRole::ANIMAL_HANDLER,
+                    );
+                })
+            ) {
+                throw new BadRequestException();
+            }
+        }
 
         $animal->update(['handler_id' => $validated['id']]);
 

@@ -4,9 +4,6 @@ type User = {
     email: string
     email_verified_at?: string
     tenants?: Organisation[]
-    member?: {
-        id: string
-    }
 }
 
 type Organisation = {
@@ -65,6 +62,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
     T & {
         auth: {
             user?: User
+            isMember?: boolean
         }
         permissions?: NestedRecord<string, boolean>
         ziggy: ZiggyConfig

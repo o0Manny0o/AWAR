@@ -35,14 +35,8 @@ class AnimalController extends Controller
      * Display the specified resource.
      * @throws AuthorizationException
      */
-    public function show(string $id): RedirectResponse|Response
+    public function show(Animal $animal): RedirectResponse|Response
     {
-        /** @var Animal|null $animal */
-        $animal = Animal::find($id);
-        if (!$animal) {
-            return redirect()->route($this->getIndexRouteName());
-        }
-
         $this->authorize('view', $animal);
 
         $animal->append('handler');
@@ -80,16 +74,9 @@ class AnimalController extends Controller
 
     /**
      * Display the public version of the specified resource.
-     * @throws AuthorizationException
      */
-    public function showPublic(string $id): RedirectResponse|Response
+    public function showPublic(Animal $animal): RedirectResponse|Response
     {
-        /** @var Animal|null $animal */
-        $animal = Animal::find($id);
-        if (!$animal) {
-            return redirect()->route('animals.browse');
-        }
-
         $animal->makeHidden('abstract');
 
         $history = AnimalHistory::publicHistory($animal);
@@ -102,15 +89,10 @@ class AnimalController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @throws AuthorizationException
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(Animal $animal): RedirectResponse
     {
-        /** @var Animal|null $animal */
-        $animal = Animal::find($id);
-        if (!$animal) {
-            return redirect()->route($this->getIndexRouteName());
-        }
-
         $this->authorize('delete', $animal);
 
         $animal->delete();
@@ -122,16 +104,10 @@ class AnimalController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * @throws AuthorizationException
      */
-    public function edit(Request $request, string $id)
+    public function edit(Request $request, Animal $animal): Response
     {
-        /** @var Animal|null $animal */
-        $animal = Animal::whereId($id)->withMedia()->get()->first();
-
-        if (!$animal) {
-            return redirect()->route($this->getIndexRouteName());
-        }
-
         $this->authorize('update', $animal);
 
         $animal->load([
@@ -164,14 +140,8 @@ class AnimalController extends Controller
      */
     public function updateAnimal(
         UpdateAnimalRequest $animalRequest,
-        string $id,
+        Animal $animal,
     ): RedirectResponse {
-        /** @var Animal|null $animal */
-        $animal = Animal::find($id);
-        if (!$animal) {
-            return redirect()->route($this->getIndexRouteName());
-        }
-
         $this->authorize('update', $animal);
 
         $this->animalService->updateAnimal(
@@ -189,14 +159,9 @@ class AnimalController extends Controller
      * Publish an animal.
      * @throws AuthorizationException
      */
-    public function publish(Request $request, string $id): RedirectResponse
+    public function publish(Request $request, Animal $animal): RedirectResponse
     {
-        /** @var Animal|null $animal */
-        $animal = Animal::find($id);
-        if (!$animal) {
-            return redirect()->route($this->getIndexRouteName());
-        }
-
+        $this->authorize('publish', $animal);
         $this->animalService->publishAnimal($animal, Auth::user());
 
         return $this->redirect($request, $this->getShowRouteName(), [
@@ -278,22 +243,16 @@ class AnimalController extends Controller
     public function assign(
         AnimalService $animalService,
         AssignHandlerRequest $animalRequest,
-        string $id,
+        Animal $animal,
     ): RedirectResponse {
-        /** @var Animal|null $animal */
-        $animal = Animal::find($id);
-        if (!$animal) {
-            return redirect()->route($this->getIndexRouteName());
-        }
-
-        $this->authorize('assign', $animal);
+        //        $this->authorize('assign', $animal);
 
         $validated = $animalRequest->validated();
 
         $animalService->assignHandler($animal, $validated, Auth::user());
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
-            'animal' => $animal,
+            'animal' => $animal->first()->id,
         ]);
     }
 
@@ -306,14 +265,8 @@ class AnimalController extends Controller
     public function assignFosterHome(
         AnimalService $animalService,
         AssignFosterHomeRequest $animalRequest,
-        string $id,
+        Animal $animal,
     ): RedirectResponse {
-        /** @var Animal|null $animal */
-        $animal = Animal::find($id);
-        if (!$animal) {
-            return redirect()->route($this->getIndexRouteName());
-        }
-
         $this->authorize('assign', $animal);
 
         $validated = $animalRequest->validated();
@@ -334,14 +287,8 @@ class AnimalController extends Controller
     public function assignLocation(
         AnimalService $animalService,
         AssignLocationRequest $animalRequest,
-        string $id,
+        Animal $animal,
     ): RedirectResponse {
-        /** @var Animal|null $animal */
-        $animal = Animal::find($id);
-        if (!$animal) {
-            return redirect()->route($this->getIndexRouteName());
-        }
-
         $this->authorize('assignLocation', $animal);
 
         $validated = $animalRequest->validated();

@@ -69,6 +69,8 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @method static Builder<static>|User whereUpdatedAt($value)
  * @method static Builder<static>|User withoutPermission($permissions)
  * @method static Builder<static>|User withoutRole($roles, $guard = null)
+ * @method static Builder<static>|User fosterHomes()
+ * @method static Builder<static>|User handlers()
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements

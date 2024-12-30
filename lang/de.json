@@ -104,11 +104,11 @@
             "tenant": {
                 "admin": "Admin",
                 "member": "Mitglied",
-                "adoption_lead": "Leitung der Adoption",
-                "adoption_handler": "Adoptions Bearbeiter",
                 "foster_home_lead": "Leitung der Pflegestellen",
                 "foster_home_handler": "Pflegestellen Betreuer",
-                "foster_home": "Pflegestelle"
+                "foster_home": "Pflegestelle",
+                "animal_handler": "Tier Bearbeiter",
+                "animal_lead": "Leitung der Tiere"
             }
         },
         "images": "Bilder",

@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Authorisation\Enum\CentralRole;
 use App\Authorisation\Enum\OrganisationRole;
 use App\Models\User;
+use App\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,20 +26,17 @@ abstract class BasePolicy
             return true;
         }
 
-        return $user->hasRole(CentralRole::ADMIN);
+        return Permission::central($user, function ($user) {
+            return $user->hasRole(CentralRole::ADMIN);
+        });
     }
 
     protected function isSuperAdmin(User $user): bool
     {
         // Super-Admins are admins in all contexts
-        $sessionTeam = getPermissionsTeamId();
-        setPermissionsTeamId(global_cache()->get('public_tenant')->id);
-        $user->unsetRelation('roles')->unsetRelation('permissions');
-        $isSuperAdmin = $user->hasRole(CentralRole::SUPER_ADMIN);
-        setPermissionsTeamId($sessionTeam);
-        $user->unsetRelation('roles')->unsetRelation('permissions');
-
-        return $isSuperAdmin;
+        return Permission::central($user, function ($user) {
+            return $user->hasRole(CentralRole::SUPER_ADMIN);
+        });
     }
 
     protected function isMember(User $user): bool

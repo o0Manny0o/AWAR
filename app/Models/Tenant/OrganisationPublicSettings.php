@@ -32,7 +32,7 @@ class OrganisationPublicSettings extends Model
 {
     use HasFactory, HasResourcePermissions, BelongsToOrganisation;
 
-    protected $fillable = ['name', 'favicon'];
+    protected $fillable = ['name', 'favicon', 'organisation_id', 'logo'];
 
     protected $hidden = ['organisation_id', 'id'];
 

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Authorisation\Enum\OrganisationRole;
 use App\Models\Organisation;
 use App\Models\User;
+use App\Permission;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 
@@ -34,6 +35,7 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
         $user_id = $this->argument('user_id');
         $centralApp = config('tenancy.central_domains')[0];
 
+        /** @var Organisation $organisation */
         $organisation = Organisation::create([
             'name' => $name,
         ]);
@@ -48,10 +50,13 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
             $user = User::find($user_id);
             $user->tenants()->attach($organisation);
 
-            $sessionTeam = getPermissionsTeamId();
-            setPermissionsTeamId($organisation);
-            $user->assignRole(OrganisationRole::ADMIN);
-            setPermissionsTeamId($sessionTeam);
+            Permission::tenant(
+                $user,
+                function ($user) {
+                    $user->assignRole(OrganisationRole::ADMIN);
+                },
+                $organisation,
+            );
         }
     }
 }

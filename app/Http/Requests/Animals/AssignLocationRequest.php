@@ -3,8 +3,6 @@
 namespace App\Http\Requests\Animals;
 
 use App\Models\Tenant\OrganisationLocation;
-use App\Models\User;
-use App\Rules\IsTenantLocation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -29,7 +27,11 @@ class AssignLocationRequest extends FormRequest
                 'exclude_with:id',
                 'required',
                 'uuid',
-                Rule::exists(User::class, 'id'),
+                Rule::exists('organisation_users', 'user_id')->where(function (
+                    $query,
+                ) {
+                    $query->where('tenant_id', tenant('id'));
+                }),
             ],
         ];
     }

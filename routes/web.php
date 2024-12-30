@@ -9,14 +9,10 @@ Route::middleware(['universal', InitializeTenancyByDomain::class])->group(
     function () {
         Route::prefix('animals')
             ->name('animals.')
+            ->controller(AnimalController::class)
             ->group(function () {
-                Route::get('/', [AnimalController::class, 'browse'])->name(
-                    'browse',
-                );
-                Route::get('{id}', [
-                    AnimalController::class,
-                    'showPublic',
-                ])->name('show');
+                Route::get('/', 'browse')->name('browse');
+                Route::get('{id}', 'showPublic')->name('show');
             });
 
         Route::get('/language/{language}', function (
