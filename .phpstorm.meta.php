@@ -14,6 +14,8 @@ namespace PHPSTORM_META {
         new \Illuminate\Contracts\Container\Container(),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -419,7 +421,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -461,6 +462,8 @@ namespace PHPSTORM_META {
         \Illuminate\Container\Container::makeWith(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -866,7 +869,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -908,6 +910,8 @@ namespace PHPSTORM_META {
         \Illuminate\Contracts\Container\Container::get(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -1313,7 +1317,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -1355,6 +1358,8 @@ namespace PHPSTORM_META {
         \Illuminate\Contracts\Container\Container::make(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -1760,7 +1765,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -1802,6 +1806,8 @@ namespace PHPSTORM_META {
         \Illuminate\Contracts\Container\Container::makeWith(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -2207,7 +2213,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -2249,6 +2254,8 @@ namespace PHPSTORM_META {
         \App::get(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -2654,7 +2661,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -2696,6 +2702,8 @@ namespace PHPSTORM_META {
         \App::make(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -3101,7 +3109,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -3143,6 +3150,8 @@ namespace PHPSTORM_META {
         \App::makeWith(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -3548,7 +3557,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -3590,6 +3598,8 @@ namespace PHPSTORM_META {
         \app(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -3995,7 +4005,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -4037,6 +4046,8 @@ namespace PHPSTORM_META {
         \resolve(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -4442,7 +4453,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,
@@ -4484,6 +4494,8 @@ namespace PHPSTORM_META {
         \Psr\Container\ContainerInterface::get(0),
         map([
             '' => '@',
+            'App\Bootstrappers\PermissionTenancyBootstrapper' =>
+                \App\Bootstrappers\PermissionTenancyBootstrapper::class,
             'Barryvdh\Debugbar\LaravelDebugbar' =>
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
@@ -4889,7 +4901,6 @@ namespace PHPSTORM_META {
             'hash.driver' => \Illuminate\Hashing\BcryptHasher::class,
             'inertia.testing.view-finder' =>
                 \Illuminate\View\FileViewFinder::class,
-            'laratrust' => \Laratrust\Laratrust::class,
             'log' => \Illuminate\Log\LogManager::class,
             'mail.manager' => \Illuminate\Mail\MailManager::class,
             'mailer' => \Illuminate\Mail\Mailer::class,

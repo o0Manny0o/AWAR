@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\Config;
-use Laratrust\Contracts\Team as TeamContract;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
@@ -52,7 +51,7 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  * @property-read OrganisationPublicSettings|null $publicSettings
  * @mixin \Eloquent
  */
-class Organisation extends Tenant implements TeamContract, TenantWithDatabase
+class Organisation extends Tenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains, HasUuids;
 

@@ -25,8 +25,6 @@ export function ShowActionButtons(
         return []
     }
 
-    console.log(canResend(invitation))
-
     if (canResend(invitation)) {
         return [RESEND_BUTTON]
     }
