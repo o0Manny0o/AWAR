@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Authorisation\Enum\OrganisationModule;
+use App\Authorisation\Enum\PermissionType;
 use App\Models\Tenant\OrganisationPublicSettings;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -23,9 +25,11 @@ class OrganisationPublicSettingsPolicy extends BasePolicy
         User $user,
         OrganisationPublicSettings $organisationSettings,
     ): bool {
-        return $this->isMember($user) &&
-            $this->isOrganisationAdmin($user) &&
-            $this->belongsToOrganisation($organisationSettings);
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(
+                OrganisationModule::PUBLIC_SETTINGS->value,
+            ),
+        ) && $this->belongsToOrganisation($organisationSettings);
     }
 
     private function belongsToOrganisation(
@@ -52,9 +56,11 @@ class OrganisationPublicSettingsPolicy extends BasePolicy
         User $user,
         OrganisationPublicSettings $organisationSettings,
     ): bool {
-        return $this->isMember($user) &&
-            $this->isOrganisationAdmin($user) &&
-            $this->belongsToOrganisation($organisationSettings);
+        return $user->hasPermissionTo(
+            PermissionType::UPDATE->for(
+                OrganisationModule::PUBLIC_SETTINGS->value,
+            ),
+        ) && $this->belongsToOrganisation($organisationSettings);
     }
 
     /**

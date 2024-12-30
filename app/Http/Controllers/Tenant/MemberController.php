@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Tenant;
 
+use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Models\Tenant\Member;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
-use App\Http\AppInertia;
 use Inertia\Response;
 
 class MemberController extends Controller
@@ -22,27 +22,12 @@ class MemberController extends Controller
     {
         $this->authorize('viewAny', Member::class);
 
-        $members = Member::with('roles')->get();
+        $members = tenant()->members()->with('roles')->get();
 
         return AppInertia::render($this->getIndexView(), [
             'members' => $members,
-            'permissions' => $this->permissions($request),
+            'canCreate' => $request->user()->can('create', Member::class),
         ]);
-    }
-
-    private function permissions(Request $request, Member $member = null): array
-    {
-        $member?->setPermissions($request->user());
-
-        return [
-            'organisations' => [
-                'members' => [
-                    'create' => $request->user()->can('create', Member::class),
-                    'view' => $request->user()->can('view', $member),
-                    'delete' => $request->user()->can('delete', $member),
-                ],
-            ],
-        ];
     }
 
     /**

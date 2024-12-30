@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            CentralRolesAndPermissionsSeeder::class,
             OrganisationRolesAndPermissionsSeeder::class,
+            CentralRolesAndPermissionsSeeder::class,
             CountrySeeder::class,
         ]);
     }

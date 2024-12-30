@@ -31,11 +31,11 @@ return new class extends Migration {
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            //            $table
-            //                ->foreignId('role_id')
-            //                ->constrained()
-            //                ->cascadeOnDelete()
-            //                ->cascadeOnUpdate();
+            $table
+                ->foreignId('role_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->timestamps();
         });

@@ -1,5 +1,11 @@
 <?php
 
+use App\Authorisation\Enum\CentralModule as CM;
+use App\Authorisation\Enum\CentralRole as CR;
+use App\Authorisation\Enum\OrganisationModule as OM;
+use App\Authorisation\Enum\OrganisationRole as R;
+use App\Authorisation\Enum\PermissionType as P;
+
 return [
     'models' => [
         /*
@@ -177,5 +183,84 @@ return [
          */
 
         'store' => 'default',
+    ],
+
+    'central_role_structure' => [
+        CR::ADMIN->value => [
+            CM::ORGANISATION_APPLICATIONS->value => [P::READ],
+        ],
+    ],
+
+    'role_structure' => [
+        R::ADMIN->value => [
+            OM::ANIMALS->value => [
+                P::CREATE,
+                P::READ,
+                P::UPDATE,
+                P::DELETE,
+                P::ASSIGN,
+            ],
+            OM::MEMBERS->value => [P::READ],
+            OM::INVITATIONS->value => [P::CREATE, P::READ],
+            OM::LOCATIONS->value => [
+                P::CREATE,
+                P::READ,
+                P::UPDATE,
+                P::DELETE,
+                P::FORCE_DELETE,
+                P::RESTORE,
+            ],
+            OM::PUBLIC_SETTINGS->value => [P::READ, P::UPDATE],
+        ],
+
+        R::MEMBER->value => [
+            OM::ANIMALS->value => [P::READ],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::ANIMAL_LEAD->value => [
+            OM::ANIMALS->value => [
+                P::CREATE,
+                P::READ,
+                P::UPDATE,
+                P::DELETE,
+                P::ASSIGN,
+            ],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::ANIMAL_HANDLER->value => [
+            OM::ANIMALS->value => [P::CREATE, P::READ],
+            OM::ASSIGNED_ANIMALS->value => [P::UPDATE, P::DELETE, P::ASSIGN],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::FOSTER_HOME_LEAD->value => [
+            OM::ANIMALS->value => [P::READ],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::FOSTER_HOME_HANDLER->value => [
+            OM::ANIMALS->value => [P::READ],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::FOSTER_HOME->value => [
+            OM::ANIMALS->value => [P::READ, P::FOSTER],
+            OM::FOSTERED_ANIMALS->value => [P::UPDATE, P::DELETE],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
     ],
 ];

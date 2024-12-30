@@ -1,28 +1,14 @@
-import { usePage } from '@inertiajs/react'
-import { get } from 'lodash-es'
-
-export default function usePermission(base?: ResourcePermissions) {
-    const { permissions } = usePage().props
-
-    const can = (ability: ResourcePermissions) =>
-        get(permissions, [...(base ? [base] : []), ability].join('.'), false)
-
+export default function usePermission() {
     const canDelete = (e: any): boolean => e.can_be_deleted ?? false
     const canRestore = (e: any): boolean => e.can_be_restored ?? false
     const canUpdate = (e: any): boolean => e.can_be_updated ?? false
     const canView = (e: any): boolean => e.can_be_viewed ?? false
     const canSubmit = (e: any): boolean => e.can_be_submitted ?? false
-    const canResend = (e: any): boolean => e.can_be_resended ?? false
+    const canResend = (e: any): boolean => e.can_be_resend ?? false
     const canPublish = (e: any): boolean => e.can_be_published ?? false
-    const canAssignHandler = (e: any): boolean => e.can_assign_handler ?? false
-    const canAssignFosterHome = (e: any): boolean =>
-        e.can_assign_foster_home ?? false
-
-    const canAssignLocation = (e: any): boolean =>
-        e.can_assign_location ?? false
+    const canAssign = (e: any): boolean => e.can_assign ?? false
 
     return {
-        can,
         canDelete,
         canRestore,
         canUpdate,
@@ -30,8 +16,6 @@ export default function usePermission(base?: ResourcePermissions) {
         canSubmit,
         canResend,
         canPublish,
-        canAssignHandler,
-        canAssignFosterHome,
-        canAssignLocation,
+        canAssign,
     }
 }

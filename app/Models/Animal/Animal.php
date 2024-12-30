@@ -2,13 +2,13 @@
 
 namespace App\Models\Animal;
 
-use App\Authorisation\Enum\OrganisationRole;
+use App\Authorisation\Enum\OrganisationModule;
+use App\Authorisation\Enum\PermissionType;
 use App\Enum\ResourcePermission;
 use App\Interface\Trackable;
 use App\Models\Organisation;
 use App\Models\Scopes\WithAddressScope;
 use App\Models\Scopes\WithAnimalableScope;
-use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
 use App\Traits\BelongsToOrganisation;
@@ -32,85 +32,76 @@ use Psr\Http\Message\UriInterface;
 /**
  *
  *
- * @method static Builder<static>|Animal newModelQuery()
- * @method static Builder<static>|Animal newQuery()
- * @method static Builder<static>|Animal query()
- * @property-read Model|\Eloquent $animalable
- * @property int $id
+ * @property string $id
  * @property string $name
  * @property string $date_of_birth
+ * @property string|null $bio
+ * @property string|null $abstract
+ * @property string|null $sex
+ * @property string|null $published_at
  * @property string $animalable_type
  * @property int $animalable_id
  * @property string $organisation_id
- * @property string|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static Builder<static>|Animal whereAnimalableId($value)
- * @method static Builder<static>|Animal whereAnimalableType($value)
- * @method static Builder<static>|Animal whereCreatedAt($value)
- * @method static Builder<static>|Animal whereDateOfBirth($value)
- * @method static Builder<static>|Animal whereDeletedAt($value)
- * @method static Builder<static>|Animal whereId($value)
- * @method static Builder<static>|Animal whereName($value)
- * @method static Builder<static>|Animal whereOrganisationId($value)
- * @method static Builder<static>|Animal whereUpdatedAt($value)
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
- * @property-read int|null $users_count
- * @property-read bool $can_be_deleted
- * @property-read bool $can_be_resended
- * @property-read bool $can_be_restored
- * @property-read bool $can_be_submitted
- * @property-read bool $can_be_updated
- * @property-read bool $can_be_viewed
- * @property-read Organisation $organisation
- * @property string|null $bio
- * @property string|null $abstract
- * @property string|null $published_at
- * @property-read mixed $gallery
- * @property-read bool $can_be_published
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalHistory> $histories
- * @property-read int|null $histories_count
- * @property-read mixed $images
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \CloudinaryLabs\CloudinaryLaravel\Model\Media> $medially
- * @property-read int|null $medially_count
- * @property-read mixed $thumbnail
- * @method static Builder<static>|Animal onlyTrashed()
- * @method static Builder<static>|Animal whereAbstract($value)
- * @method static Builder<static>|Animal whereBio($value)
- * @method static Builder<static>|Animal wherePublishedAt($value)
- * @method static Builder<static>|Animal withTrashed()
- * @method static Builder<static>|Animal withoutTrashed()
- * @property string|null $sex
- * @property string|null $animal_family_id
- * @method static Builder<static>|Animal whereAnimalFamilyId($value)
- * @method static Builder<static>|Animal whereSex($value)
- * @property-read \App\Models\Animal\AnimalFamily|null $family
- * @property-read mixed $father
- * @property-read mixed $mother
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalFamily> $maternalFamilies
- * @property-read int|null $maternal_families_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalFamily> $paternalFamilies
- * @property-read int|null $paternal_families_count
- * @method static Builder<static>|Animal asOption()
- * @method static Builder<static>|Animal cats()
- * @method static Builder<static>|Animal dogs()
- * @method static Builder<static>|Animal subtype(string $type)
- * @method static Builder<static>|Animal withMedia()
- * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $assignedTo
- * @property-read int|null $assigned_to_count
- * @property-read Member|null $handler
- * @property string $handler_id
- * @method static Builder<static>|Animal whereHandlerId($value)
- * @property-read \App\Models\Tenant\Member|null $foster_home
+ * @property string|null $handler_id
  * @property string|null $foster_home_id
  * @property string|null $locationable_type
  * @property string|null $locationable_id
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $animal_family_id
+ * @property-read Model|\Eloquent $animalable
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $assignedTo
+ * @property-read int|null $assigned_to_count
+ * @property-read \App\Models\Animal\AnimalFamily|null $family
+ * @property-read mixed $gallery
+ * @property-read mixed $father
+ * @property-read \App\Models\User|null $foster_home
+ * @property-read \App\Models\User|null $handler
+ * @property-read \App\Models\User|\App\Models\Tenant\OrganisationLocation|null $location
+ * @property-read mixed $mother
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalHistory> $histories
+ * @property-read int|null $histories_count
+ * @property-read mixed $images
  * @property-read Model|\Eloquent|null $locationable
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalFamily> $maternalFamilies
+ * @property-read int|null $maternal_families_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \CloudinaryLabs\CloudinaryLaravel\Model\Media> $medially
+ * @property-read int|null $medially_count
+ * @property-read Organisation $organisation
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalFamily> $paternalFamilies
+ * @property-read int|null $paternal_families_count
+ * @property-read mixed $thumbnail
+ * @method static Builder<static>|Animal asOption()
+ * @method static Builder<static>|Animal byPermission(\App\Models\User $user)
+ * @method static Builder<static>|Animal cats()
+ * @method static Builder<static>|Animal dogs()
+ * @method static Builder<static>|Animal newModelQuery()
+ * @method static Builder<static>|Animal newQuery()
+ * @method static Builder<static>|Animal onlyTrashed()
+ * @method static Builder<static>|Animal query()
+ * @method static Builder<static>|Animal subtype(string $type)
+ * @method static Builder<static>|Animal whereAbstract($value)
+ * @method static Builder<static>|Animal whereAnimalFamilyId($value)
+ * @method static Builder<static>|Animal whereAnimalableId($value)
+ * @method static Builder<static>|Animal whereAnimalableType($value)
+ * @method static Builder<static>|Animal whereBio($value)
+ * @method static Builder<static>|Animal whereCreatedAt($value)
+ * @method static Builder<static>|Animal whereDateOfBirth($value)
+ * @method static Builder<static>|Animal whereDeletedAt($value)
  * @method static Builder<static>|Animal whereFosterHomeId($value)
+ * @method static Builder<static>|Animal whereHandlerId($value)
+ * @method static Builder<static>|Animal whereId($value)
  * @method static Builder<static>|Animal whereLocationableId($value)
  * @method static Builder<static>|Animal whereLocationableType($value)
- * @property-read \App\Models\Tenant\Member|\App\Models\Tenant\OrganisationLocation|null $location
- * @method static Builder<static>|Animal byRole(\App\Models\User $user)
+ * @method static Builder<static>|Animal whereName($value)
+ * @method static Builder<static>|Animal whereOrganisationId($value)
+ * @method static Builder<static>|Animal wherePublishedAt($value)
+ * @method static Builder<static>|Animal whereSex($value)
+ * @method static Builder<static>|Animal whereUpdatedAt($value)
+ * @method static Builder<static>|Animal withMedia()
+ * @method static Builder<static>|Animal withTrashed()
+ * @method static Builder<static>|Animal withoutTrashed()
  * @mixin \Eloquent
  */
 #[ScopedBy([WithAnimalableScope::class])]
@@ -165,9 +156,9 @@ class Animal extends Model implements Trackable
         ResourcePermission::DELETE,
         ResourcePermission::UPDATE,
         ResourcePermission::PUBLISH,
-        ResourcePermission::ASSIGN_HANDLER,
-        ResourcePermission::ASSIGN_FOSTER_HOME,
+        ResourcePermission::ASSIGN,
         ResourcePermission::ASSIGN_LOCATION,
+        ResourcePermission::ASSIGN_FOSTER_HOME,
     ];
 
     protected $appends = ['thumbnail', 'gallery', 'images'];
@@ -297,7 +288,7 @@ class Animal extends Model implements Trackable
     public function getLocationAttribute(): User|OrganisationLocation|null
     {
         if ($this->locationable_type === User::class) {
-            return User::find($this->locationable_id)
+            return User::whereId($this->locationable_id)
                 ->select(['id', 'name'])
                 ->first();
         } elseif ($this->locationable_type === OrganisationLocation::class) {
@@ -312,19 +303,24 @@ class Animal extends Model implements Trackable
         }
     }
 
-    public function scopeByRole(Builder $builder, User $user): void
+    public function scopeByPermission(Builder $builder, User $user): void
     {
         if (
-            $user->hasAnyRole([
-                OrganisationRole::ADMIN,
-                OrganisationRole::ANIMAL_LEAD,
-            ])
+            $user->hasPermissionTo(
+                PermissionType::READ->for(OrganisationModule::ANIMALS->value),
+            )
         ) {
             return;
-        } elseif ($user->hasRole(OrganisationRole::FOSTER_HOME)) {
-            $builder->where('foster_home_id', $user->id);
-        } elseif ($user->hasRole(OrganisationRole::ANIMAL_HANDLER)) {
-            $builder->where('handler_id', $user->id);
+        } elseif (
+            $user->hasPermissionTo(
+                PermissionType::READ->for(
+                    OrganisationModule::ASSIGNED_ANIMALS->value,
+                ),
+            )
+        ) {
+            $builder
+                ->where('foster_home_id', $user->id)
+                ->orWhere('handler_id', $user->id);
         } else {
             throw new UnauthorizedException();
         }

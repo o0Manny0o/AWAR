@@ -7,7 +7,7 @@ export function ShowActionButtons(
     application: OrganisationApplication,
 ): PageHeaderButton[] {
     const __ = useTranslate()
-    const { can } = usePermission()
+    const { canRestore, canDelete, canSubmit, canUpdate } = usePermission()
 
     const RESTORE_BUTTON: PageHeaderButton = {
         label: __('general.button.restore', {
@@ -49,7 +49,7 @@ export function ShowActionButtons(
         }),
     }
 
-    const EDIT_BUTTON = {
+    const EDIT_BUTTON: PageHeaderButton = {
         label: __('general.button.edit', {
             resource: '',
         }),
@@ -63,15 +63,15 @@ export function ShowActionButtons(
         return []
     }
     if (application.deleted_at) {
-        if (can('organisations.applications.restore')) {
+        if (canRestore(application)) {
             return [RESTORE_BUTTON]
         }
         return []
     }
     return [
-        ...(can('organisations.applications.submit') ? [SUBMIT_BUTTON] : []),
-        ...(can('organisations.applications.update') ? [EDIT_BUTTON] : []),
-        ...(can('organisations.applications.delete') ? [DELETE_BUTTON] : []),
+        ...(canSubmit(application) ? [SUBMIT_BUTTON] : []),
+        ...(canUpdate(application) ? [EDIT_BUTTON] : []),
+        ...(canDelete(application) ? [DELETE_BUTTON] : []),
     ]
 }
 

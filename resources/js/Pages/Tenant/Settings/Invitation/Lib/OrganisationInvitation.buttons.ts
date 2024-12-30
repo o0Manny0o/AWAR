@@ -7,7 +7,7 @@ export function ShowActionButtons(
     invitation: OrganisationInvitation,
 ): PageHeaderButton[] {
     const __ = useTranslate()
-    const { can, canResend } = usePermission()
+    const { canResend } = usePermission()
 
     const RESEND_BUTTON: PageHeaderButton = {
         label: __('general.button.resend', {
@@ -24,6 +24,8 @@ export function ShowActionButtons(
     if (invitation.accepted_at) {
         return []
     }
+
+    console.log(canResend(invitation))
 
     if (canResend(invitation)) {
         return [RESEND_BUTTON]

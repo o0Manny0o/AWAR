@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Animals\AnimalController;
 use App\Http\Controllers\Animals\CatController;
 use App\Http\Controllers\Animals\DogController;
 
@@ -21,7 +20,7 @@ Route::name('animals.')
         ) {
             Route::name($name . '.')
                 ->prefix($name . '/{animal}')
-                ->controller(AnimalController::class)
+                ->controller($controller)
                 ->group(function () {
                     Route::post('/publish', 'publish')->name('publish');
 

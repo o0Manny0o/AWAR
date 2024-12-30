@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Authorisation\Enum\OrganisationModule;
+use App\Authorisation\Enum\PermissionType;
 use App\Models\Tenant\Member;
 use App\Models\User;
 
@@ -25,7 +27,9 @@ class MemberPolicy extends BasePolicy
      */
     public function view(User $user, Member $member): bool
     {
-        return $this->isOrganisationAdmin($user);
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(OrganisationModule::MEMBERS->value),
+        );
     }
 
     /**
@@ -49,7 +53,9 @@ class MemberPolicy extends BasePolicy
      */
     public function delete(User $user, Member $member): bool
     {
-        return $this->isOrganisationAdmin($user);
+        return $user->hasPermissionTo(
+            PermissionType::UPDATE->for(OrganisationModule::MEMBERS->value),
+        );
     }
 
     /**

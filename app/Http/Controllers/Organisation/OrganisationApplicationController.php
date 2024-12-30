@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Organisation;
 
+use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Organisation\Application\CreateOrganisationApplicationRequest;
 use App\Http\Requests\Organisation\Application\UpdateOrganisationApplicationRequest;
@@ -10,33 +11,10 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use App\Http\AppInertia;
 use Inertia\Response;
 
 class OrganisationApplicationController extends Controller
 {
-    private function permissions(
-        Request $request,
-        OrganisationApplication $application = null,
-    ): array {
-        $application?->setPermissions($request->user());
-
-        return [
-            'organisations' => [
-                'applications' => [
-                    'create' => $request
-                        ->user()
-                        ->can('create', OrganisationApplication::class),
-                    'view' => $request->user()->can('view', $application),
-                    'update' => $request->user()->can('update', $application),
-                    'delete' => $request->user()->can('delete', $application),
-                    'restore' => $request->user()->can('restore', $application),
-                    'submit' => $request->user()->can('submit', $application),
-                ],
-            ],
-        ];
-    }
-
     /**
      * Display a listing of the resource.
      * @throws AuthorizationException
@@ -56,19 +34,9 @@ class OrganisationApplicationController extends Controller
 
         return AppInertia::render('Settings/Application/Index', [
             'applications' => $applications,
-            'permissions' => $this->permissions($request),
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @throws AuthorizationException
-     */
-    public function create(Request $request): Response
-    {
-        $this->authorize('create', OrganisationApplication::class);
-        return AppInertia::render('Settings/Application/Create', [
-            'step' => 1,
+            'canCreate' => $request
+                ->user()
+                ->can('create', OrganisationApplication::class),
         ]);
     }
 
@@ -116,6 +84,18 @@ class OrganisationApplicationController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     * @throws AuthorizationException
+     */
+    public function create(Request $request): Response
+    {
+        $this->authorize('create', OrganisationApplication::class);
+        return AppInertia::render('Settings/Application/Create', [
+            'step' => 1,
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      * @throws AuthorizationException
      */
@@ -140,6 +120,12 @@ class OrganisationApplicationController extends Controller
 
         $updatedApplication = $application->refresh();
 
+        if ($step === 3) {
+            return $this->redirect($request, 'settings.applications.show', [
+                'application' => $updatedApplication,
+            ]);
+        }
+
         return $this->redirect($request, 'settings.applications.create.step', [
             'application' => $updatedApplication,
             'step' => $step + 1,
@@ -147,43 +133,22 @@ class OrganisationApplicationController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Restores the specified resource from storage.
      * @throws AuthorizationException
      */
-    public function show(
-        Request $request,
-        string $id,
-    ): Response|RedirectResponse {
+    public function restore(Request $request, string $id)
+    {
         $application = OrganisationApplication::withTrashed()->find($id);
-        if (!$application) {
+        if (!$application || !$application->trashed()) {
             return redirect()->route('settings.applications.index');
         }
-        $this->authorize('view', $application);
+        $this->authorize('restore', $application);
 
-        return AppInertia::render('Settings/Application/Show', [
-            'application' => $application,
-            'permissions' => $this->permissions($request, $application),
-        ]);
-    }
+        $application->restore();
 
-    /**
-     * Show the form for editing the specified resource.
-     * @throws AuthorizationException
-     */
-    public function edit(
-        Request $request,
-        string $id,
-    ): Response|RedirectResponse {
-        $application = OrganisationApplication::withTrashed()->find($id);
-        if (!$application) {
-            return redirect()->route('settings.applications.index');
-        }
-        $this->authorize('update', $application);
+        $application->update(['status' => 'draft']);
 
-        return AppInertia::render('Settings/Application/Edit', [
-            'application' => $application,
-            'permissions' => $this->permissions($request, $application),
-        ]);
+        return $this->redirect($request, 'settings.applications.index');
     }
 
     /**
@@ -214,6 +179,46 @@ class OrganisationApplicationController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     * @throws AuthorizationException
+     */
+    public function show(
+        Request $request,
+        string $id,
+    ): Response|RedirectResponse {
+        $application = OrganisationApplication::withTrashed()->find($id);
+        if (!$application) {
+            return redirect()->route('settings.applications.index');
+        }
+        $this->authorize('view', $application);
+
+        $application->setPermissions($request->user());
+
+        return AppInertia::render('Settings/Application/Show', [
+            'application' => $application,
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @throws AuthorizationException
+     */
+    public function edit(
+        Request $request,
+        string $id,
+    ): Response|RedirectResponse {
+        $application = OrganisationApplication::withTrashed()->find($id);
+        if (!$application) {
+            return redirect()->route('settings.applications.index');
+        }
+        $this->authorize('update', $application);
+
+        return AppInertia::render('Settings/Application/Edit', [
+            'application' => $application,
+        ]);
+    }
+
+    /**
      * Remove the specified resource from storage.
      * @throws AuthorizationException
      */
@@ -226,25 +231,6 @@ class OrganisationApplicationController extends Controller
         $this->authorize('delete', $application);
 
         $application->delete();
-
-        return $this->redirect($request, 'settings.applications.index');
-    }
-
-    /**
-     * Restores the specified resource from storage.
-     * @throws AuthorizationException
-     */
-    public function restore(Request $request, string $id)
-    {
-        $application = OrganisationApplication::withTrashed()->find($id);
-        if (!$application || !$application->trashed()) {
-            return redirect()->route('settings.applications.index');
-        }
-        $this->authorize('restore', $application);
-
-        $application->restore();
-
-        $application->update(['status' => 'draft']);
 
         return $this->redirect($request, 'settings.applications.index');
     }

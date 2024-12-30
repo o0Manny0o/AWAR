@@ -1,11 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Authorisation;
 
 use App\Models\Organisation;
 use App\Models\User;
 
-class Permission
+class PermissionContext
 {
     /**
      * Run a callback in the tenant permission context.

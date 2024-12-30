@@ -6,6 +6,7 @@ use App\Authorisation\Enum\OrganisationRole;
 use App\Events\UserCreated;
 use App\Models\Animal\Animal;
 use App\Models\SelfDisclosure\UserSelfDisclosure;
+use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationInvitation;
 use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -126,7 +127,7 @@ class User extends Authenticatable implements
             'tenant_id',
             'id',
         )
-            ->using(TenantPivot::class)
+            ->using(Member::class)
             ->withTimestamps();
     }
 

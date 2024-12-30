@@ -5,13 +5,11 @@ namespace App\Models\Tenant;
 use App\Enum\ResourcePermission;
 use App\Traits\BelongsToOrganisation;
 use App\Traits\HasResourcePermissions;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  *
  *
- * @method static \Database\Factories\OrganisationSettingsFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationPublicSettings newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationPublicSettings newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationPublicSettings query()
@@ -30,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrganisationPublicSettings extends Model
 {
-    use HasFactory, HasResourcePermissions, BelongsToOrganisation;
+    use HasResourcePermissions, BelongsToOrganisation;
 
     protected $fillable = ['name', 'favicon', 'organisation_id', 'logo'];
 

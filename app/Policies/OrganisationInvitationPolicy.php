@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Authorisation\Enum\OrganisationModule;
+use App\Authorisation\Enum\PermissionType;
 use App\Models\Tenant\OrganisationInvitation;
 use App\Models\User;
 
@@ -15,11 +17,23 @@ class OrganisationInvitationPolicy extends BasePolicy
     /**
      * Determine whether the user can view the model.
      */
+    public function viewAny(User $user): bool
+    {
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(OrganisationModule::INVITATIONS->value),
+        );
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
     public function view(
         User $user,
         OrganisationInvitation $organisationInvitation,
     ): bool {
-        return $this->isOrganisationAdmin($user);
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(OrganisationModule::INVITATIONS->value),
+        );
     }
 
     /**
@@ -27,7 +41,9 @@ class OrganisationInvitationPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return $this->isOrganisationAdmin($user);
+        return $user->hasPermissionTo(
+            PermissionType::CREATE->for(OrganisationModule::INVITATIONS->value),
+        );
     }
 
     /**
@@ -57,7 +73,9 @@ class OrganisationInvitationPolicy extends BasePolicy
         User $user,
         OrganisationInvitation $organisationInvitation,
     ): bool {
-        return $this->isOrganisationAdmin($user) &&
+        return $user->hasPermissionTo(
+            PermissionType::CREATE->for(OrganisationModule::INVITATIONS->value),
+        ) &&
             User::firstWhere('email', $organisationInvitation->email) == null &&
             ($organisationInvitation->sent_at === null ||
                 $organisationInvitation->sent_at->diffInHours(now()) >

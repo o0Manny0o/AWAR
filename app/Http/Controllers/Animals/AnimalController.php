@@ -35,8 +35,10 @@ class AnimalController extends Controller
      * Display the specified resource.
      * @throws AuthorizationException
      */
-    public function show(Animal $animal): RedirectResponse|Response
-    {
+    public function show(
+        Request $request,
+        Animal $animal,
+    ): RedirectResponse|Response {
         $this->authorize('view', $animal);
 
         $animal->append('handler');
@@ -45,9 +47,17 @@ class AnimalController extends Controller
 
         $history = AnimalHistory::internalHistory($animal);
 
-        $handlers = User::handlers()->get();
-        $fosterHomes = User::fosterHomes()->get();
-        $locations = OrganisationLocation::select(['id', 'name'])->get();
+        $handlers = $request->user()->can('assign', $animal)
+            ? User::handlers()->get()
+            : [];
+        $fosterHomes = $request->user()->can('assignFosterHome', $animal)
+            ? User::fosterHomes()->get()
+            : [];
+        $locations = $request->user()->can('assignLocation', $animal)
+            ? OrganisationLocation::select(['id', 'name'])->get()
+            : [];
+
+        $animal?->setPermissions($request->user());
 
         return AppInertia::render($this->getShowView(), [
             'animal' => $animal,
@@ -55,21 +65,8 @@ class AnimalController extends Controller
             'handlers' => $handlers,
             'fosterHomes' => $fosterHomes,
             'locations' => $locations,
-            'permissions' => $this->permissions(request(), $animal),
+            'canCreate' => $request->user()->can('create', Animal::class),
         ]);
-    }
-
-    private function permissions(Request $request, Animal $animal = null): array
-    {
-        $animal?->setPermissions($request->user());
-
-        return [
-            'animals' => [
-                'create' => $request->user()->can('create', Animal::class),
-                'view' => $request->user()->can('view', $animal),
-                'delete' => $request->user()->can('delete', $animal),
-            ],
-        ];
     }
 
     /**
@@ -129,7 +126,6 @@ class AnimalController extends Controller
             'animal' => $animal,
             'families' => $families,
             'animals' => $animals,
-            'permissions' => $this->permissions($request, $animal),
         ]);
     }
 
@@ -206,9 +202,13 @@ class AnimalController extends Controller
             $request->user(),
         );
 
+        $animals->each(
+            fn(Animal $animal) => $animal->setPermissions($request->user()),
+        );
+
         return AppInertia::render($this->getIndexView(), [
             'animals' => $animals,
-            'permissions' => $this->permissions($request),
+            'canCreate' => $request->user()->can('create', Animal::class),
         ]);
     }
 
@@ -245,11 +245,11 @@ class AnimalController extends Controller
         AssignHandlerRequest $animalRequest,
         Animal $animal,
     ): RedirectResponse {
-        //        $this->authorize('assign', $animal);
+        $this->authorize('assign', $animal);
 
         $validated = $animalRequest->validated();
 
-        $animalService->assignHandler($animal, $validated, Auth::user());
+        $animalService->assignHandler($animal, $validated['id'], Auth::user());
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal->first()->id,
@@ -267,11 +267,15 @@ class AnimalController extends Controller
         AssignFosterHomeRequest $animalRequest,
         Animal $animal,
     ): RedirectResponse {
-        $this->authorize('assign', $animal);
+        $this->authorize('assignFosterHome', $animal);
 
         $validated = $animalRequest->validated();
 
-        $animalService->assignFosterHome($animal, $validated, Auth::user());
+        $animalService->assignFosterHome(
+            $animal,
+            $validated['id'],
+            Auth::user(),
+        );
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,

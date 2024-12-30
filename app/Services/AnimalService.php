@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
-use App\Authorisation\Enum\OrganisationRole;
+use App\Authorisation\Enum\OrganisationModule;
+use App\Authorisation\Enum\PermissionType;
+use App\Authorisation\PermissionContext;
 use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalFosterHomeUpdated;
 use App\Events\Animals\AnimalHandlerUpdated;
@@ -11,13 +13,12 @@ use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUpdated;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
-use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
-use App\Permission;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class AnimalService
 {
@@ -32,10 +33,12 @@ class AnimalService
     public function createAnimal(array $validated, $class, User $user)
     {
         $organisation = tenant();
-        $isHandler = $user->hasAnyRole([
-            OrganisationRole::ANIMAL_HANDLER,
-            OrganisationRole::ANIMAL_LEAD,
-        ]);
+        $isHandler = $user->hasAnyPermission(
+            PermissionType::CREATE->for(OrganisationModule::ANIMALS->value),
+            PermissionType::CREATE->for(
+                OrganisationModule::ASSIGNED_ANIMALS->value,
+            ),
+        );
         return DB::transaction(function () use (
             $isHandler,
             $user,
@@ -203,7 +206,7 @@ class AnimalService
 
     public function loadAnimalsWithPermissions(string $type, User $user)
     {
-        $animals = Animal::subtype($type)->byRole($user)->get();
+        $animals = Animal::subtype($type)->get();
 
         foreach ($animals as $animal) {
             $animal->setPermissions($user);
@@ -221,18 +224,22 @@ class AnimalService
 
     public function assignHandler(
         Animal $animal,
-        mixed $validated,
+        string|null $id,
         User $user,
     ): void {
         /** @var User $assignee */
-        $assignee = User::find($validated['id']);
+        $assignee = User::find($id);
 
         if ($assignee) {
             if (
-                !Permission::tenant($assignee, function ($user) {
-                    return $user->hasAnyRole(
-                        OrganisationRole::ANIMAL_LEAD,
-                        OrganisationRole::ANIMAL_HANDLER,
+                !PermissionContext::tenant($assignee, function ($user) {
+                    return $user->hasAnyPermission(
+                        PermissionType::UPDATE->for(
+                            OrganisationModule::ANIMALS->value,
+                        ),
+                        PermissionType::UPDATE->for(
+                            OrganisationModule::ASSIGNED_ANIMALS->value,
+                        ),
                     );
                 })
             ) {
@@ -240,7 +247,7 @@ class AnimalService
             }
         }
 
-        $animal->update(['handler_id' => $validated['id']]);
+        $animal->update(['handler_id' => $id]);
 
         if (count($animal->getChanges()) > 0) {
             AnimalHandlerUpdated::dispatch($animal, $user);
@@ -249,20 +256,22 @@ class AnimalService
 
     public function assignFosterHome(
         Animal $animal,
-        mixed $validated,
+        string|null $id,
         User $user,
     ): void {
-        /** @var User $assignee */
-        $assignee = User::find($validated['id']);
+        /** @var User $foster_home */
+        $foster_home = User::find($id);
 
-        //        if (
-        //            $assignee &&
-        //            !$assignee->hasRole(DefaultTenantUserRole::FOSTER_HOME)
-        //        ) {
-        //            throw new BadRequestException();
-        //        }
+        if (
+            $foster_home &&
+            !$foster_home->hasPermissionTo(
+                PermissionType::FOSTER->for(OrganisationModule::ANIMALS->value),
+            )
+        ) {
+            throw new BadRequestException();
+        }
 
-        $animal->update(['foster_home_id' => $validated['id']]);
+        $animal->update(['foster_home_id' => $id]);
 
         if (count($animal->getChanges()) > 0) {
             AnimalFosterHomeUpdated::dispatch($animal, $user);
@@ -275,23 +284,31 @@ class AnimalService
         User $user,
     ): void {
         if (isset($validated['other'])) {
+            // Location is a foster home
+
             /** @var User $foster_home */
             $foster_home = User::find($validated['other']);
 
-            //            if (
-            //                $foster_home &&
-            //                !$foster_home->hasRole(DefaultTenantUserRole::FOSTER_HOME)
-            //            ) {
-            //                throw new BadRequestException();
-            //            }
+            if (
+                $foster_home &&
+                !$foster_home->hasPermissionTo(
+                    PermissionType::FOSTER->for(
+                        OrganisationModule::ANIMALS->value,
+                    ),
+                )
+            ) {
+                throw new BadRequestException();
+            }
 
             $animal->update([
                 'locationable_id' => $foster_home->id,
-                'locationable_type' => Member::class,
+                'locationable_type' => User::class,
             ]);
         } elseif (!$validated['id']) {
+            // Location was unset
             $animal->locationable()->dissociate();
         } else {
+            // Location is an organisation location
             $location = OrganisationLocation::find($validated['id']);
             $animal->locationable()->associate($location);
         }

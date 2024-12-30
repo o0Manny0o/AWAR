@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'isMember' =>
+                    // TODO: Caching
                     tenant() &&
                     $request
                         ->user()

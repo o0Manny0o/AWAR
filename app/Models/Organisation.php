@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Animal\Animal;
+use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationLocation;
 use App\Models\Tenant\OrganisationPublicSettings;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -108,7 +109,7 @@ class Organisation extends Tenant implements TeamContract, TenantWithDatabase
             'id',
             'id',
         )
-            ->using(TenantPivot::class)
+            ->using(Member::class)
             ->withTimestamps();
     }
     /**

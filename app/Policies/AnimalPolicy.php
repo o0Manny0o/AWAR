@@ -2,7 +2,8 @@
 
 namespace App\Policies;
 
-use App\Authorisation\Enum\OrganisationRole;
+use App\Authorisation\Enum\OrganisationModule;
+use App\Authorisation\Enum\PermissionType;
 use App\Models\Animal\Animal;
 use App\Models\User;
 
@@ -10,15 +11,9 @@ class AnimalPolicy extends BasePolicy
 {
     public function before(User $user): ?bool
     {
-        if ($this->isOrganisationAdmin($user)) {
-            return true;
-        }
-
         if (
-            !$user->hasAnyRole(
-                OrganisationRole::ANIMAL_LEAD,
-                OrganisationRole::ANIMAL_HANDLER,
-                OrganisationRole::FOSTER_HOME,
+            !$user->hasPermissionTo(
+                PermissionType::READ->for(OrganisationModule::ANIMALS->value),
             )
         ) {
             return false;
@@ -39,7 +34,9 @@ class AnimalPolicy extends BasePolicy
      */
     public function view(User $user, Animal $animal): bool
     {
-        return true;
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(OrganisationModule::ANIMALS->value),
+        );
     }
 
     /**
@@ -47,7 +44,9 @@ class AnimalPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo(
+            PermissionType::CREATE->for(OrganisationModule::ANIMALS->value),
+        );
     }
 
     /**
@@ -55,7 +54,29 @@ class AnimalPolicy extends BasePolicy
      */
     public function update(User $user, Animal $animal): bool
     {
-        return true;
+        if (
+            $user->hasPermissionTo(
+                PermissionType::UPDATE->for(OrganisationModule::ANIMALS->value),
+            )
+        ) {
+            return true;
+        } elseif (
+            $user->hasPermissionTo(
+                PermissionType::UPDATE->for(
+                    OrganisationModule::ASSIGNED_ANIMALS->value,
+                ),
+            )
+        ) {
+            return $this->isOwner($user, $animal);
+        } else {
+            return false;
+        }
+    }
+
+    function isOwner(User $user, $entity): bool
+    {
+        return $entity->handler_id === $user->id ||
+            $entity->foster_home_id === $user->id;
     }
 
     /**
@@ -63,7 +84,23 @@ class AnimalPolicy extends BasePolicy
      */
     public function delete(User $user, Animal $animal): bool
     {
-        return true;
+        if (
+            $user->hasPermissionTo(
+                PermissionType::DELETE->for(OrganisationModule::ANIMALS->value),
+            )
+        ) {
+            return true;
+        } elseif (
+            $user->hasPermissionTo(
+                PermissionType::DELETE->for(
+                    OrganisationModule::ASSIGNED_ANIMALS->value,
+                ),
+            )
+        ) {
+            return $this->isOwner($user, $animal);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -95,27 +132,70 @@ class AnimalPolicy extends BasePolicy
      */
     public function assign(User $user, Animal $animal): bool
     {
-        return $this->isLeadOrHandler($user, $animal);
+        if (
+            $user->hasPermissionTo(
+                PermissionType::ASSIGN->for(OrganisationModule::ANIMALS->value),
+            )
+        ) {
+            return true;
+        } elseif (
+            $user->hasPermissionTo(
+                PermissionType::ASSIGN->for(
+                    OrganisationModule::ASSIGNED_ANIMALS->value,
+                ),
+            )
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    function isLeadOrHandler(User $user, Animal $animal): bool
-    {
-        return $user->hasRole(OrganisationRole::ANIMAL_LEAD) ||
-            $animal->handler_id === $user->global_id;
-    }
-
-    public function assignFosterHome(User $user, Animal $animal): bool
-    {
-        return $this->isLeadOrHandler($user, $animal);
-    }
-
+    /**
+     * Determine whether the user can assign a handler to the animal.
+     */
     public function assignLocation(User $user, Animal $animal): bool
     {
-        return $this->isLeadOrHandler($user, $animal);
+        if (
+            $user->hasPermissionTo(
+                PermissionType::ASSIGN->for(OrganisationModule::ANIMALS->value),
+            )
+        ) {
+            return true;
+        } elseif (
+            $user->hasPermissionTo(
+                PermissionType::ASSIGN->for(
+                    OrganisationModule::ASSIGNED_ANIMALS->value,
+                ),
+            )
+        ) {
+            return $this->isOwner($user, $animal);
+        } else {
+            return false;
+        }
     }
 
-    function isOwner(User $user, $entity): bool
+    /**
+     * Determine whether the user can assign a handler to the animal.
+     */
+    public function assignFosterHome(User $user, Animal $animal): bool
     {
-        return false;
+        if (
+            $user->hasPermissionTo(
+                PermissionType::ASSIGN->for(OrganisationModule::ANIMALS->value),
+            )
+        ) {
+            return true;
+        } elseif (
+            $user->hasPermissionTo(
+                PermissionType::ASSIGN->for(
+                    OrganisationModule::ASSIGNED_ANIMALS->value,
+                ),
+            )
+        ) {
+            return $this->isOwner($user, $animal);
+        } else {
+            return false;
+        }
     }
 }

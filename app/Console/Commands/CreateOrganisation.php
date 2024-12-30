@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Authorisation\Enum\OrganisationRole;
+use App\Authorisation\PermissionContext;
 use App\Models\Organisation;
 use App\Models\User;
-use App\Permission;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
 
@@ -50,7 +50,7 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
             $user = User::find($user_id);
             $user->tenants()->attach($organisation);
 
-            Permission::tenant(
+            PermissionContext::tenant(
                 $user,
                 function ($user) {
                     $user->assignRole(OrganisationRole::ADMIN);

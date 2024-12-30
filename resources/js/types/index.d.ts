@@ -64,7 +64,6 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
             user?: User
             isMember?: boolean
         }
-        permissions?: NestedRecord<string, boolean>
         ziggy: ZiggyConfig
         locale: LanguageKey
         locales: Locale[]
@@ -74,6 +73,7 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
         tenants?: Organisation[]
         messages?: AppMessage[]
         nextSteps?: string[]
+        canCreate?: boolean
     }
 
 type TranslationKey = Paths<Translations, 10>
