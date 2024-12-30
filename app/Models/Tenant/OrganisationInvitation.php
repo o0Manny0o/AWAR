@@ -49,6 +49,8 @@ use Spatie\Permission\Models\Role;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereValidUntil($value)
+ * @property int $role_id
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereRoleId($value)
  * @mixin \Eloquent
  */
 class OrganisationInvitation extends Model
