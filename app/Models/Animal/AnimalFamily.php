@@ -3,9 +3,9 @@
 namespace App\Models\Animal;
 
 use App\Models\Organisation;
-use App\Models\Scopes\TenantScope;
 use App\Models\Scopes\WithAnimalableScope;
 use App\Models\Scopes\WithRelativesScope;
+use App\Traits\BelongsToOrganisation;
 use App\Traits\HasMorphableScopes;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -53,10 +52,10 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  * @method static Builder<static>|AnimalFamily whereOrganisationId($value)
  * @mixin \Eloquent
  */
-#[ScopedBy([TenantScope::class, WithRelativesScope::class])]
+#[ScopedBy([WithRelativesScope::class])]
 class AnimalFamily extends Model
 {
-    use HasUuids, CentralConnection, HasMorphableScopes;
+    use HasUuids, HasMorphableScopes, BelongsToOrganisation;
 
     protected static string $morphTypeColumn = 'family_type';
 
@@ -76,14 +75,6 @@ class AnimalFamily extends Model
         'father_id',
         'mother_id',
     ];
-
-    /**
-     * The organisation that the animal family belongs to.
-     */
-    public function organisation(): BelongsTo
-    {
-        return $this->belongsTo(Organisation::class);
-    }
 
     public function children(): HasMany
     {

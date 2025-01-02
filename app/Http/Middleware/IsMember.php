@@ -24,7 +24,7 @@ class IsMember
         Closure $next,
         string $redirectToRoute = null,
     ) {
-        if (tenant() && $request->user()?->member) {
+        if (tenant() && $request->user()?->isMember()) {
             return $next($request);
         }
         return $request->expectsJson()

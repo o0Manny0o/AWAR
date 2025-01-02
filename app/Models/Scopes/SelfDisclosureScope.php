@@ -14,7 +14,7 @@ class SelfDisclosureScope implements Scope
     public function apply(Builder $builder, Model $model): void
     {
         $builder->whereHas('selfDisclosure', function (Builder $query) {
-            $query->where('global_user_id', auth()->user()?->global_id);
+            $query->where('user_id', auth()->user()?->id);
         });
     }
 }

@@ -15,7 +15,7 @@ enum ResourcePermission: string
     case SUBMIT = 'can_be_submitted';
     case RESEND = 'can_be_resend';
     case PUBLISH = 'can_be_published';
-    case ASSIGN_HANDLER = 'can_assign_handler';
+    case ASSIGN = 'can_assign';
     case ASSIGN_FOSTER_HOME = 'can_assign_foster_home';
     case ASSIGN_LOCATION = 'can_assign_location';
 }

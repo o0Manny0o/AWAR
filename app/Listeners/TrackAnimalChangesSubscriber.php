@@ -28,7 +28,7 @@ class TrackAnimalChangesSubscriber
 
         /** @var AnimalHistory $history */
         $history = $animal->histories()->create([
-            'global_user_id' => $event->user->global_id,
+            'user_id' => $event->user->id,
             'public' => true,
         ]);
 
@@ -90,7 +90,7 @@ class TrackAnimalChangesSubscriber
 
         /** @var AnimalHistory $history */
         $history = $animal->histories()->create([
-            'global_user_id' => $event->user->global_id,
+            'user_id' => $event->user->id,
             'type' => AnimalHistoryType::UPDATE,
         ]);
 
@@ -123,7 +123,7 @@ class TrackAnimalChangesSubscriber
     {
         /** @var AnimalHistory $history */
         $event->animal->histories()->create([
-            'global_user_id' => $event->user->global_id,
+            'user_id' => $event->user->id,
             'type' => AnimalHistoryType::DELETE,
         ]);
     }
@@ -135,7 +135,7 @@ class TrackAnimalChangesSubscriber
     {
         /** @var AnimalHistory $history */
         $event->animal->histories()->create([
-            'global_user_id' => $event->user->global_id,
+            'user_id' => $event->user->id,
             'type' => AnimalHistoryType::PUBLISH,
         ]);
     }
@@ -147,7 +147,7 @@ class TrackAnimalChangesSubscriber
     {
         /** @var AnimalHistory $history */
         $event->animal->histories()->create([
-            'global_user_id' => $event->user->global_id,
+            'user_id' => $event->user->id,
             'type' => AnimalHistoryType::UNPUBLISH,
         ]);
     }
@@ -160,7 +160,7 @@ class TrackAnimalChangesSubscriber
     ): void {
         /** @var AnimalHistory $history */
         $history = $event->animal->histories()->create([
-            'global_user_id' => $event->user->global_id,
+            'user_id' => $event->user->id,
             'type' => $event->animal->handler_id
                 ? AnimalHistoryType::HANDLER_ASSIGN
                 : AnimalHistoryType::HANDLER_UNASSIGN,
@@ -180,7 +180,7 @@ class TrackAnimalChangesSubscriber
     ): void {
         /** @var AnimalHistory $history */
         $history = $event->animal->histories()->create([
-            'global_user_id' => $event->user->global_id,
+            'user_id' => $event->user->id,
             'type' => $event->animal->foster_home_id
                 ? AnimalHistoryType::FOSTER_HOME_ASSIGN
                 : AnimalHistoryType::FOSTER_HOME_UNASSIGN,
@@ -200,7 +200,7 @@ class TrackAnimalChangesSubscriber
     ): void {
         /** @var AnimalHistory $history */
         $history = $event->animal->histories()->create([
-            'global_user_id' => $event->user->global_id,
+            'user_id' => $event->user->id,
             'type' => $event->animal->locationable_id
                 ? AnimalHistoryType::LOCATION_ASSIGN
                 : AnimalHistoryType::LOCATION_UNASSIGN,

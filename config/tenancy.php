@@ -16,7 +16,9 @@ return [
      *
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
-    'central_domains' => [...array_filter(explode(",", env("CENTRAL_DOMAINS", "")))],
+    'central_domains' => [
+        ...array_filter(explode(',', env('CENTRAL_DOMAINS', ''))),
+    ],
 
     /**
      * Tenancy bootstrappers are executed when tenancy is initialized.
@@ -25,10 +27,11 @@ return [
      * To configure their behavior, see the config keys below.
      */
     'bootstrappers' => [
-        Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
+        // Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper::class,
+        \App\Bootstrappers\PermissionTenancyBootstrapper::class,
         // Stancl\Tenancy\Bootstrappers\RedisTenancyBootstrapper::class, // Note: phpredis is needed
     ],
 
@@ -55,9 +58,12 @@ return [
          * TenantDatabaseManagers are classes that handle the creation & deletion of tenant databases.
          */
         'managers' => [
-            'sqlite' => Stancl\Tenancy\TenantDatabaseManagers\SQLiteDatabaseManager::class,
-            'mysql' => Stancl\Tenancy\TenantDatabaseManagers\MySQLDatabaseManager::class,
-            'pgsql' => Stancl\Tenancy\TenantDatabaseManagers\PostgreSQLDatabaseManager::class,
+            'sqlite' =>
+                Stancl\Tenancy\TenantDatabaseManagers\SQLiteDatabaseManager::class,
+            'mysql' =>
+                Stancl\Tenancy\TenantDatabaseManagers\MySQLDatabaseManager::class,
+            'pgsql' =>
+                Stancl\Tenancy\TenantDatabaseManagers\PostgreSQLDatabaseManager::class,
 
             /**
              * Use this database manager for MySQL to have a DB user created for each tenant database.
@@ -146,9 +152,9 @@ return [
      */
     'redis' => [
         'prefix_base' => 'tenant', // Each key in Redis will be prepended by this prefix_base, followed by the tenant id.
-        'prefixed_connections' => [ // Redis connections whose keys are prefixed, to separate one tenant's keys from another.
+        'prefixed_connections' => [
             // 'default',
-        ],
+        ], // Redis connections whose keys are prefixed, to separate one tenant's keys from another.
     ],
 
     /**

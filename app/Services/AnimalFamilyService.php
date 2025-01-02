@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalFamily;
-use App\Models\Organisation;
 use Illuminate\Support\Str;
 
 class AnimalFamilyService
@@ -12,7 +11,6 @@ class AnimalFamilyService
     public function createOrUpdateFamily(
         array $validated,
         Animal $animal,
-        Organisation $organisation,
     ): array {
         // Family removed from animal (only removes if animal was child)
         // TODO: Add better support for managing parental families with separate form field
@@ -81,7 +79,6 @@ class AnimalFamilyService
                 name: $validated['family'],
                 mother: $mother,
                 father: $father,
-                organisation: $organisation,
                 type: $animal->animalable_type,
             );
             $animalChanges = array_merge(
@@ -119,21 +116,15 @@ class AnimalFamilyService
 
         $family->mother()->associate($mother);
         $family->father()->associate($father);
-        //        $family->save();
+        $family->save();
 
         return $family;
     }
 
-    public function createFamily(
-        $name,
-        $mother,
-        $father,
-        $organisation,
-        $type,
-    ): AnimalFamily {
+    public function createFamily($name, $mother, $father, $type): AnimalFamily
+    {
         $values = [
             'name' => $name,
-            'organisation_id' => $organisation->id,
             'family_type' => $type,
             'mother_id' => $mother,
             'father_id' => $father,

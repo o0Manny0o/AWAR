@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Enum\SelfDisclosure\SelfDisclosureStep;
-use App\Models\Organisation;
 use App\Services\SelfDisclosureService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -44,6 +43,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'isMember' => $request->user()?->isMember(),
             ],
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -65,24 +65,7 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
             },
-            'tenants' => $request->user()
-                ? global_cache()->remember(
-                    'users:' . $request->user()->id . ':tenants',
-                    18000,
-                    function () use ($request) {
-                        return Organisation::whereHas('members', function (
-                            $query,
-                        ) use ($request) {
-                            $query->where(
-                                'global_id',
-                                $request->user()->global_id,
-                            );
-                        })
-                            ->with('domains')
-                            ->get();
-                    },
-                )
-                : null,
+            'tenants' => $request->user()?->cachedTenants(),
             'tenant' => tenancy()->initialized
                 ? cache()->remember('tenant', 18000, function () {
                     $tenant = tenancy()->tenant;

@@ -11,7 +11,6 @@ class OrganisationInvitationRules
             'email',
             'max:255',
             'unique:App\Models\Tenant\OrganisationInvitation,email',
-            'unique:App\Models\Tenant\Member,email',
         ];
     }
 

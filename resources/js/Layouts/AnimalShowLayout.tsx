@@ -19,8 +19,7 @@ export function AnimalShowLayout({
 }: PropsWithChildren<{ animal: Animal; baseRoute: string }> &
     AuthenticatedLayoutProps) {
     const __ = useTranslate()
-    const { canAssignHandler, canAssignFosterHome, canAssignLocation } =
-        usePermission()
+    const { canAssign } = usePermission()
 
     const { handlers, fosterHomes, locations } = usePage<
         AppPageProps<{
@@ -46,10 +45,26 @@ export function AnimalShowLayout({
                                 prepend={
                                     <span className="bg-gray-300 size-6 rounded-full shrink-0"></span>
                                 }
-                                canEdit={canAssignHandler(animal)}
+                                canEdit={canAssign(animal)}
                             />
                         </div>
+
                         <div className="py-6">
+                            <AssignInput
+                                animal={animal}
+                                label={__(
+                                    'animals.form_general.foster_home.label',
+                                )}
+                                routeName={`${baseRoute}.assign.foster`}
+                                options={fosterHomes}
+                                value={animal.fosterHome}
+                                prepend={
+                                    <span className="bg-gray-300 size-6 rounded-full"></span>
+                                }
+                                canEdit={!!animal.can_assign_foster_home}
+                            />
+                        </div>
+                        <div className="pt-6">
                             <AssignInput
                                 animal={animal}
                                 label={__(
@@ -70,26 +85,11 @@ export function AnimalShowLayout({
                                 prepend={
                                     <span className="bg-gray-300 size-6 rounded-full shrink-0"></span>
                                 }
-                                canEdit={canAssignLocation(animal)}
+                                canEdit={!!animal.can_assign_location}
                                 withType={'foster_home'}
                                 emptyOption={
                                     'general.various.unknown_or_external'
                                 }
-                            />
-                        </div>
-                        <div className="pt-6">
-                            <AssignInput
-                                animal={animal}
-                                label={__(
-                                    'animals.form_general.foster_home.label',
-                                )}
-                                routeName={`${baseRoute}.assign.foster`}
-                                options={fosterHomes}
-                                value={animal.fosterHome}
-                                prepend={
-                                    <span className="bg-gray-300 size-6 rounded-full"></span>
-                                }
-                                canEdit={canAssignFosterHome(animal)}
                             />
                         </div>
                     </Card>

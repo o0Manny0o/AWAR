@@ -267,11 +267,11 @@ type Translations = {
             tenant: {
                 admin: string
                 member: string
-                adoption_lead: string
-                adoption_handler: string
                 foster_home_lead: string
                 foster_home_handler: string
                 foster_home: string
+                animal_handler: string
+                animal_lead: string
             }
         }
         images: string

@@ -131,6 +131,9 @@ declare namespace App.Models {
             name: string
         }
 
+        can_assign_foster_home?: boolean
+        can_assign_location?: boolean
+
         published_at?: string
         deleted_at?: string
         created_at: string

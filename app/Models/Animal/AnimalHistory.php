@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -44,9 +43,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  */
 class AnimalHistory extends Model
 {
-    use CentralConnection;
-
-    protected $fillable = ['global_user_id', 'type', 'public'];
+    protected $fillable = ['user_id', 'type', 'public'];
 
     public static function internalHistory(Animal $animal): array
     {
@@ -60,7 +57,7 @@ class AnimalHistory extends Model
         Carbon::setLocale(\App::getLocale());
 
         $t = fn($history) => __('history.changes.internal.' . $history->type, [
-            'user' => $history->changee->name,
+            'user' => $history->changee?->name,
             'animal' => $history->animal->name,
             'when' => $history->created_at->diffForHumans(),
         ]);
@@ -110,7 +107,7 @@ class AnimalHistory extends Model
 
     public function changee(): BelongsTo
     {
-        return $this->BelongsTo(User::class, 'global_user_id', 'global_id');
+        return $this->BelongsTo(User::class, 'user_id', 'id');
     }
 
     public function animal(): BelongsTo
@@ -130,7 +127,7 @@ class AnimalHistory extends Model
     {
         $query->with([
             'changes:id,field,value,animal_history_id',
-            'changee:global_id,name',
+            'changee:id,name',
             'animal:id,name',
         ]);
     }

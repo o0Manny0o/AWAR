@@ -3,8 +3,8 @@
 namespace App\Mail;
 
 use App\Models\Organisation;
-use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationInvitation;
+use App\Models\User;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
@@ -16,7 +16,7 @@ class OrganisationInvitationMail extends BaseMail
     public function __construct(
         public OrganisationInvitation $invitation,
         public string $invitee,
-        public Member $inviter,
+        public User $inviter,
         public Organisation $organisation,
         public string $url,
     ) {

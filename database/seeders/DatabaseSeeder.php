@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\central\CentralRolesAndPermissionsSeeder;
-use Database\Seeders\central\CountrySeeder;
+use App\Models\Organisation;
+use Database\Seeders\Central\CentralRolesAndPermissionsSeeder;
+use Database\Seeders\Central\CountrySeeder;
+use Database\Seeders\Tenant\OrganisationRolesAndPermissionsSeeder;
 use Illuminate\Database\Seeder;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,7 +17,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Organisation::create([
+            'name' => 'public',
+        ]);
+
         $this->call([
+            OrganisationRolesAndPermissionsSeeder::class,
             CentralRolesAndPermissionsSeeder::class,
             CountrySeeder::class,
         ]);

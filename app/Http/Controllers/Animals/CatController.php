@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Animals;
 
 use App\Http\Requests\Animals\CreateCatRequest;
 use App\Http\Requests\Animals\UpdateCatRequest;
+use App\Models\Animal\Animal;
 use App\Models\Animal\Cat;
 use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -33,8 +34,8 @@ class CatController extends AnimalController
      */
     public function update(
         UpdateCatRequest $catRequest,
-        string $id,
+        Animal $animal,
     ): RedirectResponse {
-        return parent::updateAnimal($catRequest, $id);
+        return parent::updateAnimal($catRequest, $animal);
     }
 }

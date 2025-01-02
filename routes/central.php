@@ -90,29 +90,22 @@ Route::middleware('auth')->group(function () {
                             ':' .
                             SelfDisclosureStep::FAMILY->value,
                     )
+                    ->controller(SelfDisclosureWizardController::class)
                     ->group(function () {
-                        Route::get('/', [
-                            SelfDisclosureWizardController::class,
-                            'createFamilyMember',
-                        ])
+                        Route::get('/', 'createFamilyMember')
                             ->can('create', 'userFamilyMember')
                             ->name('create');
-                        Route::post('/', [
-                            SelfDisclosureWizardController::class,
-                            'storeFamilyMember',
-                        ])
+
+                        Route::post('/', 'storeFamilyMember')
                             ->can('create', 'userFamilyMember')
                             ->name('store');
-                        Route::get('/{userFamilyMember}', [
-                            SelfDisclosureWizardController::class,
-                            'editFamilyMember',
-                        ])
+                        Route::get('/{userFamilyMember}', 'editFamilyMember')
                             ->can('update', 'userFamilyMember')
                             ->name('edit');
-                        Route::patch('/{userFamilyMember}', [
-                            SelfDisclosureWizardController::class,
+                        Route::patch(
+                            '/{userFamilyMember}',
                             'updateFamilyMember',
-                        ])
+                        )
                             ->can('update', 'userFamilyMember')
                             ->name('update');
                         Route::delete('/{userFamilyMember}', [

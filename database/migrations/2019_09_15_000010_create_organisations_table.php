@@ -16,7 +16,7 @@ return new class extends Migration {
     {
         Schema::create('organisations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->timestamps();
             $table->json('data')->nullable();
         });

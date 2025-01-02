@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -29,8 +28,6 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  */
 class Country extends Model
 {
-    use CentralConnection;
-
     public $incrementing = false;
     public $timestamps = false;
     protected $primaryKey = 'code';

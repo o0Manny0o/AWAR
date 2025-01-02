@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Models\Animal\Animal;
+use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationLocation;
 use App\Models\Tenant\OrganisationPublicSettings;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Config;
 use Stancl\Tenancy\Contracts\TenantWithDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDatabase;
 use Stancl\Tenancy\Database\Concerns\HasDomains;
@@ -101,11 +104,11 @@ class Organisation extends Tenant implements TenantWithDatabase
             User::class,
             'organisation_users',
             'tenant_id',
-            'global_user_id',
+            'user_id',
             'id',
-            'global_id',
+            'id',
         )
-            ->using(TenantPivot::class)
+            ->using(Member::class)
             ->withTimestamps();
     }
     /**
@@ -130,5 +133,24 @@ class Organisation extends Tenant implements TenantWithDatabase
     public function publicSettings(): HasOne
     {
         return $this->hasOne(OrganisationPublicSettings::class);
+    }
+
+    public function getMorphByUserRelation(string $relationship): MorphToMany
+    {
+        return $this->morphedByMany(
+            Config::get('laratrust.user_models')[$relationship],
+            'user',
+            Config::get('laratrust.tables.role_user'),
+            Config::get('laratrust.foreign_keys.team'),
+            Config::get('laratrust.foreign_keys.user'),
+        );
+    }
+
+    /**
+     * Returns the organisation's foreign key.
+     */
+    public static function modelForeignKey(): string
+    {
+        return Config::get('laratrust.foreign_keys.team');
     }
 }

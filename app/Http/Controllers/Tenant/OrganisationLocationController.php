@@ -38,26 +38,10 @@ class OrganisationLocationController extends Controller
 
         return AppInertia::render($this->getIndexView(), [
             'locations' => $locations,
-            'permissions' => $this->permissions($request),
+            'canCreate' => $request
+                ->user()
+                ->can('create', OrganisationLocation::class),
         ]);
-    }
-
-    private function permissions(
-        Request $request,
-        OrganisationLocation $location = null,
-    ): array {
-        $location?->setPermissions($request->user());
-
-        return [
-            'organisations' => [
-                'locations' => [
-                    'create' => $request
-                        ->user()
-                        ->can('create', OrganisationLocation::class),
-                    'view' => $request->user()->can('view', $location),
-                ],
-            ],
-        ];
     }
 
     /**
@@ -120,9 +104,10 @@ class OrganisationLocationController extends Controller
 
         $this->authorize('view', $location);
 
+        $location->setPermissions(request()->user());
+
         return AppInertia::render($this->getShowView(), [
             'location' => $location,
-            'permissions' => $this->permissions(request(), $location),
         ]);
     }
 

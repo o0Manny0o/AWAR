@@ -20,14 +20,13 @@ class DevResetDatabase extends Command
      *
      * @var string
      */
-    protected $description = 'Delete all organisations and their databases. Reset the central database and seed.';
+    protected $description = 'Delete all organisations. Afterwards, completely reset the database and seed.';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $this->components->info('Deleting Database.');
         $this->components->task('Deleting all organisations', function () {
             if (!Schema::hasTable('organisations')) {
                 return;

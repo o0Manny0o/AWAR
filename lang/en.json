@@ -267,11 +267,11 @@
             "tenant": {
                 "admin": "Admin",
                 "member": "Member",
-                "adoption_lead": "Adoption Lead",
-                "adoption_handler": "Adoption Handler",
                 "foster_home_lead": "Foster Home Lead",
                 "foster_home_handler": "Foster Home Handler",
-                "foster_home": "Foster Home"
+                "foster_home": "Foster Home",
+                "animal_handler": "Animal Handler",
+                "animal_lead": "Animal Lead"
             }
         },
         "images": "Images",

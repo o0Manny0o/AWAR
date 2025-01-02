@@ -1,9 +1,13 @@
 <?php
 
+use App\Authorisation\Enum\CentralModule as CM;
+use App\Authorisation\Enum\CentralRole as CR;
+use App\Authorisation\Enum\OrganisationModule as OM;
+use App\Authorisation\Enum\OrganisationRole as R;
+use App\Authorisation\Enum\PermissionType as P;
+
 return [
-
     'models' => [
-
         /*
          * When using the "HasPermissions" trait from this package, we need to know which
          * Eloquent model should be used to retrieve your permissions. Of course, it
@@ -25,11 +29,9 @@ return [
          */
 
         'role' => Spatie\Permission\Models\Role::class,
-
     ],
 
     'table_names' => [
-
         /*
          * When using the "HasRoles" trait from this package, we need to know which
          * table should be used to retrieve your roles. We have chosen a basic
@@ -93,7 +95,7 @@ return [
          * foreign key is other than `team_id`.
          */
 
-        'team_foreign_key' => 'team_id',
+        'team_foreign_key' => 'organisation_id',
     ],
 
     /*
@@ -120,7 +122,7 @@ return [
      * (view the latest version of this package's migration file)
      */
 
-    'teams' => false,
+    'teams' => true,
 
     /*
      * Passport Client Credentials Grant
@@ -161,7 +163,6 @@ return [
     /* Cache-specific settings */
 
     'cache' => [
-
         /*
          * By default all permissions are cached for 24 hours to speed up performance.
          * When permissions or roles are updated the cache is flushed automatically.
@@ -182,5 +183,84 @@ return [
          */
 
         'store' => 'default',
+    ],
+
+    'central_role_structure' => [
+        CR::ADMIN->value => [
+            CM::ORGANISATION_APPLICATIONS->value => [P::READ],
+        ],
+    ],
+
+    'role_structure' => [
+        R::ADMIN->value => [
+            OM::ANIMALS->value => [
+                P::CREATE,
+                P::READ,
+                P::UPDATE,
+                P::DELETE,
+                P::ASSIGN,
+            ],
+            OM::MEMBERS->value => [P::READ],
+            OM::INVITATIONS->value => [P::CREATE, P::READ],
+            OM::LOCATIONS->value => [
+                P::CREATE,
+                P::READ,
+                P::UPDATE,
+                P::DELETE,
+                P::FORCE_DELETE,
+                P::RESTORE,
+            ],
+            OM::PUBLIC_SETTINGS->value => [P::READ, P::UPDATE],
+        ],
+
+        R::MEMBER->value => [
+            OM::ANIMALS->value => [P::READ],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::ANIMAL_LEAD->value => [
+            OM::ANIMALS->value => [
+                P::CREATE,
+                P::READ,
+                P::UPDATE,
+                P::DELETE,
+                P::ASSIGN,
+            ],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::ANIMAL_HANDLER->value => [
+            OM::ANIMALS->value => [P::CREATE, P::READ],
+            OM::ASSIGNED_ANIMALS->value => [P::UPDATE, P::DELETE, P::ASSIGN],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::FOSTER_HOME_LEAD->value => [
+            OM::ANIMALS->value => [P::READ],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::FOSTER_HOME_HANDLER->value => [
+            OM::ANIMALS->value => [P::READ],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
+
+        R::FOSTER_HOME->value => [
+            OM::ANIMALS->value => [P::READ, P::FOSTER],
+            OM::FOSTERED_ANIMALS->value => [P::UPDATE, P::DELETE],
+            OM::MEMBERS->value => [P::READ],
+            OM::LOCATIONS->value => [P::READ],
+            OM::PUBLIC_SETTINGS->value => [P::READ],
+        ],
     ],
 ];
