@@ -6,6 +6,7 @@ use App\Authorisation\Enum\CentralRole;
 use App\Authorisation\Enum\OrganisationRole;
 use App\Models\Address;
 use App\Models\Animal\Animal;
+use App\Models\Animal\AnimalListing;
 use App\Models\Animal\Cat;
 use App\Models\Organisation;
 use App\Models\Tenant\OrganisationLocation;
@@ -122,14 +123,13 @@ class DevelopmentSeeder extends Seeder
         $organisation = Organisation::whereName('foo')->first();
 
         /** @var Animal $animal */
-        $organisation->run(function () use ($user) {
+        $animal = $organisation->run(function () use ($user) {
             $data = [
                 'name' => 'Cat',
                 'breed' => 'British Shorthair',
                 'date_of_birth' => '2020-01-01',
                 'sex' => 'male',
                 'bio' => 'Cat bio',
-                'abstract' => 'Cat abstract',
                 'family' => null,
                 'images' => [
                     //                    new UploadedFile(
@@ -145,5 +145,9 @@ class DevelopmentSeeder extends Seeder
             Model::reguard();
             return $this->animalService->createAnimal($data, Cat::class, $user);
         });
+
+        AnimalListing::factory()
+            ->hasAttached([$animal])
+            ->create();
     }
 }

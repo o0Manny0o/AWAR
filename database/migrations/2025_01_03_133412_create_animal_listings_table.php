@@ -10,9 +10,34 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('animal_listings', function (Blueprint $table) {
-            $table->id();
+        Schema::create('listings', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+
+            $table->text('description')->nullable();
+            $table->string('excerpt', 255)->nullable();
+
             $table->timestamps();
+        });
+
+        Schema::create('listing_animal', function (Blueprint $table) {
+            $table->uuid('listing_id');
+            $table->uuid('animal_id');
+
+            $table->primary(['listing_id', 'animal_id']);
+
+            $table
+                ->foreign('listing_id')
+                ->references('id')
+                ->on('listings')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table
+                ->foreign('animal_id')
+                ->references('id')
+                ->on('animals')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -21,6 +46,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('animal_listings');
+        Schema::dropIfExists('listings');
+        Schema::dropIfExists('listing_animal');
     }
 };

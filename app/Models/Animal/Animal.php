@@ -34,7 +34,6 @@ use Illuminate\Validation\UnauthorizedException;
  * @property string $name
  * @property string $date_of_birth
  * @property string|null $bio
- * @property string|null $abstract
  * @property string|null $sex
  * @property string|null $published_at
  * @property string $animalable_type
@@ -79,7 +78,6 @@ use Illuminate\Validation\UnauthorizedException;
  * @method static Builder<static>|Animal onlyTrashed()
  * @method static Builder<static>|Animal query()
  * @method static Builder<static>|Animal subtype(string $type)
- * @method static Builder<static>|Animal whereAbstract($value)
  * @method static Builder<static>|Animal whereAnimalFamilyId($value)
  * @method static Builder<static>|Animal whereAnimalableId($value)
  * @method static Builder<static>|Animal whereAnimalableType($value)
@@ -100,6 +98,8 @@ use Illuminate\Validation\UnauthorizedException;
  * @method static Builder<static>|Animal withMedia()
  * @method static Builder<static>|Animal withTrashed()
  * @method static Builder<static>|Animal withoutTrashed()
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalListing> $listings
+ * @property-read int|null $listings_count
  * @mixin \Eloquent
  */
 #[ScopedBy([WithAnimalableScope::class])]
@@ -119,7 +119,6 @@ class Animal extends Model implements Trackable
         'sex',
         'organisation_id',
         'bio',
-        'abstract',
         'published_at',
         'family_id',
         'animal_family_id',
@@ -142,7 +141,6 @@ class Animal extends Model implements Trackable
         'organisation_id',
         'bio',
         'sex',
-        'abstract',
         'published_at',
         'added_media',
         'removed_media',
@@ -370,5 +368,15 @@ class Animal extends Model implements Trackable
                 ->namedTransformation('gallery')
                 ->toUrl();
         });
+    }
+
+    public function listings(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            AnimalListing::class,
+            'listing_animal',
+            'animal_id',
+            'listing_id',
+        );
     }
 }

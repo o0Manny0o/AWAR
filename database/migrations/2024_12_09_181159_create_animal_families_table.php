@@ -15,7 +15,6 @@ return new class extends Migration {
 
             $table->string('name');
             $table->text('bio')->nullable();
-            $table->text('abstract')->nullable();
 
             $table->string('family_type')->index();
 

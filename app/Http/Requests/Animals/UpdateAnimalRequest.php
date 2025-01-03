@@ -19,7 +19,6 @@ class UpdateAnimalRequest extends FormRequest
             'date_of_birth' => AnimalRules::dateOfBirthRules(),
             'sex' => AnimalRules::sexRules(),
             'bio' => AnimalRules::bioRules(),
-            'abstract' => AnimalRules::abstractRules(),
             'images' => AnimalRules::imagesRules(),
             'images.*' => AnimalRules::imageRules(),
             'father' => AnimalRules::fatherRules(),

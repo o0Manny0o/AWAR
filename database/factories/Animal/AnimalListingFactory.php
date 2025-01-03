@@ -17,7 +17,8 @@ class AnimalListingFactory extends Factory
     public function definition(): array
     {
         return [
-                //
-            ];
+            'description' => fake()->text(800),
+            'excerpt' => fake()->text(),
+        ];
     }
 }

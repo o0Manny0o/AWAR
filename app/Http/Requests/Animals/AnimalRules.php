@@ -29,12 +29,6 @@ class AnimalRules
     {
         return ['nullable', 'string', 'max:1000'];
     }
-
-    public static function abstractRules(): array
-    {
-        return ['nullable', 'string', 'max:255'];
-    }
-
     public static function imagesRules(): array
     {
         return ['required', 'array', 'min:1'];

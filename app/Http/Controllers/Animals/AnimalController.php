@@ -74,8 +74,6 @@ class AnimalController extends Controller
      */
     public function showPublic(Animal $animal): RedirectResponse|Response
     {
-        $animal->makeHidden('abstract');
-
         $history = AnimalHistory::publicHistory($animal);
 
         return AppInertia::render('Animals/Show', [
