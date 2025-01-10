@@ -520,6 +520,12 @@
             "foster_home": {
                 "label": "Foster Home"
             }
+        },
+        "general": {
+            "navigation": {
+                "animals": "Animals",
+                "listings": "Listings"
+            }
         }
     },
     "history": {

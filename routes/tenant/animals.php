@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Animals\AnimalListingController;
 use App\Http\Controllers\Animals\CatController;
 use App\Http\Controllers\Animals\DogController;
+use App\Http\Middleware\SetAnimalTypeMiddleware;
+use App\Models\Animal\Cat;
+use App\Models\Animal\Dog;
 
 /**
  * Inherited middlewares from tenant routes
@@ -38,5 +42,26 @@ Route::name('animals.')
             Route::resource($name, $controller)->parameters([
                 $name => 'animal',
             ]);
+        }
+
+        foreach (
+            [
+                'dogs' => SetAnimalTypeMiddleware::class . ':' . Dog::class,
+                'cats' => SetAnimalTypeMiddleware::class . ':' . Cat::class,
+            ]
+            as $name => $middleware
+        ) {
+            Route::middleware($middleware)->group(function () use ($name) {
+                Route::name('listings.')
+                    ->prefix('listings')
+                    ->group(function () use ($name) {
+                        Route::resource(
+                            $name,
+                            AnimalListingController::class,
+                        )->parameters([
+                            $name => 'animal',
+                        ]);
+                    });
+            });
         }
     });

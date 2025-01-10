@@ -352,6 +352,12 @@
             "foster_home": {
                 "label": "Pflegestelle"
             }
+        },
+        "general": {
+            "navigation": {
+                "animals": "Tiere",
+                "listings": "Anzeigen"
+            }
         }
     },
     "history": {

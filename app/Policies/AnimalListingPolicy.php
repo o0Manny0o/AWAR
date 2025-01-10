@@ -2,17 +2,31 @@
 
 namespace App\Policies;
 
+use App\Authorisation\Enum\OrganisationModule;
+use App\Authorisation\Enum\PermissionType;
 use App\Models\Animal\AnimalListing;
 use App\Models\User;
 
 class AnimalListingPolicy
 {
+    public function before(User $user): ?bool
+    {
+        if (
+            !$user->hasPermissionTo(
+                PermissionType::READ->for(OrganisationModule::LISTINGS->value),
+            )
+        ) {
+            return false;
+        }
+        return null;
+    }
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**

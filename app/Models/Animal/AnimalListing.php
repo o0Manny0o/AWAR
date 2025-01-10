@@ -2,6 +2,8 @@
 
 namespace App\Models\Animal;
 
+use App\Enum\ResourcePermission;
+use App\Traits\HasResourcePermissions;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,11 +23,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class AnimalListing extends Model
 {
     /** @use HasFactory<\Database\Factories\Animal\AnimalListingFactory> */
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, HasResourcePermissions;
 
     protected $table = 'listings';
 
     protected $fillable = ['description', 'excerpt'];
+
+    protected array $resource_permissions = [
+        ResourcePermission::VIEW,
+        ResourcePermission::DELETE,
+        ResourcePermission::UPDATE,
+        ResourcePermission::PUBLISH,
+    ];
 
     public function animals(): BelongsToMany
     {

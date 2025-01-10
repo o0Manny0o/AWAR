@@ -521,6 +521,12 @@ type Translations = {
                 label: string
             }
         }
+        general: {
+            navigation: {
+                animals: string
+                listings: string
+            }
+        }
     }
     history: {
         changes: {
