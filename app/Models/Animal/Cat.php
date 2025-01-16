@@ -24,4 +24,8 @@ class Cat extends Animalable
     protected $fillable = ['breed'];
     protected $hidden = ['id'];
     protected array $tracked = ['breed'];
+
+    public static string $baseViewPath = 'Tenant/Animals/Cats';
+    public static string $baseRouteName = 'animals.cats';
+    public static string $type = 'cats';
 }

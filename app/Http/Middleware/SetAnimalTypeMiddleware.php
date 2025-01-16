@@ -16,10 +16,10 @@ class SetAnimalTypeMiddleware
     public function handle(
         Request $request,
         Closure $next,
-        string $animalType,
+        string $animalModel,
     ): Response {
         $request->merge([
-            'animal_type' => $animalType,
+            'animal_model' => $animalModel,
         ]);
         return $next($request);
     }

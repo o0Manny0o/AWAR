@@ -10,8 +10,8 @@ abstract class Controller
 {
     use AuthorizesRequests;
 
-    protected string $baseRouteName = '';
-    protected string $baseViewPath = '';
+    protected static string $baseRouteName = '';
+    protected static string $baseViewPath = '';
 
     protected function redirect(
         Request $request,
@@ -29,56 +29,56 @@ abstract class Controller
 
     protected function getIndexRouteName(): string
     {
-        return $this->baseRouteName . '.index';
+        return static::$baseRouteName . '.index';
     }
 
     protected function getIndexView(): string
     {
-        return $this->baseViewPath . '/Index';
+        return static::$baseViewPath . '/Index';
     }
 
     protected function getCreateRouteName(): string
     {
-        return $this->baseRouteName . '.create';
+        return static::$baseRouteName . '.create';
     }
 
     protected function getCreateView(): string
     {
-        return $this->baseViewPath . '/Create';
+        return static::$baseViewPath . '/Create';
     }
 
     protected function getStoreRouteName(): string
     {
-        return $this->baseRouteName . '.store';
+        return static::$baseRouteName . '.store';
     }
 
     protected function getShowRouteName(): string
     {
-        return $this->baseRouteName . '.show';
+        return static::$baseRouteName . '.show';
     }
 
     protected function getShowView(): string
     {
-        return $this->baseViewPath . '/Show';
+        return static::$baseViewPath . '/Show';
     }
 
     protected function getEditRouteName(): string
     {
-        return $this->baseRouteName . '.edit';
+        return static::$baseRouteName . '.edit';
     }
 
     protected function getEditView(): string
     {
-        return $this->baseViewPath . '/Edit';
+        return static::$baseViewPath . '/Edit';
     }
 
     protected function getUpdateRouteName(): string
     {
-        return $this->baseRouteName . '.update';
+        return static::$baseRouteName . '.update';
     }
 
     protected function getDestroyRouteName(): string
     {
-        return $this->baseRouteName . '.destroy';
+        return static::$baseRouteName . '.destroy';
     }
 }

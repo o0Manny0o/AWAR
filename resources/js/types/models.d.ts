@@ -223,4 +223,14 @@ declare namespace App.Models {
             logo: string
         }
     }
+
+    export interface Listing {
+        id: string
+        description: string
+        excerpt: string
+        animals: Animal[]
+
+        created_at: string
+        updated_at: string
+    }
 }

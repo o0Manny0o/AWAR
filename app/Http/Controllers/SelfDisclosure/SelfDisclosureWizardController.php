@@ -31,8 +31,8 @@ use Inertia\Response;
 
 class SelfDisclosureWizardController extends Controller
 {
-    protected string $baseViewPath = 'SelfDisclosure/Wizard';
-    protected string $baseRouteName = 'self-disclosure';
+    protected static string $baseViewPath = 'SelfDisclosure/Wizard';
+    protected static string $baseRouteName = 'self-disclosure';
 
     public function __construct(
         private readonly SelfDisclosureWizardService $service,

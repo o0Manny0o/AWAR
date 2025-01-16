@@ -17,11 +17,51 @@ Route::name('animals.')
     ->group(function () {
         foreach (
             [
+                'dogs' => SetAnimalTypeMiddleware::class . ':' . Dog::class,
+                'cats' => SetAnimalTypeMiddleware::class . ':' . Cat::class,
+            ]
+            as $name => $middleware
+        ) {
+            Route::middleware($middleware)->group(function () use ($name) {
+                Route::get($name . '/listings', [
+                    AnimalListingController::class,
+                    'index',
+                ])->name($name . '.listings');
+                Route::get($name . '/listings/create', [
+                    AnimalListingController::class,
+                    'create',
+                ])->name($name . '.listings.create');
+
+                Route::name($name . '.')
+                    ->prefix($name)
+                    ->group(function () {
+                        Route::resource(
+                            'listings',
+                            AnimalListingController::class,
+                        );
+                    });
+            });
+        }
+
+        // TODO: Refactor to use animal typed middleware
+        foreach (
+            [
                 'dogs' => DogController::class,
                 'cats' => CatController::class,
             ]
             as $name => $controller
         ) {
+            Route::resource($name . '.listings', AnimalListingController::class)
+                ->parameters([
+                    $name => 'animal',
+                ])
+                ->shallow()
+                ->only(['index', 'create'])
+                ->names([
+                    'index' => $name . '.listings.index_for',
+                    'create' => $name . '.listings.create_for',
+                ]);
+
             Route::name($name . '.')
                 ->prefix($name . '/{animal}')
                 ->controller($controller)
@@ -37,31 +77,11 @@ Route::name('animals.')
                     Route::post('/location', 'assignLocation')->name(
                         'assign.location',
                     );
-                });
+                })
+                ->whereUuid('animal');
 
             Route::resource($name, $controller)->parameters([
                 $name => 'animal',
             ]);
-        }
-
-        foreach (
-            [
-                'dogs' => SetAnimalTypeMiddleware::class . ':' . Dog::class,
-                'cats' => SetAnimalTypeMiddleware::class . ':' . Cat::class,
-            ]
-            as $name => $middleware
-        ) {
-            Route::middleware($middleware)->group(function () use ($name) {
-                Route::name('listings.')
-                    ->prefix('listings')
-                    ->group(function () use ($name) {
-                        Route::resource(
-                            $name,
-                            AnimalListingController::class,
-                        )->parameters([
-                            $name => 'animal',
-                        ]);
-                    });
-            });
         }
     });

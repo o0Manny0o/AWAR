@@ -2,31 +2,51 @@
 
 namespace App\Http\Controllers\Animals;
 
-use App\Http\Controllers\Controller;
+use App\Http\AppInertia;
 use App\Http\Requests\Animals\RequestWithAnimalType;
 use App\Http\Requests\Animals\StoreAnimalListingRequest;
 use App\Http\Requests\Animals\UpdateAnimalListingRequest;
 use App\Models\Animal\AnimalListing;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
-class AnimalListingController extends Controller
+class AnimalListingController extends AnimalTypedController
 {
+    public function __construct(RequestWithAnimalType $requestWithAnimalType)
+    {
+        parent::__construct($requestWithAnimalType);
+        static::$baseRouteName = static::$baseRouteName . '.listing';
+        static::$baseViewPath = 'Tenant/Animals/Listings';
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index(RequestWithAnimalType $request)
+    public function index(Request $request)
     {
         $this->authorize('viewAny', AnimalListing::class);
 
         $listings = AnimalListing::whereHas('animals', function (
             Builder $query,
-        ) use ($request) {
-            $query->whereHasMorph('animalable', [
-                $request->input('animal_type'),
-            ]);
-        })->get();
+        ) {
+            $query->whereHasMorph('animalable', [self::$animal_model]);
+        })
+            ->with('animals')
+            ->get();
 
-        dd($listings);
+        $listings->each(
+            fn(AnimalListing $animalListing) => $animalListing->setPermissions(
+                $request->user(),
+            ),
+        );
+
+        return AppInertia::render($this->getIndexView(), [
+            'listings' => $listings,
+            'type' => self::getAnimalModel()::$type,
+            'canCreate' => $request
+                ->user()
+                ->can('create', AnimalListing::class),
+        ]);
     }
 
     /**

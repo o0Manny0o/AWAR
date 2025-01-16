@@ -13,8 +13,8 @@ use Throwable;
 
 class CatController extends AnimalController
 {
-    protected string $baseRouteName = 'animals.cats';
-    protected string $baseViewPath = 'Tenant/Animals/Cats';
+    protected static string $baseRouteName = 'animals.cats';
+    protected static string $baseViewPath = 'Tenant/Animals/Cats';
     protected string $morphClass = Cat::class;
 
     /**

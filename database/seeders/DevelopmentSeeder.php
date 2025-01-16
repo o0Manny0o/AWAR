@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Authorisation\Enum\CentralRole;
 use App\Authorisation\Enum\OrganisationRole;
+use App\Authorisation\PermissionContext;
 use App\Models\Address;
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalListing;
@@ -16,7 +17,6 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\PermissionRegistrar;
 
 class DevelopmentSeeder extends Seeder
@@ -33,11 +33,7 @@ class DevelopmentSeeder extends Seeder
     {
         $this->call([DatabaseSeeder::class]);
 
-        $user = User::factory()->create([
-            'name' => 'Moritz Wach',
-            'email' => 'moritz.wach@gmail.com',
-            'password' => Hash::make('ZGN7wth1rgw3nuv.rpd'),
-        ]);
+        $user = User::factory()->developer()->create();
 
         Address::factory()->createOneQuietly([
             'addressable_id' => $user->id,
@@ -50,21 +46,34 @@ class DevelopmentSeeder extends Seeder
             'user_id' => $user->id,
         ]);
 
+        Artisan::call('app:create-org', [
+            'name' => 'bar',
+            'subdomain' => 'bar',
+        ]);
+
         $organisation = Organisation::whereName('foo')->first();
-        setPermissionsTeamId($organisation);
-        $user->assignRole(OrganisationRole::ADMIN);
 
-        $public = Organisation::whereName('public')->first();
-        setPermissionsTeamId($public);
-        $user->assignRole(CentralRole::ADMIN);
-        setPermissionsTeamId(null);
+        PermissionContext::tenant(
+            $user,
+            function (User $user) {
+                $user->assignRole(OrganisationRole::ADMIN);
+            },
+            $organisation,
+        );
 
-        $this->createUsersAndMembers();
-        $this->createOrganisationLocation();
-        $this->createCat($user);
+        PermissionContext::central($user, function (User $user) {
+            $user->assignRole(CentralRole::ADMIN);
+        });
+
+        $this->createFooUsersAndMembers();
+        $this->createBarUserAndMember();
+        $this->createOrganisationLocation('foo');
+        $this->createOrganisationLocation('bar');
+        $this->createFooCat();
+        $this->createbarCat();
     }
 
-    private function createUsersAndMembers()
+    private function createFooUsersAndMembers(): void
     {
         $users = User::factory()->count(5)->create();
 
@@ -100,9 +109,35 @@ class DevelopmentSeeder extends Seeder
         setPermissionsTeamId(null);
     }
 
-    private function createOrganisationLocation()
+    private function createBarUserAndMember(): void
     {
-        $organisation = Organisation::first();
+        $user = User::factory()->create();
+
+        Address::factory()->createQuietly([
+            'addressable_id' => $user->id,
+            'addressable_type' => User::class,
+        ]);
+
+        $organisation = Organisation::whereName('bar')->first();
+
+        $user->tenants()->attach($organisation);
+
+        setPermissionsTeamId($organisation);
+
+        $user->assignRole(
+            OrganisationRole::ADMIN,
+            OrganisationRole::ANIMAL_LEAD,
+            OrganisationRole::FOSTER_HOME_LEAD,
+        );
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+        setPermissionsTeamId(null);
+    }
+
+    private function createOrganisationLocation(string $name): void
+    {
+        $organisation = Organisation::whereName($name)->first();
 
         $location = OrganisationLocation::factory()->createOne([
             'organisation_id' => $organisation->id,
@@ -118,14 +153,14 @@ class DevelopmentSeeder extends Seeder
      * @throws \Throwable
      * @throws FileNotFoundException
      */
-    private function createCat(User $user)
+    private function createFooCat(): void
     {
         $organisation = Organisation::whereName('foo')->first();
 
         /** @var Animal $animal */
-        $animal = $organisation->run(function () use ($user) {
+        $animal = $organisation->run(function () use ($organisation) {
             $data = [
-                'name' => 'Cat',
+                'name' => 'Foo Cat',
                 'breed' => 'British Shorthair',
                 'date_of_birth' => '2020-01-01',
                 'sex' => 'male',
@@ -143,7 +178,43 @@ class DevelopmentSeeder extends Seeder
                 ],
             ];
             Model::reguard();
-            return $this->animalService->createAnimal($data, Cat::class, $user);
+            return $this->animalService->createAnimal(
+                $data,
+                Cat::class,
+                $organisation->members()->first(),
+            );
+        });
+
+        AnimalListing::factory()
+            ->hasAttached([$animal])
+            ->create();
+    }
+
+    /**
+     * @throws \Throwable
+     * @throws FileNotFoundException
+     */
+    private function createBarCat(): void
+    {
+        $organisation = Organisation::whereName('bar')->first();
+
+        /** @var Animal $animal */
+        $animal = $organisation->run(function () use ($organisation) {
+            $data = [
+                'name' => 'Bar Cat',
+                'breed' => 'British Shorthair',
+                'date_of_birth' => '2020-01-01',
+                'sex' => 'male',
+                'bio' => 'Cat bio',
+                'family' => null,
+                'images' => [],
+            ];
+            Model::reguard();
+            return $this->animalService->createAnimal(
+                $data,
+                Cat::class,
+                $organisation->members()->first(),
+            );
         });
 
         AnimalListing::factory()

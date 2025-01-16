@@ -258,7 +258,10 @@
             },
             "animals": {
                 "dog": "Dog",
-                "cat": "Cat"
+                "cat": "Cat",
+                "cats": {
+                    "listing": "Cat Listing"
+                }
             },
             "family_member": "Family Member",
             "experience": "Experience"
@@ -477,11 +480,13 @@
             "titles": {
                 "index": "Cats",
                 "create": "New Cat",
-                "edit": "Edit Cat"
+                "edit": "Edit Cat",
+                "listings": "Cat Listings"
             },
             "headers": {
                 "index": "Your Cats",
-                "create": "Create a new cat"
+                "create": "Create a new cat",
+                "listings": "Active Cat Listings"
             },
             "form": {
                 "name": {

@@ -13,8 +13,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 
 class OrganisationSettingsController extends Controller
 {
-    protected string $baseViewPath = 'Tenant/Settings/PublicSettings';
-    protected string $baseRouteName = 'settings.public';
+    protected static string $baseViewPath = 'Tenant/Settings/PublicSettings';
+    protected static string $baseRouteName = 'settings.public';
 
     /**
      * Display the specified resource.

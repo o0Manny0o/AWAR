@@ -16,7 +16,7 @@ class RequestWithAnimalType extends FormRequest
     public function rules(): array
     {
         return [
-            'animal_type' => [
+            'animal_model' => [
                 'required',
                 'in:' . implode(',', [Dog::class, Cat::class]),
             ],

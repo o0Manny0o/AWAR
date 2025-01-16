@@ -1,12 +1,15 @@
 import { twMerge } from 'tailwind-merge'
 import { ChevronDownIcon } from '@heroicons/react/24/solid'
 import { RouteName } from 'ziggy-js'
-import { Link } from '@inertiajs/react'
+import { Link, router } from '@inertiajs/react'
+import useTranslate from '@/shared/hooks/useTranslate'
 
 export function AnimalIndexTabs({ type }: { type: string }) {
+    const __ = useTranslate()
+
     const tabs: { name: string; routeName: RouteName }[] = [
         { name: 'animals', routeName: `animals.${type}.index` },
-        { name: 'listings', routeName: `animals.listings.${type}.index` },
+        { name: 'listings', routeName: `animals.${type}.listings.index` },
     ]
 
     return (
@@ -14,16 +17,21 @@ export function AnimalIndexTabs({ type }: { type: string }) {
             <div className="grid grid-cols-1 sm:hidden">
                 <select
                     defaultValue={
-                        tabs.find((tab) => route().current(tab.routeName))?.name
+                        tabs.find((tab) => route().current(tab.routeName))
+                            ?.routeName
                     }
+                    onChange={(v) => {
+                        router.visit(route(v.target.value))
+                    }}
                     aria-label="Select a tab"
-                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-2 pl-3
-                        pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1
-                        outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2
-                        focus:outline-indigo-600"
+                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-ceiling text-basic
+                        py-2 pl-3 pr-8 text-base outline outline-1 -outline-offset-1 outline-gray-300
+                        focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary-600"
                 >
                     {tabs.map((tab) => (
-                        <option key={tab.name}>{tab.name}</option>
+                        <option key={tab.name} value={tab.routeName}>
+                            {tab.name}
+                        </option>
                     ))}
                 </select>
                 <ChevronDownIcon
@@ -36,7 +44,7 @@ export function AnimalIndexTabs({ type }: { type: string }) {
                 <div className="border-b border-gray-200">
                     <nav aria-label="Tabs" className="-mb-px flex space-x-8">
                         {tabs.map((tab) => {
-                            const current = route().current(tab.name)
+                            const current = route().current(tab.routeName)
                             return (
                                 <Link
                                     key={tab.name}
@@ -44,12 +52,14 @@ export function AnimalIndexTabs({ type }: { type: string }) {
                                     aria-current={current ? 'page' : undefined}
                                     className={twMerge(
                                         current
-                                            ? 'border-indigo-500 text-indigo-600'
-                                            : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+                                            ? 'border-primary-500 text-primary-600'
+                                            : 'text-interactive border-transparent hover:border-gray-300',
                                         'whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium',
                                     )}
                                 >
-                                    {tab.name}
+                                    {__(
+                                        `animals.general.navigation.${tab.name}` as TranslationKey,
+                                    )}
                                 </Link>
                             )
                         })}

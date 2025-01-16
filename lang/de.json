@@ -95,7 +95,10 @@
             },
             "animals": {
                 "dog": "Hund",
-                "cat": "Katze"
+                "cat": "Katze",
+                "cats": {
+                    "listing": "Katzenanzeige"
+                }
             },
             "family_member": "Familienmitglied",
             "experience": "Erfahrung"
@@ -309,11 +312,13 @@
             "titles": {
                 "index": "Katzen",
                 "create": "Neue Katze",
-                "edit": "Katze bearbeiten"
+                "edit": "Katze bearbeiten",
+                "listings": "Katzenanzeigen"
             },
             "headers": {
                 "index": "Katzen",
-                "create": "Neue Katze einstellen"
+                "create": "Neue Katze einstellen",
+                "listings": "Aktive Katzenanzeigen"
             },
             "form": {
                 "name": {
