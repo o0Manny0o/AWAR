@@ -36,7 +36,13 @@ class AnimalPolicy extends BasePolicy
     {
         return $user->hasPermissionTo(
             PermissionType::READ->for(OrganisationModule::ANIMALS->value),
-        );
+        ) ||
+            ($user->hasPermissionTo(
+                PermissionType::READ->for(
+                    OrganisationModule::ASSIGNED_ANIMALS->value,
+                ),
+            ) &&
+                $this->isAssigned($user, $animal));
     }
 
     /**

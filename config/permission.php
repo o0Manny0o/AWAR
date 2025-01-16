@@ -211,7 +211,7 @@ return [
                 P::RESTORE,
             ],
             OM::PUBLIC_SETTINGS->value => [P::READ, P::UPDATE],
-            OM::LISTINGS->value => [P::READ],
+            OM::LISTINGS->value => [P::CREATE, P::READ, P::UPDATE, P::DELETE],
         ],
 
         R::MEMBER->value => [

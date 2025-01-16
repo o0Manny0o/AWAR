@@ -34,7 +34,9 @@ class AnimalListingPolicy
      */
     public function view(User $user, AnimalListing $animalListing): bool
     {
-        return false;
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(OrganisationModule::LISTINGS->value),
+        );
     }
 
     /**
@@ -42,7 +44,9 @@ class AnimalListingPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasPermissionTo(
+            PermissionType::CREATE->for(OrganisationModule::LISTINGS->value),
+        );
     }
 
     /**
@@ -50,7 +54,9 @@ class AnimalListingPolicy
      */
     public function update(User $user, AnimalListing $animalListing): bool
     {
-        return false;
+        return $user->hasPermissionTo(
+            PermissionType::UPDATE->for(OrganisationModule::LISTINGS->value),
+        );
     }
 
     /**
@@ -58,7 +64,9 @@ class AnimalListingPolicy
      */
     public function delete(User $user, AnimalListing $animalListing): bool
     {
-        return false;
+        return $user->hasPermissionTo(
+            PermissionType::DELETE->for(OrganisationModule::LISTINGS->value),
+        );
     }
 
     /**
