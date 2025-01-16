@@ -33,15 +33,15 @@ export function SidebarNav({
     const dashboardUrl: RouteName = tenant ? 'tenant.dashboard' : 'dashboard'
 
     const routeActive = (routeName: RouteName) => {
-        const activeRouteParts = route().current()?.split('.').slice(0, -1)
+        const activeRouteParts = route().current()?.split('.')
         const routeNameParts = routeName.split('.').slice(0, -1)
 
         if (!activeRouteParts?.length) {
             return route().current(routeName)
         }
 
-        return activeRouteParts?.every(
-            (part, index) => part === routeNameParts[index],
+        return routeNameParts?.every(
+            (part, index) => part === activeRouteParts[index],
         )
     }
 
