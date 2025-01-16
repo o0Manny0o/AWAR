@@ -19,7 +19,8 @@
                 "applications": "Bewerbungen",
                 "invitations": "Einladungen",
                 "members": "Mitglieder",
-                "locations": "Ihre Standorte"
+                "locations": "Ihre Standorte",
+                "settings": "Organisation"
             },
             "overview": "Übersicht",
             "your_organisations": "Deine Organisationen",
@@ -29,7 +30,10 @@
                 "cats": "Ihre Katzen"
             },
             "browse": "Suchen",
-            "pricing": "Preis"
+            "pricing": "Preis",
+            "self_disclosure": {
+                "finish": "Selbstauskunft vervollständigen"
+            }
         },
         "newsletter": {
             "description": "Erhalten Sie Updates zur Entwicklung der Plattform direkt in Ihren Posteingang.",
@@ -73,7 +77,10 @@
             "go_back_to": "Zurück zur :page",
             "send": ":resource Senden",
             "resend": ":resource Erneut Senden",
-            "publish": ":resource Veröffentlichen"
+            "publish": ":resource Veröffentlichen",
+            "add": ":resource Hinzufügen",
+            "update": ":resource Aktualisieren",
+            "create": ":resource Erstellen"
         },
         "last_update": "Letzte Aktualisierung",
         "options": "Optionen",
@@ -89,17 +96,19 @@
             "animals": {
                 "dog": "Hund",
                 "cat": "Katze"
-            }
+            },
+            "family_member": "Familienmitglied",
+            "experience": "Erfahrung"
         },
         "roles": {
             "tenant": {
                 "admin": "Admin",
                 "member": "Mitglied",
-                "adoption_lead": "Leitung der Adoption",
-                "adoption_handler": "Adoptions Bearbeiter",
                 "foster_home_lead": "Leitung der Pflegestellen",
                 "foster_home_handler": "Pflegestellen Betreuer",
-                "foster_home": "Pflegestelle"
+                "foster_home": "Pflegestelle",
+                "animal_handler": "Tier Bearbeiter",
+                "animal_lead": "Leitung der Tiere"
             }
         },
         "images": "Bilder",
@@ -107,7 +116,10 @@
             "no_one": "Niemand",
             "assigned_to": "Zugewiesen an",
             "unknown": "Unbekannt",
-            "unknown_or_external": "Unbekannt oder extern"
+            "unknown_or_external": "Unbekannt oder extern",
+            "for": "für",
+            "since": "seit",
+            "years": "Jahre"
         }
     },
     "landing_page": {
@@ -221,6 +233,37 @@
                 "public": {
                     "description": "Die Adresse ist für alle Benutzer sichtbar",
                     "label": "Kann die Adresse öffentlich sein?"
+                }
+            }
+        },
+        "settings": {
+            "public": {
+                "headers": {
+                    "update": "Organisation Aktualisieren"
+                },
+                "titles": {
+                    "update": "Organisationseinstellungen"
+                },
+                "form": {
+                    "name": {
+                        "label": "Wie ist der Name Ihrer Organisation?"
+                    }
+                }
+            },
+            "logo": {
+                "headers": {
+                    "update": "Logo Aktualisieren"
+                },
+                "titles": {
+                    "update": "Logo Aktualisieren"
+                }
+            },
+            "favicon": {
+                "headers": {
+                    "update": "Favicon Aktualisieren"
+                },
+                "titles": {
+                    "update": "Favicon Aktualisieren"
                 }
             }
         }
@@ -605,6 +648,242 @@
             "country": {
                 "label": "Land"
             }
+        }
+    },
+    "self_disclosure": {
+        "wizard": {
+            "steps": {
+                "personal": "Über Sie",
+                "family": "Familie",
+                "address": "Adresse",
+                "home": "Zuhause",
+                "experiences": "Erfahrung",
+                "garden": "Garten",
+                "eligibility": "Eignung",
+                "specific": "Tiere",
+                "confirmation": "Bestätigungen"
+            },
+            "headers": {
+                "personal": "Über Sie",
+                "family": "Ihre Familie",
+                "address": "Ihre Adresse",
+                "home": "Ihr Zuhause",
+                "experiences": "Ihre Erfahrungen mit Tieren",
+                "garden": "Ihr Garten",
+                "eligibility": "Eignung",
+                "specific": "Tier Spezifisch",
+                "family_member": {
+                    "create": "Neues Familienmitglied hinzufügen",
+                    "edit": "Familienmitglied bearbeiten"
+                },
+                "experience": {
+                    "create": "Neue Erfahrung ",
+                    "edit": "Erfahrung berarbeiten"
+                },
+                "confirmation": "Bestätigungen",
+                "complete": "Selbstauskunft Abgeschlossen"
+            },
+            "forms": {
+                "family_member": {
+                    "name": {
+                        "label": "Name",
+                        "placeholder": "Name"
+                    },
+                    "year": {
+                        "placeholder": "Geburtsjahr",
+                        "label": "Geburtsjahr"
+                    },
+                    "profession": {
+                        "label": "Beruf",
+                        "placeholder": "Beruf"
+                    },
+                    "knows_animals": {
+                        "label": "Mit Tieren vertraut"
+                    },
+                    "animal": {
+                        "label": "Ein Tier hinzufügen"
+                    },
+                    "type": {
+                        "label": "Tierart",
+                        "placeholder": "Tierart"
+                    },
+                    "good_with_animals": {
+                        "label": "Mit anderen Tieren verträglich"
+                    },
+                    "castrated": {
+                        "label": "Kastriert"
+                    }
+                },
+                "garden": {
+                    "garden": {
+                        "label": "Haben Sie einen Garten?"
+                    },
+                    "garden_size": {
+                        "placeholder": "Größe",
+                        "label": "Größe"
+                    },
+                    "garden_secure": {
+                        "label": "Ist Ihr Garten abgesichert?"
+                    },
+                    "garden_connected": {
+                        "label": "Ist Ihr Garten mit dem Haus verbunden?"
+                    }
+                },
+                "home": {
+                    "type": {
+                        "label": "Was nennen Sie Zuhause?",
+                        "apartment": "Eine Wohnung",
+                        "house": "Ein Haus",
+                        "other": "Etwas anderes"
+                    },
+                    "own": {
+                        "label": "Sind Sie der Eigentümer?"
+                    },
+                    "pets_allowed": {
+                        "label": "Sind Tiere erlaubt?",
+                        "description": "Bitte stellen Sie vor einer Bewerbung sicher, dass Tiere erlaubt sind"
+                    },
+                    "move_in_date": {
+                        "label": "Wann sind Sie eingezogen?"
+                    },
+                    "size": {
+                        "label": "Wie groß ist Ihr Zuhause?",
+                        "placeholder": "Größe"
+                    },
+                    "level": {
+                        "label": "In welcher Etage wohnen Sie?"
+                    },
+                    "location": {
+                        "label": "Wo befindet sich Ihr Zuhause?",
+                        "city": "In der Stadt",
+                        "suburb": "In Stadtnähe",
+                        "rural": "Ländlich"
+                    }
+                },
+                "experience": {
+                    "has_animals": "Ich habe zurzeit Tiere",
+                    "as_string": "I habe :time mit :animal_type :type",
+                    "dog": "Hunden",
+                    "other": "anderen Tieren",
+                    "work": "gearbeitet",
+                    "pet": "gelebt",
+                    "cat": "Katzen"
+                },
+                "eligibility": {
+                    "animal_protection_experience": {
+                        "label": "Haben Sie Erfahrung mit Tieren aus dem Tierschutz?"
+                    },
+                    "can_afford_insurance": {
+                        "label": "Könnten Sie sich eine Tierversicherung leisten?"
+                    },
+                    "can_cover_emergencies": {
+                        "label": "Könnten Sie sich außergewöhnliche Kosten leisten?",
+                        "description": "Notfälle, Operationen usw."
+                    },
+                    "can_cover_expenses": {
+                        "label": "Können Sie die laufenden Kosten decken?",
+                        "description": "Tierarzt, Futter usw"
+                    },
+                    "can_afford_castration": {
+                        "label": "Könnten Sie sich ggf. die Kosten einer Kastration leisten?"
+                    },
+                    "substitute": {
+                        "placeholder": "Vertretung",
+                        "label": "Wer versorgt ihre Tiere bei Krankheit, Urlaub etc.?"
+                    },
+                    "time_alone_daily": {
+                        "label": "Wie viele Stunden sind Sie täglich außer Haus?"
+                    }
+                },
+                "specific": {
+                    "dogs": {
+                        "select": {
+                            "label": "Möchten sie Hunde adoptieren?"
+                        },
+                        "habitat": {
+                            "label": "Wo würde ein Hund hauptsächlich leben?",
+                            "options": {
+                                "home": "Zu Hause",
+                                "garden": "Im Garten",
+                                "other": "Woanders"
+                            }
+                        },
+                        "purpose": {
+                            "label": "Was wäre der Zweck des Hundes?",
+                            "options": {
+                                "pet": "Familienmitgleid",
+                                "work": "Arbeit",
+                                "other": "Etwas anderes"
+                            }
+                        },
+                        "dog_school": {
+                            "label": "Würdest Sie in eine Hundeschule gehen?"
+                        },
+                        "time_to_occupy": {
+                            "label": "Haben Sie genügend Zeit, einen Hund ausreichend zu beschäftigen?"
+                        }
+                    },
+                    "cats": {
+                        "select": {
+                            "label": "Möchten sie Katzen adoptieren?"
+                        },
+                        "habitat": {
+                            "label": "Wo würde die Katze leben?",
+                            "options": {
+                                "indoor": "Hauskatze",
+                                "outdoor": "Im Freien",
+                                "both": "Beides"
+                            }
+                        },
+                        "sleeping_place": {
+                            "label": "Wo würde die Katze schlafen?",
+                            "placeholder": "Schlafplatz"
+                        },
+                        "streets_safe": {
+                            "label": "Sind die Straßen in der Nähe für eine Katze sicher?"
+                        },
+                        "flap_available": {
+                            "label": "Hast Sie eine Katzenklappe?"
+                        },
+                        "house_secure": {
+                            "label": "Ist Ihr Zuhause sicher für eine Katze?"
+                        }
+                    }
+                },
+                "confirmation": {
+                    "everyone_agrees": {
+                        "label": "Hiermit bestätige ich, dass alle Personen in meinem Haushalt mit der Adoption eines Tieres einverstanden sind."
+                    },
+                    "not_banned": {
+                        "label": "Hiermit bestätige ich, dass gegen mich kein Tierhaltungsverbot besteht."
+                    },
+                    "accepted_inaccuracy": {
+                        "label": "Ich nehme hiermit zur Kenntnis, dass die auf dieser Website bereitgestellten Informationen über Tiere möglicherweise nicht ganz zutreffend sind. Aussagen können ausschließlich auf Schätzungen und Eindrücken beruhen."
+                    },
+                    "has_proof_of_identity": {
+                        "label": "Ich bestätige hiermit, dass ich im Besitz eines gültigen, in meinem Wohnsitzland anerkannten Identitätsnachweises bin."
+                    },
+                    "notes": {
+                        "label": "Weitere Anmerkungen"
+                    }
+                }
+            },
+            "complete": {
+                "thank_you": "Vielen Dank, dass Sie sich die Zeit genommen haben, das Selbstauskunftsformular auszufüllen. Mit diesem Schritt abgeschlossen, können Sie nun Ihr Interesse an zur Adoption freigegebenen Tieren bekunden.  ",
+                "changes": "Bitte beachten Sie, dass die von Ihnen bereitgestellten Informationen jederzeit aktualisiert werden können. Wenn sich Ihre Umstände oder Angaben ändern, können Sie Ihre Antworten ganz einfach in den Einstellungen ändern. Dadurch wird sichergestellt, dass Ihr Profil korrekt und aktuell bleibt, sodass wir Ihnen die bestmögliche Unterstützung und Empfehlungen bieten können. Wir freuen uns, Sie auf dieser Reise zu begleiten und schätzen Ihr Engagement, einem Tier ein liebevolles Zuhause zu geben!",
+                "return_home": "Zum Dashboard"
+            },
+            "close_message": "Brauchen Sie eine Pause? Keine Sorge, Ihr Fortschritt ist sicher für später gespeichert."
+        },
+        "family_members": {
+            "dog": "Hund",
+            "cat": "Katze",
+            "other": "Andere",
+            "child": "Kind",
+            "adult": "Erwachsener"
+        },
+        "button": {
+            "complete": "Selbstauskunft Abschließen"
         }
     }
 }

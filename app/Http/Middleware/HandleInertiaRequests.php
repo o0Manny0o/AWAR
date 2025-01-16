@@ -2,7 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Organisation;
+use App\Enum\SelfDisclosure\SelfDisclosureStep;
+use App\Services\SelfDisclosureService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,11 @@ class HandleInertiaRequests extends Middleware
      * @var string
      */
     protected $rootView = 'app';
+
+    public function __construct(
+        private readonly SelfDisclosureService $disclosureService,
+    ) {
+    }
 
     /**
      * Determine the current asset version.
@@ -37,6 +43,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'isMember' => $request->user()?->isMember(),
             ],
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -58,29 +65,22 @@ class HandleInertiaRequests extends Middleware
                     return null;
                 }
             },
-            'tenants' => $request->user()
-                ? global_cache()->remember(
-                    'users:' . $request->user()->id . ':tenants',
-                    18000,
-                    function () use ($request) {
-                        return Organisation::whereHas('members', function (
-                            $query,
-                        ) use ($request) {
-                            $query->where(
-                                'global_id',
-                                $request->user()->global_id,
-                            );
-                        })
-                            ->with('domains')
-                            ->get();
-                    },
-                )
-                : null,
+            'tenants' => $request->user()?->cachedTenants(),
             'tenant' => tenancy()->initialized
                 ? cache()->remember('tenant', 18000, function () {
-                    return tenancy()->tenant?->load('domains');
+                    $tenant = tenancy()->tenant;
+                    $tenant?->load(['domains', 'publicSettings']);
+                    return $tenant;
                 })
                 : null,
+            'nextSteps' => [
+                ...!tenancy()->initialized &&
+                \Auth::check() &&
+                $this->disclosureService->getDisclosure()->furthest_step !==
+                    SelfDisclosureStep::COMPLETE->value
+                    ? ['selfDisclosure']
+                    : [],
+            ],
         ];
     }
 }

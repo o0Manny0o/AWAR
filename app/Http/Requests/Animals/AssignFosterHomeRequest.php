@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Animals;
 
-use App\Models\Tenant\Member;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -20,7 +19,11 @@ class AssignFosterHomeRequest extends FormRequest
             'id' => [
                 'nullable',
                 'uuid',
-                Rule::exists(Member::class, 'global_id'),
+                Rule::exists('organisation_users', 'user_id')->where(function (
+                    $query,
+                ) {
+                    $query->where('tenant_id', tenant('id'));
+                }),
             ],
         ];
     }

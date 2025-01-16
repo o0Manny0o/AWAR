@@ -5,7 +5,6 @@ namespace App\Models\Animal;
 use App\Interface\Trackable;
 use App\Traits\IsAnimal;
 use Illuminate\Database\Eloquent\Model;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -18,7 +17,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  */
 class Animalable extends Model implements Trackable, \App\Interface\Animalable
 {
-    use IsAnimal, CentralConnection;
+    use IsAnimal;
 
     public $timestamps = false;
 

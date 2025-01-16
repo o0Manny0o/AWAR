@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Animals;
 
 use App\Http\Requests\Animals\CreateDogRequest;
 use App\Http\Requests\Animals\UpdateDogRequest;
+use App\Models\Animal\Animal;
 use App\Models\Animal\Dog;
 use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -33,8 +34,8 @@ class DogController extends AnimalController
      */
     public function update(
         UpdateDogRequest $dogRequest,
-        string $id,
+        Animal $animal,
     ): RedirectResponse {
-        return parent::updateAnimal($dogRequest, $id);
+        return parent::updateAnimal($dogRequest, $animal);
     }
 }

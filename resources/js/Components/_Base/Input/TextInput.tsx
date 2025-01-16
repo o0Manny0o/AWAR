@@ -1,6 +1,7 @@
 import {
     forwardRef,
     InputHTMLAttributes,
+    ReactNode,
     useEffect,
     useImperativeHandle,
     useRef,
@@ -17,7 +18,7 @@ export default forwardRef(function TextInput(
         ...props
     }: InputHTMLAttributes<HTMLInputElement> & {
         isFocused?: boolean
-        append?: string
+        append?: string | ReactNode
         leading?: string
     },
     ref,

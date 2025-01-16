@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use App\Events\AddressSaved;
-use App\Models\Tenant\OrganisationLocation;
 use Clickbar\Magellan\Database\Eloquent\HasPostgisColumns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -51,7 +49,7 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  */
 class Address extends Model
 {
-    use HasPostgisColumns, HasFactory, CentralConnection;
+    use HasPostgisColumns, HasFactory;
 
     protected array $postgisColumns = [
         'location' => [
@@ -78,7 +76,7 @@ class Address extends Model
         'distance',
     ];
 
-    protected $with = ['country:code,name'];
+    protected $with = ['country:code,name,alpha'];
 
     protected $dispatchesEvents = [
         'saved' => AddressSaved::class,

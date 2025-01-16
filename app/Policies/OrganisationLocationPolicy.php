@@ -2,24 +2,21 @@
 
 namespace App\Policies;
 
+use App\Authorisation\Enum\OrganisationModule;
+use App\Authorisation\Enum\PermissionType;
 use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
 
 class OrganisationLocationPolicy extends BasePolicy
 {
-    private function belongsToOrganisation(OrganisationLocation $location)
-    {
-        if (tenancy()->initialized) {
-            return $location->organisation_id === tenant()->id;
-        }
-    }
-
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $this->isMember($user);
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(OrganisationModule::LOCATIONS->value),
+        );
     }
 
     /**
@@ -29,8 +26,17 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isMember($user) &&
-            $this->belongsToOrganisation($organisationLocation);
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(OrganisationModule::LOCATIONS->value),
+        ) && $this->belongsToOrganisation($organisationLocation);
+    }
+
+    private function belongsToOrganisation(OrganisationLocation $location): bool
+    {
+        if (tenancy()->initialized) {
+            return $location->organisation_id === tenant()->id;
+        }
+        return false;
     }
 
     /**
@@ -48,7 +54,9 @@ class OrganisationLocationPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $user->hasPermissionTo(
+            PermissionType::CREATE->for(OrganisationModule::LOCATIONS->value),
+        );
     }
 
     /**
@@ -58,8 +66,9 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user) &&
-            $this->belongsToOrganisation($organisationLocation);
+        return $user->hasPermissionTo(
+            PermissionType::UPDATE->for(OrganisationModule::LOCATIONS->value),
+        ) && $this->belongsToOrganisation($organisationLocation);
     }
 
     /**
@@ -69,8 +78,9 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user) &&
-            $this->belongsToOrganisation($organisationLocation);
+        return $user->hasPermissionTo(
+            PermissionType::DELETE->for(OrganisationModule::LOCATIONS->value),
+        ) && $this->belongsToOrganisation($organisationLocation);
     }
 
     /**
@@ -80,8 +90,9 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user) &&
-            $this->belongsToOrganisation($organisationLocation);
+        return $user->hasPermissionTo(
+            PermissionType::RESTORE->for(OrganisationModule::LOCATIONS->value),
+        ) && $this->belongsToOrganisation($organisationLocation);
     }
 
     /**
@@ -91,12 +102,15 @@ class OrganisationLocationPolicy extends BasePolicy
         User $user,
         OrganisationLocation $organisationLocation,
     ): bool {
-        return $this->isAdmin($user) &&
-            $this->belongsToOrganisation($organisationLocation);
+        return $user->hasPermissionTo(
+            PermissionType::FORCE_DELETE->for(
+                OrganisationModule::LOCATIONS->value,
+            ),
+        ) && $this->belongsToOrganisation($organisationLocation);
     }
 
     function isOwner(User $user, $entity): bool
     {
-        return $this->isAdmin($user);
+        return false;
     }
 }

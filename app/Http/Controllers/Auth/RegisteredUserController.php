@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\InvitationAccepted;
+use App\Http\AppInertia;
 use App\Http\Controllers\Controller;
 use App\Messages\ToastMessage;
 use App\Models\Organisation;
@@ -13,9 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
-use App\Http\AppInertia;
 use Inertia\Response;
 
 class RegisteredUserController extends Controller
@@ -74,7 +73,6 @@ class RegisteredUserController extends Controller
 
         /** @var User $user */
         $user = User::create([
-            'global_id' => Str::orderedUuid(),
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),

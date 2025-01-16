@@ -14,7 +14,7 @@ trait HasResourcePermissions
     private bool $can_be_submitted = false;
     private bool $can_be_resend = false;
     private bool $can_be_published = false;
-    private bool $can_assign_handler = false;
+    private bool $can_assign = false;
     private bool $can_assign_foster_home = false;
     private bool $can_assign_location = false;
 
@@ -50,7 +50,7 @@ trait HasResourcePermissions
         $this->can_be_submitted = $user->can('submit', $this);
         $this->can_be_resend = $user->can('resend', $this);
         $this->can_be_published = $user->can('publish', $this);
-        $this->can_assign_handler = $user->can('assign', $this);
+        $this->can_assign = $user->can('assign', $this);
         $this->can_assign_foster_home = $user->can('assignFosterHome', $this);
         $this->can_assign_location = $user->can('assignLocation', $this);
     }

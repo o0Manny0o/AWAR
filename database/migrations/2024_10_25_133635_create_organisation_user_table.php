@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
 
             $table->uuid('tenant_id');
-            $table->uuid('global_user_id');
 
             $table
                 ->foreign('tenant_id')
@@ -23,13 +22,12 @@ return new class extends Migration {
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table
-                ->foreign('global_user_id')
-                ->references('global_id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->foreignUuid('user_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
-            $table->unique(['tenant_id', 'global_user_id']);
+            $table->unique(['tenant_id', 'user_id']);
 
             $table->timestamps();
         });

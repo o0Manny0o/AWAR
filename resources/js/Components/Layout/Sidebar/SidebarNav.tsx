@@ -11,22 +11,24 @@ import { usePage } from '@inertiajs/react'
 import { HomeIcon } from '@heroicons/react/24/outline'
 import { RouteName } from 'ziggy-js'
 
+export interface SidebarNavProps {
+    colored?: boolean
+    navigation: NavigationItem[]
+    showOrganisation?: boolean
+    isSettings?: boolean
+}
+
 export function SidebarNav({
     colored,
     navigation,
     showOrganisation = true,
     isSettings = false,
-}: {
-    colored?: boolean
-    navigation: NavigationItem[]
-    showOrganisation?: boolean
-    isSettings?: boolean
-}) {
+}: SidebarNavProps) {
     const __ = useTranslate()
     const { tenant } = usePage().props
 
     const settingsUrl: RouteName = tenant
-        ? 'settings.members.index'
+        ? 'settings.public.show'
         : 'settings.profile.edit'
     const dashboardUrl: RouteName = tenant ? 'tenant.dashboard' : 'dashboard'
 
@@ -34,7 +36,9 @@ export function SidebarNav({
         const activeRouteParts = route().current()?.split('.').slice(0, -1)
         const routeNameParts = routeName.split('.').slice(0, -1)
 
-        if (!activeRouteParts) return false
+        if (!activeRouteParts?.length) {
+            return route().current(routeName)
+        }
 
         return activeRouteParts?.every(
             (part, index) => part === routeNameParts[index],
@@ -44,7 +48,7 @@ export function SidebarNav({
     return (
         <SidebarContext.Provider value={{ colored }}>
             <div
-                className={`flex grow flex-col gap-y-5 overflow-y-auto px-6 pb-4
+                className={`flex grow flex-col gap-y-5 overflow-y-auto px-6 py-4
                     ${colored ? 'bg-primary-200 dark:bg-primary-950' : 'bg-ceiling'}`}
             >
                 <Branding />

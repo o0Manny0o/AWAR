@@ -1,7 +1,6 @@
-import { Head } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
-import usePermission from '@/shared/hooks/usePermission'
 import { Badge } from '@/Components/_Base/Badge'
 import {
     badgeColor,
@@ -15,7 +14,7 @@ export default function Index({
     applications,
 }: AppPageProps<{ applications: Application[] }>) {
     const __ = useTranslate()
-    const { can } = usePermission()
+    const { canCreate } = usePage().props
 
     return (
         <SettingsLayout
@@ -23,7 +22,7 @@ export default function Index({
                 resource: 'general.resources.organisation.application',
             })}
             actionButtons={
-                can('organisations.applications.create')
+                canCreate
                     ? [
                           {
                               label: __('general.button.new', {
@@ -48,7 +47,7 @@ export default function Index({
                             {__(badgeLabelKey(a))}
                         </Badge>
                     )}
-                    resourceUrl={'organisations.applications'}
+                    resourceUrl={'settings.applications'}
                     resourceLabel={'general.resources.organisation.application'}
                 />
             </Card>

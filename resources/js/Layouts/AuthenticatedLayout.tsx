@@ -3,6 +3,7 @@ import { PageHeaderProps } from '@/Components/Layout/PageHeader'
 import { SidebarLayout } from '@/Layouts/SidebarLayout'
 import {
     CentralNavigation,
+    NextStep,
     TenantNavigation,
 } from '@/shared/_constants/AuthenticatedNavigation'
 import { usePage } from '@inertiajs/react'
@@ -16,9 +17,16 @@ export default function AuthenticatedLayout({
     title,
     ...pageHeaderProps
 }: AuthenticatedLayoutProps) {
-    const { tenant } = usePage().props
+    const { tenant, nextSteps } = usePage().props
 
-    const navigation = tenant ? TenantNavigation : CentralNavigation
+    // TODO: Refactor to get started page
+    const navigation = tenant
+        ? TenantNavigation
+        : CentralNavigation([
+              ...(nextSteps?.includes('selfDisclosure')
+                  ? [NextStep.FINISH_DISCLOSURE.value]
+                  : []),
+          ])
 
     return (
         <SidebarLayout

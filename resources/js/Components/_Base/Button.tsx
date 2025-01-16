@@ -64,12 +64,12 @@ export function Button(
         <button
             {...props}
             className={twMerge(
-                props.className,
                 button({
                     color: props.color,
                     size: props.size,
                     disabled: props.disabled,
                 }),
+                props.className,
             )}
         >
             {props.children}

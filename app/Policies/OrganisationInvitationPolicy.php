@@ -2,7 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\Tenant\Member;
+use App\Authorisation\Enum\OrganisationModule;
+use App\Authorisation\Enum\PermissionType;
 use App\Models\Tenant\OrganisationInvitation;
 use App\Models\User;
 
@@ -10,7 +11,17 @@ class OrganisationInvitationPolicy extends BasePolicy
 {
     function isOwner(User $user, $entity): bool
     {
-        return $user->member?->id === $entity->member_id;
+        return $user->id === $entity->member_id;
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     */
+    public function viewAny(User $user): bool
+    {
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(OrganisationModule::INVITATIONS->value),
+        );
     }
 
     /**
@@ -20,7 +31,9 @@ class OrganisationInvitationPolicy extends BasePolicy
         User $user,
         OrganisationInvitation $organisationInvitation,
     ): bool {
-        return $this->isAdmin($user);
+        return $user->hasPermissionTo(
+            PermissionType::READ->for(OrganisationModule::INVITATIONS->value),
+        );
     }
 
     /**
@@ -28,7 +41,9 @@ class OrganisationInvitationPolicy extends BasePolicy
      */
     public function create(User $user): bool
     {
-        return $this->isAdmin($user);
+        return $user->hasPermissionTo(
+            PermissionType::CREATE->for(OrganisationModule::INVITATIONS->value),
+        );
     }
 
     /**
@@ -58,9 +73,10 @@ class OrganisationInvitationPolicy extends BasePolicy
         User $user,
         OrganisationInvitation $organisationInvitation,
     ): bool {
-        return $this->isAdmin($user) &&
-            Member::firstWhere('email', $organisationInvitation->email) ==
-                null &&
+        return $user->hasPermissionTo(
+            PermissionType::CREATE->for(OrganisationModule::INVITATIONS->value),
+        ) &&
+            User::firstWhere('email', $organisationInvitation->email) == null &&
             ($organisationInvitation->sent_at === null ||
                 $organisationInvitation->sent_at->diffInHours(now()) >
                     config('tenancy.invitations_resend_timeout'));

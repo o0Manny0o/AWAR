@@ -131,6 +131,9 @@ declare namespace App.Models {
             name: string
         }
 
+        can_assign_foster_home?: boolean
+        can_assign_location?: boolean
+
         published_at?: string
         deleted_at?: string
         created_at: string
@@ -171,6 +174,7 @@ declare namespace App.Models {
     export interface Country {
         id: string
         name: string
+        alpha?: string
     }
 
     export interface Address {
@@ -189,5 +193,34 @@ declare namespace App.Models {
         created_at: string
         updated_at: string
         deleted_at: string
+    }
+
+    export interface UserFamilyMember {
+        id: string
+        name: string
+        age: number
+
+        is_primary: boolean
+
+        familyable: UserFamilyHuman | UserFamilyAnimal
+    }
+
+    export interface UserFamilyHuman {
+        profession: string
+        knows_animals: boolean
+    }
+
+    export interface UserFamilyAnimal {
+        type: string
+        good_with_animals: boolean
+        castrated: boolean
+    }
+
+    declare namespace Organisation {
+        export interface PublicSettings {
+            name: string
+            favicon: string
+            logo: string
+        }
     }
 }

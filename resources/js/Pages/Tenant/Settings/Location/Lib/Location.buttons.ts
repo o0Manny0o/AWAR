@@ -2,6 +2,7 @@ import { PageHeaderButton } from '@/Components/Layout/PageHeader'
 import useTranslate from '@/shared/hooks/useTranslate'
 import usePermission from '@/shared/hooks/usePermission'
 import { RouteName } from 'ziggy-js'
+import { usePage } from '@inertiajs/react'
 import Location = App.Models.Location
 
 export function IndexActionButtons(
@@ -9,9 +10,9 @@ export function IndexActionButtons(
     createRouteName: RouteName,
 ): PageHeaderButton[] {
     const __ = useTranslate()
-    const { can } = usePermission()
+    const { canCreate } = usePage().props
 
-    return can('organisations.locations.create')
+    return canCreate
         ? [
               {
                   label: __('general.button.new', {

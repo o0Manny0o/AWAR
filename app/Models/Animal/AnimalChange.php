@@ -3,7 +3,6 @@
 namespace App\Models\Animal;
 
 use Illuminate\Database\Eloquent\Model;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
 
 /**
  *
@@ -25,8 +24,6 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  */
 class AnimalChange extends Model
 {
-    use CentralConnection;
-
     protected $fillable = ['field', 'value'];
 
     public $timestamps = false;

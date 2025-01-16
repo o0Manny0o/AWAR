@@ -18,8 +18,6 @@ return new class extends Migration {
                 ->enum('type', AnimalHistoryType::values())
                 ->default(AnimalHistoryType::INITIAL);
 
-            $table->uuid('global_user_id');
-
             $table->boolean('public')->default(false);
 
             $table
@@ -28,11 +26,10 @@ return new class extends Migration {
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table
-                ->foreign('global_user_id')
-                ->references('global_id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->foreignUuid('user_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
             $table->timestamps();
         });

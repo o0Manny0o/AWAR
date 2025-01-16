@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Authorisation\Enum\OrganisationRole;
+use App\Models\Organisation;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -42,5 +45,31 @@ class UserFactory extends Factory
                 'email_verified_at' => null,
             ],
         );
+    }
+
+    public function fosterHome(Organisation $organisation): static
+    {
+        return $this->state(
+            fn(array $attributes) => [
+                'email' => 'fosterhome@awar.app',
+            ],
+        )->afterCreating(function (User $user) use ($organisation) {
+            setPermissionsTeamId($organisation);
+            $user->assignRole(OrganisationRole::FOSTER_HOME);
+            setPermissionsTeamId(null);
+        });
+    }
+
+    public function admin(Organisation $organisation): static
+    {
+        return $this->state(
+            fn(array $attributes) => [
+                'email' => 'admin@awar.app',
+            ],
+        )->afterCreating(function (User $user) use ($organisation) {
+            setPermissionsTeamId($organisation);
+            $user->assignRole(OrganisationRole::ADMIN);
+            setPermissionsTeamId(null);
+        });
     }
 }

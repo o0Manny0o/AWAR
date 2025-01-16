@@ -13,8 +13,6 @@ return new class extends Migration {
         Schema::create('animal_users', function (Blueprint $table) {
             $table->id();
 
-            $table->uuid('global_user_id');
-
             $table
                 ->foreignUuid('animal_id')
                 ->constrained()
@@ -22,13 +20,12 @@ return new class extends Migration {
                 ->cascadeOnUpdate();
 
             $table
-                ->foreign('global_user_id')
-                ->references('global_id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+                ->foreignUuid('user_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
 
-            $table->unique(['animal_id', 'global_user_id']);
+            $table->unique(['animal_id', 'user_id']);
 
             $table->timestamps();
         });

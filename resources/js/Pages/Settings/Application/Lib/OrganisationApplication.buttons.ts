@@ -7,7 +7,7 @@ export function ShowActionButtons(
     application: OrganisationApplication,
 ): PageHeaderButton[] {
     const __ = useTranslate()
-    const { can } = usePermission()
+    const { canRestore, canDelete, canSubmit, canUpdate } = usePermission()
 
     const RESTORE_BUTTON: PageHeaderButton = {
         label: __('general.button.restore', {
@@ -49,47 +49,30 @@ export function ShowActionButtons(
         }),
     }
 
-    const editButton = (primary: boolean): PageHeaderButton => ({
+    const EDIT_BUTTON: PageHeaderButton = {
         label: __('general.button.edit', {
             resource: '',
         }),
-        variant: primary ? 'primary' : 'secondary',
+        variant: 'secondary',
         href: route('settings.applications.edit', {
             application: application.id,
         }),
-    })
+    }
 
     if (application.is_locked) {
         return []
     }
     if (application.deleted_at) {
-        if (can('organisations.applications.restore')) {
+        if (canRestore(application)) {
             return [RESTORE_BUTTON]
         }
         return []
     }
-    if (application.is_complete) {
-        return [
-            ...(can('organisations.applications.submit')
-                ? [SUBMIT_BUTTON]
-                : []),
-            ...(can('organisations.applications.update')
-                ? [editButton(false)]
-                : []),
-            ...(can('organisations.applications.delete')
-                ? [DELETE_BUTTON]
-                : []),
-        ]
-    } else {
-        return [
-            ...(can('organisations.applications.update')
-                ? [editButton(true)]
-                : []),
-            ...(can('organisations.applications.delete')
-                ? [DELETE_BUTTON]
-                : []),
-        ]
-    }
+    return [
+        ...(canSubmit(application) ? [SUBMIT_BUTTON] : []),
+        ...(canUpdate(application) ? [EDIT_BUTTON] : []),
+        ...(canDelete(application) ? [DELETE_BUTTON] : []),
+    ]
 }
 
 export function EditActionButtons(

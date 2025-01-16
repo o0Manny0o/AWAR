@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Stancl\Tenancy\Database\Concerns\CentralConnection;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  *
@@ -27,11 +28,18 @@ use Stancl\Tenancy\Database\Concerns\CentralConnection;
  */
 class Country extends Model
 {
-    use CentralConnection;
-    protected $primaryKey = 'code';
-
-    protected $visible = ['alpha', 'name'];
-
     public $incrementing = false;
     public $timestamps = false;
+    protected $primaryKey = 'code';
+    protected $visible = ['alpha', 'name'];
+
+    public static function asOptions(): Collection
+    {
+        return Country::all(['alpha', 'code'])->map(
+            fn(Country $country) => [
+                'id' => $country->alpha,
+                'name' => __('countries.' . Str::lower($country->alpha)),
+            ],
+        );
+    }
 }

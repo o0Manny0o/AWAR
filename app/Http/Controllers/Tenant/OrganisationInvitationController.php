@@ -39,27 +39,10 @@ class OrganisationInvitationController extends Controller
 
         return AppInertia::render($this->getIndexView(), [
             'invitations' => $invitations,
-            'permissions' => $this->permissions($request),
+            'canCreate' => $request
+                ->user()
+                ->can('create', OrganisationInvitation::class),
         ]);
-    }
-
-    private function permissions(
-        Request $request,
-        OrganisationInvitation $invitation = null,
-    ): array {
-        $invitation?->setPermissions($request->user());
-
-        return [
-            'organisations' => [
-                'invitations' => [
-                    'create' => $request
-                        ->user()
-                        ->can('create', OrganisationInvitation::class),
-                    'view' => $request->user()->can('view', $invitation),
-                    'delete' => $request->user()->can('delete', $invitation),
-                ],
-            ],
-        ];
     }
 
     /**
@@ -75,7 +58,6 @@ class OrganisationInvitationController extends Controller
 
         $invitation = $request
             ->user()
-            ->asMember()
             ->invitations()
             ->create(
                 array_merge($validated, [
@@ -97,7 +79,7 @@ class OrganisationInvitationController extends Controller
     public function create(): Response
     {
         $this->authorize('create', OrganisationInvitation::class);
-        $roles = Role::all()->pluck('name', 'id')->toArray();
+        $roles = Role::whereCentral(false)->pluck('name', 'id')->toArray();
         return AppInertia::render($this->getCreateView(), [
             'roleOptions' => $roles,
         ]);
@@ -118,9 +100,10 @@ class OrganisationInvitationController extends Controller
         }
         $this->authorize('view', $invitation);
 
+        $invitation->setPermissions($request->user());
+
         return AppInertia::render($this->getShowView(), [
             'invitation' => $invitation,
-            'permissions' => $this->permissions($request, $invitation),
         ]);
     }
 
