@@ -6,6 +6,7 @@ use App\Models\Animal\Animal;
 use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationLocation;
 use App\Models\Tenant\OrganisationPublicSettings;
+use App\Traits\OptionalAppends;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -53,7 +54,7 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  */
 class Organisation extends Tenant implements TenantWithDatabase
 {
-    use HasDatabase, HasDomains, HasUuids;
+    use HasDatabase, HasDomains, HasUuids, OptionalAppends;
 
     protected $table = 'organisations';
 
