@@ -6,14 +6,19 @@ use App\Http\AppInertia;
 use App\Http\Requests\Animals\RequestWithAnimalType;
 use App\Http\Requests\Animals\StoreAnimalListingRequest;
 use App\Http\Requests\Animals\UpdateAnimalListingRequest;
+use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalListing;
+use App\Services\AnimalService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class AnimalListingController extends AnimalTypedController
 {
-    public function __construct(RequestWithAnimalType $requestWithAnimalType)
-    {
+    public function __construct(
+        RequestWithAnimalType $requestWithAnimalType,
+        protected readonly AnimalService $animalService,
+    ) {
         parent::__construct($requestWithAnimalType);
         static::$baseRouteName = static::$baseRouteName . '.listing';
         static::$baseViewPath = 'Tenant/Animals/Listings';
@@ -51,18 +56,38 @@ class AnimalListingController extends AnimalTypedController
 
     /**
      * Show the form for creating a new resource.
+     * @throws AuthorizationException
      */
-    public function create()
+    public function create(Request $request, Animal $animal = null)
     {
-        //
+        $this->authorize('create', AnimalListing::class);
+
+        $animals = Animal::subtype(self::$animal_model)
+            ->select(['id', 'name'])
+            ->get();
+
+        return AppInertia::render($this->getCreateView(), [
+            'animal' => $animal,
+            'animals' => $animals,
+            'type' => self::getAnimalModel()::$type,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
+     * @throws AuthorizationException
      */
     public function store(StoreAnimalListingRequest $request)
     {
-        //
+        $this->authorize('create', Animal::class);
+
+        $validated = $request->validated();
+
+        $listing = AnimalListing::create($validated);
+
+        return $this->redirect($request, $this->getShowRouteName(), [
+            'listing' => $listing,
+        ]);
     }
 
     /**

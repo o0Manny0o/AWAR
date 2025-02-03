@@ -261,7 +261,8 @@
                 "cat": "Cat",
                 "cats": {
                     "listing": "Cat Listing"
-                }
+                },
+                "listing": "Listing"
             },
             "family_member": "Family Member",
             "experience": "Experience"
@@ -530,6 +531,27 @@
             "navigation": {
                 "animals": "Animals",
                 "listings": "Listings"
+            }
+        },
+        "listings": {
+            "headers": {
+                "create": "New :type"
+            },
+            "cats": "Cat listing",
+            "dogs": "Dog listing",
+            "titles": {
+                "create": "New :type"
+            },
+            "form": {
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Please enter a description of the animals..."
+                },
+                "excerpt": {
+                    "label": "Excerpt",
+                    "placeholder": "Please enter a short description that will be displayed in the list...",
+                    "use_description": "Use description as excerpt"
+                }
             }
         }
     },

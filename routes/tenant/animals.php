@@ -40,6 +40,20 @@ Route::name('animals.')
                             AnimalListingController::class,
                         );
                     });
+
+                Route::resource(
+                    $name . '.listings',
+                    AnimalListingController::class,
+                )
+                    ->parameters([
+                        $name => 'animal',
+                    ])
+                    ->shallow()
+                    ->only(['index', 'create'])
+                    ->names([
+                        'index' => $name . '.listings.index_for',
+                        'create' => $name . '.listings.create_for',
+                    ]);
             });
         }
 
@@ -51,17 +65,6 @@ Route::name('animals.')
             ]
             as $name => $controller
         ) {
-            Route::resource($name . '.listings', AnimalListingController::class)
-                ->parameters([
-                    $name => 'animal',
-                ])
-                ->shallow()
-                ->only(['index', 'create'])
-                ->names([
-                    'index' => $name . '.listings.index_for',
-                    'create' => $name . '.listings.create_for',
-                ]);
-
             Route::name($name . '.')
                 ->prefix($name . '/{animal}')
                 ->controller($controller)

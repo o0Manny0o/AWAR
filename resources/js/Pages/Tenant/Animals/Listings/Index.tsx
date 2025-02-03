@@ -3,8 +3,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import List from '@/Components/Resource/List'
-import { IndexActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
 import { AnimalIndexTabs } from '@/Pages/Tenant/Animals/Partials/AnimalIndexTabs'
+import { CreateActionButton } from '@/shared/utils/buttons'
 import Listing = App.Models.Listing
 
 export default function Index({
@@ -16,7 +16,7 @@ export default function Index({
     return (
         <AuthenticatedLayout
             title={__(`animals.${type}.headers.listings` as TranslationKey)}
-            actionButtons={IndexActionButtons(
+            actionButtons={CreateActionButton(
                 `general.resources.animals.${type}.listing` as TranslationKey,
                 `animals.${type}.listings.create`,
             )}

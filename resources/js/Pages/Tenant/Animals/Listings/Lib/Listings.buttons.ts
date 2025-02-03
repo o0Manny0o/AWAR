@@ -2,7 +2,28 @@ import { PageHeaderButton } from '@/Components/Layout/PageHeader'
 import useTranslate from '@/shared/hooks/useTranslate'
 import usePermission from '@/shared/hooks/usePermission'
 import { RouteName } from 'ziggy-js'
+import { usePage } from '@inertiajs/react'
 import Animal = App.Models.Animal
+
+export function IndexActionButtons(
+    resource: TranslationKey,
+    createRouteName: RouteName,
+): PageHeaderButton[] {
+    const __ = useTranslate()
+    const { canCreate } = usePage().props
+
+    return canCreate
+        ? [
+              {
+                  label: __('general.button.new', {
+                      resource,
+                  }),
+                  variant: 'primary',
+                  href: route(createRouteName),
+              },
+          ]
+        : []
+}
 
 export function ShowActionButtons(
     animal: Animal,

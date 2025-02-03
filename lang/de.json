@@ -98,7 +98,8 @@
                 "cat": "Katze",
                 "cats": {
                     "listing": "Katzenanzeige"
-                }
+                },
+                "listing": "Anzeige"
             },
             "family_member": "Familienmitglied",
             "experience": "Erfahrung"
@@ -362,6 +363,27 @@
             "navigation": {
                 "animals": "Tiere",
                 "listings": "Anzeigen"
+            }
+        },
+        "listings": {
+            "headers": {
+                "create": "Neue :type"
+            },
+            "cats": "Katzenanzeige",
+            "dogs": "Hundeanzeige",
+            "titles": {
+                "create": "Neue :type"
+            },
+            "form": {
+                "description": {
+                    "label": "Beschreibung",
+                    "placeholder": "Bitte geben Sie eine Beschreibung der Tiere ein..."
+                },
+                "excerpt": {
+                    "label": "Auszug",
+                    "placeholder": "Bitte geben Sie eine kurze Beschreibung ein für die Listenansicht...",
+                    "use_description": "Beschreibung als Auszug benutzen"
+                }
             }
         }
     },

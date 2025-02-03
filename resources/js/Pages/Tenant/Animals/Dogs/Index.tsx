@@ -3,13 +3,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { Card } from '@/Components/Layout/Card'
 import List from '@/Components/Resource/List'
-import { IndexActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
-import Dog = App.Models.Dog
 import { Badge } from '@/Components/_Base/Badge'
 import {
     badgeColor,
     badgeLabelKey,
 } from '@/Pages/Tenant/Animals/Lib/Animals.util'
+import { CreateActionButton } from '@/shared/utils/buttons'
+import Dog = App.Models.Dog
 
 export default function Index({ animals }: AppPageProps<{ animals: Dog[] }>) {
     const __ = useTranslate()
@@ -17,7 +17,7 @@ export default function Index({ animals }: AppPageProps<{ animals: Dog[] }>) {
     return (
         <AuthenticatedLayout
             title={__('animals.dogs.headers.index')}
-            actionButtons={IndexActionButtons(
+            actionButtons={CreateActionButton(
                 'general.resources.animals.dog',
                 'animals.dogs.create',
             )}

@@ -7,7 +7,6 @@ type CreateRefContextData = {
     date_of_birth: RefObject<HTMLInputElement>
     family: RefObject<HTMLInputElement>
     bio: RefObject<HTMLInputElement>
-    abstract: RefObject<HTMLInputElement>
 }
 
 export const DogFormWrapper = FormContext<CreateRefContextData>([
@@ -16,5 +15,4 @@ export const DogFormWrapper = FormContext<CreateRefContextData>([
     'family',
     'date_of_birth',
     'bio',
-    'abstract',
 ])

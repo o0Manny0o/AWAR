@@ -262,6 +262,7 @@ type Translations = {
                 cats: {
                     listing: string
                 }
+                listing: string
             }
             family_member: string
             experience: string
@@ -530,6 +531,27 @@ type Translations = {
             navigation: {
                 animals: string
                 listings: string
+            }
+        }
+        listings: {
+            headers: {
+                create: string
+            }
+            cats: string
+            dogs: string
+            titles: {
+                create: string
+            }
+            form: {
+                description: {
+                    label: string
+                    placeholder: string
+                }
+                excerpt: {
+                    label: string
+                    placeholder: string
+                    use_description: string
+                }
             }
         }
     }

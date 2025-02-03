@@ -7,14 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreAnimalListingRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -22,7 +14,8 @@ class StoreAnimalListingRequest extends FormRequest
     public function rules(): array
     {
         return [
-                //
-            ];
+            'excerpt' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:10000'],
+        ];
     }
 }
