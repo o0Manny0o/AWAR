@@ -1,4 +1,8 @@
-<p align="center"><a href="https://awar.app" target="_blank"><img src="https://raw.githubusercontent.com/o0Manny0o/AWAR/main/resources/img/logo/awar_logo_gray.svg" width="400" alt="AWAR Logo"></a></p>
+<p align="center"><a href="https://awar.app" target="_blank"><img src="https://github.com/o0Manny0o/AWAR/blob/main/resources/img/logo/awar_logo_blue.svg" width="400" alt="AWAR Logo"></a></p>
+
+<p align="center">
+<img alt="Organisations Count" src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fawar.app%2Fapi%2Fstats&query=%24.meta.count&label=Organisations">
+</p>
 
 ## About AWAR
 
