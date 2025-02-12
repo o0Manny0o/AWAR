@@ -4,6 +4,7 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { ListingFormWrapper } from '@/Pages/Tenant/Animals/Listings/Lib/Listings.context'
 import TextAreaGroup from '@/Components/_Base/Input/TextAreaGroup'
 import { SwitchInput } from '@/Components/_Base/Input'
+import { truncateBeforeWord } from '@/shared/util'
 
 interface ListingFormProps {
     formId: string
@@ -29,12 +30,6 @@ export function ListingForm({
 
     const [useDescription, setUseDescription] = useState(false)
 
-    const truncateDescription = (description: string) => {
-        return description.length > 255
-            ? description.substring(0, 255) + '...'
-            : description
-    }
-
     return (
         <form id={formId} onSubmit={submitHandler}>
             <div className="space-y-6 py-6">
@@ -51,7 +46,7 @@ export function ListingForm({
                         onChange={(v) => {
                             if (useDescription) {
                                 setData({
-                                    excerpt: truncateDescription(v),
+                                    excerpt: truncateBeforeWord(v, 255),
                                     description: v,
                                 })
                             } else {
@@ -69,7 +64,13 @@ export function ListingForm({
                             'animals.listings.form.excerpt.placeholder',
                         )}
                         readOnly={useDescription}
-                        value={data.excerpt}
+                        value={
+                            data.excerpt +
+                            (useDescription &&
+                            data.description.length > data.excerpt.length
+                                ? '...'
+                                : '')
+                        }
                         onChange={(v) => setData('excerpt', v)}
                         error={errors.excerpt}
                     />
@@ -84,7 +85,7 @@ export function ListingForm({
                             setUseDescription(v)
                             setData(
                                 'excerpt',
-                                truncateDescription(data.description),
+                                truncateBeforeWord(data.description, 255),
                             )
                         }}
                     />

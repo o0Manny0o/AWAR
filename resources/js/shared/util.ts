@@ -26,3 +26,10 @@ export function getArrayErrors(
         Object.entries(errors).filter(([key]) => key.startsWith(propertyKey)),
     )
 }
+
+export function truncateBeforeWord(str: string, maxLength: number) {
+    if (str.length < maxLength) return str
+    const t = str.substring(0, maxLength)
+    const index = t.lastIndexOf(' ', maxLength)
+    return index === -1 ? t : t.substring(0, index)
+}
