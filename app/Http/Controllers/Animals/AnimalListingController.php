@@ -85,6 +85,8 @@ class AnimalListingController extends AnimalTypedController
 
         $listing = AnimalListing::create($validated);
 
+        $listing->animals()->sync($validated['animals']);
+
         return $this->redirect($request, $this->getShowRouteName(), [
             'listing' => $listing,
         ]);

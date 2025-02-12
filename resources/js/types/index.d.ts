@@ -79,3 +79,4 @@ type AppPageProps<T extends Record<string, unknown> = Record<string, unknown>> =
 type TranslationKey = Paths<Translations, 10>
 type TranslationReplace = Record<string, string | TranslationKey>
 type Errors<T> = { [P in keyof T]?: string }
+type AsOption<T> = Pick<T, 'id' | 'name'>

@@ -16,6 +16,13 @@ class StoreAnimalListingRequest extends FormRequest
         return [
             'excerpt' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:10000'],
+            'animals' => ['required', 'array', 'min:1'],
+            'animals.*' => [
+                'required',
+                'uuid',
+                'distinct',
+                'exists:animals,id',
+            ],
         ];
     }
 }

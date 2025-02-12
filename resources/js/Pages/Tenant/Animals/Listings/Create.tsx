@@ -11,7 +11,11 @@ export default function Create({
     animal,
     animals,
     type,
-}: AppPageProps<{ animal?: Animal; animals: Animal[]; type: string }>) {
+}: AppPageProps<{
+    animal?: Animal
+    animals: AsOption<Animal>[]
+    type: string
+}>) {
     const __ = useTranslate()
 
     const FORM_ID = 'create-listing'
@@ -34,7 +38,11 @@ export default function Create({
             />
 
             <FormContextProvider context={ListingFormWrapper}>
-                <CreateListingForm formId={FORM_ID} />
+                <CreateListingForm
+                    formId={FORM_ID}
+                    animal={animal}
+                    animals={animals}
+                />
             </FormContextProvider>
         </AuthenticatedLayout>
     )

@@ -4,7 +4,9 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { ListingFormWrapper } from '@/Pages/Tenant/Animals/Listings/Lib/Listings.context'
 import TextAreaGroup from '@/Components/_Base/Input/TextAreaGroup'
 import { SwitchInput } from '@/Components/_Base/Input'
-import { truncateBeforeWord } from '@/shared/util'
+import { getArrayErrors, truncateBeforeWord } from '@/shared/util'
+import { ResourceMultiSelect } from '@/Components/_Base/Input/ResourceMultiSelect'
+import Animal = App.Models.Animal
 
 interface ListingFormProps {
     formId: string
@@ -13,6 +15,7 @@ interface ListingFormProps {
     errors: Errors<ListingFormData>
     submitHandler: FormEventHandler
     clearErrors: (...keys: string[]) => void
+    animals: AsOption<Animal>[]
 }
 
 export function ListingForm({
@@ -21,7 +24,7 @@ export function ListingForm({
     formId,
     errors,
     submitHandler,
-    clearErrors,
+    animals,
 }: ListingFormProps) {
     const __ = useTranslate()
     const {
@@ -48,7 +51,7 @@ export function ListingForm({
                                 setData({
                                     excerpt: truncateBeforeWord(v, 255),
                                     description: v,
-                                })
+                                } as ListingFormData)
                             } else {
                                 setData('description', v)
                             }
@@ -88,6 +91,19 @@ export function ListingForm({
                                 truncateBeforeWord(data.description, 255),
                             )
                         }}
+                    />
+                </Card>
+
+                <Card className="gap-4">
+                    <ResourceMultiSelect
+                        name={'animals'}
+                        label={'Animals'}
+                        values={data.animals}
+                        error={Object.values(
+                            getArrayErrors(errors, 'animals'),
+                        )?.join()}
+                        options={animals}
+                        onChange={(values) => setData('animals', values)}
                     />
                 </Card>
             </div>
