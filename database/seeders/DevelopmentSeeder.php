@@ -7,8 +7,8 @@ use App\Authorisation\Enum\OrganisationRole;
 use App\Authorisation\PermissionContext;
 use App\Models\Address;
 use App\Models\Animal\Animal;
-use App\Models\Animal\AnimalListing;
 use App\Models\Animal\Cat;
+use App\Models\Animal\Listing\Listing;
 use App\Models\Organisation;
 use App\Models\Tenant\OrganisationLocation;
 use App\Models\User;
@@ -185,7 +185,7 @@ class DevelopmentSeeder extends Seeder
             );
         });
 
-        AnimalListing::factory()
+        Listing::factory()
             ->hasAttached([$animal])
             ->create();
     }
@@ -217,7 +217,7 @@ class DevelopmentSeeder extends Seeder
             );
         });
 
-        AnimalListing::factory()
+        Listing::factory()
             ->hasAttached([$animal])
             ->create();
     }

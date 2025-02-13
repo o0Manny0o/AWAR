@@ -6,6 +6,8 @@ use App\Authorisation\Enum\OrganisationModule;
 use App\Authorisation\Enum\PermissionType;
 use App\Enum\ResourcePermission;
 use App\Interface\Trackable;
+use App\Models\Animal\Listing\Listing;
+use App\Models\Animal\Listing\ListingAnimal;
 use App\Models\Organisation;
 use App\Models\Scopes\WithAddressScope;
 use App\Models\Scopes\WithAnimalableScope;
@@ -98,7 +100,7 @@ use Illuminate\Validation\UnauthorizedException;
  * @method static Builder<static>|Animal withMedia()
  * @method static Builder<static>|Animal withTrashed()
  * @method static Builder<static>|Animal withoutTrashed()
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\AnimalListing> $listings
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\Listing\Listing> $listings
  * @property-read int|null $listings_count
  * @mixin \Eloquent
  */
@@ -373,10 +375,10 @@ class Animal extends Model implements Trackable
     public function listings(): BelongsToMany
     {
         return $this->belongsToMany(
-            AnimalListing::class,
+            Listing::class,
             'listing_animals',
             'animal_id',
             'listing_id',
-        );
+        )->using(ListingAnimal::class);
     }
 }

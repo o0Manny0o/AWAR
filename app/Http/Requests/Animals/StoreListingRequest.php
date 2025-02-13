@@ -4,7 +4,7 @@ namespace App\Http\Requests\Animals;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAnimalListingRequest extends FormRequest
+class StoreListingRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

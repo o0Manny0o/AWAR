@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Animals;
 
 use App\Http\AppInertia;
 use App\Http\Requests\Animals\RequestWithAnimalType;
-use App\Http\Requests\Animals\StoreAnimalListingRequest;
-use App\Http\Requests\Animals\UpdateAnimalListingRequest;
+use App\Http\Requests\Animals\StoreListingRequest;
+use App\Http\Requests\Animals\UpdateListingRequest;
 use App\Models\Animal\Animal;
-use App\Models\Animal\AnimalListing;
+use App\Models\Animal\Listing\Listing;
 use App\Services\AnimalService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class AnimalListingController extends AnimalTypedController
+class ListingController extends AnimalTypedController
 {
     public function __construct(
         RequestWithAnimalType $requestWithAnimalType,
@@ -29,28 +29,22 @@ class AnimalListingController extends AnimalTypedController
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', AnimalListing::class);
+        $this->authorize('viewAny', Listing::class);
 
-        $listings = AnimalListing::whereHas('animals', function (
-            Builder $query,
-        ) {
+        $listings = Listing::whereHas('animals', function (Builder $query) {
             $query->whereHasMorph('animalable', [self::$animal_model]);
         })
             ->with('animals')
             ->get();
 
         $listings->each(
-            fn(AnimalListing $animalListing) => $animalListing->setPermissions(
-                $request->user(),
-            ),
+            fn(Listing $listing) => $listing->setPermissions($request->user()),
         );
 
         return AppInertia::render($this->getIndexView(), [
             'listings' => $listings,
             'type' => self::getAnimalModel()::$type,
-            'canCreate' => $request
-                ->user()
-                ->can('create', AnimalListing::class),
+            'canCreate' => $request->user()->can('create', Listing::class),
         ]);
     }
 
@@ -60,7 +54,7 @@ class AnimalListingController extends AnimalTypedController
      */
     public function create(Request $request, Animal $animal = null)
     {
-        $this->authorize('create', AnimalListing::class);
+        $this->authorize('create', Listing::class);
 
         $animals = Animal::subtype(self::$animal_model)
             ->select(['id', 'name'])
@@ -77,13 +71,13 @@ class AnimalListingController extends AnimalTypedController
      * Store a newly created resource in storage.
      * @throws AuthorizationException
      */
-    public function store(StoreAnimalListingRequest $request)
+    public function store(StoreListingRequest $request)
     {
         $this->authorize('create', Animal::class);
 
         $validated = $request->validated();
 
-        $listing = AnimalListing::create($validated);
+        $listing = Listing::create($validated);
 
         $listing->animals()->sync($validated['animals']);
 
@@ -95,7 +89,7 @@ class AnimalListingController extends AnimalTypedController
     /**
      * Display the specified resource.
      */
-    public function show(AnimalListing $animalListing)
+    public function show(Listing $listing)
     {
         //
     }
@@ -103,7 +97,7 @@ class AnimalListingController extends AnimalTypedController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AnimalListing $animalListing)
+    public function edit(Listing $listing)
     {
         //
     }
@@ -111,17 +105,15 @@ class AnimalListingController extends AnimalTypedController
     /**
      * Update the specified resource in storage.
      */
-    public function update(
-        UpdateAnimalListingRequest $request,
-        AnimalListing $animalListing,
-    ) {
+    public function update(UpdateListingRequest $request, Listing $listing)
+    {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AnimalListing $animalListing)
+    public function destroy(Listing $listing)
     {
         //
     }

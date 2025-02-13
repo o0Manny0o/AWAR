@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Animals\AnimalListingController;
 use App\Http\Controllers\Animals\CatController;
 use App\Http\Controllers\Animals\DogController;
+use App\Http\Controllers\Animals\ListingController;
 use App\Http\Middleware\SetAnimalTypeMiddleware;
 use App\Models\Animal\Cat;
 use App\Models\Animal\Dog;
@@ -24,27 +24,21 @@ Route::name('animals.')
         ) {
             Route::middleware($middleware)->group(function () use ($name) {
                 Route::get($name . '/listings', [
-                    AnimalListingController::class,
+                    ListingController::class,
                     'index',
                 ])->name($name . '.listings');
                 Route::get($name . '/listings/create', [
-                    AnimalListingController::class,
+                    ListingController::class,
                     'create',
                 ])->name($name . '.listings.create');
 
                 Route::name($name . '.')
                     ->prefix($name)
                     ->group(function () {
-                        Route::resource(
-                            'listings',
-                            AnimalListingController::class,
-                        );
+                        Route::resource('listings', ListingController::class);
                     });
 
-                Route::resource(
-                    $name . '.listings',
-                    AnimalListingController::class,
-                )
+                Route::resource($name . '.listings', ListingController::class)
                     ->parameters([
                         $name => 'animal',
                     ])

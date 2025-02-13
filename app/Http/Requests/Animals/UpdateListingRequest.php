@@ -4,7 +4,7 @@ namespace App\Http\Requests\Animals;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateAnimalListingRequest extends FormRequest
+class UpdateListingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
