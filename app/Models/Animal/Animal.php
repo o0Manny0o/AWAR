@@ -374,7 +374,7 @@ class Animal extends Model implements Trackable
     {
         return $this->belongsToMany(
             AnimalListing::class,
-            'listing_animal',
+            'listing_animals',
             'animal_id',
             'listing_id',
         );

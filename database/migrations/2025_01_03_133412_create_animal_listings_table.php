@@ -19,11 +19,12 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('listing_animal', function (Blueprint $table) {
+        Schema::create('listing_animals', function (Blueprint $table) {
+            $table->id();
             $table->uuid('listing_id');
             $table->uuid('animal_id');
 
-            $table->primary(['listing_id', 'animal_id']);
+            $table->unique(['listing_id', 'animal_id']);
 
             $table
                 ->foreign('listing_id')
@@ -47,6 +48,6 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('listings');
-        Schema::dropIfExists('listing_animal');
+        Schema::dropIfExists('listing_animals');
     }
 };

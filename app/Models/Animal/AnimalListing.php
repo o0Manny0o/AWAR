@@ -40,7 +40,7 @@ class AnimalListing extends Model
     {
         return $this->belongsToMany(
             Animal::class,
-            'listing_animal',
+            'listing_animals',
             'listing_id',
             'animal_id',
         );
