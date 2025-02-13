@@ -24,6 +24,7 @@ class AnimalService
 {
     public function __construct(
         private readonly AnimalFamilyService $animalFamilyService,
+        private readonly MediaService $mediaService,
     ) {
     }
 
@@ -78,7 +79,7 @@ class AnimalService
 
             if (isset($validated['images'])) {
                 try {
-                    $this->attachMedia(
+                    $this->mediaService->attachMedia(
                         $animal,
                         $validated['images'],
                         $organisation,
@@ -98,25 +99,6 @@ class AnimalService
 
             return $animal;
         }, 5);
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function attachMedia(
-        Animal $animal,
-        array $media,
-        $organisation,
-    ): void {
-        foreach ($media as $image) {
-            $animal->attachMedia($image, [
-                'asset_folder' => $organisation->id . '/animals/' . $animal->id,
-                'public_id_prefix' => $organisation->id,
-                'width' => 2000,
-                'crop' => 'limit',
-                'format' => 'webp',
-            ]);
-        }
     }
 
     /**
@@ -166,8 +148,14 @@ class AnimalService
                 // Add new media
                 if (!empty($newMedia)) {
                     $changedMedia['added_media'] = true;
-                    $this->attachMedia($animal, $newMedia, $organisation);
+                    $this->mediaService->attachMedia(
+                        $animal,
+                        $newMedia,
+                        $organisation,
+                    );
                 }
+
+                MediaService::setMediaOrder($validated['images']);
             }
 
             $changes = $this->animalFamilyService->createOrUpdateFamily(
