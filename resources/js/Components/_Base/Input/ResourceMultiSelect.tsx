@@ -4,6 +4,8 @@ import AutocompleteInput, {
 } from '@/Components/_Base/Input/AutocompleteInput'
 import { twMerge } from 'tailwind-merge'
 import { TrashIcon } from '@heroicons/react/24/outline'
+import { Button } from '@/Components/_Base/Button'
+import { ReactNode } from 'react'
 
 interface ResourceMultiSelectProps {
     name: string
@@ -16,6 +18,8 @@ interface ResourceMultiSelectProps {
     className?: string
     readOnly?: boolean
     maxLength?: number
+    resourceThumbnail?: (option: Option) => string
+    subtitle?: (option: Option) => ReactNode
 }
 
 export function ResourceMultiSelect({
@@ -28,6 +32,8 @@ export function ResourceMultiSelect({
     error,
     values,
     maxLength,
+    resourceThumbnail,
+    subtitle,
     ...props
 }: ResourceMultiSelectProps) {
     const removeResource = (index: number) => {
@@ -41,57 +47,6 @@ export function ResourceMultiSelect({
     return (
         <div>
             <InputLabel htmlFor={name} value={label} />
-
-            <ul
-                role="list"
-                className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 sm:gap-6
-                    2xl:grid-cols-4"
-            >
-                {values?.map((v, i) => (
-                    <li
-                        key={v}
-                        className="col-span-1 flex rounded-md shadow-sm border-base border"
-                    >
-                        <div
-                            className="flex w-16 shrink-0 items-center justify-center rounded-l-md text-sm font-medium
-                                text-white"
-                        >
-                            TODO: IMAGE
-                        </div>
-                        <div
-                            className="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r
-                                border-t border-gray-200 bg-white"
-                        >
-                            <div className="flex-1 truncate px-4 py-2 text-sm">
-                                <a
-                                    href="#"
-                                    className="font-medium text-gray-900 hover:text-gray-600"
-                                >
-                                    {options.find((o) => o.id === v)?.name ?? v}
-                                </a>
-                                <p className="text-gray-500">TODO: FAMILY</p>
-                            </div>
-                            <div className="shrink-0 pr-2">
-                                <button
-                                    onClick={() => removeResource(i)}
-                                    type="button"
-                                    className="inline-flex size-8 items-center justify-center rounded-full bg-transparent
-                                        bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2
-                                        focus:ring-indigo-500 focus:ring-offset-2"
-                                >
-                                    <span className="sr-only">
-                                        Remove Resource
-                                    </span>
-                                    <TrashIcon
-                                        aria-hidden="true"
-                                        className="size-5"
-                                    />
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-                ))}
-            </ul>
 
             <AutocompleteInput
                 {...props}
@@ -108,6 +63,68 @@ export function ResourceMultiSelect({
             />
 
             <InputError message={error} className="mt-2" />
+
+            <ul
+                role="list"
+                className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 sm:gap-6
+                    2xl:grid-cols-4"
+            >
+                {values?.map((v, i) => (
+                    <li
+                        key={v}
+                        className="col-span-1 flex rounded-md shadow-sm border-base border overflow-hidden"
+                    >
+                        <div
+                            className="flex w-16 shrink-0 items-center justify-center rounded-l-md text-sm font-medium
+                                text-white"
+                        >
+                            {resourceThumbnail && (
+                                <img
+                                    src={resourceThumbnail(
+                                        options.find((o) => o.id === v)!,
+                                    )}
+                                    alt=""
+                                />
+                            )}
+                        </div>
+                        <div
+                            className="flex flex-1 items-center justify-between truncate rounded-r-md border-b border-r
+                                border-t border-base bg-ceiling-100"
+                        >
+                            <a
+                                target="_blank"
+                                href={route('animals.show', v)}
+                                className="flex-1 truncate px-4 py-2 text-sm bg-interactive group"
+                            >
+                                <span className="font-medium text-interactive">
+                                    {options.find((o) => o.id === v)?.name ?? v}
+                                </span>
+                                <p className="text-basic">
+                                    {subtitle?.(
+                                        options.find((o) => o.id === v)!,
+                                    )}
+                                </p>
+                            </a>
+                            <div className="shrink-0 pr-2">
+                                <Button
+                                    color="secondary"
+                                    rounded="full"
+                                    onClick={() => removeResource(i)}
+                                    type="button"
+                                >
+                                    <span className="sr-only">
+                                        Remove Resource
+                                    </span>
+                                    <TrashIcon
+                                        aria-hidden="true"
+                                        className="size-5"
+                                    />
+                                </Button>
+                            </div>
+                        </div>
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

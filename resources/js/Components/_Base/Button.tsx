@@ -8,7 +8,7 @@ import { Method } from '@inertiajs/core'
 export type ButtonColorVariants = 'primary' | 'secondary' | 'danger'
 
 const button = tv({
-    base: 'rounded-md transition duration-150 ease-in-out font-semibold inline-flex items-center justify-center border shadow-sm dark:shadow-gray-300/10',
+    base: 'transition duration-150 ease-in-out font-semibold inline-flex items-center justify-center border shadow-sm dark:shadow-gray-300/10',
     variants: {
         color: {
             primary:
@@ -27,11 +27,44 @@ const button = tv({
         disabled: {
             true: 'opacity-50 bg-gray-500 pointer-events-none',
         },
+        rounded: {
+            full: 'rounded-full',
+            default: 'rounded-md',
+            none: 'rounded-none',
+        },
     },
     defaultVariants: {
         size: 'base',
         color: 'primary',
+        rounded: 'default',
     },
+    compoundVariants: [
+        {
+            rounded: 'full',
+            size: 'xs',
+            class: 'p-2',
+        },
+        {
+            rounded: 'full',
+            size: 'sm',
+            class: 'p-2',
+        },
+        {
+            rounded: 'full',
+            size: 'base',
+            class: 'p-2.5',
+        },
+        {
+            rounded: 'full',
+            size: 'md',
+            class: 'p-3',
+        },
+        {
+            rounded: 'full',
+            size: 'lg',
+            class: 'p-3.5',
+        },
+    ],
 })
 
 type ButtonVariants = VariantProps<typeof button>
@@ -54,6 +87,7 @@ export function Button(
                     color: props.color,
                     size: props.size,
                     disabled: props.disabled,
+                    rounded: props.rounded,
                 }),
                 props.className,
             )}
@@ -68,6 +102,7 @@ export function Button(
                     color: props.color,
                     size: props.size,
                     disabled: props.disabled,
+                    rounded: props.rounded,
                 }),
                 props.className,
             )}

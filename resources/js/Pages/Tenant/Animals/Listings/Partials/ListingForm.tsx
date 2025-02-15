@@ -104,6 +104,10 @@ export function ListingForm({
                         )?.join()}
                         options={animals}
                         onChange={(values) => setData('animals', values)}
+                        resourceThumbnail={(animal) =>
+                            (animal as Animal).thumbnail ?? ''
+                        }
+                        subtitle={(animal) => (animal as Animal).family?.name}
                     />
                 </Card>
             </div>
