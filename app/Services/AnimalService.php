@@ -128,14 +128,25 @@ class AnimalService
 
                 $mediaToKeep = [];
                 $newMedia = [];
+                $mediaOrder = [];
 
-                array_map(function ($image) use (&$mediaToKeep, &$newMedia) {
-                    if (is_numeric($image)) {
-                        $mediaToKeep[] = $image;
-                    } else {
-                        $newMedia[] = $image;
-                    }
-                }, $validated['images']);
+                array_map(
+                    function ($image, $idx) use (
+                        &$mediaToKeep,
+                        &$newMedia,
+                        &$mediaOrder,
+                    ) {
+                        if (is_numeric($image)) {
+                            $mediaToKeep[] = $image;
+                            $mediaOrder[$idx] = $image;
+                        } else {
+                            $newMedia[] = $image;
+                            $mediaOrder[$idx] = null;
+                        }
+                    },
+                    $validated['images'],
+                    array_keys($validated['images']),
+                );
 
                 // Delete removed media
                 foreach ($allMedia as $media) {
@@ -148,14 +159,22 @@ class AnimalService
                 // Add new media
                 if (!empty($newMedia)) {
                     $changedMedia['added_media'] = true;
-                    $this->mediaService->attachMedia(
+                    $newIds = $this->mediaService->attachMedia(
                         $animal,
                         $newMedia,
                         $organisation,
                     );
+
+                    $newIdx = 0;
+                    foreach ($mediaOrder as $idx => $id) {
+                        if (!is_numeric($id) && isset($newIds[$newIdx])) {
+                            $mediaOrder[$idx] = $newIds[$newIdx++];
+                        }
+                    }
                 }
 
-                MediaService::setMediaOrder($validated['images']);
+                ksort($mediaOrder);
+                MediaService::setMediaOrder($mediaOrder);
             }
 
             $changes = $this->animalFamilyService->createOrUpdateFamily(
