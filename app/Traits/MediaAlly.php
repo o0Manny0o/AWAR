@@ -50,4 +50,61 @@ trait MediaAlly
 
         return $m->id;
     }
+
+    /**
+     * Get thumbnail of the model
+     */
+    protected function getThumbnailAttribute()
+    {
+        if ($this->medially?->first()) {
+            return cloudinary()
+                ->getImage($this->medially?->first()->file_name)
+                ->namedTransformation('thumbnail')
+                ->toUrl();
+        }
+        return null;
+    }
+
+    /**
+     * Get small gallery images of the model
+     */
+    protected function getGalleryAttribute()
+    {
+        return $this->medially?->map(function ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->namedTransformation('gallery')
+                ->toUrl();
+        });
+    }
+
+    /**
+     * Get full size images of the model
+     */
+    protected function getImagesAttribute()
+    {
+        // TODO: Change the transformation
+        return $this->medially?->map(function ($image) {
+            return cloudinary()
+                ->getImage($image->file_name)
+                ->namedTransformation('gallery')
+                ->toUrl();
+        });
+    }
+
+    /**
+     * Get the media of the model
+     */
+    protected function getMediaAttribute()
+    {
+        return $this->medially?->map(function ($image) {
+            return [
+                'id' => $image->id,
+                'file_url' => cloudinary()
+                    ->getImage($image->file_name)
+                    ->namedTransformation('thumbnail')
+                    ->toUrl(),
+            ];
+        });
+    }
 }

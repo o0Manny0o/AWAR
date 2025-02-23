@@ -17,12 +17,14 @@ class StoreListingRequest extends FormRequest
             'excerpt' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:10000'],
             'animals' => ['required', 'array', 'min:1'],
-            'animals.*' => [
+            'animals.*.id' => [
                 'required',
                 'uuid',
                 'distinct',
                 'exists:animals,id',
             ],
+            'images' => ['array'],
+            'images.*' => ['numeric', 'distinct', 'exists:media,id'],
         ];
     }
 }

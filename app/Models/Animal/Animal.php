@@ -331,47 +331,6 @@ class Animal extends Model implements Trackable
         }
     }
 
-    /**
-     * Get the animal thumbnail
-     */
-    protected function getThumbnailAttribute()
-    {
-        if ($this->medially?->first()) {
-            return cloudinary()
-                ->getImage($this->medially?->first()->file_name)
-                ->namedTransformation('thumbnail')
-                ->toUrl();
-        }
-        return null;
-    }
-
-    /**
-     * Get the animal gallery
-     */
-    protected function getGalleryAttribute()
-    {
-        return $this->medially?->map(function ($image) {
-            return cloudinary()
-                ->getImage($image->file_name)
-                ->namedTransformation('gallery')
-                ->toUrl();
-        });
-    }
-
-    /**
-     * Get the animal images
-     */
-    protected function getImagesAttribute()
-    {
-        // TODO: Change the transformation
-        return $this->medially?->map(function ($image) {
-            return cloudinary()
-                ->getImage($image->file_name)
-                ->namedTransformation('gallery')
-                ->toUrl();
-        });
-    }
-
     public function listings(): BelongsToMany
     {
         return $this->belongsToMany(

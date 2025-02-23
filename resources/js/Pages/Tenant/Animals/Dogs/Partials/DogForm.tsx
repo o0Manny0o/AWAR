@@ -35,7 +35,7 @@ export function DogForm({
 }: DogFormProps) {
     const __ = useTranslate()
     const {
-        refs: { name, breed, date_of_birth, bio, abstract },
+        refs: { name, breed, date_of_birth, bio },
     } = useContext(DogFormWrapper.Context)
     const { families, animals } =
         usePage<AppPageProps<{ families: Family[]; animals: Animal[] }>>().props
@@ -102,17 +102,6 @@ export function DogForm({
                         label={__('animals.dogs.form.bio.label')}
                         error={errors.bio}
                         onChange={(value) => setData('bio', value)}
-                    />
-                    <InputGroup
-                        name="abstract"
-                        placeholder={__(
-                            'animals.dogs.form.abstract.placeholder',
-                        )}
-                        value={data.abstract}
-                        ref={abstract}
-                        label={__('animals.dogs.form.abstract.label')}
-                        error={errors.abstract}
-                        onChange={(value) => setData('abstract', value)}
                     />
                 </Card>
 

@@ -112,8 +112,7 @@ class AnimalController extends Controller
 
         Animal::$withoutAppends = true;
 
-        $animal->setForceAppends(['father', 'mother']);
-        $animal->makeVisible(['medially']);
+        $animal->setForceAppends(['father', 'mother', 'media']);
 
         $families = AnimalFamily::subtype($this->morphClass)->get();
 

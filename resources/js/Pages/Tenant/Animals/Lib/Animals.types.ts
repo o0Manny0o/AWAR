@@ -6,7 +6,6 @@ interface AnimalFormData {
     mother?: string | null
     father?: string | null
     bio: string
-    abstract: string
     images: (string | File)[]
 
     _method?: string

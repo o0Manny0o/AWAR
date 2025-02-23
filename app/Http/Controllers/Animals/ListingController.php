@@ -59,7 +59,8 @@ class ListingController extends AnimalTypedController
         $animals = Animal::subtype(self::$animal_model)
             ->select(['id', 'name', 'animal_family_id'])
             ->with('family:id,name')
-            ->get();
+            ->get()
+            ->append('media');
 
         return AppInertia::render($this->getCreateView(), [
             'animal' => $animal,

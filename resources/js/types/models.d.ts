@@ -107,7 +107,7 @@ declare namespace App.Models {
         gallery?: string[]
         images?: string[]
 
-        medially: Media[]
+        media: Media[]
 
         animal_family_id?: string
         family?: Family

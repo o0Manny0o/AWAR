@@ -11,9 +11,9 @@ interface ResourceMultiSelectProps {
     name: string
     label: string
     placeholder?: string
-    values?: string[]
+    values?: Option[]
     options: Option[]
-    onChange?: (values: string[]) => void
+    onChange?: (values: Option[]) => void
     error?: string
     className?: string
     readOnly?: boolean
@@ -41,7 +41,7 @@ export function ResourceMultiSelect({
     }
 
     const addResource = (value: Option) => {
-        onChange?.(Array.from(new Set([...(values ?? []), value.id])))
+        onChange?.(Array.from(new Set([...(values ?? []), value])))
     }
 
     return (
@@ -53,7 +53,9 @@ export function ResourceMultiSelect({
                 value={''}
                 id={name}
                 name={name}
-                options={options.filter((a) => !values?.includes(a.id))}
+                options={options.filter(
+                    (a) => !values?.find((b) => a.id === b.id),
+                )}
                 maxLength={255}
                 onChange={(value) => value && addResource(value)}
                 className={twMerge('block w-full', className)}
@@ -71,7 +73,7 @@ export function ResourceMultiSelect({
             >
                 {values?.map((v, i) => (
                     <li
-                        key={v}
+                        key={v.id}
                         className="col-span-1 flex rounded-md shadow-sm border-base border overflow-hidden"
                     >
                         <div
@@ -81,7 +83,7 @@ export function ResourceMultiSelect({
                             {resourceThumbnail && (
                                 <img
                                     src={resourceThumbnail(
-                                        options.find((o) => o.id === v)!,
+                                        options.find((o) => o.id === v.id)!,
                                     )}
                                     alt=""
                                 />
@@ -97,11 +99,12 @@ export function ResourceMultiSelect({
                                 className="flex-1 truncate px-4 py-2 text-sm bg-interactive group"
                             >
                                 <span className="font-medium text-interactive">
-                                    {options.find((o) => o.id === v)?.name ?? v}
+                                    {options.find((o) => o.id === v.id)?.name ??
+                                        v.id}
                                 </span>
                                 <p className="text-basic">
                                     {subtitle?.(
-                                        options.find((o) => o.id === v)!,
+                                        options.find((o) => o.id === v.id)!,
                                     )}
                                 </p>
                             </a>

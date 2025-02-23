@@ -20,8 +20,7 @@ export default function EditDogForm({
             breed: animal.animalable.breed ?? '',
             sex: animal.sex ?? 'female',
             bio: animal.bio ?? '',
-            abstract: animal.abstract ?? '',
-            images: animal.medially?.map((media) => String(media.id)) ?? [],
+            images: animal.media?.map((media) => String(media.id)) ?? [],
             _method: 'PATCH',
             // If no family is selected, use the first family as parent instead
             // TODO: Add better support for setting maternal and paternal families
@@ -57,7 +56,7 @@ export default function EditDogForm({
         <DogForm
             formId={formId}
             data={data}
-            images={animal.medially}
+            images={animal.media}
             setData={setData}
             errors={errors}
             submitHandler={submitHandler}

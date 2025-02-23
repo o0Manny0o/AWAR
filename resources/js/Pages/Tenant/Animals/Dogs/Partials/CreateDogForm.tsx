@@ -13,7 +13,6 @@ export default function CreateDogForm({ formId }: { formId: string }) {
             breed: '',
             sex: 'female',
             bio: '',
-            abstract: '',
             images: [],
             family: undefined,
             father: undefined,

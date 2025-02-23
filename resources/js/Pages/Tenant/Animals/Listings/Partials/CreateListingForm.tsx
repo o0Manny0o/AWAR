@@ -18,7 +18,8 @@ export default function CreateListingForm({
         useForm<ListingFormData>({
             excerpt: '',
             description: '',
-            animals: animal ? [animal.id] : [],
+            animals: animal ? [animal] : [],
+            images: [],
         })
 
     const { focusError } = useFormContext(ListingFormWrapper, processing)

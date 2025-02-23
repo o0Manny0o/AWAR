@@ -6,6 +6,8 @@ import TextAreaGroup from '@/Components/_Base/Input/TextAreaGroup'
 import { SwitchInput } from '@/Components/_Base/Input'
 import { getArrayErrors, truncateBeforeWord } from '@/shared/util'
 import { ResourceMultiSelect } from '@/Components/_Base/Input/ResourceMultiSelect'
+import { Option } from '@/Components/_Base/Input/AutocompleteInput'
+import { ImageSelect } from '@/Components/_Base/Input/Images/ImageSelect'
 import Animal = App.Models.Animal
 
 interface ListingFormProps {
@@ -98,16 +100,42 @@ export function ListingForm({
                     <ResourceMultiSelect
                         name={'animals'}
                         label={'Animals'}
-                        values={data.animals}
+                        values={data.animals as Option[]}
                         error={Object.values(
                             getArrayErrors(errors, 'animals'),
                         )?.join()}
                         options={animals}
-                        onChange={(values) => setData('animals', values)}
+                        onChange={(values) =>
+                            setData('animals', values as Animal[])
+                        }
                         resourceThumbnail={(animal) =>
                             (animal as Animal).thumbnail ?? ''
                         }
                         subtitle={(animal) => (animal as Animal).family?.name}
+                    />
+                </Card>
+
+                <Card>
+                    <ImageSelect
+                        images={data.animals
+                            .map((a) =>
+                                a.media.map((m) => ({
+                                    ...m,
+                                    animal: a.name,
+                                })),
+                            )
+                            .flat()}
+                        selected={data.images}
+                        onSelect={(m) =>
+                            setData('images', [...data.images, m.id])
+                        }
+                        onRemove={(m) =>
+                            setData(
+                                'images',
+                                data.images.filter((id) => id !== m.id),
+                            )
+                        }
+                        title={(i) => (i as any).animal}
                     />
                 </Card>
             </div>
