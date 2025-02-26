@@ -14,15 +14,30 @@ export default function CreateListingForm({
     animal?: Animal
     animals?: AsOption<Animal>[]
 }) {
-    const { data, setData, errors, post, reset, processing, clearErrors } =
-        useForm<ListingFormData>({
-            excerpt: '',
-            description: '',
-            animals: animal ? [animal] : [],
-            images: [],
-        })
+    const {
+        data,
+        setData,
+        errors,
+        post,
+        reset,
+        processing,
+        clearErrors,
+        transform,
+    } = useForm<ListingFormData>({
+        excerpt: '',
+        description: '',
+        animals: animal ? [animal] : [],
+        images: [],
+    })
 
     const { focusError } = useFormContext(ListingFormWrapper, processing)
+
+    transform((data) => {
+        return {
+            ...data,
+            animals: data.animals.map((animal) => animal.id),
+        } as unknown as ListingFormData
+    })
 
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()

@@ -102,6 +102,10 @@ use Illuminate\Validation\UnauthorizedException;
  * @method static Builder<static>|Animal withoutTrashed()
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\Listing\Listing> $listings
  * @property-read int|null $listings_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \CloudinaryLabs\CloudinaryLaravel\Model\Media> $baseMedially
+ * @property-read int|null $base_medially_count
+ * @property-read mixed $media
+ * @property-read ListingAnimal|null $pivot
  * @mixin \Eloquent
  */
 #[ScopedBy([WithAnimalableScope::class])]
