@@ -230,6 +230,11 @@ declare namespace App.Models {
         description: string
         excerpt: string
         animals: Animal[]
+        listing_animals?: {
+            id: number
+            animal: Animal
+            media: Media[]
+        }[]
 
         created_at: string
         updated_at: string

@@ -64,7 +64,7 @@ export default function Show({
                 </Card>
 
                 <Card header={__('general.images')}>
-                    <ShowImages animal={animal} />
+                    <ShowImages images={animal.gallery ?? []} />
                 </Card>
 
                 <Card header={__('history.title')}>

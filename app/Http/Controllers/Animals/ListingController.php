@@ -109,9 +109,21 @@ class ListingController extends AnimalTypedController
     /**
      * Display the specified resource.
      */
-    public function show(Listing $listing)
+    public function show(Request $request, Listing $listing)
     {
-        //
+        $this->authorize('view', $listing);
+
+        $listing->setPermissions($request->user());
+
+        $listing->load([
+            'listingAnimals.animal',
+            'listingAnimals.media:file_url',
+        ]);
+
+        return AppInertia::render($this->getShowView(), [
+            'listing' => $listing,
+            'type' => self::getAnimalModel()::$type,
+        ]);
     }
 
     /**

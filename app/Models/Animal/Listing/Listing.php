@@ -49,6 +49,11 @@ class Listing extends Model
         ResourcePermission::PUBLISH,
     ];
 
+    public function listingAnimals()
+    {
+        return $this->hasMany(ListingAnimal::class, 'listing_id');
+    }
+
     public function animals(): BelongsToMany
     {
         return $this->belongsToMany(
@@ -56,6 +61,8 @@ class Listing extends Model
             'listing_animals',
             'listing_id',
             'animal_id',
-        )->using(ListingAnimal::class);
+        )
+            ->withPivot(['id', 'listing_id', 'animal_id'])
+            ->using(ListingAnimal::class);
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Models\Animal\Listing;
 
+use App\Models\Animal\Animal;
 use CloudinaryLabs\CloudinaryLaravel\Model\Media;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -30,5 +32,10 @@ class ListingAnimal extends Pivot
             'listing_animal_id',
             'media_id',
         );
+    }
+
+    public function animal(): BelongsTo
+    {
+        return $this->belongsTo(Animal::class);
     }
 }

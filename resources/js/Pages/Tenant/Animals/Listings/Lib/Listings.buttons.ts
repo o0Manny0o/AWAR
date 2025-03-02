@@ -3,7 +3,7 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import usePermission from '@/shared/hooks/usePermission'
 import { RouteName } from 'ziggy-js'
 import { usePage } from '@inertiajs/react'
-import Animal = App.Models.Animal
+import Listing = App.Models.Listing
 
 export function IndexActionButtons(
     resource: TranslationKey,
@@ -26,37 +26,19 @@ export function IndexActionButtons(
 }
 
 export function ShowActionButtons(
-    animal: Animal,
+    listing: Listing,
     resource: TranslationKey,
     baseRouteName: RouteName,
 ): PageHeaderButton[] {
     const __ = useTranslate()
     const { canUpdate, canDelete, canPublish } = usePermission()
 
-    const NEW_LISTINGS_BUTTON: PageHeaderButton = {
-        label: __('general.button.new', {
-            resource: 'general.resources.animals.listing',
-        }),
-        variant: 'primary',
-        method: 'get',
-        href: route(baseRouteName + '.listings.create_for', animal.id),
-    }
-
-    const PUBLISH_BUTTON: PageHeaderButton = {
-        label: __('general.button.publish', {
-            resource: '',
-        }),
-        variant: 'primary',
-        method: 'post',
-        href: route(baseRouteName + '.publish', animal.id),
-    }
-
     const EDIT_BUTTON: PageHeaderButton = {
         label: __('general.button.edit', {
             resource: '',
         }),
         variant: 'secondary',
-        href: route(baseRouteName + '.edit', animal.id),
+        href: route(baseRouteName + '.edit', listing.id),
     }
 
     const DELETE_BUTTON: PageHeaderButton = {
@@ -65,19 +47,15 @@ export function ShowActionButtons(
         }),
         variant: 'danger',
         method: 'delete',
-        href: route(baseRouteName + '.destroy', animal.id),
+        href: route(baseRouteName + '.destroy', listing.id),
     }
 
     const buttons = []
 
-    if (canPublish(animal)) {
-        buttons.push(NEW_LISTINGS_BUTTON)
-        buttons.push(PUBLISH_BUTTON)
-    }
-    if (canUpdate(animal)) {
+    if (canUpdate(listing)) {
         buttons.push(EDIT_BUTTON)
     }
-    if (canDelete(animal)) {
+    if (canDelete(listing)) {
         buttons.push(DELETE_BUTTON)
     }
 
