@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Animals;
+namespace App\Http\Requests\Animals\Rules;
 
 class CatRules
 {

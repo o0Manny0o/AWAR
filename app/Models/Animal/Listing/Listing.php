@@ -5,11 +5,13 @@ namespace App\Models\Animal\Listing;
 use App\Enum\ResourcePermission;
 use App\Models\Animal\Animal;
 use App\Traits\HasResourcePermissions;
+use CloudinaryLabs\CloudinaryLaravel\Model\Media;
 use Database\Factories\Animal\ListingFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  *
@@ -31,6 +33,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereExcerpt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Listing whereUpdatedAt($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\Listing\ListingAnimal> $listingAnimals
+ * @property-read int|null $listing_animals_count
+ * @property-read mixed $images
  * @mixin \Eloquent
  */
 class Listing extends Model
@@ -49,7 +54,7 @@ class Listing extends Model
         ResourcePermission::PUBLISH,
     ];
 
-    public function listingAnimals()
+    public function listingAnimals(): HasMany
     {
         return $this->hasMany(ListingAnimal::class, 'listing_id');
     }
@@ -64,5 +69,19 @@ class Listing extends Model
         )
             ->withPivot(['id', 'listing_id', 'animal_id'])
             ->using(ListingAnimal::class);
+    }
+
+    public function getMediaAttribute()
+    {
+        return $this->listingAnimals
+            ->map(function (ListingAnimal $listingAnimal) {
+                return $listingAnimal
+                    ->media()
+                    ->get()
+                    ->map(function (Media $media) {
+                        return $media->id;
+                    });
+            })
+            ->collapse();
     }
 }

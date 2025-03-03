@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Animals;
 
+use App\Http\Requests\Animals\Rules\ListingRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreListingRequest extends FormRequest
@@ -14,12 +15,12 @@ class StoreListingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'excerpt' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:10000'],
-            'animals' => ['required', 'array', 'min:1'],
-            'animals.*' => ['uuid', 'distinct', 'exists:animals,id'],
-            'images' => ['array'],
-            'images.*' => ['numeric', 'distinct', 'exists:media,id'],
+            'excerpt' => ListingRules::excerptRules(),
+            'description' => ListingRules::descriptionRules(),
+            'animals' => ListingRules::animalsRules(),
+            'animals.*' => ListingRules::animalRules(),
+            'images' => ListingRules::imagesRules(),
+            'images.*' => ListingRules::imageRules(),
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Animals;
+namespace App\Http\Requests\Animals\Rules;
 
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalFamily;

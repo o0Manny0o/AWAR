@@ -21,7 +21,7 @@ class ListingController extends AnimalTypedController
         protected readonly AnimalService $animalService,
     ) {
         parent::__construct($requestWithAnimalType);
-        static::$baseRouteName = static::$baseRouteName . '.listing';
+        static::$baseRouteName = static::$baseRouteName . '.listings';
         static::$baseViewPath = 'Tenant/Animals/Listings';
     }
 
@@ -64,11 +64,13 @@ class ListingController extends AnimalTypedController
 
         $listing->animals()->sync($validated['animals']);
 
+        $animals = $listing
+            ->animals()
+            ->withoutGlobalScope(WithAnimalableScope::class)
+            ->setEagerLoads([]);
+
         foreach ($validated['images'] as $image) {
-            $animal = $listing
-                ->animals()
-                ->withoutGlobalScope(WithAnimalableScope::class)
-                ->setEagerLoads([])
+            $animal = $animals
                 ->whereHas('medially', function (Builder $query) use ($image) {
                     $query->where('id', $image);
                 })
@@ -131,7 +133,24 @@ class ListingController extends AnimalTypedController
      */
     public function edit(Listing $listing)
     {
-        //
+        $this->authorize('update', $listing);
+
+        $listing->load(['animals', 'listingAnimals.media:id']);
+
+        $listing->animals->append('media');
+        $listing->append('media');
+
+        $animals = Animal::subtype(self::$animal_model)
+            ->select(['id', 'name', 'animal_family_id'])
+            ->with('family:id,name')
+            ->get()
+            ->append('media');
+
+        return AppInertia::render($this->getEditView(), [
+            'listing' => $listing,
+            'animals' => $animals,
+            'type' => self::getAnimalModel()::$type,
+        ]);
     }
 
     /**
@@ -139,7 +158,43 @@ class ListingController extends AnimalTypedController
      */
     public function update(UpdateListingRequest $request, Listing $listing)
     {
-        //
+        $this->authorize('update', $listing);
+
+        $listing->update($request->safe()->only(['excerpt', 'description']));
+
+        $listing->animals()->sync($request->validated('animals'));
+
+        $animals = $listing
+            ->animals()
+            ->withoutGlobalScope(WithAnimalableScope::class)
+            ->setEagerLoads([])
+            ->withPivot('id');
+
+        foreach ($animals->get() as $animal) {
+            $media = $animal->pivot->media()->get();
+
+            foreach ($media as $m) {
+                if (!in_array($m->id, $request->validated('images'))) {
+                    $animal->pivot->media()->detach($m->id);
+                }
+            }
+        }
+
+        foreach ($request->validated('images') as $image) {
+            $animal = $animals
+                ->whereHas('medially', function (Builder $query) use ($image) {
+                    $query->where('id', $image);
+                })
+                ->first();
+            if (!$animal) {
+                continue;
+            }
+            $animal->pivot->media()->syncWithoutDetaching($image);
+        }
+
+        return $this->redirect($request, $this->getShowRouteName(), [
+            'listing' => $listing,
+        ]);
     }
 
     /**

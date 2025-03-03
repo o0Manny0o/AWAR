@@ -2,18 +2,11 @@
 
 namespace App\Http\Requests\Animals;
 
+use App\Http\Requests\Animals\Rules\ListingRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateListingRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,7 +15,12 @@ class UpdateListingRequest extends FormRequest
     public function rules(): array
     {
         return [
-                //
-            ];
+            'excerpt' => ListingRules::excerptRules(),
+            'description' => ListingRules::descriptionRules(),
+            'animals' => ListingRules::animalsRules(),
+            'animals.*' => ListingRules::animalRules(),
+            'images' => ListingRules::imagesRules(),
+            'images.*' => ListingRules::imageRules(),
+        ];
     }
 }
