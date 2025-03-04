@@ -150,37 +150,12 @@ class AnimalController extends Controller
     }
 
     /**
-     * Publish an animal.
-     * @throws AuthorizationException
-     */
-    public function publish(Request $request, Animal $animal): RedirectResponse
-    {
-        $this->authorize('publish', $animal);
-        $this->animalService->publishAnimal($animal, Auth::user());
-
-        return $this->redirect($request, $this->getShowRouteName(), [
-            'animal' => $animal,
-        ]);
-    }
-
-    /**
      * Browse all animals.
      */
     public function browse(): Response
     {
-        $animals = Animal::whereNotNull('published_at')
-            ->get()
-            ->makeHidden([
-                'created_at',
-                'updated_at',
-                'published_at',
-                'deleted_at',
-                'animal_family_id',
-                'can_be_viewed',
-                'can_be_deleted',
-                'can_be_updated',
-                'can_be_published',
-            ]);
+        // TODO: Change to listings
+        $animals = Animal::all();
 
         return AppInertia::render('Animals/Browse', [
             'animals' => $animals,

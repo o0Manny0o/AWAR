@@ -9,7 +9,6 @@ use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalFosterHomeUpdated;
 use App\Events\Animals\AnimalHandlerUpdated;
 use App\Events\Animals\AnimalLocationUpdated;
-use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUpdated;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
@@ -220,13 +219,6 @@ class AnimalService
         }
 
         return $animals;
-    }
-
-    public function publishAnimal(Animal $animal, User $user): void
-    {
-        $animal->update(['published_at' => now()]);
-
-        AnimalPublished::dispatch($animal, $user);
     }
 
     public function assignHandler(

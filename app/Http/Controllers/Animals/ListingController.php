@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Animals;
 
+use App\Events\Animals\ListingCreated;
 use App\Http\AppInertia;
 use App\Http\Requests\Animals\RequestWithAnimalType;
 use App\Http\Requests\Animals\StoreListingRequest;
@@ -80,6 +81,10 @@ class ListingController extends AnimalTypedController
                 continue;
             }
             $animal->pivot->media()->attach($image);
+        }
+
+        foreach ($animals->get() as $animal) {
+            ListingCreated::dispatch($animal, $request->user(), $listing);
         }
 
         return $this->redirect($request, $this->getShowRouteName(), [

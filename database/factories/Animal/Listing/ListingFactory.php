@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Animal;
+namespace Database\Factories\Animal\Listing;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

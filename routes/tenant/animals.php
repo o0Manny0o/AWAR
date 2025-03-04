@@ -63,8 +63,6 @@ Route::name('animals.')
                 ->prefix($name . '/{animal}')
                 ->controller($controller)
                 ->group(function () {
-                    Route::post('/publish', 'publish')->name('publish');
-
                     Route::post('/assign', 'assign')->name('assign.handler');
 
                     Route::post('/foster', 'assignFosterHome')->name(

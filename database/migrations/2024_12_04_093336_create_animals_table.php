@@ -20,8 +20,6 @@ return new class extends Migration {
 
             $table->enum('sex', ['male', 'female'])->nullable();
 
-            $table->timestamp('published_at')->nullable();
-
             $table->morphs('animalable');
 
             $table

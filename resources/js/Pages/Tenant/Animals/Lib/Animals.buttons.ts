@@ -21,15 +21,6 @@ export function ShowActionButtons(
         href: route(baseRouteName + '.listings.create_for', animal.id),
     }
 
-    const PUBLISH_BUTTON: PageHeaderButton = {
-        label: __('general.button.publish', {
-            resource: '',
-        }),
-        variant: 'primary',
-        method: 'post',
-        href: route(baseRouteName + '.publish', animal.id),
-    }
-
     const EDIT_BUTTON: PageHeaderButton = {
         label: __('general.button.edit', {
             resource: '',
@@ -51,7 +42,6 @@ export function ShowActionButtons(
 
     if (canPublish(animal)) {
         buttons.push(NEW_LISTINGS_BUTTON)
-        buttons.push(PUBLISH_BUTTON)
     }
     if (canUpdate(animal)) {
         buttons.push(EDIT_BUTTON)

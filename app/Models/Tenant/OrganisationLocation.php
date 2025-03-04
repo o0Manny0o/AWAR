@@ -14,11 +14,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  *
  *
- * @property-read \App\Models\Organisation|null $organisation
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation query()
- * @property-read \App\Models\Address|null $address
  * @property string $id
  * @property string $name
  * @property bool $public
@@ -26,14 +21,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read bool $can_be_deleted
- * @property-read bool $can_be_published
- * @property-read bool $can_be_resended
- * @property-read bool $can_be_restored
- * @property-read bool $can_be_submitted
- * @property-read bool $can_be_updated
- * @property-read bool $can_be_viewed
+ * @property-read \App\Models\Address|null $address
+ * @property-read \App\Models\Organisation $organisation
+ * @method static \Database\Factories\Tenant\OrganisationLocationFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation whereId($value)
@@ -43,7 +37,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationLocation withoutTrashed()
- * @method static \Database\Factories\Tenant\OrganisationLocationFactory factory($count = null, $state = [])
  * @mixin \Eloquent
  */
 class OrganisationLocation extends Model

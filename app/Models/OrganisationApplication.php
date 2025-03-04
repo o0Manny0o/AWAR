@@ -28,14 +28,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\User $user
- * @property-read bool $is_complete
- * @property-read bool $is_locked
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereCity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereCountry($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication wherePostCode($value)
@@ -47,17 +47,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereUserRole($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationApplication withoutTrashed()
- * @property-read bool $can_be_deleted
- * @property-read bool $can_be_restored
- * @property-read bool $can_be_submitted
- * @property-read bool $can_be_updated
- * @property-read bool $can_be_viewed
- * @property-read bool $can_be_resended
- * @property-read bool $can_be_published
  * @mixin \Eloquent
  */
 class OrganisationApplication extends Model

@@ -66,7 +66,7 @@ class SelfDisclosureWizardController extends Controller
     ): Response {
         $this->generateStepNavigation($active);
 
-        return AppInertia::render($this->baseViewPath . '/Show', [
+        return AppInertia::render($this->getShowView(), [
             'step' => $active->value,
             'data' => $data,
             'previousStep' => $active->previous()?->route(),
@@ -363,7 +363,9 @@ class SelfDisclosureWizardController extends Controller
     {
         $this->generateStepNavigation(SelfDisclosureStep::FAMILY);
 
-        return AppInertia::render($this->baseViewPath . '/FamilyMembers/Edit');
+        return AppInertia::render(
+            static::$baseViewPath . '/FamilyMembers/Edit',
+        );
     }
 
     /**
@@ -392,9 +394,12 @@ class SelfDisclosureWizardController extends Controller
             return redirect()->route(SelfDisclosureStep::FAMILY->route());
         }
 
-        return AppInertia::render($this->baseViewPath . '/FamilyMembers/Edit', [
-            'member' => $userFamilyMember,
-        ]);
+        return AppInertia::render(
+            static::$baseViewPath . '/FamilyMembers/Edit',
+            [
+                'member' => $userFamilyMember,
+            ],
+        );
     }
 
     /**
@@ -428,7 +433,7 @@ class SelfDisclosureWizardController extends Controller
     {
         $this->generateStepNavigation(SelfDisclosureStep::EXPERIENCES);
 
-        return AppInertia::render($this->baseViewPath . '/Experiences/Edit', [
+        return AppInertia::render(static::$baseViewPath . '/Experiences/Edit', [
             'today' => date('Y-m-d'),
         ]);
     }
@@ -450,7 +455,7 @@ class SelfDisclosureWizardController extends Controller
     {
         $this->generateStepNavigation(SelfDisclosureStep::EXPERIENCES);
 
-        return AppInertia::render($this->baseViewPath . '/Experiences/Edit', [
+        return AppInertia::render(static::$baseViewPath . '/Experiences/Edit', [
             'experience' => $userExperience,
             'today' => date('Y-m-d'),
         ]);
@@ -487,6 +492,6 @@ class SelfDisclosureWizardController extends Controller
      */
     public function showComplete(): Response
     {
-        return AppInertia::render($this->baseViewPath . '/Complete');
+        return AppInertia::render(static::$baseViewPath . '/Complete');
     }
 }

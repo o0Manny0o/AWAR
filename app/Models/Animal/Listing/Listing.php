@@ -6,7 +6,7 @@ use App\Enum\ResourcePermission;
 use App\Models\Animal\Animal;
 use App\Traits\HasResourcePermissions;
 use CloudinaryLabs\CloudinaryLaravel\Model\Media;
-use Database\Factories\Animal\ListingFactory;
+use Database\Factories\Animal\Listing\ListingFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -36,6 +36,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\Listing\ListingAnimal> $listingAnimals
  * @property-read int|null $listing_animals_count
  * @property-read mixed $images
+ * @property-read mixed $media
  * @mixin \Eloquent
  */
 class Listing extends Model
@@ -51,7 +52,6 @@ class Listing extends Model
         ResourcePermission::VIEW,
         ResourcePermission::DELETE,
         ResourcePermission::UPDATE,
-        ResourcePermission::PUBLISH,
     ];
 
     public function listingAnimals(): HasMany

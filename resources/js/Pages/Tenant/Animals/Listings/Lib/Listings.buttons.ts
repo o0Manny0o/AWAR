@@ -31,7 +31,7 @@ export function ShowActionButtons(
     baseRouteName: RouteName,
 ): PageHeaderButton[] {
     const __ = useTranslate()
-    const { canUpdate, canDelete, canPublish } = usePermission()
+    const { canUpdate, canDelete } = usePermission()
 
     const EDIT_BUTTON: PageHeaderButton = {
         label: __('general.button.edit', {
