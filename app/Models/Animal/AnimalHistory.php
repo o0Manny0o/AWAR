@@ -74,7 +74,7 @@ class AnimalHistory extends Model
     {
         $history = $animal->histories()->publicChanges()->whole()->get();
 
-        return $history->map(fn($h) => $h->formattedPublic())->toArray();
+        return $history->map(fn($h) => $h->formattedPublic())->all();
     }
 
     private function formattedPublic(): array

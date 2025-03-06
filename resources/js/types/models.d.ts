@@ -236,6 +236,7 @@ declare namespace App.Models {
             media: Media[]
         }[]
         media?: number[]
+        organisation?: Organisation
 
         created_at: string
         updated_at: string

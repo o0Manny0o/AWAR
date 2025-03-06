@@ -4,6 +4,7 @@ namespace App\Models\Animal\Listing;
 
 use App\Enum\ResourcePermission;
 use App\Models\Animal\Animal;
+use App\Traits\BelongsToOrganisation;
 use App\Traits\HasResourcePermissions;
 use CloudinaryLabs\CloudinaryLaravel\Model\Media;
 use Database\Factories\Animal\Listing\ListingFactory;
@@ -42,11 +43,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Listing extends Model
 {
     /** @use HasFactory<ListingFactory> */
-    use HasFactory, HasUuids, HasResourcePermissions;
+    use HasFactory, HasUuids, HasResourcePermissions, BelongsToOrganisation;
 
     protected $table = 'listings';
 
-    protected $fillable = ['description', 'excerpt'];
+    protected $fillable = ['description', 'excerpt', 'organisation_id'];
 
     protected array $resource_permissions = [
         ResourcePermission::VIEW,

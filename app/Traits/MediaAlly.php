@@ -5,6 +5,7 @@ namespace App\Traits;
 use CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine;
 use CloudinaryLabs\CloudinaryLaravel\MediaAlly as BaseMediaAlly;
 use CloudinaryLabs\CloudinaryLaravel\Model\Media;
+use Exception;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
 

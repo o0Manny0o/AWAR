@@ -70,19 +70,6 @@ class AnimalController extends Controller
     }
 
     /**
-     * Display the public version of the specified resource.
-     */
-    public function showPublic(Animal $animal): RedirectResponse|Response
-    {
-        $history = AnimalHistory::publicHistory($animal);
-
-        return AppInertia::render('Animals/Show', [
-            'animal' => $animal,
-            'history' => $history,
-        ]);
-    }
-
-    /**
      * Remove the specified resource from storage.
      * @throws AuthorizationException
      */
@@ -146,19 +133,6 @@ class AnimalController extends Controller
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,
-        ]);
-    }
-
-    /**
-     * Browse all animals.
-     */
-    public function browse(): Response
-    {
-        // TODO: Change to listings
-        $animals = Animal::all();
-
-        return AppInertia::render('Animals/Browse', [
-            'animals' => $animals,
         ]);
     }
 

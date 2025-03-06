@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Animal\Listing;
 
+use App\Models\Organisation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,16 @@ class ListingFactory extends Factory
         return [
             'description' => fake()->text(800),
             'excerpt' => fake()->text(),
+            'organisation_id' => Organisation::whereName('foo')->first()->id,
         ];
+    }
+
+    public function forOrganisation(Organisation $organisation)
+    {
+        return $this->state(function (array $attributes) use ($organisation) {
+            return [
+                'organisation_id' => $organisation->id,
+            ];
+        });
     }
 }

@@ -10,7 +10,7 @@ export const CentralPublicNavigation: NavigationItem[] = [
         label: 'general.navigation.pricing',
     },
     {
-        name: 'animals.browse',
+        name: 'listings.browse',
         label: 'general.navigation.browse',
     },
 ]
@@ -22,7 +22,7 @@ export const TenantPublicNavigation: NavigationItem[] = [
         label: 'general.navigation.about',
     },
     {
-        name: 'animals.browse',
+        name: 'listings.browse',
         label: 'general.navigation.browse',
     },
 ]

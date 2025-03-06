@@ -2,11 +2,11 @@ import { Head } from '@inertiajs/react'
 import PublicLayout from '@/Layouts/PublicLayout'
 import { AnimalList } from '@/Pages/Animals/Partials/AnimalList'
 import PageHeader from '@/Components/Layout/PageHeader'
-import Animal = App.Models.Animal
+import Listing = App.Models.Listing
 
 export default function Browse({
-    animals,
-}: AppPageProps<{ animals: Animal[] }>) {
+    listings,
+}: AppPageProps<{ listings: Listing[] }>) {
     return (
         <>
             <Head title="Welcome" />
@@ -15,7 +15,7 @@ export default function Browse({
 
                 {/* TODO: Filters */}
 
-                <AnimalList animals={animals} />
+                <AnimalList listings={listings} />
             </PublicLayout>
         </>
     )

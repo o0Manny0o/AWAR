@@ -16,6 +16,12 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->string('excerpt', 255)->nullable();
 
+            $table
+                ->foreignUuid('organisation_id')
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+
             $table->timestamps();
         });
 

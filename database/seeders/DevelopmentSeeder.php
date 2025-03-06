@@ -187,6 +187,7 @@ class DevelopmentSeeder extends Seeder
 
         Listing::factory()
             ->hasAttached([$animal])
+            ->forOrganisation($organisation)
             ->create();
     }
 
@@ -219,6 +220,7 @@ class DevelopmentSeeder extends Seeder
 
         Listing::factory()
             ->hasAttached([$animal])
+            ->forOrganisation($organisation)
             ->create();
     }
 }
