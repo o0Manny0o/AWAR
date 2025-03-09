@@ -19,6 +19,7 @@ interface ResourceMultiSelectProps {
     readOnly?: boolean
     maxLength?: number
     resourceThumbnail?: (option: Option) => string
+    resourceURL?: (option: Option) => string
     subtitle?: (option: Option) => ReactNode
 }
 
@@ -33,6 +34,7 @@ export function ResourceMultiSelect({
     values,
     maxLength,
     resourceThumbnail,
+    resourceURL,
     subtitle,
     ...props
 }: ResourceMultiSelectProps) {
@@ -95,7 +97,7 @@ export function ResourceMultiSelect({
                         >
                             <a
                                 target="_blank"
-                                href={route('animals.show', v)}
+                                href={resourceURL?.(v)}
                                 className="flex-1 truncate px-4 py-2 text-sm bg-interactive group"
                             >
                                 <span className="font-medium text-interactive">

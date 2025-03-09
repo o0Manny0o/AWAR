@@ -9,6 +9,7 @@ import { ResourceMultiSelect } from '@/Components/_Base/Input/ResourceMultiSelec
 import { Option } from '@/Components/_Base/Input/AutocompleteInput'
 import { ImageSelect } from '@/Components/_Base/Input/Images/ImageSelect'
 import Animal = App.Models.Animal
+import AnimalType = App.Models.AnimalType
 
 interface ListingFormProps {
     formId: string
@@ -18,6 +19,7 @@ interface ListingFormProps {
     submitHandler: FormEventHandler
     clearErrors: (...keys: string[]) => void
     animals: AsOption<Animal>[]
+    type: AnimalType
 }
 
 export function ListingForm({
@@ -27,6 +29,7 @@ export function ListingForm({
     errors,
     submitHandler,
     animals,
+    type,
 }: ListingFormProps) {
     const __ = useTranslate()
     const {
@@ -99,7 +102,7 @@ export function ListingForm({
                 <Card className="gap-4">
                     <ResourceMultiSelect
                         name={'animals'}
-                        label={'Animals'}
+                        label={__('animals.listings.form.animals.label')}
                         values={data.animals as Option[]}
                         error={Object.values(
                             getArrayErrors(errors, 'animals'),
@@ -111,12 +114,16 @@ export function ListingForm({
                         resourceThumbnail={(animal) =>
                             (animal as Animal).thumbnail ?? ''
                         }
+                        resourceURL={(animal) =>
+                            route(`animals.${type}.show`, animal.id)
+                        }
                         subtitle={(animal) => (animal as Animal).family?.name}
                     />
                 </Card>
 
                 <Card>
                     <ImageSelect
+                        label={__('animals.listings.form.images.label')}
                         images={data.animals
                             .map((a) =>
                                 a.media.map((m) => ({

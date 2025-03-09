@@ -5,15 +5,18 @@ import { ListingFormWrapper } from '@/Pages/Tenant/Animals/Listings/Lib/Listings
 import { ListingForm } from '@/Pages/Tenant/Animals/Listings/Partials/ListingForm'
 import Animal = App.Models.Animal
 import Listing = App.Models.Listing
+import AnimalType = App.Models.AnimalType
 
 export default function EditListingForm({
     formId,
     listing,
     animals = [],
+    type,
 }: {
     formId: string
     listing: Listing
     animals?: AsOption<Animal>[]
+    type: AnimalType
 }) {
     const {
         data,
@@ -58,6 +61,7 @@ export default function EditListingForm({
             animals={animals}
             submitHandler={submitHandler}
             clearErrors={clearErrors as any}
+            type={type}
         />
     )
 }

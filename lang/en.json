@@ -535,12 +535,14 @@
         },
         "listings": {
             "headers": {
-                "create": "New :type"
+                "create": "New :type",
+                "edit": "Edit :type"
             },
             "cats": "Cat listing",
             "dogs": "Dog listing",
             "titles": {
-                "create": "New :type"
+                "create": "New :type",
+                "edit": "Edit :type"
             },
             "form": {
                 "description": {
@@ -551,6 +553,12 @@
                     "label": "Excerpt",
                     "placeholder": "Please enter a short description that will be displayed in the list...",
                     "use_description": "Use description as excerpt"
+                },
+                "animals": {
+                    "label": "Animals"
+                },
+                "images": {
+                    "label": "Images"
                 }
             }
         }

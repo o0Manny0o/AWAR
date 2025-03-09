@@ -7,6 +7,7 @@ import { FormContextProvider } from '@/shared/contexts/Form.context'
 import EditListingForm from '@/Pages/Tenant/Animals/Listings/Partials/EditListingForm'
 import Animal = App.Models.Animal
 import Listing = App.Models.Listing
+import AnimalType = App.Models.AnimalType
 
 export default function Edit({
     listing,
@@ -15,7 +16,7 @@ export default function Edit({
 }: AppPageProps<{
     listing: Listing
     animals: AsOption<Animal>[]
-    type: string
+    type: AnimalType
 }>) {
     const __ = useTranslate()
 
@@ -43,6 +44,7 @@ export default function Edit({
                     formId={FORM_ID}
                     listing={listing}
                     animals={animals}
+                    type={type}
                 />
             </FormContextProvider>
         </AuthenticatedLayout>

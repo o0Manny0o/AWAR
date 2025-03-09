@@ -536,11 +536,13 @@ type Translations = {
         listings: {
             headers: {
                 create: string
+                edit: string
             }
             cats: string
             dogs: string
             titles: {
                 create: string
+                edit: string
             }
             form: {
                 description: {
@@ -551,6 +553,12 @@ type Translations = {
                     label: string
                     placeholder: string
                     use_description: string
+                }
+                animals: {
+                    label: string
+                }
+                images: {
+                    label: string
                 }
             }
         }

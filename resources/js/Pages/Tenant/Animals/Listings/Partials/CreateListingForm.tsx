@@ -4,15 +4,18 @@ import useFormContext from '@/shared/hooks/useFormContext'
 import { ListingFormWrapper } from '@/Pages/Tenant/Animals/Listings/Lib/Listings.context'
 import { ListingForm } from '@/Pages/Tenant/Animals/Listings/Partials/ListingForm'
 import Animal = App.Models.Animal
+import AnimalType = App.Models.AnimalType
 
 export default function CreateListingForm({
     formId,
     animal,
     animals = [],
+    type,
 }: {
     formId: string
     animal?: Animal
     animals?: AsOption<Animal>[]
+    type: AnimalType
 }) {
     const {
         data,
@@ -57,6 +60,7 @@ export default function CreateListingForm({
             animals={animals}
             submitHandler={submitHandler}
             clearErrors={clearErrors as any}
+            type={type}
         />
     )
 }

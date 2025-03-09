@@ -367,12 +367,14 @@
         },
         "listings": {
             "headers": {
-                "create": "Neue :type"
+                "create": "Neue :type",
+                "edit": ":type bearbeiten"
             },
             "cats": "Katzenanzeige",
             "dogs": "Hundeanzeige",
             "titles": {
-                "create": "Neue :type"
+                "create": "Neue :type",
+                "edit": ":type bearbeiten"
             },
             "form": {
                 "description": {
@@ -383,6 +385,12 @@
                     "label": "Auszug",
                     "placeholder": "Bitte geben Sie eine kurze Beschreibung ein für die Listenansicht...",
                     "use_description": "Beschreibung als Auszug benutzen"
+                },
+                "animals": {
+                    "label": "Tiere"
+                },
+                "images": {
+                    "label": "Bilder"
                 }
             }
         }

@@ -1,4 +1,6 @@
 declare namespace App.Models {
+    export type AnimalType = 'cats' | 'dogs'
+
     export interface Role {
         id: string
         name: string

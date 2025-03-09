@@ -6,6 +6,7 @@ import { FormActionButtons } from '@/Pages/Tenant/Animals/Lib/Animals.buttons'
 import { FormContextProvider } from '@/shared/contexts/Form.context'
 import CreateListingForm from '@/Pages/Tenant/Animals/Listings/Partials/CreateListingForm'
 import Animal = App.Models.Animal
+import AnimalType = App.Models.AnimalType
 
 export default function Create({
     animal,
@@ -14,7 +15,7 @@ export default function Create({
 }: AppPageProps<{
     animal?: Animal
     animals: AsOption<Animal>[]
-    type: string
+    type: AnimalType
 }>) {
     const __ = useTranslate()
 
@@ -42,6 +43,7 @@ export default function Create({
                     formId={FORM_ID}
                     animal={animal}
                     animals={animals}
+                    type={type}
                 />
             </FormContextProvider>
         </AuthenticatedLayout>
