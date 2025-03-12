@@ -22,7 +22,7 @@ class ListingRules
     }
     public static function imagesRules(): array
     {
-        return ['array'];
+        return ['array', 'min:1'];
     }
     public static function imageRules(): array
     {

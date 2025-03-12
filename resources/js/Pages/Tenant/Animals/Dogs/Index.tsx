@@ -9,6 +9,7 @@ import {
     badgeLabelKey,
 } from '@/Pages/Tenant/Animals/Lib/Animals.util'
 import { CreateActionButton } from '@/shared/utils/buttons'
+import { AnimalIndexTabs } from '@/Pages/Tenant/Animals/Partials/AnimalIndexTabs'
 import Dog = App.Models.Dog
 
 export default function Index({ animals }: AppPageProps<{ animals: Dog[] }>) {
@@ -24,7 +25,9 @@ export default function Index({ animals }: AppPageProps<{ animals: Dog[] }>) {
         >
             <Head title={__('animals.dogs.titles.index')} />
 
-            <div className="">
+            <AnimalIndexTabs type={'dogs'} />
+
+            <div className="mt-2">
                 <Card>
                     <List
                         entities={animals}

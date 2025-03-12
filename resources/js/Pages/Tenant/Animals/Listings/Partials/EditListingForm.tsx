@@ -46,7 +46,7 @@ export default function EditListingForm({
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        patch(route('animals.cats.listings.update', listing.id), {
+        patch(route(`animals.${type}.listings.update`, listing.id), {
             onSuccess: () => reset(),
             onError: (errors) => focusError(errors as any),
         })

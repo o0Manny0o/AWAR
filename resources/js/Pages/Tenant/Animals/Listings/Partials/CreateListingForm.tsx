@@ -29,7 +29,10 @@ export default function CreateListingForm({
     } = useForm<ListingFormData>({
         excerpt: '',
         description: '',
-        animals: animal ? [animal] : [],
+        animals:
+            animal && animals.find((a) => a.id === animal.id)
+                ? [animals.find((a) => a.id === animal.id)! as Animal]
+                : [],
         images: [],
     })
 
@@ -45,7 +48,7 @@ export default function CreateListingForm({
     const submitHandler: FormEventHandler = (e) => {
         e.preventDefault()
 
-        post(route('animals.cats.listings.store'), {
+        post(route(`animals.${type}.listings.store`), {
             onSuccess: () => reset(),
             onError: (errors) => focusError(errors as any),
         })

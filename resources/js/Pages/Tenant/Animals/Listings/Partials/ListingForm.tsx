@@ -146,6 +146,7 @@ export function ListingForm({
                             )
                         }
                         title={(i) => (i as any).animal}
+                        error={errors.images}
                     />
                 </Card>
             </div>

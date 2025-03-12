@@ -263,6 +263,9 @@ type Translations = {
                     listing: string
                 }
                 listing: string
+                dogs: {
+                    listing: string
+                }
             }
             family_member: string
             experience: string
@@ -445,11 +448,13 @@ type Translations = {
             headers: {
                 index: string
                 create: string
+                listings: string
             }
             titles: {
                 index: string
                 create: string
                 edit: string
+                listings: string
             }
             form: {
                 name: {

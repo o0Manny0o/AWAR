@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { twJoin } from 'tailwind-merge'
-import { InputLabel } from '@/Components/_Base/Input'
+import { InputError, InputLabel } from '@/Components/_Base/Input'
 import Media = App.Models.Media
 
 interface ImageSelectProps {
@@ -11,6 +11,7 @@ interface ImageSelectProps {
     onSelect: (m: Media) => void
     onRemove: (m: Media) => void
     label?: string
+    error?: string
 }
 
 export function ImageSelect({
@@ -21,6 +22,7 @@ export function ImageSelect({
     onSelect,
     onRemove,
     label,
+    error,
 }: ImageSelectProps) {
     const updateSelected = (media: Media) => {
         if (!selected.includes(media.id)) {
@@ -77,6 +79,7 @@ export function ImageSelect({
                     </li>
                 ))}
             </ul>
+            <InputError message={error} />
         </>
     )
 }

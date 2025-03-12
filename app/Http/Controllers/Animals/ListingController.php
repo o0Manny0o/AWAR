@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Animals;
 use App\Events\Animals\ListingCreated;
 use App\Events\Animals\ListingDeleted;
 use App\Http\AppInertia;
+use App\Http\Requests\Animals\CreateListingRequest;
 use App\Http\Requests\Animals\RequestWithAnimalType;
-use App\Http\Requests\Animals\StoreListingRequest;
 use App\Http\Requests\Animals\UpdateListingRequest;
 use App\Models\Animal\Animal;
 use App\Models\Animal\Listing\Listing;
@@ -55,7 +55,7 @@ class ListingController extends AnimalTypedController
      * Store a newly created resource in storage.
      * @throws AuthorizationException
      */
-    public function store(StoreListingRequest $request)
+    public function store(CreateListingRequest $request)
     {
         $this->authorize('create', Animal::class);
 

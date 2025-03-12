@@ -262,7 +262,10 @@
                 "cats": {
                     "listing": "Cat Listing"
                 },
-                "listing": "Listing"
+                "listing": "Listing",
+                "dogs": {
+                    "listing": "Dog Listing"
+                }
             },
             "family_member": "Family Member",
             "experience": "Experience"
@@ -444,12 +447,14 @@
         "dogs": {
             "headers": {
                 "index": "Your Dogs",
-                "create": "Create a new dog"
+                "create": "Create a new dog",
+                "listings": "Active Dog Listings"
             },
             "titles": {
                 "index": "Dogs",
                 "create": "New Dog",
-                "edit": "Edit Dog"
+                "edit": "Edit Dog",
+                "listings": "Dog Listings"
             },
             "form": {
                 "name": {
