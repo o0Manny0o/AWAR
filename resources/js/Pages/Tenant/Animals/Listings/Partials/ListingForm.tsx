@@ -54,6 +54,7 @@ export function ListingForm({
                         onChange={(v) => {
                             if (useDescription) {
                                 setData({
+                                    ...data,
                                     excerpt: truncateBeforeWord(v, 255),
                                     description: v,
                                 } as ListingFormData)
@@ -124,14 +125,16 @@ export function ListingForm({
                 <Card>
                     <ImageSelect
                         label={__('animals.listings.form.images.label')}
-                        images={data.animals
-                            .map((a) =>
-                                a.media.map((m) => ({
-                                    ...m,
-                                    animal: a.name,
-                                })),
-                            )
-                            .flat()}
+                        images={
+                            data.animals
+                                ?.map((a) =>
+                                    a.media.map((m) => ({
+                                        ...m,
+                                        animal: a.name,
+                                    })),
+                                )
+                                .flat() ?? []
+                        }
                         selected={data.images}
                         onSelect={(m) =>
                             setData('images', [...data.images, m.id])

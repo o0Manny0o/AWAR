@@ -10,6 +10,7 @@ use App\Events\Animals\AnimalHandlerUpdated;
 use App\Events\Animals\AnimalLocationUpdated;
 use App\Events\Animals\AnimalUpdated;
 use App\Events\Animals\ListingCreated;
+use App\Events\Animals\ListingDeleted;
 use App\Interface\Trackable;
 use App\Models\Animal\AnimalHistory;
 use Illuminate\Events\Dispatcher;
@@ -136,6 +137,23 @@ class TrackAnimalChangesSubscriber
         $history = $event->animal->histories()->create([
             'user_id' => $event->user->id,
             'type' => AnimalHistoryType::LISTING_CREATED,
+        ]);
+
+        $history->changes()->create([
+            'field' => 'listing_id',
+            'value' => $event->listing->id,
+        ]);
+    }
+
+    /**
+     * Handle the ListingDeleted event.
+     */
+    public function handleListingDeleted(ListingDeleted $event): void
+    {
+        /** @var AnimalHistory $history */
+        $history = $event->animal->histories()->create([
+            'user_id' => $event->user->id,
+            'type' => AnimalHistoryType::LISTING_DELETED,
         ]);
 
         $history->changes()->create([

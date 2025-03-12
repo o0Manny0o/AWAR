@@ -577,7 +577,9 @@
                 "foster_home_assign": ":user assigned a new foster home :when",
                 "handler_unassign": ":user unassigned a handler :when",
                 "location_unassign": ":user unassigned a location :when",
-                "foster_home_unassign": ":user unassigned a foster home :when"
+                "foster_home_unassign": ":user unassigned a foster home :when",
+                "listing_created": ":user created a new listing :when",
+                "listing_deleted": ":user deleted a listing :when"
             },
             "public": {
                 "initial": ":animal was found :when"

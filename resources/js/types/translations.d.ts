@@ -578,6 +578,8 @@ type Translations = {
                 handler_unassign: string
                 location_unassign: string
                 foster_home_unassign: string
+                listing_created: string
+                listing_deleted: string
             }
             public: {
                 initial: string

@@ -14,9 +14,7 @@ return new class extends Migration {
         Schema::create('animal_histories', function (Blueprint $table) {
             $table->id();
 
-            $table
-                ->enum('type', AnimalHistoryType::values())
-                ->default(AnimalHistoryType::INITIAL);
+            $table->string('type')->default(AnimalHistoryType::INITIAL);
 
             $table->boolean('public')->default(false);
 

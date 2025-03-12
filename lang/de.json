@@ -409,7 +409,9 @@
                 "foster_home_assign": ":user hat :when eine neue Pflegestelle zugewiesen",
                 "handler_unassign": ":user hat :when die Bearbeiter Zuweisung aufgehoben",
                 "location_unassign": ":user hat :when die Standort Zuweisung aufgehoben",
-                "foster_home_unassign": ":user hat :when die Pflegestellen Zuweisung aufgehoben"
+                "foster_home_unassign": ":user hat :when die Pflegestellen Zuweisung aufgehoben",
+                "listing_created": ":user hat :when eine neue Anzeige erstellt",
+                "listing_deleted": ":user hat :when eine Anzeige gelöscht"
             },
             "public": {
                 "initial": ":animal wurde :when gefunden"

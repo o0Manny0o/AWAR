@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Animals;
 
 use App\Events\Animals\ListingCreated;
+use App\Events\Animals\ListingDeleted;
 use App\Http\AppInertia;
 use App\Http\Requests\Animals\RequestWithAnimalType;
 use App\Http\Requests\Animals\StoreListingRequest;
@@ -205,8 +206,18 @@ class ListingController extends AnimalTypedController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Listing $listing)
+    public function destroy(Request $request, Listing $listing)
     {
-        //
+        $this->authorize('delete', $listing);
+
+        $animals = $listing->animals()->get();
+
+        foreach ($animals as $animal) {
+            ListingDeleted::dispatch($animal, $request->user(), $listing);
+        }
+
+        $listing->delete();
+
+        return redirect()->route($this->getIndexRouteName());
     }
 }
