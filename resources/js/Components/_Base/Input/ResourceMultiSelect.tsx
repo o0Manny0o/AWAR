@@ -1,4 +1,5 @@
-import { InputError, InputLabel } from '@/Components/_Base/Input/index'
+import InputLabel from '@/Components/_Base/Input/InputLabel'
+import InputError from '@/Components/_Base/Input/InputError'
 import AutocompleteInput, {
     Option,
 } from '@/Components/_Base/Input/AutocompleteInput'

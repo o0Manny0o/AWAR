@@ -1,8 +1,6 @@
-import {
-    InputError,
-    InputLabel,
-    TextInput,
-} from '@/Components/_Base/Input/index'
+import InputLabel from '@/Components/_Base/Input/InputLabel'
+import InputError from '@/Components/_Base/Input/InputError'
+import TextInput from '@/Components/_Base/Input/TextInput'
 import { forwardRef, HTMLInputAutoCompleteAttribute, ReactNode } from 'react'
 import { twMerge } from 'tailwind-merge'
 

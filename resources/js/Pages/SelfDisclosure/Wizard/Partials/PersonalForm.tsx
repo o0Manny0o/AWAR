@@ -3,7 +3,7 @@ import InputGroup from '@/Components/_Base/Input/InputGroup'
 import useTranslate from '@/shared/hooks/useTranslate'
 import { FormEventHandler, useContext } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { SwitchInput } from '@/Components/_Base/Input'
+import SwitchInput from '@/Components/_Base/Input/SwitchInput'
 import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 interface PersonalFormProps {

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { twJoin } from 'tailwind-merge'
-import { InputError, InputLabel } from '@/Components/_Base/Input'
+import InputLabel from '@/Components/_Base/Input/InputLabel'
+import InputError from '@/Components/_Base/Input/InputError'
 import Media = App.Models.Media
 
 interface ImageSelectProps {

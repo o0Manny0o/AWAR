@@ -5,7 +5,7 @@ import { FormActionButtons } from '@/Pages/Tenant/Settings/PublicSettings/Lib/Pu
 import { Card } from '@/Components/Layout/Card'
 import { FormEventHandler } from 'react'
 import { ImageInput } from '@/Components/_Base/Input/Images/ImageInput'
-import { InputError } from '@/Components/_Base/Input'
+import InputError from '@/Components/_Base/Input/InputError'
 import PublicSettings = App.Models.Organisation.PublicSettings
 
 export default function Edit({

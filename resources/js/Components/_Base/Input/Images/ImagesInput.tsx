@@ -16,7 +16,7 @@ import {
     useSensors,
 } from '@dnd-kit/core'
 import { ImagePreview } from '@/Components/_Base/Input/Images/ImagePreview'
-import { InputError } from '@/Components/_Base/Input'
+import InputError from '@/Components/_Base/Input/InputError'
 import Media = App.Models.Media
 
 interface ImageInputProps {

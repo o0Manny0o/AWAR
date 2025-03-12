@@ -1,4 +1,5 @@
-import { InputError, InputLabel } from '@/Components/_Base/Input/index'
+import InputLabel from '@/Components/_Base/Input/InputLabel'
+import InputError from '@/Components/_Base/Input/InputError'
 import { FocusEvent, ForwardedRef, forwardRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import TextArea from '@/Components/_Base/Input/TextArea'
