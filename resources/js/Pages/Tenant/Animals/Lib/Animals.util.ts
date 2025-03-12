@@ -1,16 +1,14 @@
 import { BadgeColor } from '@/Components/_Base/Badge'
 import Animal = App.Models.Animal
 
-export const badgeColor = (
-    animal: Pick<Animal, 'published_at'>,
-): BadgeColor => {
-    return animal.published_at ? BadgeColor.SUCCESS : BadgeColor.SECONDARY
+export const badgeColor = (animal: Pick<Animal, 'isPublished'>): BadgeColor => {
+    return animal.isPublished ? BadgeColor.SUCCESS : BadgeColor.SECONDARY
 }
 
 export const badgeLabelKey = (
-    animal: Pick<Animal, 'published_at'>,
+    animal: Pick<Animal, 'isPublished'>,
 ): TranslationKey => {
-    return animal.published_at
+    return animal.isPublished
         ? 'general.status.published'
         : 'general.status.unlisted'
 }

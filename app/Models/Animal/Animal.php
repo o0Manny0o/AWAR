@@ -166,9 +166,11 @@ class Animal extends Model implements Trackable
         ResourcePermission::ASSIGN_FOSTER_HOME,
     ];
 
-    protected $appends = ['thumbnail', 'gallery', 'images'];
+    protected $appends = ['thumbnail', 'gallery', 'images', 'isPublished'];
 
     protected $with = ['medially'];
+
+    protected $withCount = ['listings'];
 
     /**
      * @return string[]
@@ -331,6 +333,11 @@ class Animal extends Model implements Trackable
         } else {
             throw new UnauthorizedException();
         }
+    }
+
+    public function getIsPublishedAttribute(): bool
+    {
+        return $this->listings_count > 0;
     }
 
     public function listings(): BelongsToMany
