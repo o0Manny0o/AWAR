@@ -71,17 +71,24 @@ class ListingController extends AnimalTypedController
             ->withoutGlobalScope(WithAnimalableScope::class)
             ->setEagerLoads([]);
 
-        foreach ($validated['images'] as $image) {
-            $animal = $animals
-                ->whereHas('medially', function (Builder $query) use ($image) {
-                    $query->where('id', $image);
-                })
-                ->withPivot('id')
-                ->first();
-            if (!$animal) {
-                continue;
-            }
-            $animal->pivot->media()->attach($image);
+        /* @var array $images */
+        $images = $request->validated('images');
+
+        $animalsWithImages = $animals
+            ->whereHas('medially', function (Builder $query) use ($images) {
+                $query->whereIn('id', $images);
+            })
+            ->get();
+
+        foreach ($animalsWithImages as $animal) {
+            $img = array_filter($images, function ($image) use ($animal) {
+                return array_filter($animal->media->all(), function (
+                    $media,
+                ) use ($image) {
+                    return $media['id'] === $image;
+                });
+            });
+            $animal->pivot->media()->syncWithoutDetaching($img);
         }
 
         foreach ($animals->get() as $animal) {
@@ -186,16 +193,24 @@ class ListingController extends AnimalTypedController
             }
         }
 
-        foreach ($request->validated('images') as $image) {
-            $animal = $animals
-                ->whereHas('medially', function (Builder $query) use ($image) {
-                    $query->where('id', $image);
-                })
-                ->first();
-            if (!$animal) {
-                continue;
-            }
-            $animal->pivot->media()->syncWithoutDetaching($image);
+        /* @var array $images */
+        $images = $request->validated('images');
+
+        $animalsWithImages = $animals
+            ->whereHas('medially', function (Builder $query) use ($images) {
+                $query->whereIn('id', $images);
+            })
+            ->get();
+
+        foreach ($animalsWithImages as $animal) {
+            $img = array_filter($images, function ($image) use ($animal) {
+                return array_filter($animal->media->all(), function (
+                    $media,
+                ) use ($image) {
+                    return $media['id'] === $image;
+                });
+            });
+            $animal->pivot->media()->syncWithoutDetaching($img);
         }
 
         return $this->redirect($request, $this->getShowRouteName(), [
