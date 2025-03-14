@@ -4,16 +4,26 @@ namespace App\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Translation\PotentiallyTranslatedString;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\DatabaseRule;
 
 class ImageOrDatabaseEntry implements ValidationRule
 {
-    use DatabaseRule {
-        __construct as public __construct;
-    }
+    /**
+     * The table to run the query against.
+     *
+     * @var string
+     */
+    protected $table;
+
+    /**
+     * The column to check on.
+     *
+     * @var string
+     */
+    protected $column;
 
     public function __construct(
         $table,
@@ -42,7 +52,7 @@ class ImageOrDatabaseEntry implements ValidationRule
                     str_replace('.', '\.', $attribute) => [
                         Rule::exists($this->table, $this->column)->where(
                             'medially_id',
-                            request()->route($this->idParameter),
+                            request()->route($this->idParameter)->id,
                         ),
                     ],
                 ],
@@ -64,5 +74,32 @@ class ImageOrDatabaseEntry implements ValidationRule
         if ($validator->fails()) {
             $fail($validator->errors()->first());
         }
+    }
+
+    public function resolveTableName($table)
+    {
+        if (!str_contains($table, '\\') || !class_exists($table)) {
+            return $table;
+        }
+
+        if (is_subclass_of($table, Model::class)) {
+            $model = new $table();
+
+            if (str_contains($model->getTable(), '.')) {
+                return $table;
+            }
+
+            return implode(
+                '.',
+                array_map(function (string $part) {
+                    return trim($part, '.');
+                }, array_filter([
+                    $model->getConnectionName(),
+                    $model->getTable(),
+                ])),
+            );
+        }
+
+        return $table;
     }
 }

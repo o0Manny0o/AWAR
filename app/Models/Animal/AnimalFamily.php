@@ -38,8 +38,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder<static>|AnimalFamily whereUpdatedAt($value)
  * @property string|null $name
  * @property string|null $bio
- * @property string|null $abstract
- * @method static Builder<static>|AnimalFamily whereAbstract($value)
  * @method static Builder<static>|AnimalFamily whereBio($value)
  * @method static Builder<static>|AnimalFamily whereName($value)
  * @property string $family_type
@@ -66,7 +64,6 @@ class AnimalFamily extends Model
         'father_id',
         'mother_id',
         'bio',
-        'abstract',
     ];
 
     protected $hidden = [

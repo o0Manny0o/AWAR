@@ -22,7 +22,7 @@ export default function List<
 }: {
     entities: T[]
     title: (e: T) => string
-    subtitle: (e: T) => string
+    subtitle: (e: T) => string | ReactNode
     secondarySubtitle?: (e: T) => string
     badge?: (e: T) => ReactNode
     resourceLabel?: TranslationKey | string
@@ -41,7 +41,7 @@ export default function List<
                     key={entity.id}
                     className="flex items-center justify-between gap-x-6 py-5 first:pt-0 last:pb-0"
                 >
-                    <div className="flex items-center gap-x-4">
+                    <div className="flex items-center gap-x-4 min-w-0">
                         {entity.thumbnail && (
                             <div>
                                 <img
@@ -58,33 +58,35 @@ export default function List<
                                 </p>
                                 {badge && badge(entity)}
                             </div>
-                            <div className="mt-1 flex items-center gap-x-2 text-xs/5 text-gray-500">
-                                <p className="whitespace-nowrap">
+                            <div className="mt-1 flex items-center gap-x-2 text-xs/5 w-full text-gray-500 whitespace-nowrap">
+                                <p className="min-w-0 truncate">
                                     {subtitle(entity)}
                                 </p>
-                                <svg
-                                    viewBox="0 0 2 2"
-                                    className="size-0.5 fill-current"
-                                >
-                                    <circle r={1} cx={1} cy={1} />
-                                </svg>
-                                {secondarySubtitle ? (
-                                    secondarySubtitle(entity)
-                                ) : (
-                                    <>
-                                        {__('general.last_update')}
-                                        <time
-                                            dateTime={new Date(
-                                                entity.updated_at,
-                                            ).toLocaleString(locale)}
-                                        >
-                                            {/* TODO: replace with relative date */}
-                                            {new Date(
-                                                entity.updated_at,
-                                            ).toLocaleString(locale)}
-                                        </time>
-                                    </>
-                                )}
+                                <p className="flex items-center gap-x-2 flex-1">
+                                    <svg
+                                        viewBox="0 0 2 2"
+                                        className="size-0.5 fill-current"
+                                    >
+                                        <circle r={1} cx={1} cy={1} />
+                                    </svg>
+                                    {secondarySubtitle ? (
+                                        secondarySubtitle(entity)
+                                    ) : (
+                                        <>
+                                            {__('general.last_update')}
+                                            <time
+                                                dateTime={new Date(
+                                                    entity.updated_at,
+                                                ).toLocaleString(locale)}
+                                            >
+                                                {/* TODO: replace with relative date */}
+                                                {new Date(
+                                                    entity.updated_at,
+                                                ).toLocaleString(locale)}
+                                            </time>
+                                        </>
+                                    )}
+                                </p>
                             </div>
                         </div>
                     </div>

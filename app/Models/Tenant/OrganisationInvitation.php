@@ -14,18 +14,6 @@ use Spatie\Permission\Models\Role;
 /**
  *
  *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation query()
- * @property-read \App\Models\Tenant\Member|null $inviter
- * @property-read bool $can_be_deleted
- * @property-read bool $can_be_restored
- * @property-read bool $can_be_submitted
- * @property-read bool $can_be_updated
- * @property-read bool $can_be_viewed
- * @property-read bool $can_be_resended
- * @property-read Role|null $role
- * @property-read bool $can_be_published
  * @property string $id
  * @property string $email
  * @property string $token
@@ -35,22 +23,27 @@ use Spatie\Permission\Models\Role;
  * @property \Illuminate\Support\Carbon|null $valid_until
  * @property string $user_id
  * @property string $organisation_id
+ * @property int $role_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read User|null $inviter
  * @property-read \App\Models\Organisation $organisation
+ * @property-read Role $role
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereAcceptedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereOrganisationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereSentAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereValidUntil($value)
- * @property int $role_id
- * @method static \Illuminate\Database\Eloquent\Builder<static>|OrganisationInvitation whereRoleId($value)
  * @mixin \Eloquent
  */
 class OrganisationInvitation extends Model

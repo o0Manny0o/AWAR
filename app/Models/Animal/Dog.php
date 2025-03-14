@@ -24,4 +24,8 @@ class Dog extends Animalable
     protected $fillable = ['breed'];
     protected $hidden = ['id'];
     protected array $tracked = ['breed'];
+
+    public static string $baseViewPath = 'Tenant/Animals/Dogs';
+    public static string $baseRouteName = 'animals.dogs';
+    public static string $type = 'dogs';
 }

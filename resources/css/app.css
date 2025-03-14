@@ -14,6 +14,10 @@
         @apply bg-white dark:bg-gray-800;
     }
 
+    .bg-ceiling-100 {
+        @apply bg-gray-100 dark:bg-gray-700;
+    }
+
     .bg-interactive {
         @apply hover:bg-gray-50 focus:bg-gray-50 dark:hover:bg-gray-700 dark:focus:bg-gray-700;
     }
@@ -31,11 +35,11 @@
     }
 
     .text-active {
-        @apply text-primary-700 hover:text-primary-800 focus:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 dark:focus:text-primary-300;
+        @apply text-primary-700 hover:text-primary-800 focus:text-primary-800 group-hover:text-primary-800 group-focus:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300 dark:focus:text-primary-300 dark:group-hover:text-primary-300 dark:group-focus:text-primary-300;
     }
 
     .text-interactive {
-        @apply text-gray-600 hover:text-gray-800 focus:text-gray-800 data-[focus]:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:text-gray-200 dark:data-[focus]:text-gray-200;
+        @apply text-gray-600 hover:text-gray-800 focus:text-gray-800 group-hover:text-gray-800 group-focus:text-gray-800 data-[focus]:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 dark:focus:text-gray-200 dark:group-hover:text-gray-200 dark:group-focus:text-gray-200 dark:data-[focus]:text-gray-200;
     }
 
     .text-primary-interactive {
@@ -52,5 +56,9 @@
 
     .border-interactive {
         @apply border-transparent hover:border-gray-300 focus:border-gray-300 dark:hover:border-gray-600 dark:focus:border-gray-600;
+    }
+
+    .ring-base {
+        @apply ring-gray-100 dark:ring-gray-700;
     }
 }

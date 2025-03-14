@@ -19,8 +19,8 @@ use Throwable;
 
 class OrganisationLocationController extends Controller
 {
-    protected string $baseRouteName = 'settings.locations';
-    protected string $baseViewPath = 'Tenant/Settings/Location';
+    protected static string $baseRouteName = 'settings.locations';
+    protected static string $baseViewPath = 'Tenant/Settings/Location';
 
     /**
      * Display a listing of the resource.

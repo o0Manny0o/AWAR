@@ -1,4 +1,6 @@
 declare namespace App.Models {
+    export type AnimalType = 'cats' | 'dogs'
+
     export interface Role {
         id: string
         name: string
@@ -107,9 +109,10 @@ declare namespace App.Models {
         gallery?: string[]
         images?: string[]
 
-        medially: Media[]
+        media: Media[]
 
         animal_family_id?: string
+        family?: Family
         father?: string
         mother?: string
 
@@ -131,10 +134,11 @@ declare namespace App.Models {
             name: string
         }
 
+        isPublished?: boolean
+
         can_assign_foster_home?: boolean
         can_assign_location?: boolean
 
-        published_at?: string
         deleted_at?: string
         created_at: string
         updated_at: string
@@ -222,5 +226,25 @@ declare namespace App.Models {
             favicon: string
             logo: string
         }
+    }
+
+    export interface Listing {
+        id: string
+        description: string
+        excerpt: string
+        animals: Animal[]
+        listing_animals?: {
+            id: number
+            animal: Animal
+            media: Media[]
+        }[]
+        selectedMedia?: number[]
+        organisation?: Organisation
+
+        media?: { thumbnail: string; gallery: string }[]
+        breed: string
+
+        created_at: string
+        updated_at: string
     }
 }

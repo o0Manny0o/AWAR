@@ -8,9 +8,9 @@ use App\Events\Animals\AnimalDeleted;
 use App\Events\Animals\AnimalFosterHomeUpdated;
 use App\Events\Animals\AnimalHandlerUpdated;
 use App\Events\Animals\AnimalLocationUpdated;
-use App\Events\Animals\AnimalPublished;
-use App\Events\Animals\AnimalUnpublished;
 use App\Events\Animals\AnimalUpdated;
+use App\Events\Animals\ListingCreated;
+use App\Events\Animals\ListingDeleted;
 use App\Interface\Trackable;
 use App\Models\Animal\AnimalHistory;
 use Illuminate\Events\Dispatcher;
@@ -129,31 +129,41 @@ class TrackAnimalChangesSubscriber
     }
 
     /**
-     * Handle the AnimalPublished event.
+     * Handle the ListingCreated event.
      */
-    public function handleAnimalPublished(AnimalPublished $event): void
+    public function handleListingCreated(ListingCreated $event): void
     {
         /** @var AnimalHistory $history */
-        $event->animal->histories()->create([
+        $history = $event->animal->histories()->create([
             'user_id' => $event->user->id,
-            'type' => AnimalHistoryType::PUBLISH,
+            'type' => AnimalHistoryType::LISTING_CREATED,
+        ]);
+
+        $history->changes()->create([
+            'field' => 'listing_id',
+            'value' => $event->listing->id,
         ]);
     }
 
     /**
-     * Handle the AnimalUnpublished event.
+     * Handle the ListingDeleted event.
      */
-    public function handleAnimalUnpublished(AnimalUnpublished $event): void
+    public function handleListingDeleted(ListingDeleted $event): void
     {
         /** @var AnimalHistory $history */
-        $event->animal->histories()->create([
+        $history = $event->animal->histories()->create([
             'user_id' => $event->user->id,
-            'type' => AnimalHistoryType::UNPUBLISH,
+            'type' => AnimalHistoryType::LISTING_DELETED,
+        ]);
+
+        $history->changes()->create([
+            'field' => 'listing_id',
+            'value' => $event->listing->id,
         ]);
     }
 
     /**
-     * Handle the AnimalUnpublished event.
+     * Handle the AnimalHandlerUpdated event.
      */
     public function handleAnimalHandlerUpdated(
         AnimalHandlerUpdated $event,
@@ -238,14 +248,9 @@ class TrackAnimalChangesSubscriber
             'handleAnimalDeleted',
         ]);
 
-        $events->listen(AnimalPublished::class, [
+        $events->listen(ListingCreated::class, [
             TrackAnimalChangesSubscriber::class,
-            'handleAnimalPublished',
-        ]);
-
-        $events->listen(AnimalUnpublished::class, [
-            TrackAnimalChangesSubscriber::class,
-            'handleAnimalUnpublished',
+            'handleListingCreated',
         ]);
 
         $events->listen(AnimalHandlerUpdated::class, [

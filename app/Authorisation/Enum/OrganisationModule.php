@@ -11,4 +11,5 @@ enum OrganisationModule: string
     case INVITATIONS = 'invitations';
     case LOCATIONS = 'locations';
     case PUBLIC_SETTINGS = 'public_settings';
+    case LISTINGS = 'listings';
 }

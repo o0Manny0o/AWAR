@@ -47,6 +47,17 @@ class UserFactory extends Factory
         );
     }
 
+    public function developer(): static
+    {
+        return $this->state(
+            fn(array $attributes) => [
+                'name' => 'Moritz Wach',
+                'email' => 'moritz.wach@gmail.com',
+                'password' => Hash::make('ZGN7wth1rgw3nuv.rpd'),
+            ],
+        );
+    }
+
     public function fosterHome(Organisation $organisation): static
     {
         return $this->state(

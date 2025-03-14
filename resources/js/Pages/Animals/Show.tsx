@@ -5,21 +5,21 @@ import { Card } from '@/Components/Layout/Card'
 import ShowGroup from '@/Components/_Base/Input/ShowGroup'
 import { ShowImages } from '@/Components/_Base/Input/Images/ShowImages'
 import useTranslate from '@/shared/hooks/useTranslate'
-import Animal = App.Models.Animal
 import History = App.Models.History
+import Listing = App.Models.Listing
 
 export default function Show({
-    animal,
-    history,
-}: AppPageProps<{ animal: Animal; history: History[] }>) {
+    listing,
+    histories,
+}: AppPageProps<{ listing: Listing; histories: History[][] }>) {
     const __ = useTranslate()
     return (
         <>
             <Head title="Welcome" />
             <PublicLayout>
                 <PageHeader
-                    title={animal.name}
-                    backUrl={route('animals.browse')}
+                    title={listing.animals.map((a) => a.name).join(', ')}
+                    backUrl={route('listings.browse')}
                 />
 
                 <div className="space-y-4">
@@ -27,12 +27,12 @@ export default function Show({
                         <ShowGroup
                             name="date_of_birth"
                             label={__('animals.dogs.form.date_of_birth.label')}
-                            value={animal.date_of_birth}
+                            value={listing.animals[0].date_of_birth}
                         />
                         <ShowGroup
                             name="breed"
                             label={__('animals.dogs.form.breed.label')}
-                            value={animal.animalable.breed}
+                            value={listing.animals[0].animalable.breed}
                         />
                     </Card>
 
@@ -40,17 +40,19 @@ export default function Show({
                         <ShowGroup
                             name="bio"
                             label={__('animals.dogs.form.bio.label')}
-                            value={animal.bio}
+                            value={listing.animals[0].bio}
                         />
                     </Card>
 
                     <Card header={__('general.images')}>
-                        <ShowImages animal={animal} />
+                        <ShowImages
+                            images={listing.media?.map((m) => m.gallery) ?? []}
+                        />
                     </Card>
 
                     <Card header={__('history.title')}>
                         <ul className="space-y-4">
-                            {history.map((item, idx) => (
+                            {histories[0].map((item, idx) => (
                                 <li key={idx}>{item.text}</li>
                             ))}
                         </ul>

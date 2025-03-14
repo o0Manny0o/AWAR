@@ -3,7 +3,7 @@ import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
 import { EligibilityFormData } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.types'
-import { SwitchInput } from '@/Components/_Base/Input'
+import SwitchInput from '@/Components/_Base/Input/SwitchInput'
 import InputGroup from '@/Components/_Base/Input/InputGroup'
 import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 

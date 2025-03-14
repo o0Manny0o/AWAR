@@ -1,4 +1,5 @@
-import { InputGroup, SwitchInput } from '@/Components/_Base/Input'
+import InputGroup from '@/Components/_Base/Input/InputGroup'
+import SwitchInput from '@/Components/_Base/Input/SwitchInput'
 import AutocompleteGroup from '@/Components/_Base/Input/AutocompleteGroup'
 import { useContext } from 'react'
 import { LocationFormWrapper } from '@/Pages/Tenant/Settings/Location/Lib/Location.context'

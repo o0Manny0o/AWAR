@@ -11,5 +11,4 @@ export const CatFormWrapper = FormContext<CatFormContextData>([
     'breed',
     'date_of_birth',
     'bio',
-    'abstract',
 ])

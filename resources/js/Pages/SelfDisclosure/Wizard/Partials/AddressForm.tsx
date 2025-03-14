@@ -3,7 +3,7 @@ import { useForm, usePage } from '@inertiajs/react'
 import { FormEventHandler, useContext, useMemo } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
 import { getCountry } from '@/shared/utils/getUserCountry'
-import { InputGroup } from '@/Components/_Base/Input'
+import InputGroup from '@/Components/_Base/Input/InputGroup'
 import AutocompleteGroup from '@/Components/_Base/Input/AutocompleteGroup'
 import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 import Country = App.Models.Country

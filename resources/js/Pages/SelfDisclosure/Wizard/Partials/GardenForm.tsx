@@ -2,7 +2,8 @@ import useTranslate from '@/shared/hooks/useTranslate'
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler, useContext } from 'react'
 import { WizardFormWrapper } from '@/Pages/SelfDisclosure/Wizard/Lib/Wizard.context'
-import { InputGroup, SwitchInput } from '@/Components/_Base/Input'
+import InputGroup from '@/Components/_Base/Input/InputGroup'
+import SwitchInput from '@/Components/_Base/Input/SwitchInput'
 import { SubmitButton } from '@/Pages/SelfDisclosure/Wizard/Components/SubmitButton'
 
 interface PersonalFormProps {

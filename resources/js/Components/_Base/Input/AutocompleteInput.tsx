@@ -30,6 +30,7 @@ interface CreatableInputProps<T extends Option> {
     withEmptyOption?: string
     optionsClassName?: string
     containerClassName?: string
+    clearOnSelect?: boolean
 }
 
 export default forwardRef(function AutocompleteInput<T extends Option>(
@@ -42,6 +43,7 @@ export default forwardRef(function AutocompleteInput<T extends Option>(
         description,
         canCreate,
         withEmptyOption,
+        clearOnSelect,
         optionsClassName,
         containerClassName,
         ...props
@@ -85,6 +87,10 @@ export default forwardRef(function AutocompleteInput<T extends Option>(
 
     useEffect(() => {
         onChange(selectedOption)
+        if (selectedOption && clearOnSelect) {
+            setQuery('')
+            setSelectedOption(null)
+        }
     }, [selectedOption])
 
     const filteredOptions =
@@ -100,10 +106,16 @@ export default forwardRef(function AutocompleteInput<T extends Option>(
             name={name}
             value={selectedOption}
             onChange={(option) => {
-                setSelectedOption(
-                    option ??
-                        (query ? ({ name: query, id: query } as T) : null),
-                )
+                if (option) {
+                    setSelectedOption(option)
+                } else if (query && canCreate) {
+                    setSelectedOption({
+                        name: query,
+                        id: query,
+                    } as T)
+                } else {
+                    setSelectedOption(null)
+                }
             }}
         >
             <div className={twMerge('relative', containerClassName)}>

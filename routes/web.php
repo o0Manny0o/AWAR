@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\Animals\AnimalController;
+use App\Http\Controllers\Animals\PublicListingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 
 Route::middleware(['universal', InitializeTenancyByDomain::class])->group(
     function () {
-        Route::prefix('animals')
-            ->name('animals.')
-            ->controller(AnimalController::class)
+        Route::prefix('listings')
+            ->name('listings.')
+            ->controller(PublicListingController::class)
             ->group(function () {
-                Route::get('/', 'browse')->name('browse');
-                Route::get('{animal}', 'showPublic')->name('show');
+                Route::get('/', 'index')->name('browse');
+                Route::get('{listing}', 'show')->name('show');
             });
 
         Route::get('/language/{language}', function (

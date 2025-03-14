@@ -9,7 +9,6 @@ use App\Events\Animals\AnimalCreated;
 use App\Events\Animals\AnimalFosterHomeUpdated;
 use App\Events\Animals\AnimalHandlerUpdated;
 use App\Events\Animals\AnimalLocationUpdated;
-use App\Events\Animals\AnimalPublished;
 use App\Events\Animals\AnimalUpdated;
 use App\Http\Requests\Animals\UpdateAnimalRequest;
 use App\Models\Animal\Animal;
@@ -24,6 +23,7 @@ class AnimalService
 {
     public function __construct(
         private readonly AnimalFamilyService $animalFamilyService,
+        private readonly MediaService $mediaService,
     ) {
     }
 
@@ -78,7 +78,7 @@ class AnimalService
 
             if (isset($validated['images'])) {
                 try {
-                    $this->attachMedia(
+                    $this->mediaService->attachMedia(
                         $animal,
                         $validated['images'],
                         $organisation,
@@ -98,25 +98,6 @@ class AnimalService
 
             return $animal;
         }, 5);
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function attachMedia(
-        Animal $animal,
-        array $media,
-        $organisation,
-    ): void {
-        foreach ($media as $image) {
-            $animal->attachMedia($image, [
-                'asset_folder' => $organisation->id . '/animals/' . $animal->id,
-                'public_id_prefix' => $organisation->id,
-                'width' => 2000,
-                'crop' => 'limit',
-                'format' => 'webp',
-            ]);
-        }
     }
 
     /**
@@ -146,14 +127,25 @@ class AnimalService
 
                 $mediaToKeep = [];
                 $newMedia = [];
+                $mediaOrder = [];
 
-                array_map(function ($image) use (&$mediaToKeep, &$newMedia) {
-                    if (is_numeric($image)) {
-                        $mediaToKeep[] = $image;
-                    } else {
-                        $newMedia[] = $image;
-                    }
-                }, $validated['images']);
+                array_map(
+                    function ($image, $idx) use (
+                        &$mediaToKeep,
+                        &$newMedia,
+                        &$mediaOrder,
+                    ) {
+                        if (is_numeric($image)) {
+                            $mediaToKeep[] = $image;
+                            $mediaOrder[$idx] = $image;
+                        } else {
+                            $newMedia[] = $image;
+                            $mediaOrder[$idx] = null;
+                        }
+                    },
+                    $validated['images'],
+                    array_keys($validated['images']),
+                );
 
                 // Delete removed media
                 foreach ($allMedia as $media) {
@@ -166,8 +158,22 @@ class AnimalService
                 // Add new media
                 if (!empty($newMedia)) {
                     $changedMedia['added_media'] = true;
-                    $this->attachMedia($animal, $newMedia, $organisation);
+                    $newIds = $this->mediaService->attachMedia(
+                        $animal,
+                        $newMedia,
+                        $organisation,
+                    );
+
+                    $newIdx = 0;
+                    foreach ($mediaOrder as $idx => $id) {
+                        if (!is_numeric($id) && isset($newIds[$newIdx])) {
+                            $mediaOrder[$idx] = $newIds[$newIdx++];
+                        }
+                    }
                 }
+
+                ksort($mediaOrder);
+                MediaService::setMediaOrder($mediaOrder);
             }
 
             $changes = $this->animalFamilyService->createOrUpdateFamily(
@@ -213,13 +219,6 @@ class AnimalService
         }
 
         return $animals;
-    }
-
-    public function publishAnimal(Animal $animal, User $user): void
-    {
-        $animal->update(['published_at' => now()]);
-
-        AnimalPublished::dispatch($animal, $user);
     }
 
     public function assignHandler(

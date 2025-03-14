@@ -1,6 +1,6 @@
 import InputGroup from '@/Components/_Base/Input/InputGroup'
 import useTranslate from '@/shared/hooks/useTranslate'
-import { SwitchInput } from '@/Components/_Base/Input'
+import SwitchInput from '@/Components/_Base/Input/SwitchInput'
 import { useContext } from 'react'
 import {
     removeTrailingDash,

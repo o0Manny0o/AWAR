@@ -6,7 +6,7 @@ import {
     Switch,
     SwitchProps,
 } from '@headlessui/react'
-import { InputError } from '@/Components/_Base/Input/index'
+import InputError from '@/Components/_Base/Input/InputError'
 
 export default forwardRef(function SwitchInput(
     {

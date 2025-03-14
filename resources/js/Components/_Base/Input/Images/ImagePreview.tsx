@@ -3,7 +3,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ReactNode, useMemo } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { InputError } from '@/Components/_Base/Input'
+import InputError from '@/Components/_Base/Input/InputError'
 
 interface ImagePreviewProps {
     id: string

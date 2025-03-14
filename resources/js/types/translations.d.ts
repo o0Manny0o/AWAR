@@ -259,6 +259,13 @@ type Translations = {
             animals: {
                 dog: string
                 cat: string
+                cats: {
+                    listing: string
+                }
+                listing: string
+                dogs: {
+                    listing: string
+                }
             }
             family_member: string
             experience: string
@@ -441,11 +448,13 @@ type Translations = {
             headers: {
                 index: string
                 create: string
+                listings: string
             }
             titles: {
                 index: string
                 create: string
                 edit: string
+                listings: string
             }
             form: {
                 name: {
@@ -478,10 +487,12 @@ type Translations = {
                 index: string
                 create: string
                 edit: string
+                listings: string
             }
             headers: {
                 index: string
                 create: string
+                listings: string
             }
             form: {
                 name: {
@@ -521,6 +532,44 @@ type Translations = {
                 label: string
             }
         }
+        general: {
+            navigation: {
+                animals: string
+                listings: string
+            }
+        }
+        listings: {
+            headers: {
+                create: string
+                edit: string
+            }
+            cats: string
+            dogs: string
+            titles: {
+                create: string
+                edit: string
+            }
+            form: {
+                description: {
+                    label: string
+                    placeholder: string
+                }
+                excerpt: {
+                    label: string
+                    placeholder: string
+                    use_description: string
+                }
+                animals: {
+                    label: string
+                }
+                images: {
+                    label: string
+                }
+            }
+            general: {
+                various_breeds: string
+            }
+        }
     }
     history: {
         changes: {
@@ -537,6 +586,8 @@ type Translations = {
                 handler_unassign: string
                 location_unassign: string
                 foster_home_unassign: string
+                listing_created: string
+                listing_deleted: string
             }
             public: {
                 initial: string

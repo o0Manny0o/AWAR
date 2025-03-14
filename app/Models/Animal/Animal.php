@@ -6,6 +6,8 @@ use App\Authorisation\Enum\OrganisationModule;
 use App\Authorisation\Enum\PermissionType;
 use App\Enum\ResourcePermission;
 use App\Interface\Trackable;
+use App\Models\Animal\Listing\Listing;
+use App\Models\Animal\Listing\ListingAnimal;
 use App\Models\Organisation;
 use App\Models\Scopes\WithAddressScope;
 use App\Models\Scopes\WithAnimalableScope;
@@ -14,8 +16,8 @@ use App\Models\User;
 use App\Traits\BelongsToOrganisation;
 use App\Traits\HasMorphableScopes;
 use App\Traits\HasResourcePermissions;
+use App\Traits\MediaAlly;
 use App\Traits\OptionalAppends;
-use CloudinaryLabs\CloudinaryLaravel\MediaAlly;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -34,7 +36,6 @@ use Illuminate\Validation\UnauthorizedException;
  * @property string $name
  * @property string $date_of_birth
  * @property string|null $bio
- * @property string|null $abstract
  * @property string|null $sex
  * @property string|null $published_at
  * @property string $animalable_type
@@ -79,7 +80,6 @@ use Illuminate\Validation\UnauthorizedException;
  * @method static Builder<static>|Animal onlyTrashed()
  * @method static Builder<static>|Animal query()
  * @method static Builder<static>|Animal subtype(string $type)
- * @method static Builder<static>|Animal whereAbstract($value)
  * @method static Builder<static>|Animal whereAnimalFamilyId($value)
  * @method static Builder<static>|Animal whereAnimalableId($value)
  * @method static Builder<static>|Animal whereAnimalableType($value)
@@ -100,6 +100,12 @@ use Illuminate\Validation\UnauthorizedException;
  * @method static Builder<static>|Animal withMedia()
  * @method static Builder<static>|Animal withTrashed()
  * @method static Builder<static>|Animal withoutTrashed()
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Animal\Listing\Listing> $listings
+ * @property-read int|null $listings_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \CloudinaryLabs\CloudinaryLaravel\Model\Media> $baseMedially
+ * @property-read int|null $base_medially_count
+ * @property-read mixed $media
+ * @property-read ListingAnimal|null $pivot
  * @mixin \Eloquent
  */
 #[ScopedBy([WithAnimalableScope::class])]
@@ -119,8 +125,6 @@ class Animal extends Model implements Trackable
         'sex',
         'organisation_id',
         'bio',
-        'abstract',
-        'published_at',
         'family_id',
         'animal_family_id',
         'handler_id',
@@ -142,8 +146,6 @@ class Animal extends Model implements Trackable
         'organisation_id',
         'bio',
         'sex',
-        'abstract',
-        'published_at',
         'added_media',
         'removed_media',
         'animal_family_id',
@@ -164,9 +166,11 @@ class Animal extends Model implements Trackable
         ResourcePermission::ASSIGN_FOSTER_HOME,
     ];
 
-    protected $appends = ['thumbnail', 'gallery', 'images'];
+    protected $appends = ['thumbnail', 'gallery', 'images', 'isPublished'];
 
     protected $with = ['medially'];
+
+    protected $withCount = ['listings'];
 
     /**
      * @return string[]
@@ -331,44 +335,18 @@ class Animal extends Model implements Trackable
         }
     }
 
-    /**
-     * Get the animal thumbnail
-     */
-    protected function getThumbnailAttribute()
+    public function getIsPublishedAttribute(): bool
     {
-        if ($this->medially?->first()) {
-            return cloudinary()
-                ->getImage($this->medially?->first()->file_name)
-                ->namedTransformation('thumbnail')
-                ->toUrl();
-        }
-        return null;
+        return $this->listings_count > 0;
     }
 
-    /**
-     * Get the animal gallery
-     */
-    protected function getGalleryAttribute()
+    public function listings(): BelongsToMany
     {
-        return $this->medially?->map(function ($image) {
-            return cloudinary()
-                ->getImage($image->file_name)
-                ->namedTransformation('gallery')
-                ->toUrl();
-        });
-    }
-
-    /**
-     * Get the animal images
-     */
-    protected function getImagesAttribute()
-    {
-        // TODO: Change the transformation
-        return $this->medially?->map(function ($image) {
-            return cloudinary()
-                ->getImage($image->file_name)
-                ->namedTransformation('gallery')
-                ->toUrl();
-        });
+        return $this->belongsToMany(
+            Listing::class,
+            'listing_animals',
+            'animal_id',
+            'listing_id',
+        )->using(ListingAnimal::class);
     }
 }

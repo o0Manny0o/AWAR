@@ -1,4 +1,4 @@
-import { InputLabel } from '@/Components/_Base/Input/index'
+import InputLabel from '@/Components/_Base/Input/InputLabel'
 import { twMerge } from 'tailwind-merge'
 
 interface ShowGroupProps {

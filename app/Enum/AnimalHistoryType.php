@@ -12,8 +12,8 @@ enum AnimalHistoryType: string
     case UPDATE = 'update';
     case DELETE = 'delete';
     case RESTORE = 'restore';
-    case PUBLISH = 'publish';
-    case UNPUBLISH = 'unpublish';
+    case LISTING_CREATED = 'listing_created';
+    case LISTING_DELETED = 'listing_deleted';
     case HANDLER_ASSIGN = 'handler_assign';
     case FOSTER_HOME_ASSIGN = 'foster_home_assign';
     case LOCATION_ASSIGN = 'location_assign';

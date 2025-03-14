@@ -1,4 +1,5 @@
-import { InputError, InputLabel } from '@/Components/_Base/Input'
+import InputLabel from '@/Components/_Base/Input/InputLabel'
+import InputError from '@/Components/_Base/Input/InputError'
 import { CheckIcon, PencilIcon } from '@heroicons/react/24/solid'
 import AutocompleteInput, {
     Option,

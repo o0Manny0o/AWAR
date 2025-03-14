@@ -211,6 +211,7 @@ return [
                 P::RESTORE,
             ],
             OM::PUBLIC_SETTINGS->value => [P::READ, P::UPDATE],
+            OM::LISTINGS->value => [P::CREATE, P::READ, P::UPDATE, P::DELETE],
         ],
 
         R::MEMBER->value => [
@@ -218,6 +219,7 @@ return [
             OM::MEMBERS->value => [P::READ],
             OM::LOCATIONS->value => [P::READ],
             OM::PUBLIC_SETTINGS->value => [P::READ],
+            OM::LISTINGS->value => [P::READ],
         ],
 
         R::ANIMAL_LEAD->value => [
@@ -231,6 +233,7 @@ return [
             OM::MEMBERS->value => [P::READ],
             OM::LOCATIONS->value => [P::READ],
             OM::PUBLIC_SETTINGS->value => [P::READ],
+            OM::LISTINGS->value => [P::CREATE, P::READ, P::UPDATE, P::DELETE],
         ],
 
         R::ANIMAL_HANDLER->value => [
@@ -239,6 +242,7 @@ return [
             OM::MEMBERS->value => [P::READ],
             OM::LOCATIONS->value => [P::READ],
             OM::PUBLIC_SETTINGS->value => [P::READ],
+            OM::LISTINGS->value => [P::CREATE, P::READ, P::UPDATE, P::DELETE],
         ],
 
         R::FOSTER_HOME_LEAD->value => [
@@ -246,6 +250,7 @@ return [
             OM::MEMBERS->value => [P::READ],
             OM::LOCATIONS->value => [P::READ],
             OM::PUBLIC_SETTINGS->value => [P::READ],
+            OM::LISTINGS->value => [P::READ],
         ],
 
         R::FOSTER_HOME_HANDLER->value => [
@@ -253,6 +258,7 @@ return [
             OM::MEMBERS->value => [P::READ],
             OM::LOCATIONS->value => [P::READ],
             OM::PUBLIC_SETTINGS->value => [P::READ],
+            OM::LISTINGS->value => [P::READ],
         ],
 
         R::FOSTER_HOME->value => [
@@ -261,6 +267,7 @@ return [
             OM::MEMBERS->value => [P::READ],
             OM::LOCATIONS->value => [P::READ],
             OM::PUBLIC_SETTINGS->value => [P::READ],
+            OM::LISTINGS->value => [P::READ],
         ],
     ],
 ];

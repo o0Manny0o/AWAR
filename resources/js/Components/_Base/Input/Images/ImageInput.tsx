@@ -2,7 +2,7 @@ import Dropzone from 'react-dropzone'
 import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { ImagePreview } from '@/Components/_Base/Input/Images/ImagePreview'
-import { InputError } from '@/Components/_Base/Input'
+import InputError from '@/Components/_Base/Input/InputError'
 
 interface ImageInputProps {
     image: File | string

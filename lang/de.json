@@ -95,7 +95,14 @@
             },
             "animals": {
                 "dog": "Hund",
-                "cat": "Katze"
+                "cat": "Katze",
+                "cats": {
+                    "listing": "Katzenanzeige"
+                },
+                "listing": "Anzeige",
+                "dogs": {
+                    "listing": "Hundeanzeige"
+                }
             },
             "family_member": "Familienmitglied",
             "experience": "Erfahrung"
@@ -272,12 +279,14 @@
         "dogs": {
             "headers": {
                 "index": "Ihre Hunde",
-                "create": "Neuen Hund einstellen"
+                "create": "Neuen Hund einstellen",
+                "listings": "Aktive Hundeanzeigen"
             },
             "titles": {
                 "index": "Hunde",
                 "create": "Neuer Hund",
-                "edit": "Hund bearbeiten"
+                "edit": "Hund bearbeiten",
+                "listings": "Hundeanzeigen"
             },
             "form": {
                 "name": {
@@ -309,11 +318,13 @@
             "titles": {
                 "index": "Katzen",
                 "create": "Neue Katze",
-                "edit": "Katze bearbeiten"
+                "edit": "Katze bearbeiten",
+                "listings": "Katzenanzeigen"
             },
             "headers": {
                 "index": "Katzen",
-                "create": "Neue Katze einstellen"
+                "create": "Neue Katze einstellen",
+                "listings": "Aktive Katzenanzeigen"
             },
             "form": {
                 "name": {
@@ -352,6 +363,44 @@
             "foster_home": {
                 "label": "Pflegestelle"
             }
+        },
+        "general": {
+            "navigation": {
+                "animals": "Tiere",
+                "listings": "Anzeigen"
+            }
+        },
+        "listings": {
+            "headers": {
+                "create": "Neue :type",
+                "edit": ":type bearbeiten"
+            },
+            "cats": "Katzenanzeige",
+            "dogs": "Hundeanzeige",
+            "titles": {
+                "create": "Neue :type",
+                "edit": ":type bearbeiten"
+            },
+            "form": {
+                "description": {
+                    "label": "Beschreibung",
+                    "placeholder": "Bitte geben Sie eine Beschreibung der Tiere ein..."
+                },
+                "excerpt": {
+                    "label": "Auszug",
+                    "placeholder": "Bitte geben Sie eine kurze Beschreibung ein für die Listenansicht...",
+                    "use_description": "Beschreibung als Auszug benutzen"
+                },
+                "animals": {
+                    "label": "Tiere"
+                },
+                "images": {
+                    "label": "Bilder"
+                }
+            },
+            "general": {
+                "various_breeds": "Verschiedene"
+            }
         }
     },
     "history": {
@@ -368,7 +417,9 @@
                 "foster_home_assign": ":user hat :when eine neue Pflegestelle zugewiesen",
                 "handler_unassign": ":user hat :when die Bearbeiter Zuweisung aufgehoben",
                 "location_unassign": ":user hat :when die Standort Zuweisung aufgehoben",
-                "foster_home_unassign": ":user hat :when die Pflegestellen Zuweisung aufgehoben"
+                "foster_home_unassign": ":user hat :when die Pflegestellen Zuweisung aufgehoben",
+                "listing_created": ":user hat :when eine neue Anzeige erstellt",
+                "listing_deleted": ":user hat :when eine Anzeige gelöscht"
             },
             "public": {
                 "initial": ":animal wurde :when gefunden"

@@ -2,28 +2,7 @@ import { PageHeaderButton } from '@/Components/Layout/PageHeader'
 import useTranslate from '@/shared/hooks/useTranslate'
 import usePermission from '@/shared/hooks/usePermission'
 import { RouteName } from 'ziggy-js'
-import { usePage } from '@inertiajs/react'
 import Animal = App.Models.Animal
-
-export function IndexActionButtons(
-    resource: TranslationKey,
-    createRouteName: RouteName,
-): PageHeaderButton[] {
-    const __ = useTranslate()
-    const { canCreate } = usePage().props
-
-    return canCreate
-        ? [
-              {
-                  label: __('general.button.new', {
-                      resource,
-                  }),
-                  variant: 'primary',
-                  href: route(createRouteName),
-              },
-          ]
-        : []
-}
 
 export function ShowActionButtons(
     animal: Animal,
@@ -33,13 +12,13 @@ export function ShowActionButtons(
     const __ = useTranslate()
     const { canUpdate, canDelete, canPublish } = usePermission()
 
-    const PUBLISH_BUTTON: PageHeaderButton = {
-        label: __('general.button.publish', {
-            resource: '',
+    const NEW_LISTINGS_BUTTON: PageHeaderButton = {
+        label: __('general.button.new', {
+            resource: 'general.resources.animals.listing',
         }),
         variant: 'primary',
-        method: 'post',
-        href: route(baseRouteName + '.publish', animal.id),
+        method: 'get',
+        href: route(baseRouteName + '.listings.create_for', animal.id),
     }
 
     const EDIT_BUTTON: PageHeaderButton = {
@@ -62,7 +41,7 @@ export function ShowActionButtons(
     const buttons = []
 
     if (canPublish(animal)) {
-        buttons.push(PUBLISH_BUTTON)
+        buttons.push(NEW_LISTINGS_BUTTON)
     }
     if (canUpdate(animal)) {
         buttons.push(EDIT_BUTTON)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Animals;
+namespace App\Http\Requests\Animals\Rules;
 
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalFamily;
@@ -29,12 +29,6 @@ class AnimalRules
     {
         return ['nullable', 'string', 'max:1000'];
     }
-
-    public static function abstractRules(): array
-    {
-        return ['nullable', 'string', 'max:255'];
-    }
-
     public static function imagesRules(): array
     {
         return ['required', 'array', 'min:1'];

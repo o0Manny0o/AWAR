@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Animals;
 
+use App\Http\Requests\Animals\Rules\CatRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class UpdateCatRequest extends UpdateAnimalRequest

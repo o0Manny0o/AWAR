@@ -70,21 +70,6 @@ class AnimalController extends Controller
     }
 
     /**
-     * Display the public version of the specified resource.
-     */
-    public function showPublic(Animal $animal): RedirectResponse|Response
-    {
-        $animal->makeHidden('abstract');
-
-        $history = AnimalHistory::publicHistory($animal);
-
-        return AppInertia::render('Animals/Show', [
-            'animal' => $animal,
-            'history' => $history,
-        ]);
-    }
-
-    /**
      * Remove the specified resource from storage.
      * @throws AuthorizationException
      */
@@ -112,11 +97,11 @@ class AnimalController extends Controller
             'maternalFamilies:id,name,mother_id,father_id',
         ]);
 
-        $animal->setForceAppends(['father', 'mother']);
+        Animal::$withoutAppends = true;
+
+        $animal->setForceAppends(['father', 'mother', 'media']);
 
         $families = AnimalFamily::subtype($this->morphClass)->get();
-
-        Animal::$withoutAppends = true;
 
         $animals = Animal::subtype($this->morphClass)
             ->asOption()
@@ -148,44 +133,6 @@ class AnimalController extends Controller
 
         return $this->redirect($animalRequest, $this->getShowRouteName(), [
             'animal' => $animal,
-        ]);
-    }
-
-    /**
-     * Publish an animal.
-     * @throws AuthorizationException
-     */
-    public function publish(Request $request, Animal $animal): RedirectResponse
-    {
-        $this->authorize('publish', $animal);
-        $this->animalService->publishAnimal($animal, Auth::user());
-
-        return $this->redirect($request, $this->getShowRouteName(), [
-            'animal' => $animal,
-        ]);
-    }
-
-    /**
-     * Browse all animals.
-     */
-    public function browse(): Response
-    {
-        $animals = Animal::whereNotNull('published_at')
-            ->get()
-            ->makeHidden([
-                'created_at',
-                'updated_at',
-                'published_at',
-                'deleted_at',
-                'animal_family_id',
-                'can_be_viewed',
-                'can_be_deleted',
-                'can_be_updated',
-                'can_be_published',
-            ]);
-
-        return AppInertia::render('Animals/Browse', [
-            'animals' => $animals,
         ]);
     }
 

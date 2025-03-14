@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Organisation;
+use App\Observers\MediaObserver;
 use App\Translation\Translator;
+use CloudinaryLabs\CloudinaryLaravel\Model\Media;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -44,5 +46,7 @@ class AppServiceProvider extends ServiceProvider
                 return $item->setAppends($attributes);
             });
         });
+
+        Media::observe(MediaObserver::class);
     }
 }

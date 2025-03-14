@@ -1,4 +1,5 @@
-import { InputError, InputLabel } from '@/Components/_Base/Input/index'
+import InputLabel from '@/Components/_Base/Input/InputLabel'
+import InputError from '@/Components/_Base/Input/InputError'
 import { FocusEvent, ForwardedRef, forwardRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 import TextArea from '@/Components/_Base/Input/TextArea'
@@ -14,6 +15,7 @@ interface InputGroupProps {
     className?: string
     readOnly?: boolean
     containerClassName?: string
+    maxLength?: number
 }
 
 export default forwardRef(function TextAreaGroup(
@@ -28,6 +30,7 @@ export default forwardRef(function TextAreaGroup(
         className = '',
         readOnly = false,
         containerClassName,
+        maxLength = 255,
         ...props
     }: InputGroupProps,
     ref: ForwardedRef<HTMLTextAreaElement>,
@@ -40,7 +43,7 @@ export default forwardRef(function TextAreaGroup(
                 id={name}
                 ref={ref}
                 value={value}
-                maxLength={255}
+                maxLength={maxLength}
                 onChange={(e) => onChange?.(e.target.value as string)}
                 onBlur={(e) => onBlur?.(e)}
                 placeholder={placeholder}

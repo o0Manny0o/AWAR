@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Animals;
 
+use App\Http\Requests\Animals\Rules\CatRules;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateDogRequest extends UpdateAnimalRequest
 {
