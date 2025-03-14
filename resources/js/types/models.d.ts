@@ -238,8 +238,10 @@ declare namespace App.Models {
             animal: Animal
             media: Media[]
         }[]
-        media?: number[]
+        media?: { thumbnail: string; gallery: string }[]
         organisation?: Organisation
+
+        breed: string
 
         created_at: string
         updated_at: string

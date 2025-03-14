@@ -566,6 +566,9 @@ type Translations = {
                     label: string
                 }
             }
+            general: {
+                various: string
+            }
         }
     }
     history: {

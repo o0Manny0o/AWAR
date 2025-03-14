@@ -397,6 +397,9 @@
                 "images": {
                     "label": "Bilder"
                 }
+            },
+            "general": {
+                "various_breeds": "Verschiedene"
             }
         }
     },

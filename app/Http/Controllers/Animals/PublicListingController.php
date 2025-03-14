@@ -16,6 +16,10 @@ class PublicListingController extends Controller
     {
         $listings = Listing::with('animals')->get();
 
+        foreach ($listings as $listing) {
+            $listing->append('breed');
+        }
+
         return AppInertia::render('Animals/Browse', [
             'listings' => $listings,
         ]);

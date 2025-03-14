@@ -49,6 +49,8 @@ class Listing extends Model
 
     protected $fillable = ['description', 'excerpt', 'organisation_id'];
 
+    protected $appends = ['media'];
+
     protected array $resource_permissions = [
         ResourcePermission::VIEW,
         ResourcePermission::DELETE,
@@ -80,9 +82,29 @@ class Listing extends Model
                     ->media()
                     ->get()
                     ->map(function (Media $media) {
-                        return $media->id;
+                        return [
+                            'thumbnail' => cloudinary()
+                                ->getImage($media->file_name)
+                                ->namedTransformation('thumbnail')
+                                ->toUrl(),
+                            'gallery' => cloudinary()
+                                ->getImage($media->file_name)
+                                ->namedTransformation('gallery')
+                                ->toUrl(),
+                        ];
                     });
             })
             ->collapse();
+    }
+
+    public function getBreedAttribute()
+    {
+        $breeds = $this->animals->map(function (Animal $animal) {
+            return $animal->animalable->breed;
+        });
+        if ($breeds->count() > 1) {
+            return __('animals.listings.general.various_breeds');
+        }
+        return $breeds[0];
     }
 }

@@ -1,8 +1,10 @@
 import Listing = App.Models.Listing
 import { Card } from '@/Components/Layout/Card'
 import { Link, usePage } from '@inertiajs/react'
+import useTranslate from '@/shared/hooks/useTranslate'
 
 export function AnimalList({ listings }: { listings: Listing[] }) {
+    const __ = useTranslate()
     const { tenant } = usePage().props
 
     return (
@@ -16,15 +18,17 @@ export function AnimalList({ listings }: { listings: Listing[] }) {
                         >
                             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                                 <img
-                                    src={listing.animals[0].thumbnail}
+                                    src={listing.media?.[0]?.thumbnail}
                                     className="h-96 flex-none rounded-md rounded-b-none object-cover sm:size-52 sm:rounded-b-md"
-                                    alt={`${listing.animals[0].thumbnail} thumbnail`}
+                                    alt={`${listing.media?.[0]?.thumbnail} thumbnail`}
                                 />
                                 <div className="flex-auto p-4 sm:p-0">
                                     <div className="flex items-baseline justify-between gap-4">
                                         <div className="w-full grid grid-cols-2 grid-rows-2">
                                             <p className="text-xl/9 font-semibold text-basic">
-                                                {listing.animals[0].name}
+                                                {listing.animals
+                                                    .map((a) => a.name)
+                                                    .join(', ')}
                                             </p>
 
                                             <p className="flex items-end flex-col whitespace-nowrap">
@@ -69,11 +73,9 @@ export function AnimalList({ listings }: { listings: Listing[] }) {
                                                         Breed
                                                     </span>
                                                     <span className="font-semibold">
-                                                        {
-                                                            listing.animals[0]
-                                                                .animalable
-                                                                .breed
-                                                        }
+                                                        {__(
+                                                            listing.breed as TranslationKey,
+                                                        )}
                                                     </span>
                                                 </p>
                                             </div>

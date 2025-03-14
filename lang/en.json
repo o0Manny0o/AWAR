@@ -565,6 +565,9 @@
                 "images": {
                     "label": "Images"
                 }
+            },
+            "general": {
+                "various_breeds": "Various"
             }
         }
     },
