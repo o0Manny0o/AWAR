@@ -49,8 +49,6 @@ class Listing extends Model
 
     protected $fillable = ['description', 'excerpt', 'organisation_id'];
 
-    protected $appends = ['media'];
-
     protected array $resource_permissions = [
         ResourcePermission::VIEW,
         ResourcePermission::DELETE,
@@ -92,6 +90,20 @@ class Listing extends Model
                                 ->namedTransformation('gallery')
                                 ->toUrl(),
                         ];
+                    });
+            })
+            ->collapse();
+    }
+
+    public function getSelectedMediaAttribute()
+    {
+        return $this->listingAnimals
+            ->map(function (ListingAnimal $listingAnimal) {
+                return $listingAnimal
+                    ->media()
+                    ->get()
+                    ->map(function (Media $media) {
+                        return $media->id;
                     });
             })
             ->collapse();

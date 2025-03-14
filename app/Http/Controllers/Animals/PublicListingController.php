@@ -17,7 +17,7 @@ class PublicListingController extends Controller
         $listings = Listing::with('animals')->get();
 
         foreach ($listings as $listing) {
-            $listing->append('breed');
+            $listing->append(['breed', 'media']);
         }
 
         return AppInertia::render('Animals/Browse', [
@@ -31,6 +31,8 @@ class PublicListingController extends Controller
     public function show(Listing $listing)
     {
         $listing->load('animals');
+
+        $listing->append(['breed', 'media']);
 
         $histories = array_map(function ($animal) {
             return AnimalHistory::publicHistory($animal);

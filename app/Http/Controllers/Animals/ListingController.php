@@ -151,7 +151,7 @@ class ListingController extends AnimalTypedController
         $listing->load(['animals', 'listingAnimals.media:id']);
 
         $listing->animals->append('media');
-        $listing->append('media');
+        $listing->append('selectedMedia');
 
         $animals = Animal::subtype(self::$animal_model)
             ->select(['id', 'name', 'animal_family_id'])

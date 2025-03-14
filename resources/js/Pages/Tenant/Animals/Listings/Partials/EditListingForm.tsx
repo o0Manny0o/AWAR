@@ -31,7 +31,7 @@ export default function EditListingForm({
         excerpt: listing.excerpt ?? '',
         description: listing.description ?? '',
         animals: listing.animals ?? [],
-        images: listing.media ?? [],
+        images: listing.selectedMedia ?? [],
     })
 
     const { focusError } = useFormContext(ListingFormWrapper, processing)

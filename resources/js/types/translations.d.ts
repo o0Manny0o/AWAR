@@ -567,7 +567,7 @@ type Translations = {
                 }
             }
             general: {
-                various: string
+                various_breeds: string
             }
         }
     }
