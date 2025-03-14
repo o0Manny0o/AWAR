@@ -18,7 +18,7 @@ export default function Show({
             <Head title="Welcome" />
             <PublicLayout>
                 <PageHeader
-                    title={listing.animals[0].name}
+                    title={listing.animals.map((a) => a.name).join(', ')}
                     backUrl={route('listings.browse')}
                 />
 
@@ -45,7 +45,9 @@ export default function Show({
                     </Card>
 
                     <Card header={__('general.images')}>
-                        <ShowImages images={listing.animals[0].gallery ?? []} />
+                        <ShowImages
+                            images={listing.media?.map((m) => m.gallery) ?? []}
+                        />
                     </Card>
 
                     <Card header={__('history.title')}>
