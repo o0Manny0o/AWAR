@@ -77,7 +77,7 @@ autostart=true
 autorestart=true
 stopasgroup=true
 killasgroup=true
-numprocs=12
+numprocs=2
 startsecs=0
 stopwaitsecs=3600
 stdout_logfile=/var/log/worker-laravel.log
@@ -101,8 +101,9 @@ user = www-data
 group = www-data
 listen.owner = www-data
 listen.group = www-data
-pm = dynamic
-pm.max_children = 50
+pm = ondemand
+pm.process_idle_timeout = 10s
+pm.max_children = 5
 pm.min_spare_servers = 4
 pm.max_spare_servers = 32
 pm.start_servers = 18
@@ -111,13 +112,13 @@ clear_env = no
 
 "nginx.template.conf" = '''
 user www-data www-data;
-worker_processes 5;
+worker_processes 1;
 daemon off;
 
 worker_rlimit_nofile 8192;
 
 events {
-  worker_connections  4096;  # Default: 1024
+  worker_connections  1024;  # Default: 1024
 }
 
 http {
