@@ -25,7 +25,7 @@ Route::middleware([
     ])->name('organisation.invitations.accept');
 
     Route::middleware(['auth', 'verified', IsMember::class])
-        ->prefix('/admin')
+        ->prefix('/admin-old')
         ->group(function () {
             Route::get('/dashboard', function () {
                 Gate::authorize('viewAny', Member::class);
