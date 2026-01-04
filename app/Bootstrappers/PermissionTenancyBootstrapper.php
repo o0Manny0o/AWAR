@@ -20,7 +20,7 @@ class PermissionTenancyBootstrapper implements TenancyBootstrapper
      */
     public function revert()
     {
-        $publicId = global_cache()->get('public_tenant')->id;
+        $publicId = global_cache()->get('public_tenant')?->id;
         setPermissionsTeamId($publicId);
     }
 }

@@ -23,9 +23,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        global_cache()->rememberForever('public_tenant', function () {
-            return Organisation::firstOrCreate(['name' => 'public']);
-        });
+        if (!app()->runningInConsole() || app()->runningUnitTests()) {
+            global_cache()->rememberForever('public_tenant', function () {
+                return Organisation::firstOrCreate(['name' => 'public']);
+            });
+        }
 
         Vite::prefetch(concurrency: 3);
 
