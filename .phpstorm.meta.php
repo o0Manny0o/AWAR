@@ -20,6 +20,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -28,10 +31,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -318,6 +344,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -377,6 +409,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -408,13 +442,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -431,6 +465,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -468,6 +503,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -476,10 +514,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -766,6 +827,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -825,6 +892,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -856,13 +925,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -879,6 +948,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -916,6 +986,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -924,10 +997,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -1214,6 +1310,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -1273,6 +1375,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -1304,13 +1408,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -1327,6 +1431,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -1364,6 +1469,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -1372,10 +1480,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -1662,6 +1793,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -1721,6 +1858,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -1752,13 +1891,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -1775,6 +1914,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -1812,6 +1952,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -1820,10 +1963,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -2110,6 +2276,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -2169,6 +2341,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -2200,13 +2374,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -2223,6 +2397,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -2260,6 +2435,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -2268,10 +2446,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -2558,6 +2759,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -2617,6 +2824,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -2648,13 +2857,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -2671,6 +2880,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -2708,6 +2918,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -2716,10 +2929,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -3006,6 +3242,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -3065,6 +3307,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -3096,13 +3340,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -3119,6 +3363,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -3156,6 +3401,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -3164,10 +3412,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -3454,6 +3725,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -3513,6 +3790,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -3544,13 +3823,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -3567,6 +3846,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -3604,6 +3884,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -3612,10 +3895,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -3902,6 +4208,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -3961,6 +4273,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -3992,13 +4306,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -4015,6 +4329,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -4052,6 +4367,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -4060,10 +4378,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -4350,6 +4691,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -4409,6 +4756,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -4440,13 +4789,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -4463,6 +4812,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,
@@ -4500,6 +4850,9 @@ namespace PHPSTORM_META {
                 \Barryvdh\Debugbar\LaravelDebugbar::class,
             'Barryvdh\Debugbar\SymfonyHttpDriver' =>
                 \Barryvdh\Debugbar\SymfonyHttpDriver::class,
+            'BladeUI\Icons\Factory' => \BladeUI\Icons\Factory::class,
+            'BladeUI\Icons\IconsManifest' =>
+                \BladeUI\Icons\IconsManifest::class,
             'Clickbar\Magellan\IO\GeometryModelFactory' =>
                 \Clickbar\Magellan\Data\Geometries\GeometryFactory::class,
             'Clickbar\Magellan\IO\Parser\Geojson\GeojsonParser' =>
@@ -4508,10 +4861,33 @@ namespace PHPSTORM_META {
                 \Clickbar\Magellan\IO\Parser\WKB\WKBParser::class,
             'Clickbar\Magellan\IO\Parser\WKT\WKTParser' =>
                 \Clickbar\Magellan\IO\Parser\WKT\WKTParser::class,
-            'CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine' =>
-                \CloudinaryLabs\CloudinaryLaravel\CloudinaryEngine::class,
-            'Geocoder\Laravel\ProviderAndDumperAggregator' =>
-                \Geocoder\Laravel\ProviderAndDumperAggregator::class,
+            'Filament\Auth\Http\Responses\Contracts\BlockEmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\BlockEmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailChangeVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailChangeVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\EmailVerificationResponse' =>
+                \Filament\Auth\Http\Responses\EmailVerificationResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LoginResponse' =>
+                \Filament\Auth\Http\Responses\LoginResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\LogoutResponse' =>
+                \Filament\Auth\Http\Responses\LogoutResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\PasswordResetResponse' =>
+                \Filament\Auth\Http\Responses\PasswordResetResponse::class,
+            'Filament\Auth\Http\Responses\Contracts\RegistrationResponse' =>
+                \Filament\Auth\Http\Responses\RegistrationResponse::class,
+            'Filament\PanelRegistry' => \Filament\PanelRegistry::class,
+            'Filament\Support\Assets\AssetManager' =>
+                \Filament\Support\Assets\AssetManager::class,
+            'Filament\Support\CliManager' =>
+                \Filament\Support\CliManager::class,
+            'Filament\Support\Colors\ColorManager' =>
+                \Filament\Support\Colors\ColorManager::class,
+            'Filament\Support\Components\Contracts\ScopedComponentManager' =>
+                \Filament\Support\Components\ComponentManager::class,
+            'Filament\Support\Icons\IconManager' =>
+                \Filament\Support\Icons\IconManager::class,
+            'Filament\Support\View\ViewManager' =>
+                \Filament\Support\View\ViewManager::class,
             'Illuminate\Auth\Console\ClearResetsCommand' =>
                 \Illuminate\Auth\Console\ClearResetsCommand::class,
             'Illuminate\Auth\Middleware\RequirePassword' =>
@@ -4798,6 +5174,12 @@ namespace PHPSTORM_META {
             'Inertia\Ssr\Gateway' => \Inertia\Ssr\HttpGateway::class,
             'Laravel\Pail\Files' => \Laravel\Pail\Files::class,
             'Laravel\Pail\Handler' => \Laravel\Pail\Handler::class,
+            'Livewire\EventBus' => \Livewire\EventBus::class,
+            'Livewire\LivewireManager' => \Livewire\LivewireManager::class,
+            'Livewire\Mechanisms\DataStore' =>
+                \Filament\Support\Livewire\Partials\DataStoreOverride::class,
+            'Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys' =>
+                \Livewire\Mechanisms\ExtendBlade\DeterministicBladeKeys::class,
             'NunoMaduro\Collision\Provider' =>
                 \NunoMaduro\Collision\Provider::class,
             'Psr\Http\Message\ResponseInterface' =>
@@ -4857,6 +5239,8 @@ namespace PHPSTORM_META {
             'Stancl\Tenancy\Database\DatabaseManager' =>
                 \Stancl\Tenancy\Database\DatabaseManager::class,
             'Stancl\Tenancy\Tenancy' => \Stancl\Tenancy\Tenancy::class,
+            'Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface' =>
+                \Symfony\Component\HtmlSanitizer\HtmlSanitizer::class,
             'auth' => \Illuminate\Auth\AuthManager::class,
             'auth.driver' => \Illuminate\Auth\SessionGuard::class,
             'auth.password' =>
@@ -4888,13 +5272,13 @@ namespace PHPSTORM_META {
                 \Illuminate\Database\DatabaseTransactionsManager::class,
             'encrypter' => \Illuminate\Encryption\Encrypter::class,
             'events' => \Illuminate\Events\Dispatcher::class,
+            'filament' => \Filament\FilamentManager::class,
             'files' => \Illuminate\Filesystem\Filesystem::class,
             'filesystem' => \Illuminate\Filesystem\FilesystemManager::class,
             'filesystem.cloud' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
             'filesystem.disk' =>
                 \Illuminate\Filesystem\LocalFilesystemAdapter::class,
-            'geocoder' => \Geocoder\Laravel\ProviderAndDumperAggregator::class,
             'globalCache' => \Illuminate\Cache\CacheManager::class,
             'globalUrl' => \Illuminate\Routing\UrlGenerator::class,
             'hash' => \Illuminate\Hashing\HashManager::class,
@@ -4911,6 +5295,7 @@ namespace PHPSTORM_META {
             'migration.repository' =>
                 \Illuminate\Database\Migrations\DatabaseMigrationRepository::class,
             'migrator' => \Illuminate\Database\Migrations\Migrator::class,
+            'originalRequest' => \Illuminate\Http\Request::class,
             'pipeline' => \Illuminate\Pipeline\Pipeline::class,
             'postal_codes' =>
                 \Axlon\PostalCodeValidation\PostalCodeValidator::class,

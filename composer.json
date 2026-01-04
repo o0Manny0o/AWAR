@@ -1,5 +1,5 @@
 {
-    "name": "laravel/laravel",
+    "name": "awar/awar",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
     "keywords": [
@@ -12,6 +12,7 @@
         "axlon/laravel-postal-code-validation": "^3.7",
         "clickbar/laravel-magellan": "^1.6",
         "cloudinary-labs/cloudinary-laravel": "^2.2",
+        "filament/filament": "^4.4",
         "geocoder-php/locationiq-provider": "^1.4",
         "inertiajs/inertia-laravel": "^1.0",
         "laravel/framework": "^11.31",
