@@ -187,6 +187,7 @@ return [
 
     'central_role_structure' => [
         CR::ADMIN->value => [
+            CM::ADMIN_PANEL->value => [P::READ],
             CM::ORGANISATION_APPLICATIONS->value => [P::READ],
         ],
     ],

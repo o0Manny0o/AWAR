@@ -21,6 +21,8 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Stancl\Tenancy\Contracts\TenantCouldNotBeIdentifiedException;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomainOrSubdomain;
+use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 class TenantAdminPanelProvider extends PanelProvider
@@ -35,7 +37,7 @@ class TenantAdminPanelProvider extends PanelProvider
             ])
             ->login()
             ->domain('foo.awar.test')
-            ->brandName(fn() => tenant()->name)
+            ->brandName(fn() => tenant()?->name ?? 'Tenant')
             ->discoverResources(
                 in: app_path('Filament/TenantAdmin/Resources'),
                 for: 'App\Filament\TenantAdmin\Resources',
@@ -51,7 +53,7 @@ class TenantAdminPanelProvider extends PanelProvider
             )
             ->widgets([AccountWidget::class, FilamentInfoWidget::class])
             ->middleware([
-                InitializeTenancyByDomain::class,
+                InitializeTenancyBySubdomain::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,

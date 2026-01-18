@@ -33,7 +33,6 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
         $name = $this->argument('name');
         $subdomain = $this->argument('subdomain');
         $user_id = $this->argument('user_id');
-        $centralApp = config('tenancy.central_domains')[0];
 
         /** @var Organisation $organisation */
         $organisation = Organisation::create([
@@ -41,8 +40,7 @@ class CreateOrganisation extends Command implements PromptsForMissingInput
         ]);
 
         $organisation->domains()->create([
-            'subdomain' => $subdomain,
-            'domain' => $subdomain . '.' . $centralApp,
+            'domain' => $subdomain,
         ]);
 
         if ($user_id) {

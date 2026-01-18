@@ -80,7 +80,7 @@ class Organisation extends Tenant implements TenantWithDatabase
     public function getDashboardUrlAttribute()
     {
         return tenant_route(
-            $this->domains->first()->domain,
+            $this->domains->first()?->domain ?? '',
             'tenant.dashboard',
         );
     }
@@ -134,24 +134,5 @@ class Organisation extends Tenant implements TenantWithDatabase
     public function publicSettings(): HasOne
     {
         return $this->hasOne(OrganisationPublicSettings::class);
-    }
-
-    public function getMorphByUserRelation(string $relationship): MorphToMany
-    {
-        return $this->morphedByMany(
-            Config::get('laratrust.user_models')[$relationship],
-            'user',
-            Config::get('laratrust.tables.role_user'),
-            Config::get('laratrust.foreign_keys.team'),
-            Config::get('laratrust.foreign_keys.user'),
-        );
-    }
-
-    /**
-     * Returns the organisation's foreign key.
-     */
-    public static function modelForeignKey(): string
-    {
-        return Config::get('laratrust.foreign_keys.team');
     }
 }

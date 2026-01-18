@@ -9,7 +9,6 @@ use Stancl\Tenancy\Database\Models\Domain as BaseDomain;
  *
  * @property int $id
  * @property string $domain
- * @property string $subdomain
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $organisation_id
@@ -21,7 +20,6 @@ use Stancl\Tenancy\Database\Models\Domain as BaseDomain;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Domain whereDomain($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Domain whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Domain whereOrganisationId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Domain whereSubdomain($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Domain whereUpdatedAt($value)
  * @mixin \Eloquent
  */

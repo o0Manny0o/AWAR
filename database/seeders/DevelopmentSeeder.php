@@ -35,7 +35,6 @@ class DevelopmentSeeder extends Seeder
         $user = User::factory()->create([
             'name' => 'Moritz Wach',
             'email' => 'moritz.wach@gmail.com',
-            'password' => Hash::make('ZGN7wth1rgw3nuv.rpd'),
         ]);
 
         Address::factory()->createOneQuietly([

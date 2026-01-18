@@ -2,13 +2,17 @@
 
 namespace App\Models;
 
+use App\Authorisation\Enum\CentralModule;
 use App\Authorisation\Enum\OrganisationRole;
+use App\Authorisation\Enum\PermissionType;
 use App\Events\UserCreated;
 use App\Models\Animal\Animal;
 use App\Models\SelfDisclosure\UserSelfDisclosure;
 use App\Models\Tenant\Member;
 use App\Models\Tenant\OrganisationInvitation;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Builder;
@@ -76,7 +80,8 @@ use Stancl\Tenancy\Database\Models\TenantPivot;
  */
 class User extends Authenticatable implements
     MustVerifyEmail,
-    HasLocalePreference
+    HasLocalePreference,
+    FilamentUser
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasUuids, HasRoles;
@@ -218,5 +223,17 @@ class User extends Authenticatable implements
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($panel->getId() === 'admin') {
+            return $this->hasPermissionTo(
+                PermissionType::READ->for(CentralModule::ADMIN_PANEL->value),
+            );
+        } elseif (str_contains($panel->getId(), 'tenant')) {
+            return tenant() && $this->isMember();
+        }
+        return false;
     }
 }

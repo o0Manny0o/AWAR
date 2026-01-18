@@ -11,7 +11,7 @@ class PermissionTenancyBootstrapper implements TenancyBootstrapper
 {
     public function bootstrap(Tenant $tenant)
     {
-        setPermissionsTeamId($tenant);
+        setPermissionsTeamId($tenant->id);
     }
 
     /**

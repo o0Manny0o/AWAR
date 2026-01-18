@@ -17,7 +17,6 @@ return new class extends Migration {
         Schema::create('domains', function (Blueprint $table) {
             $table->id();
             $table->string('domain', 255)->unique();
-            $table->string('subdomain', 60)->unique();
 
             $table->timestamps();
             $table

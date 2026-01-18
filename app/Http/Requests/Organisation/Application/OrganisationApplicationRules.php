@@ -56,7 +56,7 @@ class OrganisationApplicationRules
             'string',
             'max:60',
             'regex:/^[A-Za-z0-9-]+$/',
-            'unique:App\Models\Domain,subdomain',
+            'unique:App\Models\Domain,domain',
         ];
     }
 }
